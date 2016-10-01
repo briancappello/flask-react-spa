@@ -1,0 +1,45 @@
+@import 'variables';
+
+.flash {
+    padding: 10px 15px;
+    border-radius: 5px;
+
+    .flash-title {
+        font-size: $font-size-medium-small;
+        font-weight: bold;
+        padding-right: 25px;
+    }
+
+    .close {
+        font-size: $font-size-medium-small;
+        font-weight: bold;
+        float: right;
+        line-height: 1;
+        margin-top: -10px;
+        margin-right: -8px;
+    }
+
+    &.success {
+        color: $flash-success-text;
+        background-color: $flash-success-bg;
+        border: 1px solid $flash-success-border;
+    }
+    &.info {
+        color: $flash-info-text;
+        background-color: $flash-info-bg;
+        border: 1px solid $flash-info-border;
+    }
+    &.warning {
+        color: $flash-warning-text;
+        background-color: $flash-warning-bg;
+        border: 1px solid $flash-warning-border;
+    }
+    &.danger {
+        color: $flash-danger-text;
+        background-color: $flash-danger-bg;
+        border: 1px solid $flash-danger-border;
+        .close a {
+            color: #000;
+        }
+    }
+}

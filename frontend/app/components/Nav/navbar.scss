@@ -1,0 +1,120 @@
+@import 'variables';
+
+.navbar-top {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    background: $bg-color;
+    border-bottom: 1px solid $grey-dark;
+    box-shadow: 0 0 30px $grey-medium;
+
+    width: 100%;
+    height: $navbar-height;
+    @media (max-width: $bp-1) { height: $navbar-height-bp-1; }
+    @media (max-width: $bp-2) { height: $navbar-height-bp-2; }
+    @media (max-width: $bp-3) { height: $navbar-height-bp-3; }
+
+    .brand {
+        display: inline-block;
+        font-size: $navbar-height / $line-height;
+
+        @media (max-width: $bp-1) { font-size: $navbar-height-bp-1 / $line-height; }
+        @media (max-width: $bp-2) { font-size: $navbar-height-bp-2 / $line-height; }
+
+        .company {
+            font-weight: bold;
+        }
+        .tld {
+            color: $grey-medium;
+            &:before {
+                content: '.';
+                font-weight: bold;
+            }
+        }
+    }
+
+    .menu {
+        width: 70%;
+        text-align: right;
+        float: right;
+        padding: 0;
+        margin: 2rem 0 0 0;
+        list-style: none;
+
+        &.auth {
+            width: 55px; // override so that float:right works as expected
+        }
+
+        @media (max-width: $bp-1) { margin-top: .75rem; }
+        @media (max-width: $bp-2) { margin-top: .25rem; }
+        @media (max-width: $bp-3) {
+            float: none;
+            width: 100%;
+            text-align: left;
+
+            &.auth {
+                margin-top: .2rem;
+                float: right;
+                text-align: right;
+            }
+        }
+
+        a:hover {
+            text-decoration: none;
+            background: $off-white;
+        }
+
+        // top-level menu items
+        & > li {
+            display: inline-block;
+            position: relative;
+
+            & > a {
+                padding: .25rem .5rem;
+                font-weight: bold;
+                &.active {
+                    border-bottom: 2px solid $link-color;
+                }
+            }
+
+            &:hover > .sub-menu {
+                display: block;
+            }
+        }
+
+        .sub-menu {
+            display: none;
+            position: absolute;
+            right: -.25rem;
+            padding: 0;
+            list-style: none;
+            text-align: right;
+            background: $bg-color;
+            border: 1px solid $off-white-dark;
+            box-shadow: 3px 3px 25px $off-white-dark;
+
+            @media (max-width: $bp-3) {
+                right: auto;
+                left: -.25rem;
+                text-align: left;
+            }
+
+            // sub-level menu items
+            li {
+                min-width: 7rem;
+                white-space: nowrap;
+            }
+            a {
+                display: block;
+                white-space: nowrap;
+                line-height: 2rem;
+                padding: 0 .75rem 0 2rem;
+                @media (max-width: $bp-3) {
+                    padding: 0 2rem 0 .75rem;
+                }
+            }
+        }
+    }
+}

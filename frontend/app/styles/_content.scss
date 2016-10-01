@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,400i');
+
+body {
+    font-family: $font-family;
+    font-size: $font-size-1rem;
+    line-height: $line-height;
+    color: $primary-color;
+    background: $bg-color;
+}
+
+h1 { font-size: $font-size-monster; margin: 1.5rem 0; }
+h2 { font-size: $font-size-large; margin: 1.5rem 0; }
+h3 { font-size: $font-size-medium-large; margin: 1rem 0; }
+h4 { font-size: $font-size-medium; margin: 1rem 0; }
+h5 { font-size: $font-size-medium-small; margin: 1rem 0; }
+h6 { font-size: $font-size-normal; margin: 1rem 0; }
+
+a {
+    color: $link-color;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+blockquote {
+    margin: 0;
+    padding: .5rem 1rem;
+    border-left: 3px solid $blue;
+    background-color: $blue-light;
+
+    footer {
+        color: $grey-medium;
+        &:before {
+            content: '\2014 '; // &mdash;
+        }
+    }
+}

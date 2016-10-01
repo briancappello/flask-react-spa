@@ -1,0 +1,12 @@
+[
+    { "model": "User", "items": [
+        {
+            "username": "a@a.com",
+            "password": "pw"
+        },
+        {
+            "username": "a@b.com",
+            "password": "pw"
+        }
+    ]}
+]

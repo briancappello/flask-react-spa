@@ -1,0 +1,60 @@
+
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+.container {
+    margin: 0 auto;
+    width: $layout-width;
+    @media (max-width: $bp-1) { width: $layout-width-bp-1; }
+    @media (max-width: $bp-2) { width: $layout-width-bp-2; }
+    @media (max-width: $bp-3) { width: $layout-width-bp-3; }
+    @media (max-width: $bp-4) { width: $layout-width-bp-4; margin: 0 1rem; }
+}
+
+.content {
+    margin-bottom: $l-margin;
+    margin-top: $l-margin + $navbar-height;
+    @media (max-width: $bp-1) { margin-top: $l-margin + $navbar-height-bp-1; }
+    @media (max-width: $bp-2) { margin-top: $l-margin + $navbar-height-bp-2; }
+    @media (max-width: $bp-3) { margin-top: $l-margin + $navbar-height-bp-3; }
+}
+
+.row {
+    margin-bottom: 1rem;
+    &:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+}
+
+.col-half {
+    width: 50%;
+    float: left;
+    &:first-of-type { padding-right: .5rem; }
+    &:last-of-type { padding-left: .5rem; }
+
+    @media (max-width: $bp-4) { width: 100%; padding: 0; }
+}
+
+.col-third {
+    width: 33%;
+    float: left;
+    &:first-of-type { padding-right: 1rem; }
+    &:last-of-type { padding-left: 1rem; }
+
+    @media (max-width: $bp-4) { width: 100%; padding: 0; }
+}
+
+.col-quarter {
+    width: 25%;
+    float: left;
+    padding: 0 .5rem;
+    &:first-of-type { padding-left: 0; }
+    &:last-of-type { padding-right: 0; }
+    @media (max-width: $bp-4) { width: 100%; padding: 0; }
+}
