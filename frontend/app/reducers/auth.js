@@ -35,7 +35,7 @@ export default createReducer(initialState, {
     [AUTH_LOGIN_USER_FAILURE]: (state, payload) => {
         return {
             ...initialState,
-            statusText: `Authentication Error: ${payload.statusCode} ${payload.error}`,
+            statusText: `Authentication Error (${payload.statusCode}): ${payload.error}`,
         };
     },
     [AUTH_LOGOUT_USER]: (state, payload) => {

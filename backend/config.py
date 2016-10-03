@@ -1,5 +1,5 @@
 import os
-from datetime import timedelta
+import datetime
 
 APP_DIR = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
@@ -23,14 +23,8 @@ class BaseConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     STRICT_SLASHES = False
 
-    JWT_AUTH_URL_RULE = '/auth'
-    JWT_AUTH_URL_OPTIONS = {
-        'methods': ['POST'],
-        'strict_slashes': STRICT_SLASHES
-    }
-    JWT_EXPIRATION_DELTA = timedelta(days=1)
-    JWT_AUTH_USERNAME_KEY = 'username'
-    JWT_AUTH_PASSWORD_KEY = 'password'
+    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=15)
+    JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=30)
 
 
 class ProdConfig(BaseConfig):

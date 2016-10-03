@@ -48,7 +48,7 @@ export function authLogout() {
 export function authLoginUser(username, password, redirect='/') {
     return (dispatch) => {
         dispatch(authLoginUserRequest());
-        return fetch(`${SERVER_URL}/auth`, {
+        return fetch(`${SERVER_URL}/auth/login`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -86,8 +86,8 @@ export function authLoginUser(username, password, redirect='/') {
                     .then(parseJSON)
                     .then(body => {
                         dispatch(authLoginUserFailure({
-                            statusCode: body.status,
-                            error: body.statusText,
+                            statusCode: status,
+                            error: body.msg,
                         }));
                     })
                     // otherwise return generic error
