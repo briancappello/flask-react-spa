@@ -8,6 +8,7 @@ import {
     Home,
     Login,
     NotFound,
+    Styles,
 } from 'components';
 
 /**
@@ -33,6 +34,7 @@ import {
  */
 export const menu = [
     { component: About },
+    { component: Styles },
     { component: Login, hideInMenu: true },
 ];
 

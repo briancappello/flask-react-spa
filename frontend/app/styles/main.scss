@@ -1,14 +1,3 @@
-@import 'variables';
-// @import 'skeleton';
+//@import 'variables';
 
-@import '~normalize.css';
-
-@import 'content';
-@import 'layout';
-
-.cf:after,
-.clearfix:after {
-    content: '';
-    display: block;
-    clear: both;
-}
+@import '~nineball-sass/scss/nineball';
