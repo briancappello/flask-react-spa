@@ -12,36 +12,21 @@ import {
 } from 'components';
 
 /**
- * Declarative definition of the "site map" (excluding the homepage)
- *
- * Components can optionally declare two static variables:
- *   menuLabel
- *   relativeUrlPath
- * If these are not specified, they will be inferred from the component's class name.
- * For example, a component with a class name of SuperAwesomeComponent is equivalent to:
- *   static menuLabel = "Super Awesome Component";
- *   static relativeUrlPath = "super-awesome-component";
- *
- * const menu = [
- *   { component: ComponentOne, children: [
- *     { component: ChildOne, children: [
- *       { component: GrandChildOne, hideInMenu: true }, // all further nested children are also hidden
- *     ]},
- *   ]},
- *   { component: ComponentTwo },
- *   { component: ComponentThree },
- * ];
+ * Declarative Route Configuration
+ * https://github.com/ReactTraining/react-router/blob/master/docs/guides/RouteConfiguration.md#configuration-with-plain-routes
  */
-export const menu = [
-    { component: About },
-    { component: Styles },
-    { component: Login, hideInMenu: true },
-];
+const routes = {
+    path: '/',
+    component: Application,
+    indexRoute: { component: Home },
+    childRoutes: [
+        { path: 'about', component: About },
+        { path: 'styles', component: Styles },
+        { path: 'login', component: Login },
 
-export default(
-    <Route path="/" component={Application}>
-        <IndexRoute component={Home} />
-        {renderMenuRoutes(menu)}
-        <Route path="*" component={NotFound}/>
-    </Route>
-);
+        // default 404 if no match
+        { path: '*', component: NotFound },
+    ]
+}
+
+export default routes;

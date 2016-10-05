@@ -10,19 +10,11 @@ export default class Root extends Component {
         history: PropTypes.object.isRequired,
     };
 
-    // support hot reloading routes (kind of a hack...)
-    // https://github.com/ReactTraining/react-router/issues/2704#issuecomment-211352123
-    static defaultProps = {
-        routerKey: 0,
-    };
-
     render() {
-        const { store, history, routerKey } = this.props;
+        const { store, history } = this.props;
         return (
             <Provider store={store}>
-                <Router history={history} key={routerKey}>
-                    {routes}
-                </Router>
+                <Router routes={routes} history={history} />
             </Provider>
         );
     }

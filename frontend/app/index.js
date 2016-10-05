@@ -28,10 +28,10 @@ if (validateToken(token)) {
     store.dispatch(authLogout());
 }
 
-function rootNode(Root, routerKey=0) {
+function rootNode(Root) {
     return (
         <HotReloadContainer>
-            <Root store={store} history={history} routerKey={routerKey}/>
+            <Root store={store} history={history}/>
         </HotReloadContainer>
     );
 }
@@ -39,10 +39,8 @@ function rootNode(Root, routerKey=0) {
 ReactDOM.render(rootNode(Root), targetEl);
 
 if (module.hot) {
-    let hotReloadRoutes = 0;
     module.hot.accept('./components/Root', () => {
-        hotReloadRoutes++;
         const NextRoot = require('./components/Root').default;
-        ReactDOM.render(rootNode(NextRoot, hotReloadRoutes), targetEl);
+        ReactDOM.render(rootNode(NextRoot), targetEl);
     });
 }

@@ -3,11 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Link from './Link';
-import { menu } from 'routes';
-import { renderMenu } from 'utils/menu';
+import routes from 'routes';
+import { topLevelMenu } from 'utils/menu';
 import { authLogoutAndRedirect } from 'actions/auth';
-
-import styles from './navbar.scss';
 
 class NavBar extends Component {
     static propTypes = {
@@ -21,7 +19,7 @@ class NavBar extends Component {
 
     render() {
         return (
-            <nav className="navbar-top">
+            <nav>
                 <div className="container">
                     <div className="brand">
                         <Link to="/" onlyActiveOnIndex={true}>
@@ -29,15 +27,15 @@ class NavBar extends Component {
                             <span className="tld">api</span>
                         </Link>
                     </div>
-                    <ul className="auth menu">
-                        <li>
+                    <div className="menu">
+                        {topLevelMenu(routes, /* excludePaths= */ ['login', '*'])}
+                        <div className="pull-right">
                             {this.props.isAuthenticated
                                 ? <a href="#" onClick={this.logout}>Logout</a>
                                 : <Link to="/login">Login</Link>
                             }
-                        </li>
-                    </ul>
-                    {renderMenu(menu) /* maxDepth=1 */}
+                        </div>
+                    </div>
                 </div>
             </nav>
         );

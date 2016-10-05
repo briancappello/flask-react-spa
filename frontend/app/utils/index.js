@@ -2,6 +2,10 @@
  * Utility functions
  */
 
+export function inArray(val, arr) {
+    return arr.indexOf(val) !== -1;
+}
+
 export function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
