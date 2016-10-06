@@ -54,8 +54,10 @@ def register_extensions(app):
 
 def register_blueprints(app):
     """Register blueprint views"""
-    if not app.config.get('STRICT_SLASHES', True):
+    # disable strict_slashes on all routes by default
+    if not app.config.get('STRICT_SLASHES', False):
         app.url_map.strict_slashes = False
+    # register blueprints
     for blueprint, url_prefix in get_blueprints():
         app.register_blueprint(blueprint, url_prefix=url_prefix)
 
@@ -72,7 +74,8 @@ def register_shell_context(app):
 
 
 def register_cli_commands(app):
-    """Register all the Click commands declared in commands.py"""
+    """Register all the Click commands declared in commands.py and
+    each blueprints' commands.py"""
     commands = list(get_commands())
     commands += list(get_blueprint_command_groups())
     for name, command in commands:
