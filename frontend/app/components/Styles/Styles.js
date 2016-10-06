@@ -18,15 +18,24 @@ export default class Styles extends Component {
 <html>
 <head>
     <meta charset="utf-8">
-    <title>9-Ball</title>
+    <title>Super Skeleton</title>
 </head>
 <body>
     <header>
-        <!-- full-width -->
+        <nav>
+            <a class="brand">
+                superskeleton<span class="tld">com</span>
+            </a>
+            <div class="menu">
+                <!-- top-level menu links -->
+            </div>
+        </nav>
     </header>
-    <div class="container">
+    <main class="container">
         <!-- your content here -->
-    </div>
+    </main>
+    <footer>
+    </footer>
 </body>
 </html>
 `

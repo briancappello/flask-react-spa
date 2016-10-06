@@ -9,13 +9,17 @@ import styles from 'main.scss';
 export default class Application extends Component {
     render() {
         return (
-            <div className="application">
-                <NavBar/>
-                <div className="content">
+            <div className="fixed-nav-top">
+                <header>
+                    <NavBar/>
+                </header>
+                <main>
                     <Flash/>
                     {this.props.children}
-                </div>
-                {/* FIXME: site footer component */}
+                </main>
+                <footer>
+                    Copyright {new Date().getFullYear()} Brian Cappello
+                </footer>
             </div>
         );
     }

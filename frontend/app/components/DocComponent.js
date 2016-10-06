@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 
+// http://stackoverflow.com/questions/19038799/why-is-there-an-unexplainable-gap-between-these-inline-block-div-elements#answer-19038859
+function stripWhitespaceBetweenTags(str) {
+    return str.replace(/\>\s+\</g, '><')
+}
+
 export default class DocComponent extends Component {
     renderHtml(html, key=0) {
+        html = stripWhitespaceBetweenTags(html);
         return (
             <div key={key}>
                 <div dangerouslySetInnerHTML={{__html: html}}></div>

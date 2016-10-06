@@ -18,23 +18,22 @@ class NavBar extends Component {
     };
 
     render() {
+        // mostly works, except for responsive menu behavior
         return (
             <nav>
                 <div className="container">
-                    <div className="brand">
-                        <Link to="/" onlyActiveOnIndex={true}>
-                            <span className="company">flask</span>
-                            <span className="tld">api</span>
-                        </Link>
-                    </div>
-                    <div className="menu">
+                    <Link to="/" className="brand" onlyActiveOnIndex={true}>
+                        flask
+                        <span className="tld">api</span>
+                    </Link>
+                    <div className="menu left">
                         {topLevelMenu(routes, /* excludePaths= */ ['login', '*'])}
-                        <div className="pull-right">
-                            {this.props.isAuthenticated
-                                ? <a href="#" onClick={this.logout}>Logout</a>
-                                : <Link to="/login">Login</Link>
-                            }
-                        </div>
+                    </div>
+                    <div className="menu right">
+                        {this.props.isAuthenticated
+                            ? <a href="#" onClick={this.logout}>Logout</a>
+                            : <Link to="/login">Login</Link>
+                        }
                     </div>
                 </div>
             </nav>
