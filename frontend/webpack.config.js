@@ -1,6 +1,8 @@
 const path = require('path'),
       webpack = require('webpack');
 
+const PORT = process.env.PORT || 8888;
+
 const APP_ROOT = path.join(__dirname, 'app');
 const STYLES_ROOT = path.join(APP_ROOT, 'styles');
 
@@ -93,7 +95,7 @@ default:
         devtool: 'eval-source-map',
         entry: {
             app: [
-                'webpack-dev-server/client?http://localhost:8888/',
+                `webpack-dev-server/client?http://localhost:${PORT}/`,
                 'webpack/hot/only-dev-server',
                 'react-hot-loader/patch',
                 path.join(APP_ROOT, 'index.js'),
