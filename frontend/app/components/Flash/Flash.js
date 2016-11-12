@@ -22,14 +22,10 @@ class Flash extends Component {
         if (!visible) return null;
 
         return (
-            <div className="container">
-                <div className={`flash ${severity}`}>
-                    <span className="close">
-                        <a href="#" onClick={this.close}>&times;</a>
-                    </span>
-                    <div className="flash-title">{title}</div>
-                    <div className="flash-message">{message}</div>
-                </div>
+            <div className={`flash ${severity}`}>
+                <a className="close" href="#" onClick={this.close}>&times;</a>
+                <div className="flash-title">{title}</div>
+                <div className="flash-message">{message}</div>
             </div>
         );
     }
