@@ -79,10 +79,12 @@ case 'build:webpack':
             new webpack.optimize.OccurenceOrderPlugin(),
             new webpack.DefinePlugin({
                 'process.env': {
-                    'NODE_ENV': 'production',
+                    'NODE_ENV': "'production'",
                 }
             }),
-            new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
+            new webpack.optimize.CommonsChunkPlugin({
+                names: ['vendor', 'manifest'],
+            }),
             new webpack.optimize.UglifyJsPlugin({
                 compressor: { warnings: false },
             }),
@@ -90,7 +92,7 @@ case 'build:webpack':
     });
     break;
 default:
-    // development opt
+    // development options
     config = Object.assign({}, commonConfig, {
         devtool: 'eval-source-map',
         entry: {
