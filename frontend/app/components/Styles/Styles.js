@@ -44,7 +44,7 @@ export default class Styles extends Component {
         return (
             <PageContent className="row">
                 <aside className="two cols fixed">
-                    <a href="#styles">Styles</a>
+                    <h4>Styles</h4>
                     <ul>
                         <li><a href="#site-template">Site Template</a></li>
                         <li><a href="#navigation">Navigation</a></li>
@@ -54,7 +54,7 @@ export default class Styles extends Component {
                             <ul>
                                 <li><a href="#columns">Columns</a></li>
                                 <li><a href="#fractions">Fractions</a></li>
-                                <li><a href="#column-offsets">Column Offsets long stuff</a></li>
+                                <li><a href="#column-offsets">Column Offsets</a></li>
                                 <li><a href="#fraction-offsets">Fraction Offsets</a></li>
                             </ul>
                         </li>
