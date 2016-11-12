@@ -2,6 +2,7 @@ import React from 'react';
 import { DocComponent } from 'components';
 
 export default class Tables extends DocComponent {
+    title = 'Tables'
     html = `\
 <table>
     <thead>
@@ -28,14 +29,4 @@ export default class Tables extends DocComponent {
             <td><a href="https://www.amd.com/">amd.com</a>
 </table>
 `
-
-    render() {
-        return (
-            <div>
-                <h2>Tables</h2>
-                {this.renderHtml(this.html)}
-                <p>NOTE: Haven't seen this table syntax before? Check out <a href="https://html.spec.whatwg.org/multipage/syntax.html#optional-tags:the-thead-element" target="_blank">the HTML5 specs</a> for an explanation of which trailing tags can be safely omitted.</p>
-            </div>
-        );
-    }
 }

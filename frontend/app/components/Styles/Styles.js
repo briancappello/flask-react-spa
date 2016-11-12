@@ -42,22 +42,47 @@ export default class Styles extends Component {
 
     render() {
         return (
-            <PageContent>
-                <h1>Styles</h1>
-                <p>The included styles are a fork of <a href="https://github.com/WhatsNewSaes/Skeleton-Sass">Skeleton Sass</a>, which in turn is based on <a href="http://getskeleton.com/" target="_blank">Skeleton</a>.</p>
-                <h3>Site Template</h3>
-                <p>Content should be wrapped in <code>.container</code>. It defaults to <code>max-width: 1200px</code>.</p>
-                <pre><code>{this.html}</code></pre>
+            <PageContent className="row">
+                <aside className="two cols fixed">
+                    <a href="#styles">Styles</a>
+                    <ul>
+                        <li><a href="#site-template">Site Template</a></li>
+                        <li><a href="#navigation">Navigation</a></li>
+                        <li><a href="#block-quotes">Block Quotes</a></li>
+                        <li>
+                            <a href="#grid">Grid</a>
+                            <ul>
+                                <li><a href="#columns">Columns</a></li>
+                                <li><a href="#fractions">Fractions</a></li>
+                                <li><a href="#column-offsets">Column Offsets long stuff</a></li>
+                                <li><a href="#fraction-offsets">Fraction Offsets</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#typography">Typography</a></li>
+                        <li><a href="#buttons">Buttons</a></li>
+                        <li><a href="#forms">Forms</a></li>
+                        <li><a href="#lists">Lists</a></li>
+                        <li><a href="#code">Code</a></li>
+                        <li><a href="#tables">Tables</a></li>
+                    </ul>
+                </aside>
+                <div className="ten cols offset-by-two">
+                    <h1 id="styles">Styles</h1>
+                    <p>The included styles are a fork of <a href="https://github.com/WhatsNewSaes/Skeleton-Sass">Skeleton Sass</a>, which in turn is based on <a href="http://getskeleton.com/" target="_blank">Skeleton</a>.</p>
+                    <h2 id="site-template">Site Template</h2>
+                    <p>Content should be wrapped in <code>.container</code>. It defaults to <code>max-width: 1200px</code>.</p>
+                    <pre><code>{this.html}</code></pre>
 
-                <Navigation/>
-                <BlockQuote/>
-                <Grid/>
-                <Typography/>
-                <Buttons/>
-                <Forms/>
-                <Lists/>
-                <Code/>
-                <Tables/>
+                    <Navigation/>
+                    <BlockQuote/>
+                    <Grid/>
+                    <Typography/>
+                    <Buttons/>
+                    <Forms/>
+                    <Lists/>
+                    <Code/>
+                    <Tables/>
+                </div>
             </PageContent>
         );
     }

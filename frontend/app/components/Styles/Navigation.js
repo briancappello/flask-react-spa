@@ -38,7 +38,7 @@ export default class Navigation extends DocComponent {
         let headerTag = '<header>';
         return (
             <div>
-                <h2>Navigation</h2>
+                <h2 id="navigation">Navigation</h2>
                 {this.renderDescription(this.description)}
                 {this.renderHtml(this.html)}
                 <p>You can also get a navbar that sticks to the top of the page by adding the <code>fixed-nav-top</code> class to any (grand)parent of <code>{headerTag}</code>.</p>

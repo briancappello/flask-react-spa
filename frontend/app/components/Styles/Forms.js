@@ -6,11 +6,11 @@ export default class Forms extends DocComponent {
     html = `\
 <form>
     <div class="row">
-        <div class="half column">
+        <div class="half col">
             <label for="exampleEmailInput">Your email</label>
             <input class="full-width" type="email" placeholder="test@mailbox.com" id="exampleEmailInput"/>
         </div>
-        <div class="half column">
+        <div class="half col">
             <label for="exampleRecipientInput">Reason for contacting</label>
             <select class="full-width" id="exampleRecipientInput">
                 <option value="Option 1">Questions</option>
@@ -22,11 +22,13 @@ export default class Forms extends DocComponent {
     <label for="exampleMessage">Message</label>
     <textarea class="full-width" placeholder="Hi Dave …" id="exampleMessage"></textarea>
     <div class="row">
-        <label class="pull-right">
-            <input type="checkbox"/>
-            <span class="label-body">Send a copy to yourself</span>
-        </label>
-        <input class="button-primary" type="submit" value="Submit"/>
+        <div class="inline-form">
+            <label class="right">
+                <input type="checkbox"/>
+                <span class="label-body">Send a copy to yourself</span>
+            </label>
+            <input class="button-primary" type="submit" value="Submit"/>
+        </div>
     </div>
 </form>
 `

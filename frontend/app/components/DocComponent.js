@@ -7,7 +7,7 @@ function stripWhitespaceBetweenTags(str) {
 
 export default class DocComponent extends Component {
     renderHtml(html, key=0) {
-        html = stripWhitespaceBetweenTags(html);
+        //html = stripWhitespaceBetweenTags(html);
         return (
             <div key={key}>
                 <div dangerouslySetInnerHTML={{__html: html}}></div>
@@ -43,9 +43,11 @@ export default class DocComponent extends Component {
             throw new Error('Either specify title and html as class variables or override the render() function.');
         }
 
+        const titleId = title.toLowerCase().replace(' ', '-');
+
         return (
             <div>
-                {topLevel ? <h2>{title}</h2> : <h3>{title}</h3>}
+                {topLevel ? <h2 id={titleId}>{title}</h2> : <h3 id={titleId}>{title}</h3>}
                 {this.renderDescription(description)}
                 {Array.isArray(html)
                     ? html.map((chunk, i) => this.renderHtml(chunk, i))

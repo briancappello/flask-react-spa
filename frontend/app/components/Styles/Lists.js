@@ -6,15 +6,21 @@ export default class Lists extends DocComponent {
 <ul>
     <li>
         One
-        <ul><li>Stone</li></ul>
+        <ul>
+            <li>Stone</li>
+        </ul>
     </li>
     <li>
         Two
-        <ul><li>Birds</li></ul>
+        <ul>
+            <li>Birds</li>
+        </ul>
     </li>
     <li>
         Three
-        <ul><li>Nested Lists</li></ul>
+        <ul>
+            <li>Nested</li>
+        </ul>
     </li>
 </ul>
 `
@@ -23,15 +29,21 @@ export default class Lists extends DocComponent {
 <ol>
     <li>
         One
-        <ol><li>Stone</li></ol>
+        <ol>
+            <li>Stone</li>
+        </ol>
     </li>
     <li>
         Two
-        <ol><li>Birds</li></ol>
+        <ol>
+            <li>Birds</li>
+        </ol>
     </li>
     <li>
         Three
-        <ol><li>Nested Lists</li></ol>
+        <ol>
+            <li>Nested</li>
+        </ol>
     </li>
 </ol>
 `
@@ -40,15 +52,21 @@ export default class Lists extends DocComponent {
 <ol>
     <li>
         One
-        <ul><li>Stone</li></ul>
+        <ul>
+            <li>Stone</li>
+        </ul>
     </li>
     <li>
         Two
-        <ul><li>Birds</li></ul>
+        <ul>
+            <li>Birds</li>
+        </ul>
     </li>
     <li>
         Three
-        <ul><li>Nested Lists</li></ul>
+        <ul>
+            <li>Nested</li>
+        </ul>
     </li>
 </ol>
 `
@@ -56,17 +74,17 @@ export default class Lists extends DocComponent {
     render() {
         return (
             <div>
-                <h2>Lists</h2>
+                <h2 id="lists">Lists</h2>
                 <div className="row">
-                    <div className="third column">
+                    <div className="third col">
                         <h3>Unordered</h3>
                         {this.renderHtml(this.unordered)}
                     </div>
-                    <div className="third column">
+                    <div className="third col">
                         <h3>Ordered</h3>
                         {this.renderHtml(this.ordered)}
                     </div>
-                    <div className="third column">
+                    <div className="third col">
                         <h3>Mixed</h3>
                         {this.renderHtml(this.mixed)}
                     </div>

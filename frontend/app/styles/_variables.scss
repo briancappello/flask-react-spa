@@ -1,6 +1,52 @@
+
+$font-size-1rem: 16px;
+
+$font-size-godzilla: 5rem;
+$font-size-monster: 4rem;
+$font-size-large: 3rem;
+$font-size-medium-large: 2.5rem;
+$font-size-medium: 2rem;
+$font-size-medium-small: 1.5rem;
+$font-size-normal: $font-size-1rem;
+$font-size-small: .75rem;
+
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+// SKELETON VARIABLES
+// https://github.com/WhatsNewSaes/Skeleton-Sass/blob/master/scss/base/_variables.scss
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+// TYPOGRAPHY
+// $font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+// COLORS
+// $font-color: #222;
+// $link-color: #1eaedb;
+// $primary-color: #33c3f0;
+// $light-grey: #e1e1e1;
+// $dark-grey: #333;
+// $secondary-color: lighten($dark-grey, 13.5%);
+// $border-color: #bbb;
+
+// BREAKPOINTS
+// $bp-larger-than-mobile    : "min-width: 400px";
+// $bp-larger-than-phablet   : "min-width: 550px";
+// $bp-larger-than-tablet    : "min-width: 750px";
+// $bp-larger-than-desktop   : "min-width: 1000px";
+// $bp-larger-than-desktophd : "min-width: 1200px";
+
+// GRID
+// $container-width: 960px;
+// $container-width-larger-than-mobile: 85%;
+// $container-width-larger-than-phablet: 80%;
+// $total-columns: 12;
+// $column-width: 100 / $total-columns;
+// $column-margin: 4%;     // space between columns
+// $global-radius: 4px;    // standard border-radius
+
 //––––––––––––––––––––––––––––––––––––––––––––––––––
 // Application variables
 //––––––––––––––––––––––––––––––––––––––––––––––––––
+
+/*
 // CONTENT
 $font-family: 'Lato', 'Helvetica', 'Arial', sans-serif;
 $font-size-1rem: 16px;
@@ -65,6 +111,10 @@ $link-color: #e81c4f;
 $blue: #69c;
 $blue-light: #ecf2f9;
 
+*/
+
+$off-white: #eee;
+
 // green
 $flash-success-text:             #3c763d !default;
 $flash-success-bg:               #dff0d8 !default;
@@ -84,35 +134,3 @@ $flash-warning-border:           darken($flash-warning-bg, 5%) !default;
 $flash-danger-text:              #a94442 !default;
 $flash-danger-bg:                #f2dede !default;
 $flash-danger-border:            darken($flash-danger-bg, 5%) !default;
-
-//––––––––––––––––––––––––––––––––––––––––––––––––––
-// SKELETON VARIABLES
-// https://github.com/WhatsNewSaes/Skeleton-Sass/blob/master/scss/base/_variables.scss
-//––––––––––––––––––––––––––––––––––––––––––––––––––
-// TYPOGRAPHY
-// $font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-// COLORS
-// $font-color: #222;
-// $link-color: #1eaedb;
-// $primary-color: #33c3f0;
-// $light-grey: #e1e1e1;
-// $dark-grey: #333;
-// $secondary-color: lighten($dark-grey, 13.5%);
-// $border-color: #bbb;
-
-// BREAKPOINTS
-// $bp-larger-than-mobile    : "min-width: 400px";
-// $bp-larger-than-phablet   : "min-width: 550px";
-// $bp-larger-than-tablet    : "min-width: 750px";
-// $bp-larger-than-desktop   : "min-width: 1000px";
-// $bp-larger-than-desktophd : "min-width: 1200px";
-
-// GRID
-// $container-width: 960px;
-// $container-width-larger-than-mobile: 85%;
-// $container-width-larger-than-phablet: 80%;
-// $total-columns: 12;
-// $column-width: 100 / $total-columns;
-// $column-margin: 4%;     // space between columns
-// $global-radius: 4px;    // standard border-radius
