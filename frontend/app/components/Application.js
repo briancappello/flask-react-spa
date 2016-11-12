@@ -18,7 +18,7 @@ export default class Application extends Component {
                     {this.props.children}
                 </main>
                 <footer>
-                    Copyright {new Date().getFullYear()} Brian Cappello
+                    {/* Copyright {new Date().getFullYear()} Your Name */}
                 </footer>
             </div>
         );
