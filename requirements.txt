@@ -9,4 +9,4 @@ pytest==3.0.2
 six==1.10.0
 SQLAlchemy==1.0.15
 Werkzeug==0.11.11
-Flask-JWT-Extended==0.0.2
+Flask-JWT-Extended==0.0.9
