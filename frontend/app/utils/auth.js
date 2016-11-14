@@ -1,19 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import jwtDecode from 'jwt-decode';
-import getUTCTimestamp from 'utils';
-
-export function validateToken(token) {
-    try {
-        return jwtDecode(token).exp < getUTCTimestamp();
-    } catch (e) {
-        return false;
-    }
-}
+import { menuLabel } from 'utils/menu';
 
 export default function requireAuthentication(Component) {
     class AuthenticatedComponent extends React.Component {
+        static menuLabel = menuLabel(Component)
 
         static propTypes = {
             isAuthenticated: React.PropTypes.bool.isRequired,

@@ -16,7 +16,7 @@ function getComponentName(component) {
         ? component.WrappedComponent.name
         : component.name;
 }
-function menuLabel(component) {
+export function menuLabel(component) {
     return component.menuLabel
         ? component.menuLabel
         : separateCamelCase(getComponentName(component), ' ');

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import { renderMenuRoutes } from 'utils/menu';
+import requireAuthentication from 'utils/auth';
 
 import {
     About,
@@ -9,6 +10,7 @@ import {
     Login,
     NotFound,
     Styles,
+    Protected,
 } from 'components';
 
 /**
@@ -22,6 +24,7 @@ const routes = {
     childRoutes: [
         { path: 'about', component: About },
         { path: 'styles', component: Styles },
+        { path: 'protected', component: requireAuthentication(Protected) },
         { path: 'login', component: Login },
 
         // default 404 if no match

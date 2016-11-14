@@ -10,12 +10,14 @@ export const AUTH_LOGIN_USER_REQUEST = 'AUTH_LOGIN_USER_REQUEST';
 export const AUTH_LOGIN_USER_SUCCESS = 'AUTH_LOGIN_USER_SUCCESS';
 export const AUTH_LOGIN_USER_FAILURE = 'AUTH_LOGIN_USER_FAILURE';
 
-export const AUTH_LOGOUT_USER = 'AUTH_LOGOUT_USER';
+export const AUTH_LOGOUT_USER_REQUEST = 'AUTH_LOGOUT_USER_REQUEST';
+export const AUTH_LOGOUT_USER_SUCCESS = 'AUTH_LOGOUT_USER_SUCCESS';
+export const AUTH_LOGOUT_USER_FAILURE = 'AUTH_LOGOUT_USER_FAILURE';
 
 // FIXME: sessionStorage vs localStorage
 
 export function authLoginUserSuccess(token) {
-    sessionStorage.setItem('token', token);
+    localStorage.setItem('token', token);
     return {
         type: AUTH_LOGIN_USER_SUCCESS,
         payload: {
@@ -25,7 +27,7 @@ export function authLoginUserSuccess(token) {
 }
 
 export function authLoginUserFailure(error) {
-    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
     return {
         type: AUTH_LOGIN_USER_FAILURE,
         payload: error,
@@ -35,13 +37,6 @@ export function authLoginUserFailure(error) {
 export function authLoginUserRequest() {
     return {
         type: AUTH_LOGIN_USER_REQUEST
-    };
-}
-
-export function authLogout() {
-    sessionStorage.removeItem('token');
-    return {
-        type: AUTH_LOGOUT_USER
     };
 }
 
@@ -101,9 +96,29 @@ export function authLoginUser(username, password, redirect='/') {
     };
 }
 
+function authLogoutUserRequest() {
+    return {
+        type: AUTH_LOGOUT_USER_REQUEST,
+    }
+}
+
+export function authLogoutUserSuccess() {
+    localStorage.removeItem('token');
+    return {
+        type: AUTH_LOGOUT_USER_SUCCESS,
+    }
+}
+
+function authLogoutUserFailure() {
+    localStorage.removeItem('token');
+    return {
+        type: AUTH_LOGOUT_USER_FAILURE,
+    }
+}
+
 export function authLogoutAndRedirect() {
     return (dispatch, state) => {
-        dispatch(authLogout());
+        dispatch(authLogoutUserSuccess());
         dispatch(push('/'));
         dispatch(flashSuccess('You have been successfully logged out.'))
     };

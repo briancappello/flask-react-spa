@@ -5,7 +5,9 @@ import {
     AUTH_LOGIN_USER_REQUEST,
     AUTH_LOGIN_USER_SUCCESS,
     AUTH_LOGIN_USER_FAILURE,
-    AUTH_LOGOUT_USER
+    AUTH_LOGOUT_USER_REQUEST,
+    AUTH_LOGOUT_USER_SUCCESS,
+    AUTH_LOGOUT_USER_FAILURE,
 } from 'actions/auth';
 
 
@@ -38,7 +40,16 @@ export default createReducer(initialState, {
             statusText: `Authentication Error (${payload.statusCode}): ${payload.error}`,
         };
     },
-    [AUTH_LOGOUT_USER]: (state, payload) => {
+    [AUTH_LOGOUT_USER_REQUEST]: (state, payload) => {
+        return {
+            ...initialState,
+            isAuthenticating: true,
+        }
+    },
+    [AUTH_LOGOUT_USER_SUCCESS]: (state, payload) => {
+        return initialState;
+    },
+    [AUTH_LOGOUT_USER_FAILURE]: (state, payload) => {
         return initialState;
     },
 });

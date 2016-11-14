@@ -12,3 +12,4 @@ export { default as PageContent } from './Content/PageContent';
 export { default as PageHeader } from './Content/PageHeader';
 export { default as Root } from './Root';
 export { default as Styles } from './Styles/Styles';
+export { default as Protected } from './Protected/Protected';
