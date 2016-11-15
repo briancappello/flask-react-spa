@@ -1,0 +1,5 @@
+export const PORT = process.env.PORT || 8888;
+
+export const SERVER_URL = process.env.NODE_ENV == 'production'
+    ? 'https://www.example.com'
+    : `http://localhost:${PORT}`
