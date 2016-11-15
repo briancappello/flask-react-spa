@@ -1,12 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { menuLabel } from 'utils/menu';
 
 export default function requireAuthentication(Component) {
     class AuthenticatedComponent extends React.Component {
-        static menuLabel = menuLabel(Component)
-
         static propTypes = {
             isAuthenticated: React.PropTypes.bool.isRequired,
             location: React.PropTypes.object.isRequired,

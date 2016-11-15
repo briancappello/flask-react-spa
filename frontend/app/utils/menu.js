@@ -1,5 +1,5 @@
 /**
- * menuLabel() and renderMenu()
+ * topLevelMenu()
  */
 
 import React from 'react';
@@ -11,16 +11,6 @@ function separateCamelCase(str, sep) {
     // str='CamelCaseABC', sep='--' ==> 'Camel--Case--ABC'
     return str.replace(/([A-Z]+)/g, match => sep + match).slice(sep.length);
 }
-function getComponentName(component) {
-    return component.name == 'Connect'
-        ? component.WrappedComponent.name
-        : component.name;
-}
-export function menuLabel(component) {
-    return component.menuLabel
-        ? component.menuLabel
-        : separateCamelCase(getComponentName(component), ' ');
-}
 
 export function topLevelMenu(routes, excludePaths=['*']) {
     return routes.childRoutes
@@ -28,7 +18,7 @@ export function topLevelMenu(routes, excludePaths=['*']) {
         .map((route, i) => {
             return (
                 <Link to={route.path} key={i}>
-                    {menuLabel(route.component)}
+                    {route.label}
                 </Link>
             );
         });
