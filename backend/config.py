@@ -24,12 +24,18 @@ class BaseConfig(object):
     STRICT_SLASHES = False
 
     JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=15)
-    JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=30)
+
+    SESSION_PROTECTION = 'strong'
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_PATH = '/api/'
 
 
 class ProdConfig(BaseConfig):
     ENV = 'prod'
     DEBUG = False
+
+    SESSION_COOKIE_SECURE = True  # only send cookies over https
+    SESSION_COOKIE_DOMAIN = 'www.example.com'  # FIXME
     SQLALCHEMY_DATABASE_URI = 'postgresql://user:pw@localhost/db_name'  # FIXME
 
 
@@ -37,6 +43,7 @@ class DevConfig(BaseConfig):
     ENV = 'dev'
     DEBUG = True
     DB_NAME = 'dev.sqlite'
+    # SQLALCHEMY_ECHO = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///%s' % os.path.join(PROJECT_ROOT, DB_NAME)
 
 

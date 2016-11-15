@@ -18,7 +18,6 @@ export default createReducer(initialState, {
         return { ...initialState, isLoading: true }
     },
     [PROTECTED_SUCCESS]: (state, payload) => {
-        console.log('success!!', payload)
         return { ...initialState, isLoaded: true, data: payload }
     },
     [PROTECTED_FAILURE]: (state, payload) => {

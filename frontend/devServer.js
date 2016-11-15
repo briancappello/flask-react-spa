@@ -12,7 +12,8 @@ var server = new WebpackDevServer(compiler, {
         '*': {
             target: 'http://localhost:5000',
             secure: false,
-            changeOrigin: true
+            changeOrigin: true,
+            cookieDomainRewrite: true,
         },
     },
 });

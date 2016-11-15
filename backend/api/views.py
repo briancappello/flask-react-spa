@@ -1,12 +1,13 @@
 from flask import Blueprint, jsonify
-from flask_jwt_extended import jwt_required
+from ..auth import auth_required
+
 
 api = Blueprint('api', __name__)
 
 
 @api.route('/test')
-@jwt_required
+@auth_required
 def test():
     return jsonify({
-        'key': 'TOP SECRET data!',
+        'key': 'TOP SECRET!',
     })

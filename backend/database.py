@@ -73,3 +73,14 @@ class Model(db.Model):
         """Delete the record from the session."""
         db.session.delete(self)
         return commit and db.session.commit()
+
+    def _repr_props_(self):
+        """Overload to adjust string representation. 'id' will always be included.
+        :return: iterable of property/column names
+        """
+        return ['created_at', 'updated_at']
+
+    def __repr__(self):
+        properties = ['{!s}={!r}'.format(prop, getattr(self, prop))
+                      for prop in self._repr_props_() if hasattr(self, prop)]
+        return '<{} id={} {}>'.format(self.__class__.__name__, self.id, ' '.join(properties))

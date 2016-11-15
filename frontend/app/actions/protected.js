@@ -35,7 +35,7 @@ function fetchProtected() {
             credentials: 'include',
             headers: {
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
             },
         })
             .then(checkHttpStatus)

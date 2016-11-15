@@ -118,8 +118,26 @@ function authLogoutUserFailure() {
 
 export function authLogoutAndRedirect() {
     return (dispatch, state) => {
-        dispatch(authLogoutUserSuccess());
-        dispatch(push('/'));
-        dispatch(flashSuccess('You have been successfully logged out.'))
-    };
+        dispatch(authLogoutUserRequest());
+        return fetch(`${SERVER_URL}/auth/logout`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            }
+        })
+            .then(checkHttpStatus)
+            .then(parseJSON)
+            .then(response => {
+                dispatch(authLogoutUserSuccess())
+                dispatch(push('/'))
+                dispatch(flashSuccess('You have been successfully logged out.'))
+            })
+            // invalid HTTP status
+            .catch(error => {
+                let { status, statusText } = error.response;
+                dispatch(authLogoutUserFailure())
+            })
+    }
 }
