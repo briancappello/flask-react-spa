@@ -9,7 +9,8 @@ The `clean`, `lint`, `test` and `urls` commands are adapted from Flask-Script 0.
 import os
 import click
 from flask import current_app
-from flask.cli import cli
+from flask.cli import cli, with_appcontext
+from flask_migrate.cli import db as db_cli
 
 
 DIR = os.path.abspath(os.path.dirname(__file__))
@@ -18,30 +19,21 @@ TEST_PATH = os.path.join(PROJECT_ROOT, 'tests')
 
 
 @cli.command()
-@click.option('--drop', is_flag=True, expose_value=True,
-              prompt='Drop ALL tables before loading fixtures?')
+@click.option('--reset', is_flag=True, expose_value=True,
+              prompt='Reset DB and run migrations before loading fixtures?')
 @click.argument('file', type=click.File())
-def load_fixtures(file, drop):
+def load_fixtures(file, reset):
     """Load database fixtures from JSON."""
-    try:
-        import simplejson as json
-    except ImportError:
-        import json
-
+    import json
     from .extensions import db
     from .magic import get_models
+    models = dict(get_models())
 
-    fixtures = json.load(file)
-    db.init_app(current_app)
-    if drop:
-        click.echo('Dropping tables.')
-        db.drop_all()
+    if reset:
+        _reset_db()
 
     click.echo('Loading fixtures.')
-    db.create_all()
-
-    models = dict(get_models())
-    for fixture in fixtures:
+    for fixture in json.load(file):
         model = models[fixture['model']]
         # FIXME: document json file format
         # FIXME: support basic relationships
@@ -51,6 +43,47 @@ def load_fixtures(file, drop):
         db.session.add_all(records)
     db.session.commit()
     click.echo('Done.')
+
+
+@db_cli.command()
+@click.option('--drop', is_flag=True, expose_value=True,
+              prompt='Drop DB tables?')
+@with_appcontext
+def drop(drop):
+    """Drop """
+    if not drop:
+        exit('Cancelled.')
+    _drop_db()
+    click.echo('Done.')
+
+
+@db_cli.command()
+@click.option('--reset', is_flag=True, expose_value=True,
+              prompt='Drop DB tables and run migrations?')
+@with_appcontext
+def reset(reset):
+    """Drops database tables and runs migrations."""
+    if not reset:
+        exit('Cancelled.')
+    _reset_db()
+    click.echo('Done.')
+
+
+def _drop_db():
+    from .extensions import db
+
+    click.echo('Dropping DB tables.')
+    db.drop_all()
+    db.engine.execute('DROP TABLE IF EXISTS alembic_version;')
+
+
+def _reset_db():
+    from .extensions import migrate
+    from alembic import command as alembic
+
+    _drop_db()
+    click.echo('Running DB migrations.')
+    alembic.upgrade(migrate.get_config(None), 'head')
 
 
 @cli.command()
