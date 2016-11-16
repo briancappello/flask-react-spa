@@ -22,8 +22,8 @@ let VENDOR = [
 const commonConfig = {
     devtool: 'source-map',
     resolve: {
-        root: [APP_ROOT, STYLES_ROOT],
-        extensions: ['', '.js', '.jsx']
+        modules: [APP_ROOT, STYLES_ROOT, 'node_modules'],
+        extensions: ['.js', '.jsx']
     },
     entry: {
         app: path.join(APP_ROOT, 'index.js'),
@@ -35,33 +35,48 @@ const commonConfig = {
         publicPath: '/static/',
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.js$/,
-                loaders: ['babel'],
+                use: [
+                    { loader: 'babel-loader' },
+                ],
                 include: APP_ROOT,
                 exclude: /node_modules/,
             },
             {
                 test: /\.(sass|scss)$/,
-                loaders: ['style', 'css', 'resolve-url', 'sass?sourceMap'],
+                use: [
+                    { loader: 'style-loader' },
+                    { loader: 'css-loader' },
+                    { loader: 'resolve-url-loader' },
+                    { loader: 'sass-loader', options: {
+                        sourceMap: true,
+                        includePaths: [STYLES_ROOT],
+                    }},
+                ],
             },
             {
                 test: /\.png$/,
-                loader: 'url?limit=100000',
+                use: [
+                    { loader: 'url-loader', options: {
+                        limit: 100000
+                    }},
+                ],
             },
             {
                 test: /\.(jpg|jpeg)$/,
-                loader: 'file',
+                use: [
+                    { loader: 'file-loader' },
+                ],
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2)$/,
-                loader: 'file',
+                use: [
+                    { loader: 'file-loader' },
+                ],
             },
         ],
-    },
-    sassLoader: {
-        includePaths: [STYLES_ROOT],
     },
 };
 
@@ -76,10 +91,9 @@ case 'build:webpack':
             new webpack.ProvidePlugin({
                 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
             }),
-            new webpack.optimize.OccurenceOrderPlugin(),
             new webpack.DefinePlugin({
                 'process.env': {
-                    'NODE_ENV': "'production'",
+                    'NODE_ENV': JSON.stringify('production'),
                 }
             }),
             new webpack.optimize.CommonsChunkPlugin({
@@ -94,7 +108,7 @@ case 'build:webpack':
 default:
     // development options
     config = Object.assign({}, commonConfig, {
-        devtool: 'eval-source-map',
+        devtool: 'source-map',
         entry: {
             app: [
                 `webpack-dev-server/client?http://localhost:${PORT}/`,
@@ -105,7 +119,6 @@ default:
             vendor: ['react-hot-loader/patch'].concat(VENDOR),
         },
         plugins: [
-            new webpack.optimize.OccurenceOrderPlugin(),
             new webpack.HotModuleReplacementPlugin({
                 multiStep: true,
             }),

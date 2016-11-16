@@ -9,7 +9,7 @@ import {
 } from 'actions/flash';
 
 
-const initialState = {
+export const initialState = {
     title: null,
     message: null,
     severity: null,

@@ -6,7 +6,7 @@ import {
     PROTECTED_FAILURE,
 } from 'actions/protected'
 
-const initialState = {
+export const initialState = {
     isLoaded: false,
     isLoading: false,
     data: null,

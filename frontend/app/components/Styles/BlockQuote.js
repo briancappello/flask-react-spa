@@ -1,5 +1,5 @@
 import React from 'react';
-import { DocComponent } from 'components';
+import DocComponent from 'components/DocComponent';
 
 export default class BlockQuote extends DocComponent {
     title = 'Block Quotes';

@@ -11,7 +11,7 @@ import {
 } from 'actions/auth';
 
 
-const initialState = {
+export const initialState = {
     token: null,
     username: null,
     isAuthenticated: false,

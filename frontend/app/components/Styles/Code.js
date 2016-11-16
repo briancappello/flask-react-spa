@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DocComponent } from 'components';
+import DocComponent from 'components/DocComponent';
 
 export default class Code extends Component {
     javascript = `\

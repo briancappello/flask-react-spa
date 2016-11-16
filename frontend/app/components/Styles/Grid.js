@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DocComponent } from 'components';
+import DocComponent from 'components/DocComponent';
 
 import './grid.scss';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { DocComponent } from 'components';
+import DocComponent from 'components/DocComponent';
 
 export default class Navigation extends DocComponent {
     description = 'A horizontal navbar. By default, its width is 100% of its parent. In this mode, you probably want to add the <code>padded</code> class (as shown below).'

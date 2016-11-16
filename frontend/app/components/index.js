@@ -1,6 +1,5 @@
 export { default as About } from './About/About';
 export { default as Application } from './Application';
-export { default as DocComponent } from './DocComponent';
 export { default as Flash } from './Flash/Flash';
 export { default as Home } from './Home/Home';
 export { default as Link } from './Nav/Link';
