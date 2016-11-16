@@ -8,6 +8,7 @@ const STYLES_ROOT = path.join(APP_ROOT, 'styles');
 
 let VENDOR = [
     'lodash',
+    'lodash-es',
     'history',
     'react',
     'redux',
@@ -16,7 +17,9 @@ let VENDOR = [
     'react-router',
     'react-router-redux',
     'redux-thunk',
+    'redux-form',
     'isomorphic-fetch',
+    'babel-polyfill',
 ];
 
 const commonConfig = {
@@ -27,7 +30,6 @@ const commonConfig = {
     },
     entry: {
         app: path.join(APP_ROOT, 'index.js'),
-        vendor: VENDOR,
     },
     output: {
         path: path.join(__dirname, 'dist'),
@@ -96,11 +98,15 @@ case 'build:webpack':
                     'NODE_ENV': JSON.stringify('production'),
                 }
             }),
-            new webpack.optimize.CommonsChunkPlugin({
-                names: ['vendor', 'manifest'],
+            new webpack.LoaderOptionsPlugin({
+                minimize: true,
+                debug: false,
             }),
             new webpack.optimize.UglifyJsPlugin({
-                compressor: { warnings: false },
+                compress: {
+                    warnings: false,
+                    screw_ie8: true,
+                },
             }),
         ],
     });
@@ -124,6 +130,7 @@ default:
             }),
             new webpack.NoErrorsPlugin(),
             new webpack.optimize.CommonsChunkPlugin({
+                minChunks: Infinity,
                 names: ['vendor', 'manifest'],
             })
         ],
