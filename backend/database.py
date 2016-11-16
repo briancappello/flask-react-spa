@@ -13,6 +13,8 @@ Text = db.Text                  # type: sqlalchemy.types.Text
 Integer = db.Integer            # type: sqlalchemy.types.Integer
 DateTime = db.DateTime          # type: sqlalchemy.types.DateTime
 relationship = db.relationship  # type: RelationshipProperty
+ForeignKey = db.ForeignKey
+UniqueConstraint = sqlalchemy.UniqueConstraint
 
 
 class Model(db.Model):
