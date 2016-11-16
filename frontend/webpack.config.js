@@ -7,7 +7,6 @@ const APP_ROOT = path.join(__dirname, 'app');
 const STYLES_ROOT = path.join(APP_ROOT, 'styles');
 
 let VENDOR = [
-    'lodash',
     'lodash-es',
     'history',
     'react',
@@ -17,8 +16,16 @@ let VENDOR = [
     'react-router',
     'react-router-redux',
     'redux-thunk',
-    'redux-form',
+    'redux-logger',
+    'redbox-react',
+    'react-hot-loader',
     'isomorphic-fetch',
+    'jwt-decode',
+    'sockjs-client',
+    'events',
+    'punycode',
+    'querystring-es3',
+    'url',
     'babel-polyfill',
 ];
 

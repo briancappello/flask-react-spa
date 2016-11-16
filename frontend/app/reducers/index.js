@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import { reducer as formReducer } from 'redux-form';
 
 import authReducer, { initialState as authState } from './auth';
 import flashReducer, { initialState as flashState } from './flash';
@@ -18,7 +17,6 @@ const rootReducer = combineReducers({
     protected: protectedReducer,
 
     routing: routerReducer,
-    form: formReducer,
 });
 
 export default rootReducer;
