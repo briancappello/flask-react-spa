@@ -26,8 +26,8 @@ def load_fixtures(file, reset):
     """Load database fixtures from JSON."""
     import json
     from .extensions import db
-    from .magic import get_models
-    models = dict(get_models())
+    from .magic import get_bundle_models
+    models = dict(get_bundle_models())
 
     if reset:
         _reset_db()

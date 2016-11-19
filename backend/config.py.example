@@ -8,8 +8,8 @@ TEMPLATE_FOLDER = os.path.join(PROJECT_ROOT, 'frontend')
 STATIC_FOLDER = os.path.join(PROJECT_ROOT, 'frontend', 'dist')
 STATIC_URL_PATH = '/static'  # serve asset files in frontend/dist/ at /static/
 
-# blueprint folders to register with the app
-BLUEPRINTS = {
+# bundle folders to register with the app
+BUNDLES = {
     # backend.folder: url_prefix
     'backend.site': '/',
     'backend.auth': '/auth',

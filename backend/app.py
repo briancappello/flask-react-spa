@@ -1,13 +1,15 @@
-""" Application Factory Pattern with a Touch of Magic (tm)
+""" Flask Application Factory Pattern
+http://flask.pocoo.org/docs/0.11/patterns/appfactories/
 
 Conventions to follow for magic to ensue:
 
-VIEWS & MODELS ("blueprints")
+VIEWS, MODELS, and COMMANDS ("bundles")
 -----------------------------
-All views/models should be contained in blueprint folders.
+All views/models should be contained in bundle folders.
 Views should be in a file named `views.py` containing the flask.Blueprint instance.
 Models should be in a file named `models.py` and should extend database.Model
-Finally, each blueprint folder must be registered in `config.py`
+Commands should be in a file named `commands.py` containing a click.Group instance.
+Finally, each bundle folder must be registered in `config.py`
 
 EXTENSIONS
 -----------------------------
@@ -15,7 +17,7 @@ All extensions should be instantiated in `extensions.py`
 
 CLI COMMANDS
 -----------------------------
-Decorate custom CLI commands in `commands.py` using @click.command()
+Decorate custom CLI commands in `commands.py` using @cli.command()
 
 FLASK SHELL CONTEXT
 -----------------------------
@@ -27,11 +29,11 @@ from flask import Flask
 
 from .logger import logger
 from .magic import (
-    get_extensions,
-    get_blueprints,
-    get_models,
     get_commands,
-    get_blueprint_command_groups,
+    get_extensions,
+    get_bundle_blueprints,
+    get_bundle_models,
+    get_bundle_command_groups,
 )
 
 
@@ -53,12 +55,12 @@ def register_extensions(app):
 
 
 def register_blueprints(app):
-    """Register blueprint views"""
+    """Register bundle views"""
     # disable strict_slashes on all routes by default
     if not app.config.get('STRICT_SLASHES', False):
         app.url_map.strict_slashes = False
     # register blueprints
-    for blueprint, url_prefix in get_blueprints():
+    for blueprint, url_prefix in get_bundle_blueprints():
         app.register_blueprint(blueprint, url_prefix=url_prefix)
 
 
@@ -68,16 +70,16 @@ def register_shell_context(app):
         # extensions
         ctx = dict(get_extensions())
         # DB models
-        ctx.update(dict(get_models()))
+        ctx.update(dict(get_bundle_models()))
         return ctx
     app.shell_context_processor(shell_context)
 
 
 def register_cli_commands(app):
     """Register all the Click commands declared in commands.py and
-    each blueprints' commands.py"""
+    each bundle's commands.py"""
     commands = list(get_commands())
-    commands += list(get_blueprint_command_groups())
+    commands += list(get_bundle_command_groups())
     for name, command in commands:
         if name in app.cli.commands:
             logger.error('Command name conflict: "%s" is taken.' % name)
