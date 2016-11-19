@@ -66,6 +66,12 @@ const commonConfig = {
                 ],
             },
             {
+                test: /\.json$/,
+                use: [
+                    { loader: 'json-loader' },
+                ]
+            },
+            {
                 test: /\.png$/,
                 use: [
                     { loader: 'url-loader', options: {
