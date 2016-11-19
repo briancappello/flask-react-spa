@@ -11,12 +11,17 @@
     }
 
     .close {
-        font-size: $font-size-medium-small;
+        font-size: $font-size-medium-large;
         font-weight: bold;
         float: right;
         line-height: 1;
         margin-top: -10px;
         margin-right: -8px;
+
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
     }
 
     &.success {
