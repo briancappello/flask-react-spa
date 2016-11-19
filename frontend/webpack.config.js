@@ -138,6 +138,11 @@ default:
             vendor: ['react-hot-loader/patch'].concat(VENDOR),
         },
         plugins: [
+            new webpack.DefinePlugin({
+                'server': {
+                    PORT,
+                }
+            }),
             new webpack.HotModuleReplacementPlugin({
                 multiStep: true,
             }),
