@@ -3,6 +3,9 @@ var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config.js');
 var compiler = webpack(config);
 
+const FRONTEND_PORT = process.env.PORT || 8888;
+const BACKEND_PORT = process.argv[2] || 5000;
+
 var server = new WebpackDevServer(compiler, {
     hot: true,
     publicPath: config.output.publicPath,
@@ -10,7 +13,7 @@ var server = new WebpackDevServer(compiler, {
     stats: { colors: true, chunks: false },
     proxy: {
         '*': {
-            target: 'http://localhost:5000',
+            target: `http://localhost:${BACKEND_PORT}`,
             secure: false,
             changeOrigin: true,
             cookieDomainRewrite: true,
@@ -18,12 +21,11 @@ var server = new WebpackDevServer(compiler, {
     },
 });
 
-const PORT = process.env.PORT || 8888;
-
-server.listen(PORT, 'localhost', function(err) {
-    if (err) {
-        return console.log(err);
+server.listen(FRONTEND_PORT, 'localhost', function(error) {
+    if (error) {
+        return console.log(error);
     }
 
-    console.log(`Listening at http://localhost:${PORT}/`);
+    console.log(`Listening at http://localhost:${FRONTEND_PORT}/`);
+    console.log(`Proxying requests to http://localhost:${BACKEND_PORT}/`);
 });
