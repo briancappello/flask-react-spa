@@ -50,7 +50,7 @@ def create_app(config_object, **kwargs):
 
 def register_extensions(app):
     """Register and initialize extensions"""
-    for _, extension in get_extensions():
+    for extension in get_extensions():
         extension.init_app(app)
 
 

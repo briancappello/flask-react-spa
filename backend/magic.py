@@ -8,11 +8,12 @@ from . import commands, extensions
 
 
 def get_extensions():
-    """An iterable of (extension_name, extension_instance) tuples"""
+    """An iterable of extension instances"""
     def is_extension(obj):
         # we want *instantiated* extensions, not imported extension classes
         return not inspect.isclass(obj) and hasattr(obj, 'init_app')
-    return inspect.getmembers(extensions, is_extension)
+    for _, extension in inspect.getmembers(extensions, is_extension):
+        yield extension
 
 
 def get_bundle_blueprints():
