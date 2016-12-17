@@ -7,7 +7,6 @@
         "development": {
             "plugins": [
                 ["transform-object-rest-spread"],
-                ["transform-react-display-name"],
                 ["transform-class-properties"],
                 ["transform-async-to-generator"],
                 ["syntax-export-extensions"],
@@ -18,7 +17,6 @@
         "production": {
             "plugins": [
                 ["transform-object-rest-spread"],
-                ["transform-react-display-name"],
                 ["transform-class-properties"],
                 ["transform-async-to-generator"],
                 ["syntax-export-extensions"],
