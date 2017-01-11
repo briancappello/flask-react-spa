@@ -5,8 +5,8 @@ from ..auth import auth_required
 api = Blueprint('api', __name__)
 
 
-@api.route('/test')
 @auth_required
+@api.route('/test')
 def test():
     return jsonify({
         'key': 'TOP SECRET!',
