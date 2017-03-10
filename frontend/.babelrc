@@ -6,9 +6,9 @@
     "env": {
         "development": {
             "plugins": [
-                ["transform-object-rest-spread"],
-                ["transform-class-properties"],
                 ["transform-async-to-generator"],
+                ["transform-class-properties"],
+                ["transform-object-rest-spread"],
                 ["syntax-export-extensions"],
                 ["transform-export-extensions"],
                 ["react-hot-loader/babel"]
@@ -16,9 +16,9 @@
         },
         "production": {
             "plugins": [
-                ["transform-object-rest-spread"],
-                ["transform-class-properties"],
                 ["transform-async-to-generator"],
+                ["transform-class-properties"],
+                ["transform-object-rest-spread"],
                 ["syntax-export-extensions"],
                 ["transform-export-extensions"]
             ]

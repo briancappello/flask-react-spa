@@ -146,7 +146,7 @@ default:
             new webpack.HotModuleReplacementPlugin({
                 multiStep: true,
             }),
-            new webpack.NoErrorsPlugin(),
+            new webpack.NoEmitOnErrorsPlugin(),
             new webpack.optimize.CommonsChunkPlugin({
                 minChunks: Infinity,
                 names: ['vendor', 'manifest'],
