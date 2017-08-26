@@ -6,10 +6,10 @@
   "author": "Brian Cappello",
   "homepage": "https://github.com/briancappello",
   "scripts": {
-    "build:webpack": "NODE_ENV=production webpack --config webpack.config.js",
+    "build:webpack": "NODE_ENV=production webpack --config frontend/webpack.config.js",
     "build": "npm run clean && npm run build:webpack",
-    "clean": "rimraf dist",
-    "start": "node devServer.js"
+    "clean": "rimraf frontend/dist",
+    "start": "node frontend/devServer.js"
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
