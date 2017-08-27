@@ -7,7 +7,7 @@ const STYLES_ROOT = path.join(APP_ROOT, 'styles');
 process.traceDeprecation = true
 
 module.exports = (options) => ({
-    devtool: 'source-map',
+    devtool: options.devtool,
     resolve: {
         modules: [APP_ROOT, STYLES_ROOT, 'node_modules'],
         extensions: ['.js', '.jsx']
