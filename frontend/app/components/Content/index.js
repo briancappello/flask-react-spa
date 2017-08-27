@@ -1,4 +1,4 @@
-import PageContent from './PageContent';
-import PageHeader from './PageHeader';
+import PageContent from './PageContent'
+import PageHeader from './PageHeader'
 
-export { PageContent, PageHeader };
+export { PageContent, PageHeader }

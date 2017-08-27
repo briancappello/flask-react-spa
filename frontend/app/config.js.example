@@ -5,25 +5,25 @@
 //-------------------------------------
 
 import {
-    // debug levels in vertical order from least verbose to most
-    CRITICAL,
-    ERROR,
-    WARNING,
-    INFO,
-    DEBUG,
+  // debug levels in vertical order from least verbose to most
+  CRITICAL,
+  ERROR,
+  WARNING,
+  INFO,
+  DEBUG,
 } from 'constants'
 
 // FIXME: setting process.env.PORT with webpack.DefinePlugin errors in dev mode
 // (it sets server.PORT fine, so we use that as a workaround)
 if (process.env.NODE_ENV != 'production') {
-    process.env.PORT = server.PORT
+  process.env.PORT = server.PORT
 }
 
 // set LOGGING_ENABLED to true in dev, false in prod
 export const LOGGING_ENABLED = process.env.NODE_ENV != 'production'
 export const LOG_LEVEL = DEBUG
 
-export const PORT = process.env.PORT || 8888;
+export const PORT = process.env.PORT || 8888
 export const SERVER_URL = process.env.NODE_ENV == 'production'
     ? 'https://www.example.com'
     : `http://localhost:${PORT}`

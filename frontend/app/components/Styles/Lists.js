@@ -1,8 +1,8 @@
-import React from 'react';
-import DocComponent from 'components/DocComponent';
+import React from 'react'
+import DocComponent from 'components/DocComponent'
 
 export default class Lists extends DocComponent {
-    unordered = `\
+  unordered = `\
 <ul>
     <li>
         One
@@ -25,7 +25,7 @@ export default class Lists extends DocComponent {
 </ul>
 `
 
-    ordered = `\
+  ordered = `\
 <ol>
     <li>
         One
@@ -48,7 +48,7 @@ export default class Lists extends DocComponent {
 </ol>
 `
 
-    mixed = `\
+  mixed = `\
 <ol>
     <li>
         One
@@ -71,25 +71,25 @@ export default class Lists extends DocComponent {
 </ol>
 `
 
-    render() {
-        return (
-            <div>
-                <h2 id="lists">Lists</h2>
-                <div className="row">
-                    <div className="third col">
-                        <h3>Unordered</h3>
-                        {this.renderHtml(this.unordered)}
-                    </div>
-                    <div className="third col">
-                        <h3>Ordered</h3>
-                        {this.renderHtml(this.ordered)}
-                    </div>
-                    <div className="third col">
-                        <h3>Mixed</h3>
-                        {this.renderHtml(this.mixed)}
-                    </div>
-                </div>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <h2 id="lists">Lists</h2>
+        <div className="row">
+          <div className="third col">
+            <h3>Unordered</h3>
+            {this.renderHtml(this.unordered)}
+          </div>
+          <div className="third col">
+            <h3>Ordered</h3>
+            {this.renderHtml(this.ordered)}
+          </div>
+          <div className="third col">
+            <h3>Mixed</h3>
+            {this.renderHtml(this.mixed)}
+          </div>
+        </div>
+      </div>
+    )
+  }
 }

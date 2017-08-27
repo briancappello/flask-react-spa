@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import DocComponent from 'components/DocComponent';
+import React, { Component } from 'react'
+import DocComponent from 'components/DocComponent'
 
 export default class Code extends Component {
-    javascript = `\
+  javascript = `\
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -29,16 +29,35 @@ class CodeExample extends Component {
 }
 `
 
-    render() {
-        return (
-            <div>
-                <h2 id="code">Code</h2>
-                <p>All of the html examples on this page are using the included code styling. Be sure to wrap your <code>code</code> tags with <code>pre</code> tags if you want to preserve whitespace. Here's how some code gets rendered from JSX:</p>
-                <pre><code>{this.javascript}</code></pre>
+  render() {
+    return (
+      <div>
+        <h2 id="code">Code</h2>
+        <p>
+          All of the html examples on this page are using the included code
+          styling. Be sure to wrap your <code>code</code> tags with{' '}
+          <code>pre</code> tags if you want to preserve whitespace. Here's how
+          some code gets rendered from JSX:
+        </p>
+        <pre>
+          <code>
+            {this.javascript}
+          </code>
+        </pre>
 
-                <h3>Code Highlighting</h3>
-                <p>You should use a 3rd party library like <a href="https://highlightjs.org/" target="_blank">highlight.js</a> (client-side) or <a href="http://pygments.org/" target="_blank">Pygments</a> (server-side) to do code highlighting.</p>
-            </div>
-        );
-    }
+        <h3>Code Highlighting</h3>
+        <p>
+          You should use a 3rd party library like{' '}
+          <a href="https://highlightjs.org/" target="_blank">
+            highlight.js
+          </a>{' '}
+          (client-side) or{' '}
+          <a href="http://pygments.org/" target="_blank">
+            Pygments
+          </a>{' '}
+          (server-side) to do code highlighting.
+        </p>
+      </div>
+    )
+  }
 }

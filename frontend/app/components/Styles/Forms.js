@@ -1,9 +1,9 @@
-import React from 'react';
-import DocComponent from 'components/DocComponent';
+import React from 'react'
+import DocComponent from 'components/DocComponent'
 
 export default class Forms extends DocComponent {
-    title = 'Forms'
-    html = `\
+  title = 'Forms'
+  html = `\
 <form>
     <div class="row">
         <div class="half col">

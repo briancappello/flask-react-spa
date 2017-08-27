@@ -1,9 +1,9 @@
-import React from 'react';
-import DocComponent from 'components/DocComponent';
+import React from 'react'
+import DocComponent from 'components/DocComponent'
 
 export default class Typography extends DocComponent {
-    title = 'Typography'
-    html = `\
+  title = 'Typography'
+  html = `\
 <h1>Heading 1 (5rem)</h1>
 <h2>Heading 2 (4.2rem)</h2>
 <h3>Heading 3 (3.6rem)</h3>

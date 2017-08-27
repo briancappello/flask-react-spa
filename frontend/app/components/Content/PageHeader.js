@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 /**
  * PageHeader
@@ -19,36 +19,38 @@ import React, { Component } from 'react';
  * </PageHeader>
  */
 export default class PageHeader extends Component {
-    static defaultProps = {
-        image: false,
-        repeat: 'no-repeat',
-        position: 'center',
-        size: 'cover',
-        height: '500px',
-        color: 'black',
-        className: '',
-    };
+  static defaultProps = {
+    image: false,
+    repeat: 'no-repeat',
+    position: 'center',
+    size: 'cover',
+    height: '500px',
+    color: 'black',
+    className: '',
+  }
 
-    render() {
-        const { image, height, position, repeat, size, color } = this.props;
+  render() {
+    const { image, height, position, repeat, size, color } = this.props
 
-        let inlineStyles = !image ? {color} : {
-            backgroundImage: 'url(' + image + ')',
-            backgroundRepeat: repeat,
-            backgroundPosition: position,
-            backgroundSize: size,
-            height,
-            color,
-        };
+    let inlineStyles = !image
+      ? { color }
+      : {
+          backgroundImage: 'url(' + image + ')',
+          backgroundRepeat: repeat,
+          backgroundPosition: position,
+          backgroundSize: size,
+          height,
+          color,
+        }
 
-        return (
-            <header className="page-header-wrap" style={inlineStyles}>
-                <div className="container">
-                    <div className="page-header">
-                        {this.props.children}
-                    </div>
-                </div>
-            </header>
-        );
-    }
+    return (
+      <header className="page-header-wrap" style={inlineStyles}>
+        <div className="container">
+          <div className="page-header">
+            {this.props.children}
+          </div>
+        </div>
+      </header>
+    )
+  }
 }

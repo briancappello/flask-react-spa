@@ -1,4 +1,4 @@
-import Link from './Link';
-import NavBar from './NavBar';
+import Link from './Link'
+import NavBar from './NavBar'
 
-export { Link, NavBar };
+export { Link, NavBar }

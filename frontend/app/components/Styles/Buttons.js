@@ -1,9 +1,9 @@
-import React from 'react';
-import DocComponent from 'components/DocComponent';
+import React from 'react'
+import DocComponent from 'components/DocComponent'
 
 export default class Buttons extends DocComponent {
-    title = 'Buttons'
-    html = `\
+  title = 'Buttons'
+  html = `\
 <div class="row">
     <a href="#" class="button">Anchor Link Button</a>
     <button>Button Element</button>

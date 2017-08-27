@@ -1,10 +1,10 @@
-import React from 'react';
-import DocComponent from 'components/DocComponent';
+import React from 'react'
+import DocComponent from 'components/DocComponent'
 
 export default class Navigation extends DocComponent {
-    description = 'A horizontal navbar. By default, its width is 100% of its parent. In this mode, you probably want to add the <code>padded</code> class (as shown below).'
+  description = 'A horizontal navbar. By default, its width is 100% of its parent. In this mode, you probably want to add the <code>padded</code> class (as shown below).'
 
-    html = `\
+  html = `\
 <nav class="padded">  <!-- .padded adds left & right padding -->
     <a href="#" class="brand">
         Company<span class="tld">com</span>  <!-- the dot gets added by css -->
@@ -19,7 +19,7 @@ export default class Navigation extends DocComponent {
     </div>
 </nav>
 `
-    navtop = `\
+  navtop = `\
 <body class="fixed-nav-top">
     <header>  <!-- <header> must be an immediate parent of <nav> -->
         <nav>
@@ -34,16 +34,24 @@ export default class Navigation extends DocComponent {
 </body>
 `
 
-    render() {
-        let headerTag = '<header>';
-        return (
-            <div>
-                <h2 id="navigation">Navigation</h2>
-                {this.renderDescription(this.description)}
-                {this.renderHtml(this.html)}
-                <p>You can also get a navbar that sticks to the top of the page by adding the <code>fixed-nav-top</code> class to any (grand)parent of <code>{headerTag}</code>.</p>
-                <pre><code>{this.navtop}</code></pre>
-            </div>
-        );
-    }
+  render() {
+    let headerTag = '<header>'
+    return (
+      <div>
+        <h2 id="navigation">Navigation</h2>
+        {this.renderDescription(this.description)}
+        {this.renderHtml(this.html)}
+        <p>
+          You can also get a navbar that sticks to the top of the page by adding
+          the <code>fixed-nav-top</code> class to any (grand)parent of{' '}
+          <code>{headerTag}</code>.
+        </p>
+        <pre>
+          <code>
+            {this.navtop}
+          </code>
+        </pre>
+      </div>
+    )
+  }
 }

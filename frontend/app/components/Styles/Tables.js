@@ -1,9 +1,9 @@
-import React from 'react';
-import DocComponent from 'components/DocComponent';
+import React from 'react'
+import DocComponent from 'components/DocComponent'
 
 export default class Tables extends DocComponent {
-    title = 'Tables'
-    html = `\
+  title = 'Tables'
+  html = `\
 <table>
     <thead>
         <tr>
