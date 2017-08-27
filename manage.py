@@ -16,7 +16,7 @@ import time
 from flask.cli import FlaskGroup
 from flask.helpers import get_debug_flag
 
-from app import create_app
+from create_app import create_app
 
 
 def production_warning(args):

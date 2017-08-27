@@ -12,8 +12,8 @@ def get_extensions():
     def is_extension(obj):
         # we want *instantiated* extensions, not imported extension classes
         return not inspect.isclass(obj) and hasattr(obj, 'init_app')
-    for _, extension in inspect.getmembers(extensions, is_extension):
-        yield extension
+    for name, extension in inspect.getmembers(extensions, is_extension):
+        yield (name, extension)
 
 
 def get_bundle_blueprints():

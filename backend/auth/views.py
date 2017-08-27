@@ -1,12 +1,8 @@
-from flask import Blueprint, request, jsonify
-from flask_login import (
-    login_user,
-    logout_user,
-)
-from flask_jwt_extended import (
-    create_access_token,
-)
-from .models import User
+from flask import Blueprint, request, after_this_request, jsonify
+from flask_login import current_user
+from flask_security.utils import login_user, logout_user
+from flask_security.views import _security, _commit
+from werkzeug.datastructures import MultiDict
 
 
 auth = Blueprint('auth', __name__)
@@ -14,23 +10,28 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['POST'])
 def login():
-    username = request.json.get('username', None)
-    password = request.json.get('password', None)
+    form = _security.login_form(MultiDict(request.get_json()))
 
-    user = User.get_by_username_and_password(username, password)
-    if not user or not login_user(user):
+    if form.validate_on_submit():
+        login_user(form.user, remember=form.remember.data)
+        after_this_request(_commit)
+
+    if form.errors:
         return jsonify({
-            'msg': 'Invalid login credentials.',
+            'error': 'Invalid username or password.',
         }), 401
 
     return jsonify({
-        'access_token': create_access_token(identity=user.id, fresh=True),
+        'user': form.user.get_security_payload(),
+        'token': form.user.get_auth_token(),
     }), 200
 
 
 @auth.route('/logout')
 def logout():
-    logout_user()
+    if current_user.is_authenticated:
+        logout_user()
+
     return jsonify({
         'logout': True,
     }), 200

@@ -1,5 +1,4 @@
 import os
-import datetime
 
 APP_DIR = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
@@ -18,16 +17,18 @@ BUNDLES = {
 
 
 class BaseConfig(object):
-    SECRET_KEY = os.environ.get('FLASK_API_SECRET_KEY', 'not-secret-key')  # FIXME
-    BCRYPT_LOG_ROUNDS = 13
+    SECRET_KEY = os.environ.get('FLASK_SECRET_KEY', 'not-secret-key')  # FIXME
+    SECURITY_PASSWORD_SALT = os.environ.get('FLASK_SECURITY_PASSWORD_SALT', 'not-secret-salt')  # FIXME
+    SECURITY_TOKEN_MAX_AGE = 60 * 60  # 1 hour (in seconds)
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     STRICT_SLASHES = False
 
-    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(minutes=15)
-
     SESSION_PROTECTION = 'strong'
     SESSION_COOKIE_HTTPONLY = True
-    SESSION_COOKIE_PATH = '/api/'
+    SESSION_COOKIE_PATH = '/'
+    SESSION_COOKIE_SECURE = False
+    REMEMBER_COOKIE_HTTPONLY = True
 
 
 class ProdConfig(BaseConfig):
@@ -36,6 +37,7 @@ class ProdConfig(BaseConfig):
 
     SESSION_COOKIE_SECURE = True  # only send cookies over https
     SESSION_COOKIE_DOMAIN = 'www.example.com'  # FIXME
+    SESSION_TYPE = 'null'  # FIXME
     SQLALCHEMY_DATABASE_URI = 'postgresql://user:pw@localhost/db_name'  # FIXME
 
 
@@ -43,6 +45,8 @@ class DevConfig(BaseConfig):
     ENV = 'dev'
     DEBUG = True
     DB_NAME = 'dev.sqlite'
+    SESSION_TYPE = 'filesystem'
+    SESSION_FILE_DIR = 'flask_sessions'
     # SQLALCHEMY_ECHO = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///%s' % os.path.join(PROJECT_ROOT, DB_NAME)
 
@@ -51,4 +55,3 @@ class TestConfig(BaseConfig):
     TESTING = True
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'sqlite://'  # :memory:
-    BCRYPT_LOG_ROUNDS = 4

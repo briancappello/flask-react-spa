@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "jwt-decode": "^2.1.0",
+    "js-cookie": "^2.1.4",
     "normalize.css": "^4.2.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",

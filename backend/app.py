@@ -26,6 +26,7 @@ the shell context, presuming the above conventions have been followed.
 """
 import sys
 from flask import Flask
+from flask_wtf.csrf import generate_csrf
 
 from .logger import logger
 from .magic import (
@@ -40,17 +41,30 @@ from .magic import (
 def create_app(config_object, **kwargs):
     """Application factory"""
     app = Flask(__name__, **kwargs)
-    app.config.from_object(config_object)
-    register_extensions(app)
+    configure_app(app, config_object)
+    extensions = dict(get_extensions())
+    models = dict(get_bundle_models())
+    register_extensions(app, extensions)
     register_blueprints(app)
-    register_shell_context(app)
+    register_shell_context(app, extensions, models)
     register_cli_commands(app)
     return app
 
 
-def register_extensions(app):
+def configure_app(app, config_object):
+    app.config.from_object(config_object)
+
+    # set csrf_token cookie on every request
+    def _set_csrf_cookie(response):
+        if response:
+            response.set_cookie('csrf_token', generate_csrf())
+        return response
+    app.after_request(_set_csrf_cookie)
+
+
+def register_extensions(app, extensions):
     """Register and initialize extensions"""
-    for extension in get_extensions():
+    for extension in extensions.values():
         extension.init_app(app)
 
 
@@ -64,13 +78,13 @@ def register_blueprints(app):
         app.register_blueprint(blueprint, url_prefix=url_prefix)
 
 
-def register_shell_context(app):
+def register_shell_context(app, extensions, models):
     """Register variables to automatically import when running `flask shell`"""
     def shell_context():
         # extensions
-        ctx = dict(get_extensions())
+        ctx = extensions
         # DB models
-        ctx.update(dict(get_bundle_models()))
+        ctx.update(models)
         return ctx
     app.shell_context_processor(shell_context)
 

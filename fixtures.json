@@ -1,12 +1,16 @@
 [
     { "model": "User", "items": [
         {
-            "username": "a@a.com",
-            "password": "pw"
+            "email": "a@a.com",
+            "username": "aa",
+            "password": "pw",
+            "active": true
         },
         {
-            "username": "a@b.com",
-            "password": "pw"
+            "email": "a@b.com",
+            "username": "ab",
+            "password": "pw",
+            "active": true
         }
     ]}
 ]

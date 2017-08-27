@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
+import * as Cookies from 'js-cookie';
 import { push } from 'react-router-redux';
-import jwtDecode from 'jwt-decode';
 
 import { SERVER_URL } from 'config';
 import { checkHttpStatus, parseJSON } from 'utils/api';
@@ -16,12 +16,13 @@ export const AUTH_LOGOUT_USER_FAILURE = 'AUTH_LOGOUT_USER_FAILURE';
 
 // FIXME: sessionStorage vs localStorage
 
-export function authLoginUserSuccess(token) {
+export function authLoginUserSuccess(token, user) {
     localStorage.setItem('token', token);
     return {
         type: AUTH_LOGIN_USER_SUCCESS,
         payload: {
-            token
+            token,
+            user,
         }
     };
 }
@@ -40,7 +41,7 @@ export function authLoginUserRequest() {
     };
 }
 
-export function authLoginUser(username, password, redirect='/') {
+export function authLoginUser(email, password, redirect='/') {
     return (dispatch) => {
         dispatch(authLoginUserRequest());
         return fetch(`${SERVER_URL}/auth/login`, {
@@ -48,21 +49,20 @@ export function authLoginUser(username, password, redirect='/') {
             credentials: 'include',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRFToken': Cookies.get('csrf_token'),
             },
             body: JSON.stringify({
-                username, password
+                email,
+                password,
             })
         })
             .then(checkHttpStatus)
             .then(parseJSON)
             .then(response => {
-                let token = response.access_token;
-                // Validate if token is valid
+                const { token, user } = response;
                 try {
-                    jwtDecode(token);
-
-                    dispatch(authLoginUserSuccess(token));
+                    dispatch(authLoginUserSuccess(token, user));
                     dispatch(push(redirect));
                     dispatch(flashSuccess('You have been successfully logged in.'));
                 } catch (e) {
@@ -82,7 +82,7 @@ export function authLoginUser(username, password, redirect='/') {
                     .then(body => {
                         dispatch(authLoginUserFailure({
                             statusCode: status,
-                            error: body.msg,
+                            error: body.error,
                         }));
                     })
                     // otherwise return generic error
@@ -121,10 +121,8 @@ export function authLogoutAndRedirect() {
         dispatch(authLogoutUserRequest());
         return fetch(`${SERVER_URL}/auth/logout`, {
             method: 'GET',
-            credentials: 'include',
             headers: {
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
             }
         })
             .then(checkHttpStatus)
@@ -136,7 +134,6 @@ export function authLogoutAndRedirect() {
             })
             // invalid HTTP status
             .catch(error => {
-                let { status, statusText } = error.response;
                 dispatch(authLogoutUserFailure())
             })
     }

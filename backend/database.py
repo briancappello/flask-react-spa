@@ -7,10 +7,12 @@ from .extensions import db
 
 # alias common names
 Table = db.Table                # type: sqlalchemy.schema.Table
+# FIXME: Column defaults nullable to True; should probably override that
 Column = db.Column              # type: sqlalchemy.schema.Column
 String = db.String              # type: sqlalchemy.types.String
 Text = db.Text                  # type: sqlalchemy.types.Text
 Integer = db.Integer            # type: sqlalchemy.types.Integer
+Boolean = db.Boolean            # type: sqlalchemy.types.Boolean
 DateTime = db.DateTime          # type: sqlalchemy.types.DateTime
 relationship = db.relationship  # type: RelationshipProperty
 ForeignKey = db.ForeignKey

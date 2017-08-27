@@ -7,6 +7,7 @@ frontend/app/config.js
 *.py[cod]
 *.sqlite
 backend/config.py
+flask_sessions/
 
 # C extensions
 *.so

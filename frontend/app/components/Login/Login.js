@@ -25,7 +25,7 @@ class Login extends React.Component {
         const { location } = this.props;
 
         this.state = {
-            username: '',
+            email: '',
             password: '',
             redirectTo: location ? location.query.next || '/' : '/',
         };
@@ -40,8 +40,8 @@ class Login extends React.Component {
 
     login = (e) => {
         e.preventDefault();
-        const { username, password, redirectTo } = this.state;
-        this.props.authLoginUser(username, password, redirectTo);
+        const { email, password, redirectTo } = this.state;
+        this.props.authLoginUser(email, password, redirectTo);
     };
 
     handleInputChange = (e, field) => {
@@ -66,7 +66,7 @@ class Login extends React.Component {
                     <form>
                         <input type="text"
                                placeholder="Username"
-                               onChange={(e) => { this.handleInputChange(e, 'username'); }}
+                               onChange={(e) => { this.handleInputChange(e, 'email'); }}
                         />
                         <input type="password"
                                placeholder="Password"

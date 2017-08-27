@@ -8,7 +8,6 @@ import { initialState } from 'reducers';
 import configureStore from 'store';
 import Root from 'components/Root';
 
-import { validateToken } from 'utils';
 import { authLoginUserSuccess, authLogoutUserSuccess } from 'actions/auth';
 import { flashInfo } from 'actions/flash';
 
@@ -19,8 +18,8 @@ const store = configureStore(initialState, browserHistory);
 const history = syncHistoryWithStore(browserHistory, store);
 
 const token = localStorage.getItem('token');
-if (validateToken(token)) {
-    store.dispatch(authLoginUserSuccess(token));
+if (token && token != 'undefined') {
+    store.dispatch(authLoginUserSuccess(token, {}));
     store.dispatch(flashInfo('Welcome back!'));
 } else if (token) {
     store.dispatch(authLogoutUserSuccess());

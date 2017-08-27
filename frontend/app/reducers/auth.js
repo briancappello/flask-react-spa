@@ -1,4 +1,3 @@
-import jwtDecode from 'jwt-decode';
 import createReducer from './createReducer';
 
 import {
@@ -14,6 +13,7 @@ import {
 export const initialState = {
     token: null,
     username: null,
+    email: null,
     isAuthenticated: false,
     isAuthenticating: false,
     statusText: null
@@ -31,7 +31,8 @@ export default createReducer(initialState, {
             ...initialState,
             isAuthenticated: true,
             token: payload.token,
-            username: jwtDecode(payload.token).username,
+            username: payload.user.username,
+            email: payload.user.email,
         };
     },
     [AUTH_LOGIN_USER_FAILURE]: (state, payload) => {

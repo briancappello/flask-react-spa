@@ -20,7 +20,6 @@ let VENDOR = [
     'redbox-react',
     'react-hot-loader',
     'isomorphic-fetch',
-    'jwt-decode',
     'sockjs-client',
     'events',
     'punycode',
