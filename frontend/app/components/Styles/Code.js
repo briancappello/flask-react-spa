@@ -3,7 +3,8 @@ import DocComponent from 'components/DocComponent';
 
 export default class Code extends Component {
     javascript = `\
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class CodeExample extends Component {
 

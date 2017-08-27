@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
 export default function requireAuthentication(Component) {
     class AuthenticatedComponent extends React.Component {
         static propTypes = {
-            isAuthenticated: React.PropTypes.bool.isRequired,
-            location: React.PropTypes.object.isRequired,
-            dispatch: React.PropTypes.func.isRequired
+            isAuthenticated: PropTypes.bool.isRequired,
+            location: PropTypes.object.isRequired,
+            dispatch: PropTypes.func.isRequired
         };
 
         componentWillMount() {

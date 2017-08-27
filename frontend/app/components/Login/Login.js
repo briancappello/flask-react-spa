@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
@@ -10,14 +11,14 @@ import { PageContent } from 'components/Content';
 
 class Login extends React.Component {
     static propTypes = {
-        isAuthenticated: React.PropTypes.bool.isRequired,
-        isAuthenticating: React.PropTypes.bool.isRequired,
-        statusText: React.PropTypes.string,
+        isAuthenticated: PropTypes.bool.isRequired,
+        isAuthenticating: PropTypes.bool.isRequired,
+        statusText: PropTypes.string,
 
-        push: React.PropTypes.func.isRequired,
-        authLoginUser: React.PropTypes.func.isRequired,
-        flashInfo: React.PropTypes.func.isRequired,
-        flashDanger: React.PropTypes.func.isRequired,
+        push: PropTypes.func.isRequired,
+        authLoginUser: PropTypes.func.isRequired,
+        flashInfo: PropTypes.func.isRequired,
+        flashDanger: PropTypes.func.isRequired,
     };
 
     constructor(props) {
