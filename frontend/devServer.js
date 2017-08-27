@@ -1,6 +1,6 @@
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
-var config = require('./webpack.config.js');
+var config = require('./webpack.dev.config.js');
 var compiler = webpack(config);
 
 const FRONTEND_PORT = process.env.PORT || 8888;

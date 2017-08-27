@@ -6,7 +6,7 @@
   "author": "Brian Cappello",
   "homepage": "https://github.com/briancappello",
   "scripts": {
-    "build:webpack": "NODE_ENV=production webpack --config frontend/webpack.config.js",
+    "build:webpack": "NODE_ENV=production webpack --config frontend/webpack.prod.config.js",
     "build": "npm run clean && npm run build:webpack",
     "clean": "rimraf frontend/dist",
     "start": "node frontend/devServer.js"
