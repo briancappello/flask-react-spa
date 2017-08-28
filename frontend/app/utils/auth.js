@@ -31,13 +31,14 @@ export default function requireAuthentication(Component) {
         <div>
           {this.props.isAuthenticated === true
             ? <Component {...this.props} />
-            : null}
+            : null
+          }
         </div>
       )
     }
   }
 
-  const mapStateToProps = state => {
+  const mapStateToProps = (state) => {
     return {
       isAuthenticated: state.auth.isAuthenticated,
       token: state.auth.token,

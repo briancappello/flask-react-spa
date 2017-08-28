@@ -27,10 +27,11 @@ class Protected extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state.protected,
 })
 
-export default connect(mapStateToProps, dispatch =>
-  bindActionCreators({ fetchProtectedIfNeeded }, dispatch),
+export default connect(
+  mapStateToProps,
+  (dispatch) => bindActionCreators({ fetchProtectedIfNeeded }, dispatch),
 )(Protected)

@@ -14,7 +14,7 @@ function separateCamelCase(str, sep) {
 
 export function topLevelMenu(routes, excludePaths = ['*']) {
   return routes.childRoutes
-    .filter(route => !inArray(route.path, excludePaths))
+    .filter((route) => !inArray(route.path, excludePaths))
     .map((route, i) => {
       return (
         <Link to={route.path} key={i}>

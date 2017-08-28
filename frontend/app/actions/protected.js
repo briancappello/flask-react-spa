@@ -25,13 +25,13 @@ function protectedFailure(error) {
 }
 
 function fetchProtected() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(protectedRequest())
     return API.getProtected()
-      .then(response => {
+      .then((response) => {
         dispatch(protectedSuccess(response))
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(protectedFailure(error))
       })
   }

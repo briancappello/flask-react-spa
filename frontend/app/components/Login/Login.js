@@ -39,7 +39,7 @@ class Login extends React.Component {
     }
   }
 
-  login = e => {
+  login = (e) => {
     e.preventDefault()
     const { email, password, redirectTo } = this.state
     this.props.authLoginUser(email, password, redirectTo)
@@ -68,14 +68,14 @@ class Login extends React.Component {
             <input
               type="text"
               placeholder="Username"
-              onChange={e => {
+              onChange={(e) => {
                 this.handleInputChange(e, 'email')
               }}
             />
             <input
               type="password"
               placeholder="Password"
-              onChange={e => {
+              onChange={(e) => {
                 this.handleInputChange(e, 'password')
               }}
             />
@@ -94,7 +94,7 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     isAuthenticating: state.auth.isAuthenticating,
@@ -102,6 +102,7 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, dispatch =>
-  bindActionCreators({ authLoginUser, flashInfo, flashDanger, push }, dispatch),
+export default connect(
+  mapStateToProps,
+  (dispatch) => bindActionCreators({ authLoginUser, flashInfo, flashDanger, push }, dispatch),
 )(Login)

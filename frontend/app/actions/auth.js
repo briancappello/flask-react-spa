@@ -38,16 +38,16 @@ export function authLoginUserRequest() {
 }
 
 export function authLoginUser(email, password, redirect = '/') {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(authLoginUserRequest())
     return API.login(email, password)
-      .then(response => {
+      .then((response) => {
         const { token, user } = response
         dispatch(authLoginUserSuccess(token, user))
         dispatch(push(redirect))
         dispatch(flashSuccess('You have been successfully logged in.'))
       })
-      .catch(e => {
+      .catch((e) => {
         const { status, error } = e.response
         dispatch(authLoginUserFailure({
           statusCode: status,
@@ -78,15 +78,15 @@ function authLogoutUserFailure() {
 }
 
 export function authLogoutAndRedirect() {
-  return (dispatch, state) => {
+  return (dispatch) => {
     dispatch(authLogoutUserRequest())
     return API.logout()
-      .then(_ => {
+      .then(() => {
         dispatch(authLogoutUserSuccess())
         dispatch(push('/'))
         dispatch(flashSuccess('You have been successfully logged out.'))
       })
-      .catch(_ => {
+      .catch(() => {
         dispatch(authLogoutUserFailure())
       })
   }

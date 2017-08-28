@@ -13,7 +13,7 @@ class Flash extends Component {
     severity: PropTypes.oneOf(['success', 'info', 'warning', 'danger']),
   }
 
-  close = e => {
+  close = (e) => {
     e.preventDefault()
     this.props.flashClear()
   }
@@ -39,6 +39,6 @@ class Flash extends Component {
 }
 
 export default connect(
-  state => ({ ...state.flash }),
-  dispatch => bindActionCreators({ flashClear }, dispatch),
+  (state) => ({ ...state.flash }),
+  (dispatch) => bindActionCreators({ flashClear }, dispatch),
 )(Flash)

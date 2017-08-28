@@ -13,7 +13,7 @@ class NavBar extends Component {
     isAuthenticated: PropTypes.bool.isRequired,
   }
 
-  logout = e => {
+  logout = (e) => {
     e.preventDefault()
     this.props.authLogoutAndRedirect()
   }
@@ -43,11 +43,12 @@ class NavBar extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   routing: state.routing, // required for <Link> components to work correctly
 })
 
-export default connect(mapStateToProps, dispatch =>
-  bindActionCreators({ authLogoutAndRedirect }, dispatch),
+export default connect(
+  mapStateToProps,
+  (dispatch) => bindActionCreators({ authLogoutAndRedirect }, dispatch),
 )(NavBar)
