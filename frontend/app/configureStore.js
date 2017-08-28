@@ -4,7 +4,7 @@ import createSagaMiddleware from 'redux-saga'
 import { flashClearMiddleware } from 'middleware/flash'
 
 import rootReducer from 'reducers'
-import sagas from 'sagas'
+import getSagas from 'sagas'
 
 const isDev = process.env.NODE_ENV !== 'production'
 const isWindowObject = typeof window === 'object'
@@ -33,12 +33,24 @@ export default function configureStore(initialState, history) {
     composeEnhancers(...enhancers)
   )
 
-  sagas.map(sagaMiddleware.run)
+  let runningSagas = sagaMiddleware.run(function *() {
+    yield getSagas()
+  })
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {
       const nextRootReducer = require('./reducers').default
       store.replaceReducer(nextRootReducer)
+    })
+
+    module.hot.accept('./sagas', () => {
+      const getNewSagas = require('./sagas').default
+      runningSagas.cancel()
+      runningSagas.done.then(() => {
+        runningSagas = sagaMiddleware.run(function *() {
+          yield getNewSagas()
+        })
+      })
     })
   }
 

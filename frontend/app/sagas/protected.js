@@ -29,15 +29,7 @@ export function *fetchProtectedIfNeeded() {
     }
 }
 
-export function *fetchProtectedSaga() {
-  yield takeLatest(PROTECTED_REQUEST, fetchProtected)
-}
-
-export function *fetchProtectedIfNeededSaga() {
-  yield takeEvery(FETCH_PROTECTED_IF_NEEDED, fetchProtectedIfNeeded)
-}
-
-export default [
-  fetchProtectedSaga,
-  fetchProtectedIfNeededSaga,
+export default () => [
+  takeLatest(PROTECTED_REQUEST, fetchProtected),
+  takeEvery(FETCH_PROTECTED_IF_NEEDED, fetchProtectedIfNeeded),
 ]

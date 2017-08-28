@@ -38,15 +38,7 @@ export function *authLogoutUser() {
   }
 }
 
-export function *authLoginUserSaga() {
-  yield takeLatest(AUTH_LOGIN_USER_REQUEST, authLoginUser)
-}
-
-export function *authLogoutUserSaga() {
-  yield takeLatest(AUTH_LOGOUT_USER_REQUEST, authLogoutUser)
-}
-
-export default [
-  authLoginUserSaga,
-  authLogoutUserSaga,
+export default () => [
+  takeLatest(AUTH_LOGIN_USER_REQUEST, authLoginUser),
+  takeLatest(AUTH_LOGOUT_USER_REQUEST, authLogoutUser),
 ]
