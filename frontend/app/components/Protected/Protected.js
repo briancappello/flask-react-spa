@@ -12,6 +12,14 @@ class Protected extends Component {
   }
 
   render() {
+    return (
+      <PageContent>
+        {this.renderContent()}
+      </PageContent>
+    )
+  }
+
+  renderContent() {
     const { isLoaded, isLoading, data } = this.props
 
     if (isLoading || !isLoaded) {
@@ -19,10 +27,10 @@ class Protected extends Component {
     }
 
     return (
-      <PageContent>
+      <div>
         <h1>Protected!</h1>
         {data.key}
-      </PageContent>
+      </div>
     )
   }
 }
