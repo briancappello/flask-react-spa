@@ -53,3 +53,5 @@ export default createReducer(initialState, {
     return initialState
   },
 })
+
+export const selectAuth = (state) => state.auth

@@ -24,3 +24,5 @@ export default createReducer(initialState, {
     return { ...initialState, error: payload }
   },
 })
+
+export const selectProtected = (state) => state.protected

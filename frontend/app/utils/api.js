@@ -1,23 +1,16 @@
 import { SERVER_URL } from 'config'
 import { get, post, authedGet, authedPost } from './request'
 
-class Api {
-  constructor(token) {
-    this.token = token
+export default class Api {
+  static getProtected(token) {
+    return authedGet(`${SERVER_URL}/api/v1/test`, token)
   }
 
-  getProtected() {
-    return authedGet(`${SERVER_URL}/api/v1/test`, this.token)
+  static login(payload) {
+    return post(`${SERVER_URL}/auth/login`, payload)
   }
 
-  login(email, password) {
-    return post(`${SERVER_URL}/auth/login`, { email, password })
-  }
-
-  logout() {
+  static logout() {
     return get(`${SERVER_URL}/auth/logout`)
   }
 }
-
-export const API = new Api(localStorage.getItem('token'))
-export default API

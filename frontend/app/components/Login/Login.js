@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import { authLoginUser } from 'actions/auth'
+import { authLoginUserRequest } from 'actions/auth'
 import { flashInfo, flashDanger } from 'actions/flash'
 
 import { PageContent } from 'components/Content'
@@ -16,7 +16,7 @@ class Login extends React.Component {
     statusText: PropTypes.string,
 
     push: PropTypes.func.isRequired,
-    authLoginUser: PropTypes.func.isRequired,
+    authLoginUserRequest: PropTypes.func.isRequired,
     flashInfo: PropTypes.func.isRequired,
     flashDanger: PropTypes.func.isRequired,
   }
@@ -42,7 +42,7 @@ class Login extends React.Component {
   login = (e) => {
     e.preventDefault()
     const { email, password, redirectTo } = this.state
-    this.props.authLoginUser(email, password, redirectTo)
+    this.props.authLoginUserRequest(email, password, redirectTo)
   }
 
   handleInputChange = (e, field) => {
@@ -104,5 +104,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  (dispatch) => bindActionCreators({ authLoginUser, flashInfo, flashDanger, push }, dispatch),
+  (dispatch) => bindActionCreators({ authLoginUserRequest, flashInfo, flashDanger, push }, dispatch),
 )(Login)

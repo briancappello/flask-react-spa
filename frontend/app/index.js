@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 
 import { initialState } from 'reducers'
-import configureStore from 'store'
+import configureStore from 'configureStore'
 import Root from 'components/Root'
 
 import { authLoginUserSuccess, authLogoutUserSuccess } from 'actions/auth'

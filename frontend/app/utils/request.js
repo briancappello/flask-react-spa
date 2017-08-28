@@ -14,14 +14,18 @@ export function request(url, options) {
   return fetch(url, options)
     .then(_checkStatusAndParseJSON)
     .catch((e) => {
-      // should only end up here if the backend has gone away
       return new Promise((_, reject) => {
-        e.response = {
-          status: -1,
-          statusText: e.message,
-          error: e.message,
+        if (e.response) {
+          reject(e)
+        } else {
+          // should only end up here if the backend has gone away
+          e.response = {
+            status: -1,
+            statusText: e.message,
+            error: e.message,
+          }
+          reject(e)
         }
-        reject(e)
       })
     })
 }
@@ -34,6 +38,7 @@ export function get(url, options = {}) {
     },
     method: 'GET',
   }, options)
+
   return request(url, _options)
 }
 

@@ -15,11 +15,6 @@ module.exports = require('./webpack.base.config.js')({
       minimize: true,
       debug: false,
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        screw_ie8: true,
-      },
-    }),
+    new webpack.optimize.UglifyJsPlugin(),
   ],
 })

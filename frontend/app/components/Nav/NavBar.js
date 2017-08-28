@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import Link from './Link'
 import routes from 'routes'
 import { topLevelMenu } from 'utils/menu'
-import { authLogoutAndRedirect } from 'actions/auth'
+import { authLogoutUserRequest } from 'actions/auth'
 
 class NavBar extends Component {
   static propTypes = {
@@ -15,7 +15,7 @@ class NavBar extends Component {
 
   logout = (e) => {
     e.preventDefault()
-    this.props.authLogoutAndRedirect()
+    this.props.authLogoutUserRequest()
   }
 
   render() {
@@ -50,5 +50,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps,
-  (dispatch) => bindActionCreators({ authLogoutAndRedirect }, dispatch),
+  (dispatch) => bindActionCreators({ authLogoutUserRequest }, dispatch),
 )(NavBar)

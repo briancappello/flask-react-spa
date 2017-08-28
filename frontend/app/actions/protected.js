@@ -1,55 +1,30 @@
-import API from 'utils/api'
-
+export const FETCH_PROTECTED_IF_NEEDED = 'FETCH_PROTECTED_IF_NEEDED'
 export const PROTECTED_REQUEST = 'PROTECTED_REQUEST'
 export const PROTECTED_SUCCESS = 'PROTECTED_SUCCESS'
 export const PROTECTED_FAILURE = 'PROTECTED_FAILURE'
 
-function protectedRequest() {
+export function protectedRequest() {
   return {
     type: PROTECTED_REQUEST,
   }
 }
 
-function protectedSuccess(data) {
+export function protectedSuccess(data) {
   return {
     type: PROTECTED_SUCCESS,
     payload: data,
   }
 }
 
-function protectedFailure(error) {
+export function protectedFailure(error) {
   return {
     type: PROTECTED_FAILURE,
     payload: error,
   }
 }
 
-function fetchProtected() {
-  return (dispatch) => {
-    dispatch(protectedRequest())
-    return API.getProtected()
-      .then((response) => {
-        dispatch(protectedSuccess(response))
-      })
-      .catch((error) => {
-        dispatch(protectedFailure(error))
-      })
-  }
-}
-
-function shouldFetchProtected(state) {
-  const { isLoaded, isLoading } = state.protected
-  if (isLoaded || isLoading) {
-    return false
-  } else {
-    return true
-  }
-}
-
 export function fetchProtectedIfNeeded() {
-  return (dispatch, getState) => {
-    if (shouldFetchProtected(getState())) {
-      return dispatch(fetchProtected())
-    }
+  return {
+    type: FETCH_PROTECTED_IF_NEEDED,
   }
 }
