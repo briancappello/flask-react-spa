@@ -1,10 +1,6 @@
-import fetch from 'isomorphic-fetch'
-import * as Cookies from 'js-cookie'
 import { push } from 'react-router-redux'
-
-import { SERVER_URL } from 'config'
-import { checkHttpStatus, parseJSON } from 'utils/api'
 import { flashSuccess, flashDanger } from 'actions/flash'
+import API from 'utils/api'
 
 export const AUTH_LOGIN_USER_REQUEST = 'AUTH_LOGIN_USER_REQUEST'
 export const AUTH_LOGIN_USER_SUCCESS = 'AUTH_LOGIN_USER_SUCCESS'
@@ -44,64 +40,20 @@ export function authLoginUserRequest() {
 export function authLoginUser(email, password, redirect = '/') {
   return dispatch => {
     dispatch(authLoginUserRequest())
-    return (
-      fetch(`${SERVER_URL}/auth/login`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'X-CSRFToken': Cookies.get('csrf_token'),
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+    return API.login(email, password)
+      .then(response => {
+        const { token, user } = response
+        dispatch(authLoginUserSuccess(token, user))
+        dispatch(push(redirect))
+        dispatch(flashSuccess('You have been successfully logged in.'))
       })
-        .then(checkHttpStatus)
-        .then(parseJSON)
-        .then(response => {
-          const { token, user } = response
-          try {
-            dispatch(authLoginUserSuccess(token, user))
-            dispatch(push(redirect))
-            dispatch(flashSuccess('You have been successfully logged in.'))
-          } catch (e) {
-            dispatch(
-              authLoginUserFailure({
-                statusCode: 403,
-                error:
-                  process.env.NODE_ENV === 'production' ? 'Invalid token' : e,
-              }),
-            )
-          }
-        })
-        // invalid HTTP status
-        .catch(error => {
-          let { status, statusText } = error.response
-
-          // attempt to parse error details from response body
-          Promise.resolve(error.response)
-            .then(parseJSON)
-            .then(body => {
-              dispatch(
-                authLoginUserFailure({
-                  statusCode: status,
-                  error: body.error,
-                }),
-              )
-            })
-            // otherwise return generic error
-            .catch(_ => {
-              dispatch(
-                authLoginUserFailure({
-                  statusCode: status,
-                  error: statusText,
-                }),
-              )
-            })
-        })
-    )
+      .catch(e => {
+        const { status, error } = e.response
+        dispatch(authLoginUserFailure({
+          statusCode: status,
+          error: error,
+        }))
+      })
   }
 }
 
@@ -128,24 +80,14 @@ function authLogoutUserFailure() {
 export function authLogoutAndRedirect() {
   return (dispatch, state) => {
     dispatch(authLogoutUserRequest())
-    return (
-      fetch(`${SERVER_URL}/auth/logout`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-        },
+    return API.logout()
+      .then(_ => {
+        dispatch(authLogoutUserSuccess())
+        dispatch(push('/'))
+        dispatch(flashSuccess('You have been successfully logged out.'))
       })
-        .then(checkHttpStatus)
-        .then(parseJSON)
-        .then(response => {
-          dispatch(authLogoutUserSuccess())
-          dispatch(push('/'))
-          dispatch(flashSuccess('You have been successfully logged out.'))
-        })
-        // invalid HTTP status
-        .catch(error => {
-          dispatch(authLogoutUserFailure())
-        })
-    )
+      .catch(_ => {
+        dispatch(authLogoutUserFailure())
+      })
   }
 }

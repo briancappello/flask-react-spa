@@ -1,7 +1,4 @@
-import fetch from 'isomorphic-fetch'
-
-import { SERVER_URL } from 'config'
-import { checkHttpStatus, parseJSON } from 'utils/api'
+import API from 'utils/api'
 
 export const PROTECTED_REQUEST = 'PROTECTED_REQUEST'
 export const PROTECTED_SUCCESS = 'PROTECTED_SUCCESS'
@@ -30,16 +27,7 @@ function protectedFailure(error) {
 function fetchProtected() {
   return dispatch => {
     dispatch(protectedRequest())
-    return fetch(`${SERVER_URL}/api/v1/test`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-        'Authentication-Token': `${localStorage.getItem('token')}`,
-      },
-    })
-      .then(checkHttpStatus)
-      .then(parseJSON)
+    return API.getProtected()
       .then(response => {
         dispatch(protectedSuccess(response))
       })

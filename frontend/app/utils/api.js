@@ -1,13 +1,23 @@
-export function checkHttpStatus(response) {
-  if (response.status >= 200 && response.status < 300) {
-    return response
+import { SERVER_URL } from 'config'
+import { get, post, authedGet, authedPost } from './request'
+
+class Api {
+  constructor(token) {
+    this.token = token
   }
 
-  let error = new Error(response.statusText)
-  error.response = response
-  throw error
+  getProtected() {
+    return authedGet(`${SERVER_URL}/api/v1/test`, this.token)
+  }
+
+  login(email, password) {
+    return post(`${SERVER_URL}/auth/login`, { email, password })
+  }
+
+  logout() {
+    return get(`${SERVER_URL}/auth/logout`)
+  }
 }
 
-export function parseJSON(response) {
-  return response.json()
-}
+export const API = new Api(localStorage.getItem('token'))
+export default API
