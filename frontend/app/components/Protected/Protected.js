@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
+import { bindRoutineCreators } from 'actions'
+import { fetchProtected } from 'actions/protected'
 import { PageContent } from 'components'
 
-import { fetchProtectedIfNeeded } from 'actions/protected'
 
 class Protected extends Component {
   componentWillMount() {
-    this.props.fetchProtectedIfNeeded()
+    this.props.fetchProtected.maybeTrigger()
   }
 
   render() {
@@ -41,5 +41,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps,
-  (dispatch) => bindActionCreators({ fetchProtectedIfNeeded }, dispatch),
+  (dispatch) => bindRoutineCreators({ fetchProtected }, dispatch),
 )(Protected)

@@ -1,44 +1,41 @@
 import { takeLatest, put, call } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
+
 import { flashSuccess } from 'actions/flash'
-
-import {
-  AUTH_LOGIN_USER_REQUEST,
-  authLoginUserSuccess,
-  authLoginUserFailure,
-
-  AUTH_LOGOUT_USER_REQUEST,
-  authLogoutUserSuccess,
-  authLogoutUserFailure,
-} from 'actions/auth'
-
+import { login, logout } from 'actions/auth'
 import Api from 'utils/api'
 
-export function *authLoginUser(action) {
+export function *authLoginUserSaga(action) {
   const { redirect, ...payload } = action.payload
   try {
+    yield put(login.request())
     const { token, user } = yield call(Api.login, payload)
-    yield put(authLoginUserSuccess(token, user))
+    yield put(login.success({ token, user }))
     yield put(push(redirect))
     yield put(flashSuccess('You have been successfully logged in.'))
   } catch (e) {
     const { status, error } = e.response
-    yield put(authLoginUserFailure({ statusCode: status, error }))
+    yield put(login.failure({ statusCode: status, error }))
+  } finally {
+    yield put(login.fulfill())
   }
 }
 
-export function *authLogoutUser() {
+export function *authLogoutUserSaga() {
   try {
+    yield put(logout.request())
     const data = yield call(Api.logout)
-    yield put(authLogoutUserSuccess(data))
+    yield put(logout.success(data))
     yield put(push('/'))
     yield put(flashSuccess('You have been successfully logged out.'))
   } catch (e) {
-    yield put(authLogoutUserFailure(e))
+    yield put(logout.failure(e))
+  } finally {
+    yield put(logout.fulfill())
   }
 }
 
 export default () => [
-  takeLatest(AUTH_LOGIN_USER_REQUEST, authLoginUser),
-  takeLatest(AUTH_LOGOUT_USER_REQUEST, authLogoutUser),
+  takeLatest(login.TRIGGER, authLoginUserSaga),
+  takeLatest(logout.TRIGGER, authLogoutUserSaga),
 ]

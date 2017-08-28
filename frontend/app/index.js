@@ -8,7 +8,7 @@ import { initialState } from 'reducers'
 import configureStore from 'configureStore'
 import Root from 'components/Root'
 
-import { authLoginUserSuccess, authLogoutUserSuccess } from 'actions/auth'
+import { login, logout } from 'actions/auth'
 import { flashInfo } from 'actions/flash'
 
 const targetEl = document.getElementById('app')
@@ -16,12 +16,13 @@ const targetEl = document.getElementById('app')
 const store = configureStore(initialState, browserHistory)
 const history = syncHistoryWithStore(browserHistory, store)
 
+// FIXME
 const token = localStorage.getItem('token')
 if (token && token != 'undefined') {
-  store.dispatch(authLoginUserSuccess(token, {}))
+  store.dispatch(login.success({ token, user: {} }))
   store.dispatch(flashInfo('Welcome back!'))
 } else if (token) {
-  store.dispatch(authLogoutUserSuccess())
+  store.dispatch(logout.success())
 }
 
 function rootNode(Root) {

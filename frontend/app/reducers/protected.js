@@ -1,10 +1,6 @@
 import createReducer from './createReducer'
 
-import {
-  PROTECTED_REQUEST,
-  PROTECTED_SUCCESS,
-  PROTECTED_FAILURE,
-} from 'actions/protected'
+import { fetchProtected } from 'actions/protected'
 
 export const initialState = {
   isLoaded: false,
@@ -14,13 +10,13 @@ export const initialState = {
 }
 
 export default createReducer(initialState, {
-  [PROTECTED_REQUEST]: (state, payload) => {
+  [fetchProtected.REQUEST]: () => {
     return { ...initialState, isLoading: true }
   },
-  [PROTECTED_SUCCESS]: (state, payload) => {
+  [fetchProtected.SUCCESS]: (state, payload) => {
     return { ...initialState, isLoaded: true, data: payload }
   },
-  [PROTECTED_FAILURE]: (state, payload) => {
+  [fetchProtected.FAILURE]: (state, payload) => {
     return { ...initialState, error: payload }
   },
 })

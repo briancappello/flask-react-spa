@@ -1,13 +1,5 @@
 import createReducer from './createReducer'
-
-import {
-  AUTH_LOGIN_USER_REQUEST,
-  AUTH_LOGIN_USER_SUCCESS,
-  AUTH_LOGIN_USER_FAILURE,
-  AUTH_LOGOUT_USER_REQUEST,
-  AUTH_LOGOUT_USER_SUCCESS,
-  AUTH_LOGOUT_USER_FAILURE,
-} from 'actions/auth'
+import { login, logout } from 'actions/auth'
 
 export const initialState = {
   token: null,
@@ -19,37 +11,37 @@ export const initialState = {
 }
 
 export default createReducer(initialState, {
-  [AUTH_LOGIN_USER_REQUEST]: (state, payload) => {
+  [login.REQUEST]: () => {
     return {
       ...initialState,
       isAuthenticating: true,
     }
   },
-  [AUTH_LOGIN_USER_SUCCESS]: (state, payload) => {
+  [login.SUCCESS]: (state, { token, user }) => {
+    localStorage.setItem('token', token)
     return {
       ...initialState,
       isAuthenticated: true,
-      token: payload.token,
-      username: payload.user.username,
-      email: payload.user.email,
+      token: token,
+      username: user.username,
+      email: user.email,
     }
   },
-  [AUTH_LOGIN_USER_FAILURE]: (state, payload) => {
+  [login.FAILURE]: (state, { statusCode, error }) => {
+    localStorage.removeItem('token')
     return {
       ...initialState,
-      statusText: `Authentication Error (${payload.statusCode}): ${payload.error}`,
+      statusText: `Authentication Error (${statusCode}): ${error}`,
     }
   },
-  [AUTH_LOGOUT_USER_REQUEST]: (state, payload) => {
+  [logout.REQUEST]: () => {
     return {
       ...initialState,
       isAuthenticating: true,
     }
   },
-  [AUTH_LOGOUT_USER_SUCCESS]: (state, payload) => {
-    return initialState
-  },
-  [AUTH_LOGOUT_USER_FAILURE]: (state, payload) => {
+  [logout.FULFILL]: () => {
+    localStorage.removeItem('token')
     return initialState
   },
 })
