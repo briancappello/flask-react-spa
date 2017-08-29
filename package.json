@@ -9,7 +9,9 @@
     "build:webpack": "NODE_ENV=production webpack --config frontend/webpack.prod.config.js",
     "build": "npm run clean && npm run build:webpack",
     "clean": "rimraf frontend/dist",
-    "start": "node frontend/devServer.js"
+    "start": "node frontend/devServer.js",
+    "tests": "NODE_ENV=test jest",
+    "tests:watch": "NODE_ENV=test jest --watchAll"
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
@@ -27,9 +29,12 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-jest": "^20.0.3",
     "babel-loader": "^7.1.2",
+    "babel-plugin-dynamic-import-node": "^1.0.2",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-react-display-name": "^6.25.0",
@@ -38,6 +43,7 @@
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.5",
     "file-loader": "^0.11.2",
+    "jest-cli": "^20.0.4",
     "json-loader": "^0.5.7",
     "node-sass": "^4.5.3",
     "react-hot-loader": "^3.0.0-beta.7",
@@ -49,5 +55,31 @@
     "webpack": "^3.5.5",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-dev-server": "^2.7.1"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "app/**/*.{js,jsx}",
+      "!app/**/*.test.{js,jsx}",
+      "!app/index.js",
+      "!app/routes.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 98,
+        "branches": 91,
+        "functions": 98,
+        "lines": 98
+      }
+    },
+    "moduleDirectories": [
+      "node_modules",
+      "app"
+    ],
+    "moduleNameMapper": {
+      ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/frontend/internals/testing/mocks/cssModule.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/frontend/internals/testing/mocks/fileMock.js"
+    },
+    "setupTestFrameworkScriptFile": "<rootDir>/frontend/internals/testing/test-bundler.js",
+    "testRegex": "tests/.*\\.test\\.js$"
   }
 }

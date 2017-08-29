@@ -4,7 +4,7 @@ const webpack = require('webpack')
 const PORT = process.env.PORT || 8888
 
 let VENDOR = [
-  'lodash-es',
+  'lodash',
   'history',
   'react',
   'redux',

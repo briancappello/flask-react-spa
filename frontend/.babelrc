@@ -1,27 +1,38 @@
 {
-    "presets": [
-        "react",
-        ["es2015", {"modules": false, "loose": true}]
-    ],
-    "env": {
-        "development": {
-            "plugins": [
-                ["transform-async-to-generator"],
-                ["transform-class-properties"],
-                ["transform-object-rest-spread"],
-                ["syntax-export-extensions"],
-                ["transform-export-extensions"],
-                ["react-hot-loader/babel"]
-            ]
-        },
-        "production": {
-            "plugins": [
-                ["transform-async-to-generator"],
-                ["transform-class-properties"],
-                ["transform-object-rest-spread"],
-                ["syntax-export-extensions"],
-                ["transform-export-extensions"]
-            ]
-        }
+  "presets": [
+    ["es2015", { "modules": false, "loose": true }],
+    "react"
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        "transform-async-to-generator",
+        "transform-class-properties",
+        "transform-object-rest-spread",
+        "syntax-export-extensions",
+        "transform-export-extensions",
+        "react-hot-loader/babel"
+      ]
+    },
+    "production": {
+      "plugins": [
+        "transform-async-to-generator",
+        "transform-class-properties",
+        "transform-object-rest-spread",
+        "syntax-export-extensions",
+        "transform-export-extensions"
+      ]
+    },
+    "test": {
+      "presets": [
+        ["es2015"],
+        "react"
+      ],
+      "plugins": [
+        "transform-es2015-modules-commonjs",
+        "transform-object-rest-spread",
+        "dynamic-import-node"
+      ]
     }
+  }
 }

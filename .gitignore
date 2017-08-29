@@ -33,6 +33,7 @@ pip-log.txt
 .coverage
 .tox
 nosetests.xml
+__snapshots__/
 
 # si
 *.mo
