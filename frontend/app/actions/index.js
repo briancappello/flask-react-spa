@@ -1,6 +1,8 @@
 import camelCase from 'lodash/camelCase'
+import isFunction from 'lodash/isFunction'
+import isObject from 'lodash/isObject'
 
-const actionTypes = [
+export const actionTypes = [
   'MAYBE_TRIGGER',
   'TRIGGER',
   'REQUEST',
@@ -68,6 +70,13 @@ export function createRoutine(routineName) {
  * }
  */
 export function bindRoutineCreators(routines, dispatch) {
+  if (!isObject(routines)) {
+    throw new Error('routines must be an object')
+  }
+  if (!isFunction(dispatch)) {
+    throw new Error('dispatch must be a function')
+  }
+
   return Object.keys(routines).reduce((boundRoutines, routineName) => {
     boundRoutines[routineName] = _bindRoutine(routines[routineName], dispatch)
     return boundRoutines
