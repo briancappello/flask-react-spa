@@ -5,7 +5,7 @@ import { flashSuccess } from 'actions/flash'
 import { login, logout } from 'actions/auth'
 import Api from 'utils/api'
 
-export function *authLoginUserSaga(action) {
+export function *loginSaga(action) {
   const { redirect, ...payload } = action.payload
   try {
     yield put(login.request())
@@ -14,14 +14,13 @@ export function *authLoginUserSaga(action) {
     yield put(push(redirect))
     yield put(flashSuccess('You have been successfully logged in.'))
   } catch (e) {
-    const { status, error } = e.response
-    yield put(login.failure({ statusCode: status, error }))
+    yield put(login.failure(e))
   } finally {
     yield put(login.fulfill())
   }
 }
 
-export function *authLogoutUserSaga() {
+export function *logoutSaga() {
   try {
     yield put(logout.request())
     const data = yield call(Api.logout)
@@ -36,6 +35,6 @@ export function *authLogoutUserSaga() {
 }
 
 export default () => [
-  takeLatest(login.TRIGGER, authLoginUserSaga),
-  takeLatest(logout.TRIGGER, authLogoutUserSaga),
+  takeLatest(login.TRIGGER, loginSaga),
+  takeLatest(logout.TRIGGER, logoutSaga),
 ]

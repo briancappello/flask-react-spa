@@ -27,11 +27,11 @@ export default createReducer(initialState, {
       email: user.email,
     }
   },
-  [login.FAILURE]: (state, { statusCode, error }) => {
+  [login.FAILURE]: (state, { response: { status, error } }) => {
     localStorage.removeItem('token')
     return {
       ...initialState,
-      statusText: `Authentication Error (${statusCode}): ${error}`,
+      statusText: `Authentication Error (${status}): ${error}`,
     }
   },
   [logout.REQUEST]: () => {
