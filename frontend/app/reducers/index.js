@@ -1,15 +1,9 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 
-import authReducer, { initialState as authState } from './auth'
-import flashReducer, { initialState as flashState } from './flash'
-import protectedReducer, { initialState as protectedState } from './protected'
-
-export const initialState = {
-  auth: authState,
-  flash: flashState,
-  protected: protectedState,
-}
+import authReducer from './auth'
+import flashReducer from './flash'
+import protectedReducer from './protected'
 
 const rootReducer = combineReducers({
   auth: authReducer,

@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom'
 import { browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 
-import { initialState } from 'reducers'
 import configureStore from 'configureStore'
 import Root from 'components/Root'
 
@@ -14,6 +13,7 @@ import storage from 'utils/storage'
 
 const targetEl = document.getElementById('app')
 
+const initialState = {}
 const store = configureStore(initialState, browserHistory)
 const history = syncHistoryWithStore(browserHistory, store)
 
