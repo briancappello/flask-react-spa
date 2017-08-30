@@ -29,17 +29,25 @@ class NavBar extends Component {
             <span className="tld">api</span>
           </Link>
           <div className="menu left">
-            {topLevelMenu(routes, /* excludePaths= */ ['login', '*'])}
+            {topLevelMenu(routes, /* excludePaths= */ ['login', 'profile', '*'])}
           </div>
           <div className="menu right">
             {this.props.isAuthenticated
-              ? <a href="#" onClick={this.logout}>
-                  Logout
-                </a>
-              : <Link to="/login">Login</Link>}
+              ? this.renderAuthenticatedMenu()
+              : <Link to="/login">Login</Link>
+            }
           </div>
         </div>
       </nav>
+    )
+  }
+
+  renderAuthenticatedMenu() {
+    return (
+      <div>
+        <Link to="/profile">Profile</Link>
+        <a href="#" onClick={this.logout}>Logout</a>
+      </div>
     )
   }
 }

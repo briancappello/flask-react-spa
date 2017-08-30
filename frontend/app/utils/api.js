@@ -10,6 +10,10 @@ export default class Api {
     return authedGet(url('/api/v1/test'), token)
   }
 
+  static fetchProfile(token, user) {
+    return authedGet(url(`/api/v1/users/${user.id}`), token)
+  }
+
   static login(payload) {
     return post(url('/auth/login'), payload)
   }

@@ -1,8 +1,9 @@
-import { takeLatest, put, call } from 'redux-saga/effects'
+import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
 
+import { selectAuth } from 'reducers/auth'
 import { flashSuccess } from 'actions/flash'
-import { login, logout } from 'actions/auth'
+import { login, logout, fetchProfile } from 'actions/auth'
 import Api from 'utils/api'
 
 export function *loginSaga(action) {
@@ -34,7 +35,29 @@ export function *logoutSaga() {
   }
 }
 
+export function *fetchProfileSaga() {
+  try {
+    yield put(fetchProfile.request())
+    const { token, user } = yield select(selectAuth)
+    const data = yield call(Api.fetchProfile, token, user)
+    yield put(fetchProfile.success(data))
+  } catch (e) {
+    yield put(fetchProfile.failure(e))
+  } finally {
+    yield put(fetchProfile.fulfill())
+  }
+}
+
+export function *fetchProfileIfNeeded() {
+  const { profile: { isLoading, isLoaded } } = yield select(selectAuth)
+  if (!(isLoaded || isLoading)) {
+    yield put(fetchProfile.trigger())
+  }
+}
+
 export default () => [
   takeLatest(login.TRIGGER, loginSaga),
   takeLatest(logout.TRIGGER, logoutSaga),
+  takeEvery(fetchProfile.MAYBE_TRIGGER, fetchProfileIfNeeded),
+  takeLatest(fetchProfile.TRIGGER, fetchProfileSaga),
 ]

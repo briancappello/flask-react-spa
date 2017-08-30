@@ -10,6 +10,7 @@ import {
   Login,
   NotFound,
   Styles,
+  Profile,
   Protected,
 } from 'components'
 
@@ -24,11 +25,8 @@ const routes = {
   childRoutes: [
     { path: 'about', label: 'About', component: About },
     { path: 'styles', label: 'Styles', component: Styles },
-    {
-      path: 'protected',
-      label: 'Protected',
-      component: requireAuthentication(Protected),
-    },
+    { path: 'profile', label: 'Profile', component: requireAuthentication(Profile) },
+    { path: 'protected', label: 'Protected', component: requireAuthentication(Protected) },
     { path: 'login', component: Login },
 
     // default 404 if no match
