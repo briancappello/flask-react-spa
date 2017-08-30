@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 
 APP_DIR = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
@@ -24,6 +25,7 @@ class BaseConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     STRICT_SLASHES = False
 
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=60)
     SESSION_PROTECTION = 'strong'
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_PATH = '/'

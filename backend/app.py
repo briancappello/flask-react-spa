@@ -25,7 +25,7 @@ Database models and app extensions will automatically be added to
 the shell context, presuming the above conventions have been followed.
 """
 import sys
-from flask import Flask
+from flask import Flask, session
 from flask_wtf.csrf import generate_csrf
 
 from .logger import logger
@@ -54,12 +54,16 @@ def create_app(config_object, **kwargs):
 def configure_app(app, config_object):
     app.config.from_object(config_object)
 
-    # set csrf_token cookie on every request
-    def _set_csrf_cookie(response):
+    @app.before_request
+    def enable_session_timeout():
+        session.permanent = True  # set session to use PERMANENT_SESSION_LIFETIME
+        session.modified = True   # reset the session timer on every request
+
+    @app.after_request
+    def set_csrf_cookie(response):
         if response:
             response.set_cookie('csrf_token', generate_csrf())
         return response
-    app.after_request(_set_csrf_cookie)
 
 
 def register_extensions(app, extensions):
