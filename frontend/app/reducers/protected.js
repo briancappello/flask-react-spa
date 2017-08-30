@@ -1,5 +1,6 @@
 import createReducer from './createReducer'
 
+import { logout } from 'actions/auth'
 import { fetchProtected } from 'actions/protected'
 
 export const initialState = {
@@ -19,6 +20,8 @@ export default createReducer(initialState, {
   [fetchProtected.FAILURE]: (state, payload) => {
     return { ...initialState, error: payload }
   },
+  [logout.SUCCESS]: () => initialState,
+  [logout.FULFILL]: () => initialState,
 })
 
 export const selectProtected = (state) => state.protected
