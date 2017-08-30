@@ -1,5 +1,6 @@
 from functools import wraps
 from flask import abort
+from flask_principal import Permission, UserNeed
 from flask_security.decorators import (
     auth_required as flask_security_auth_required,
     roles_required,
@@ -33,6 +34,35 @@ def auth_required(*args, **kwargs):
         return wrapper(args[0])
 
     # was used as @auth_required(kwargs)
+    return wrapper
+
+
+def auth_required_same_user(*args, **kwargs):
+    auth_kwargs = {}
+    user_id_parameter_name = 'id'
+    if not _was_decorated_without_parenthesis(*args):
+        auth_kwargs = kwargs
+        if args and isinstance(args[0], str):
+            user_id_parameter_name = args[0]
+
+    def wrapper(fn):
+        @wraps(fn)
+        @auth_required(**auth_kwargs)
+        def decorated(*args, **kwargs):
+            try:
+                user_id = kwargs[user_id_parameter_name]
+            except KeyError:
+                raise KeyError('Unable to find user id parameter in kwargs')
+            if not Permission(UserNeed(user_id)).can():
+                abort(403)
+            return fn(*args, **kwargs)
+        return decorated
+
+    # was used as @auth_required_same_user
+    if _was_decorated_without_parenthesis(*args):
+        return wrapper(args[0])
+
+    # was used as @auth_required_same_user(kwargs)
     return wrapper
 
 
