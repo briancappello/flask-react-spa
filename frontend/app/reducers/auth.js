@@ -3,8 +3,7 @@ import storage from 'utils/storage'
 
 export const initialState = {
   token: null,
-  username: null,
-  email: null,
+  user: {},
   isAuthenticated: false,
   isAuthenticating: false,
   statusText: null,
@@ -26,8 +25,7 @@ export default function(state = initialState, action) {
         ...initialState,
         isAuthenticated: true,
         token,
-        username: user.username,
-        email: user.email,
+        user,
       }
 
     case login.FAILURE:
