@@ -1,5 +1,6 @@
 import createReducer from './createReducer'
 import { login, logout } from 'actions/auth'
+import storage from 'utils/storage'
 
 export const initialState = {
   token: null,
@@ -18,7 +19,7 @@ export default createReducer(initialState, {
     }
   },
   [login.SUCCESS]: (state, { token, user }) => {
-    localStorage.setItem('token', token)
+    storage.doLogin(token, user)
     return {
       ...initialState,
       isAuthenticated: true,
@@ -28,7 +29,7 @@ export default createReducer(initialState, {
     }
   },
   [login.FAILURE]: (state, { response: { status, error } }) => {
-    localStorage.removeItem('token')
+    storage.doLogout()
     return {
       ...initialState,
       statusText: `Authentication Error (${status}): ${error}`,
@@ -41,7 +42,7 @@ export default createReducer(initialState, {
     }
   },
   [logout.FULFILL]: () => {
-    localStorage.removeItem('token')
+    storage.doLogout()
     return initialState
   },
 })

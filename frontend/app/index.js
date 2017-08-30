@@ -10,6 +10,7 @@ import Root from 'components/Root'
 
 import { login, logout } from 'actions/auth'
 import { flashInfo } from 'actions/flash'
+import storage from 'utils/storage'
 
 const targetEl = document.getElementById('app')
 
@@ -17,11 +18,12 @@ const store = configureStore(initialState, browserHistory)
 const history = syncHistoryWithStore(browserHistory, store)
 
 // FIXME
-const token = localStorage.getItem('token')
-if (token && token != 'undefined') {
-  store.dispatch(login.success({ token, user: {} }))
+const token = storage.getToken()
+const user = storage.getUser()
+if (token && user) {
+  store.dispatch(login.success({ token, user }))
   store.dispatch(flashInfo('Welcome back!'))
-} else if (token) {
+} else {
   store.dispatch(logout.success())
 }
 
