@@ -1,19 +1,18 @@
-from six import text_type
 from ..database import (
+    BaseModel,
     Model,
     Column,
     String,
     Boolean,
     DateTime,
+    association_proxy,
+    backref,
+    foreign_key,
     relationship,
-    join_table,
 )
 from ..extensions import user_datastore
 from flask_security import UserMixin, RoleMixin
 from flask_security.utils import hash_password
-
-
-user_role = join_table('User', 'Role')
 
 
 class User(Model, UserMixin):
@@ -22,38 +21,36 @@ class User(Model, UserMixin):
     password = Column(String)
     active = Column(Boolean(name='active'), nullable=False, default=False)
     confirmed_at = Column(DateTime())
-    roles = relationship('Role', secondary=user_role, back_populates='users')
+    roles = association_proxy('user_roles', 'role')
 
     def __init__(self, username, email, **kwargs):
         super(User, self).__init__(**kwargs)
         self.username = username
         self.email = email
         if 'password' in kwargs:
-            self.password = User.hash_password(kwargs['password'])
-
-    def get_id(self):
-        return text_type(self.id)
+            self.password = hash_password(kwargs['password'])
 
     def _repr_props_(self):
         return ['username', 'email']
-
-    @staticmethod
-    def hash_password(password):
-        return hash_password(password)
-
-    def get_security_payload(self):
-        """serialize user object for flask_security response payload"""
-        return {
-            'id': self.get_id(),
-            'username': self.username,
-            'email': self.email,
-        }
 
 
 class Role(Model, RoleMixin):
     name = Column(String(50), nullable=False, unique=True, index=True)
     description = Column(String(255))
-    users = relationship('User', secondary=user_role, back_populates='roles')
+
+    def _repr_props_(self):
+        return ['name']
+
+
+class UserRole(BaseModel):
+    __tablename__ = 'user_role'
+    user_id = foreign_key('user', primary_key=True)
+    role_id = foreign_key('role', primary_key=True)
+
+    # this backref allows the association_proxy on User.roles to work
+    user = relationship('User', backref=backref('user_roles',
+                                                cascade='all, delete-orphan'))
+    role = relationship('Role')
 
 
 # normally User and Role would be passed to the user_datastore constructor,

@@ -2,10 +2,12 @@ from datetime import datetime
 
 import sqlalchemy
 from sqlalchemy.orm.relationships import RelationshipProperty
+from sqlalchemy.ext.associationproxy import association_proxy
 
 from .extensions import db
 
 # alias common names
+BaseModel = db.Model            # type: db.Model
 Table = db.Table                # type: sqlalchemy.schema.Table
 # FIXME: Column defaults nullable to True; should probably override that
 Column = db.Column              # type: sqlalchemy.schema.Column
@@ -15,6 +17,7 @@ Integer = db.Integer            # type: sqlalchemy.types.Integer
 Boolean = db.Boolean            # type: sqlalchemy.types.Boolean
 DateTime = db.DateTime          # type: sqlalchemy.types.DateTime
 relationship = db.relationship  # type: RelationshipProperty
+backref = db.backref            # type: RelationshipProperty
 ForeignKey = db.ForeignKey
 UniqueConstraint = sqlalchemy.UniqueConstraint
 
