@@ -16,6 +16,7 @@
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
     "js-cookie": "^2.1.4",
+    "lodash": "^4.17.4",
     "normalize.css": "^4.2.0",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
