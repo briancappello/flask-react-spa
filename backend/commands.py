@@ -41,7 +41,7 @@ def load_fixtures(file, reset):
         click.echo('Adding %d %s record%s.' % (len(records), fixture['model'],
                                                's' if len(records) > 1 else ''))
         db.session.add_all(records)
-    db.session.commit()
+        db.session.commit()
     click.echo('Done.')
 
 
@@ -50,7 +50,7 @@ def load_fixtures(file, reset):
               prompt='Drop DB tables?')
 @with_appcontext
 def drop(drop):
-    """Drop """
+    """Drop database tables."""
     if not drop:
         exit('Cancelled.')
     _drop_db()
