@@ -39,6 +39,4 @@ def logout():
     if current_user.is_authenticated:
         logout_user()
 
-    return jsonify({
-        'logout': True,
-    }), 200
+    return '', 204
