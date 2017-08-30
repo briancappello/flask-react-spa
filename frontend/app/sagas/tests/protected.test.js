@@ -18,7 +18,7 @@ describe('fetchProtected saga', () => {
     const selectDescriptor = protectedGenerator.next()
     expect(selectDescriptor).toMatchSnapshot()
 
-    // iterate past yield call(Api.getProtected, token)
+    // iterate past yield call(Api.fetchProtected, token)
     const callDescriptor = protectedGenerator.next('response')
     expect(callDescriptor).toMatchSnapshot()
   })

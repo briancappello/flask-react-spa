@@ -2,7 +2,7 @@ import { SERVER_URL } from 'config'
 import { get, post, authedGet, authedPost } from './request'
 
 export default class Api {
-  static getProtected(token) {
+  static fetchProtected(token) {
     return authedGet(`${SERVER_URL}/api/v1/test`, token)
   }
 

@@ -10,7 +10,7 @@ export function *fetchProtectedSaga() {
   try {
     yield put(fetchProtected.request())
     const { token } = yield select(selectAuth)
-    const data = yield call(Api.getProtected, token)
+    const data = yield call(Api.fetchProtected, token)
     yield put(fetchProtected.success(data))
   } catch (e) {
     yield put(fetchProtected.failure(e))
