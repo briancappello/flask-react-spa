@@ -9,6 +9,7 @@ import Root from 'components/Root'
 
 import { login, logout } from 'actions/auth'
 import { flashInfo } from 'actions/flash'
+import Api from 'utils/api'
 import storage from 'utils/storage'
 
 const targetEl = document.getElementById('app')
@@ -17,12 +18,17 @@ const initialState = {}
 const store = configureStore(initialState, browserHistory)
 const history = syncHistoryWithStore(browserHistory, store)
 
-// FIXME
 const token = storage.getToken()
 const user = storage.getUser()
 if (token && user) {
   store.dispatch(login.success({ token, user }))
-  store.dispatch(flashInfo('Welcome back!'))
+  Api.checkAuthToken(token)
+    .then(() => {
+      store.dispatch(flashInfo('Welcome back!'))
+    })
+    .catch(() => {
+      store.dispatch(logout.success())
+    })
 } else {
   store.dispatch(logout.success())
 }

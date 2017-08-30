@@ -1,5 +1,6 @@
 from flask import Blueprint, request, after_this_request, jsonify
 from flask_login import current_user
+from backend.decorators import auth_required
 from flask_security.utils import login_user, logout_user
 from flask_security.views import _security, _commit
 from werkzeug.datastructures import MultiDict
@@ -24,7 +25,13 @@ def login():
     return jsonify({
         'user': form.user.get_security_payload(),
         'token': form.user.get_auth_token(),
-    }), 200
+    })
+
+
+@auth.route('/check-auth-token')
+@auth_required
+def check_auth_token():
+    return jsonify({'success': True})
 
 
 @auth.route('/logout')

@@ -14,6 +14,10 @@ export default class Api {
     return post(url('/auth/login'), payload)
   }
 
+  static checkAuthToken(token) {
+    return authedGet(url('/auth/check-auth-token'), token)
+  }
+
   static logout() {
     return get(url('/auth/logout'))
   }
