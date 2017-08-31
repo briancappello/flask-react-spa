@@ -29,6 +29,8 @@ app.use('/api', proxy(`http://${prettyHost}:${backendPort}`, {
 setupFrontendMiddleware(app, {
   outputPath: resolve(process.cwd(), 'static'),
   publicPath: '/',
+  host: prettyHost,
+  backendPort,
 })
 
 // Start your app.
