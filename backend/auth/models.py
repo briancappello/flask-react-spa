@@ -1,18 +1,19 @@
-from ..database import (
-    BaseModel,
-    Model,
-    Column,
-    String,
-    Boolean,
-    DateTime,
-    association_proxy,
-    backref,
-    foreign_key,
-    relationship,
-)
-from ..extensions import user_datastore
 from flask_security import UserMixin, RoleMixin
 from flask_security.utils import hash_password
+
+from ..database import (
+    association_proxy,
+    backref,
+    BaseModel,
+    Boolean,
+    Column,
+    DateTime,
+    foreign_key,
+    Model,
+    relationship,
+    String,
+)
+from ..extensions import user_datastore
 
 
 class User(Model, UserMixin):

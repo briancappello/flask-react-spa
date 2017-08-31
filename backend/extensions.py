@@ -1,10 +1,12 @@
 from flask_migrate import Migrate
-from sqlalchemy import MetaData
+from flask_security import SQLAlchemyUserDatastore
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
-from flask_security import SQLAlchemyUserDatastore
+from sqlalchemy import MetaData
+
 from .auth.flask_security import Security
+
 
 session = Session()
 csrf = CSRFProtect()

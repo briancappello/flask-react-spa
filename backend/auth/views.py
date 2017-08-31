@@ -1,9 +1,10 @@
 from flask import Blueprint, request, after_this_request, jsonify
 from flask_login import current_user
-from backend.decorators import auth_required
 from flask_security.utils import login_user, logout_user
 from flask_security.views import _security, _commit
 from werkzeug.datastructures import MultiDict
+
+from backend.decorators import auth_required
 
 
 auth = Blueprint('auth', __name__)
