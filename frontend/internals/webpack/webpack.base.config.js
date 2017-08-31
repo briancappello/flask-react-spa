@@ -15,7 +15,7 @@ module.exports = (options) => ({
   entry: options.entry,
   output: Object.assign(
     {
-      path: path.join(process.cwd(), 'frontend', 'dist'),
+      path: path.join(process.cwd(), 'static'),
       filename: '[name].js',
       publicPath: '/static/',
     },

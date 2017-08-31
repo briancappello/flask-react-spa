@@ -27,7 +27,7 @@ app.use('/api', proxy(`http://${prettyHost}:${backendPort}`, {
 
 // In production we need to pass these values in instead of relying on webpack
 setupFrontendMiddleware(app, {
-  outputPath: resolve(process.cwd(), 'frontend', 'dist'),
+  outputPath: resolve(process.cwd(), 'static'),
   publicPath: '/',
 })
 
