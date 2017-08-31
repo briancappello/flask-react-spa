@@ -15,14 +15,14 @@ export default class Api {
   }
 
   static login(payload) {
-    return post(url('/auth/login'), payload)
+    return post(url('/api/v1/auth/login'), payload)
   }
 
   static checkAuthToken(token) {
-    return authedGet(url('/auth/check-auth-token'), token)
+    return authedGet(url('/api/v1/auth/check-auth-token'), token)
   }
 
   static logout() {
-    return get(url('/auth/logout'))
+    return get(url('/api/v1/auth/logout'))
   }
 }

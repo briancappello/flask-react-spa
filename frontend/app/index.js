@@ -1,3 +1,5 @@
+import 'babel-polyfill'
+
 import { AppContainer as HotReloadContainer } from 'react-hot-loader'
 import React from 'react'
 import ReactDOM from 'react-dom'

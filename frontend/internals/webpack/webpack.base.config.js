@@ -1,7 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 
-const APP_ROOT = path.join(__dirname, 'app')
+const APP_ROOT = path.join(process.cwd(), 'frontend', 'app')
 const STYLES_ROOT = path.join(APP_ROOT, 'styles')
 
 process.traceDeprecation = true
@@ -15,7 +15,7 @@ module.exports = (options) => ({
   entry: options.entry,
   output: Object.assign(
     {
-      path: path.join(__dirname, 'dist'),
+      path: path.join(process.cwd(), 'frontend', 'dist'),
       filename: '[name].js',
       publicPath: '/static/',
     },

@@ -3,7 +3,7 @@ const webpack = require('webpack')
 
 module.exports = require('./webpack.base.config.js')({
   entry: {
-    app: path.join(__dirname, 'app', 'index.js'),
+    app: path.join(process.cwd(), 'frontend', 'app', 'index.js'),
   },
   plugins: [
     new webpack.DefinePlugin({
