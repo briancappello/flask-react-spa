@@ -48,7 +48,7 @@ class Login extends React.Component {
 
   handleInputChange = (e, field) => {
     this.setState({
-      [field]: e.target.value,
+      [field]: e.target.value || null,
     })
   }
 
@@ -63,32 +63,39 @@ class Login extends React.Component {
     return (
       <PageContent>
         <div className="row">
-          <h1>Log in!</h1>
-          <p>Hint: a@a.com / pw</p>
-          <form>
-            <input
-              type="text"
-              placeholder="Username"
-              onChange={(e) => {
-                this.handleInputChange(e, 'email')
-              }}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              onChange={(e) => {
-                this.handleInputChange(e, 'password')
-              }}
-            />
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={this.props.isAuthenticating}
-              onClick={this.login}
-            >
-              Submit
-            </button>
-          </form>
+          <div className="six cols offset-by-three">
+            <h1>Log in!</h1>
+            <p>Hint: a@a.com / pw</p>
+            <form>
+              <div className="row">
+                <label htmlFor="username">Username</label>
+                <input type="text"
+                       id="username"
+                       placeholder="Username"
+                       className="full-width"
+                       onChange={(e) => this.handleInputChange(e, 'email')}
+                />
+              </div>
+              <div className="row">
+                <label htmlFor="password">Password</label>
+                <input type="password"
+                       id="password"
+                       placeholder="Password"
+                       className="full-width"
+                       onChange={(e) => this.handleInputChange(e, 'password')}
+                />
+              </div>
+              <div className="row">
+                <button type="submit"
+                        className="btn btn-primary"
+                        disabled={this.props.isAuthenticating}
+                        onClick={this.login}
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </PageContent>
     )
