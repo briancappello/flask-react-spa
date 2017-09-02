@@ -1,11 +1,10 @@
 from flask_migrate import Migrate
-from flask_security import SQLAlchemyUserDatastore
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from sqlalchemy import MetaData
 
-from .flask_security import Security
+from .flask_security import Security, SQLAlchemyUserDatastore
 
 
 session = Session()

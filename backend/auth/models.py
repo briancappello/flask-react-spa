@@ -1,5 +1,5 @@
 from flask_security import UserMixin, RoleMixin
-from flask_security.utils import hash_password
+from flask_security.utils import hash_password as security_hash_password
 
 from ..database import (
     association_proxy,
@@ -24,12 +24,12 @@ class User(Model, UserMixin):
     confirmed_at = Column(DateTime())
     roles = association_proxy('user_roles', 'role')
 
-    def __init__(self, username, email, **kwargs):
+    def __init__(self, username, email, hash_password=True, **kwargs):
         super(User, self).__init__(**kwargs)
         self.username = username
         self.email = email
-        if 'password' in kwargs:
-            self.password = hash_password(kwargs['password'])
+        if 'password' in kwargs and hash_password:
+            self.password = security_hash_password(kwargs['password'])
 
     def _repr_props_(self):
         return ['username', 'email']
