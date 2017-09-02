@@ -34,6 +34,7 @@ from .magic import (
     get_bundle_command_groups,
     get_bundle_models,
     get_commands,
+    get_deferred_extensions,
     get_extensions,
 )
 
@@ -52,8 +53,11 @@ def create_app(config_object, **kwargs):
     register_blueprints(app)
     models = dict(get_bundle_models())
 
+    deferred_extensions = dict(get_deferred_extensions())
+    register_extensions(app, deferred_extensions)
+
     register_cli_commands(app)
-    register_shell_context(app, extensions, models)
+    register_shell_context(app, extensions, deferred_extensions, models)
 
     return app
 
@@ -89,11 +93,12 @@ def register_blueprints(app):
         app.register_blueprint(blueprint, url_prefix=url_prefix)
 
 
-def register_shell_context(app, extensions, models):
+def register_shell_context(app, extensions, deferred_extensions, models):
     """Register variables to automatically import when running `flask shell`"""
     def shell_context():
         ctx = {}
         ctx.update(extensions)
+        ctx.update(deferred_extensions)
         ctx.update(models)
         return ctx
     app.shell_context_processor(shell_context)

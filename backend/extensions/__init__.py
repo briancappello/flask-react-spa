@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from sqlalchemy import MetaData
 
+from .flask_restful import Api
 from .flask_security import Security, SQLAlchemyUserDatastore
 
 
@@ -28,3 +29,10 @@ migrate = Migrate(db=db, render_as_batch=True)
 # sets the user_model/role_model attributes on the datastore itself
 user_datastore = SQLAlchemyUserDatastore(db, None, None)
 security = Security(datastore=user_datastore)
+
+# Flask-Restful must be initialized _AFTER_ the SQLAlchemy extension has
+# been initialized, AND after all views, models, and serializers have
+# been imported. This is because the @api decorators create deferred
+# registrations that depend upon said dependencies having all been run
+# before Api().init_app() gets called
+api = Api(prefix='/api/v1')

@@ -1,10 +1,10 @@
-from flask import Blueprint, jsonify
+from flask import jsonify
 
 from backend.decorators import auth_required, auth_required_same_user, param_converter
 from backend.auth.models import User
 
 
-api = Blueprint('api', __name__, url_prefix='/api/v1')
+from backend.extensions import api
 
 
 @api.route('/test')

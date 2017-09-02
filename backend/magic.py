@@ -4,18 +4,29 @@ import inspect
 from importlib import import_module
 from flask_sqlalchemy import Model
 
-from .config import BUNDLES
+from .config import BUNDLES, DEFERRED_EXTENSIONS
 from . import commands, extensions
 
 
 def get_extensions():
+    return _get_extensions(deferred=False)
+
+
+def get_deferred_extensions():
+    return _get_extensions(deferred=True)
+
+
+def _get_extensions(deferred):
     """An iterable of extension instances"""
     def is_extension(obj):
         # we want *instantiated* extensions, not imported extension classes
         return not inspect.isclass(obj) and hasattr(obj, 'init_app')
 
     for name, extension in inspect.getmembers(extensions, is_extension):
-        yield (name, extension)
+        yield_deferred = deferred and name in DEFERRED_EXTENSIONS
+        yield_not_deferred = not deferred and name not in DEFERRED_EXTENSIONS
+        if yield_deferred or yield_not_deferred:
+            yield (name, extension)
 
 
 def get_bundle_blueprints():

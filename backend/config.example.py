@@ -15,6 +15,13 @@ BUNDLES = [
     'backend.api',
 ]
 
+# normally extensions are registered before the bundles (views, models & serializers)
+# this is a list of extensions to register _after_ the bundles
+# NOTE: these must be the names of extension _instances_ (not extension class names)
+DEFERRED_EXTENSIONS = [
+    'api',
+]
+
 
 class BaseConfig(object):
     ##########################################################################
