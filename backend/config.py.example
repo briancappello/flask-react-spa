@@ -43,6 +43,17 @@ class BaseConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     ##########################################################################
+    # mail                                                                   #
+    ##########################################################################
+    MAIL_SERVER = 'localhost'
+    MAIL_PORT = 25
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = None
+    MAIL_PASSWORD = None
+    MAIL_DEFAULT_SENDER = ('Flask API', 'noreply@example.com')  # FIXME
+
+    ##########################################################################
     # security                                                               #
     ##########################################################################
     # NOTE: itsdangerous "salts" are not normal salts in the cryptographic
@@ -92,6 +103,11 @@ class DevConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///%s' % os.path.join(PROJECT_ROOT, DB_NAME)
     # SQLALCHEMY_ECHO = True
 
+    ##########################################################################
+    # mail                                                                   #
+    ##########################################################################
+    MAIL_PORT = 1025  # MailHog
+    MAIL_DEFAULT_SENDER = ('Flask API', 'noreply@localhost')
 
 class TestConfig(BaseConfig):
     TESTING = True

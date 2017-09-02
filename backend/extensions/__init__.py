@@ -1,3 +1,4 @@
+from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
@@ -9,6 +10,7 @@ from .flask_security import Security, SQLAlchemyUserDatastore
 
 session = Session()
 csrf = CSRFProtect()
+mail = Mail()
 
 # configure SQLAlchemy
 db = SQLAlchemy(metadata=MetaData(naming_convention={
