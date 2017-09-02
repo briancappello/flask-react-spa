@@ -2,6 +2,45 @@ import fetch from 'isomorphic-fetch'
 import * as Cookies from 'js-cookie'
 
 
+export function get(url, kwargs = {}) {
+  const { token, ...options } = kwargs
+  const defaults = {
+    credentials: 'include',
+    headers: Object.assign({
+      'Accept': 'application/json',
+    }, token ? { 'Authentication-Token': token } : {}),
+    method: 'GET',
+  }
+  return request(url, _mergeOptions(defaults, options))
+}
+
+export function post(url, data, kwargs = {}) {
+  const { token, ...options } = kwargs
+  const defaults = {
+    credentials: 'include',
+    headers: Object.assign({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': Cookies.get('csrf_token'),
+    }, token ? { 'Authentication-Token': token } : {}),
+    method: 'POST',
+    body: JSON.stringify(data),
+  }
+  return request(url, _mergeOptions(defaults, options))
+}
+
+export function put(url, data, options = {}) {
+  return post(url, data, _setMethod(options, 'PUT'))
+}
+
+export function patch(url, data, options = {}) {
+  return post(url, data, _setMethod(options, 'PATCH'))
+}
+
+export function delete_(url, options = {}) {
+  return get(url, _setMethod(options, 'DELETE'))
+}
+
 /**
  * Requests a URL, returning a promise
  *
@@ -29,73 +68,6 @@ export function request(url, options) {
       })
     })
 }
-
-export function get(url, options = {}) {
-  const _options = Object.assign({}, {
-    credentials: 'include',
-    headers: {
-      'Accept': 'application/json',
-    },
-    method: 'GET',
-  }, options)
-
-  return request(url, _options)
-}
-
-export function post(url, data, options = {}) {
-  const _options = Object.assign({}, {
-    credentials: 'include',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'X-CSRFToken': Cookies.get('csrf_token'),
-    },
-    method: 'POST',
-    body: JSON.stringify(data),
-  }, options)
-
-  return request(url, _options)
-}
-
-export function authedGet(url, token, options = {}) {
-  if (!token) {
-    return get(url, options)
-  }
-
-  const _options = Object.assign({}, {
-    credentials: 'include',
-    headers: {
-      'Accept': 'application/json',
-      'Authentication-Token': token,
-    },
-    method: 'GET',
-  }, options)
-
-  return request(url, _options)
-}
-
-export function authedPost(url, token, data = null, options = {}) {
-  if (!token) {
-    return post(url, data, options)
-  }
-
-  const _options = Object.assign({}, {
-    credentials: 'include',
-    headers: {
-      'Accept': 'application/json',
-      'Authentication-Token': token,
-      'Content-Type': 'application/json',
-      'X-CSRFToken': Cookies.get('csrf_token'),
-    },
-    method: 'POST',
-    body: JSON.stringify(data),
-  }, options)
-
-  return request(url, _options)
-}
-
-export default request
-
 
 // private functions -----------------------------------------------------------
 
@@ -125,6 +97,20 @@ function _checkStatusAndParseJSON(response) {
   })
 }
 
+function _mergeOptions(defaults, options) {
+  return Object.assign({}, defaults, {
+    ...options,
+    headers: {
+      ...defaults.headers,
+      ...options.headers,
+    }
+  })
+}
+
+function _setMethod(options, method) {
+  return Object.assign({}, options, { method })
+}
+
 function _checkStatus(response) {
   return response.status >= 200 && response.status < 300
 }
@@ -137,3 +123,5 @@ function _responseError(response, json) {
   }, json)
   return error
 }
+
+export default request

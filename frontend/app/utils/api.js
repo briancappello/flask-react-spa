@@ -1,28 +1,43 @@
 import { SERVER_URL } from 'config'
-import { get, post, authedGet, authedPost } from './request'
+import {
+  get,
+  post,
+  put,
+  patch,
+  delete_,
+} from './request'
 
 function url(uri) {
   return `${SERVER_URL}${uri}`
 }
 
+function v1(uri) {
+  return url(`/api/v1${uri}`)
+}
+
+/**
+ * Api methods
+ *
+ * NOTE: Please keep the order alphabetized!
+ */
 export default class Api {
-  static fetchProtected(token) {
-    return authedGet(url('/api/v1/test'), token)
+  static checkAuthToken(token) {
+    return get(v1('/auth/check-auth-token'), { token })
   }
 
   static fetchProfile(token, user) {
-    return authedGet(url(`/api/v1/users/${user.id}`), token)
+    return get(v1(`/users/${user.id}`), { token })
+  }
+
+  static fetchProtected(token) {
+    return get(v1('/test'), { token })
   }
 
   static login(payload) {
-    return post(url('/api/v1/auth/login'), payload)
-  }
-
-  static checkAuthToken(token) {
-    return authedGet(url('/api/v1/auth/check-auth-token'), token)
+    return post(v1('/auth/login'), payload)
   }
 
   static logout() {
-    return get(url('/api/v1/auth/logout'))
+    return get(v1('/auth/logout'))
   }
 }
