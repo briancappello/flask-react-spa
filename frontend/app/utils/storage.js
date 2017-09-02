@@ -27,7 +27,11 @@ class Storage {
 
   getUser() {
     if (!this.user) {
-      this.user = JSON.parse(localStorage.getItem('user'))
+      try {
+        this.user = JSON.parse(localStorage.getItem('user'))
+      } catch (e) {
+        this.user = null
+      }
     }
     return this.user
   }
