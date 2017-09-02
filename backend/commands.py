@@ -5,7 +5,7 @@ By using @cli.command(), functions are automatically registered and wrapped with
 
 The `clean`, `lint`, `test` and `urls` commands are adapted from Flask-Script 0.4.0
 """
-
+from dateutil.parser import parse as parse_date
 import os
 import click
 from flask import current_app
@@ -35,9 +35,19 @@ def load_fixtures(file, reset):
     click.echo('Loading fixtures.')
     for fixture in json.load(file):
         model = models[fixture['model']]
-        # FIXME: document json file format
-        # FIXME: support basic relationships
-        records = [model(**d) for d in fixture['items']]
+        # FIXME: document json file format, relationships
+        records = []
+        for model_kwargs in fixture['items']:
+            d = {}
+            for k, v in model_kwargs.items():
+                # FIXME is this too heavy-handed of an approach? (will it ever
+                # create a date when it wasn't supposed to?) maybe better to
+                # somehow declare explicit date fields in the fixtures file
+                try:
+                    d[k] = parse_date(v)
+                except:
+                    d[k] = v
+            records.append(model(**d))
         click.echo('Adding %d %s record%s.' % (len(records), fixture['model'],
                                                's' if len(records) > 1 else ''))
         db.session.add_all(records)

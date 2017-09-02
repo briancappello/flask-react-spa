@@ -26,6 +26,7 @@ py==1.4.32
 pycparser==2.17
 pyparsing==2.2.0
 pytest==3.0.6
+python-dateutil==2.6.1
 python-editor==1.0.3
 pytz==2017.2
 simplekv==0.10.0
