@@ -8,13 +8,12 @@ TEMPLATE_FOLDER = os.path.join(PROJECT_ROOT, 'frontend')
 STATIC_FOLDER = os.path.join(PROJECT_ROOT, 'static')
 STATIC_URL_PATH = '/static'  # serve asset files in static/ at /static/
 
-# bundle folders to register with the app
-BUNDLES = {
-    # backend.folder: url_prefix
-    'backend.site': '/',
-    'backend.auth': '/api/v1/auth',
-    'backend.api': '/api/v1',
-}
+# bundle folders to register with the app, in python module dot notation
+BUNDLES = [
+    'backend.site',
+    'backend.auth',
+    'backend.api',
+]
 
 
 class BaseConfig(object):

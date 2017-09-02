@@ -2,6 +2,7 @@ import click
 import flask
 import inspect
 from importlib import import_module
+from flask_sqlalchemy import Model
 
 from .config import BUNDLES
 from . import commands, extensions
@@ -12,6 +13,7 @@ def get_extensions():
     def is_extension(obj):
         # we want *instantiated* extensions, not imported extension classes
         return not inspect.isclass(obj) and hasattr(obj, 'init_app')
+
     for name, extension in inspect.getmembers(extensions, is_extension):
         yield (name, extension)
 
@@ -21,28 +23,26 @@ def get_bundle_blueprints():
     def is_blueprint(obj):
         return isinstance(obj, flask.Blueprint)
 
-    for bundle, url_prefix in BUNDLES.items():
-        # rstrip '/' off url_prefix because views should be declaring their
-        # routes beginning with '/', and if url_prefix ends with '/', routes
-        # will end up looking like '/prefix//endpoint', which is no good
-        url_prefix = (url_prefix or '').rstrip('/')
+    for bundle in BUNDLES:
         try:
             views_module = import_module('{}.views'.format(bundle))
         except ImportError:
             continue  # allow bundles without any views
 
         for _, blueprint in inspect.getmembers(views_module, is_blueprint):
+            # rstrip '/' off url_prefix because views should be declaring their
+            # routes beginning with '/', and if url_prefix ends with '/', routes
+            # will end up looking like '/prefix//endpoint', which is no good
+            url_prefix = (blueprint.url_prefix or '').rstrip('/')
             yield (blueprint, url_prefix)
 
 
 def get_bundle_models():
     """An iterable of (ModelName, ModelClass) tuples"""
-    from .database import db  # must import here to avoid circular deps
-
     def is_model_class(name, obj):
-        return inspect.isclass(obj) and issubclass(obj, db.Model) and name != 'Model'
+        return inspect.isclass(obj) and issubclass(obj, Model) and name != 'Model'
 
-    for bundle, _ in BUNDLES.items():
+    for bundle in BUNDLES:
         try:
             models_module = import_module('{}.models'.format(bundle))
         except ImportError:
@@ -64,7 +64,7 @@ def get_bundle_command_groups():
     def is_click_group(obj):
         return isinstance(obj, click.Group)
 
-    for bundle, _ in BUNDLES.items():
+    for bundle in BUNDLES:
         try:
             commands_module = import_module('{}.commands'.format(bundle))
         except ImportError:

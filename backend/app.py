@@ -30,24 +30,31 @@ from flask_wtf.csrf import generate_csrf
 
 from .logger import logger
 from .magic import (
+    get_bundle_blueprints,
+    get_bundle_command_groups,
+    get_bundle_models,
     get_commands,
     get_extensions,
-    get_bundle_blueprints,
-    get_bundle_models,
-    get_bundle_command_groups,
 )
 
 
 def create_app(config_object, **kwargs):
-    """Application factory"""
+    """Application factory pattern
+
+    WARNING: HERE BE DRAGONS!!! DO NOT FUCK WITH THE ORDER OF THESE or nightmares will ensue
+    """
     app = Flask(__name__, **kwargs)
     configure_app(app, config_object)
+
     extensions = dict(get_extensions())
-    models = dict(get_bundle_models())
     register_extensions(app, extensions)
+
     register_blueprints(app)
-    register_shell_context(app, extensions, models)
+    models = dict(get_bundle_models())
+
     register_cli_commands(app)
+    register_shell_context(app, extensions, models)
+
     return app
 
 
@@ -85,9 +92,8 @@ def register_blueprints(app):
 def register_shell_context(app, extensions, models):
     """Register variables to automatically import when running `flask shell`"""
     def shell_context():
-        # extensions
-        ctx = extensions
-        # DB models
+        ctx = {}
+        ctx.update(extensions)
         ctx.update(models)
         return ctx
     app.shell_context_processor(shell_context)

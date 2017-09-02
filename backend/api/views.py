@@ -4,7 +4,7 @@ from backend.decorators import auth_required, auth_required_same_user, param_con
 from backend.auth.models import User
 
 
-api = Blueprint('api', __name__)
+api = Blueprint('api', __name__, url_prefix='/api/v1')
 
 
 @api.route('/test')

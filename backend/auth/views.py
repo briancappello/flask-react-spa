@@ -7,7 +7,7 @@ from werkzeug.datastructures import MultiDict
 from backend.decorators import auth_required
 
 
-auth = Blueprint('auth', __name__)
+auth = Blueprint('auth', __name__, url_prefix='/api/v1/auth')
 
 
 @auth.route('/login', methods=['POST'])
