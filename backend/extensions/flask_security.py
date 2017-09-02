@@ -29,4 +29,4 @@ class Security(BaseSecurity):
         super(Security, self).__init__(app, datastore, **self._kwargs)
 
     def init_app(self, app):
-        super(Security, self).init_app(app, self.datastore, **self._kwargs)
+        self._state = super(Security, self).init_app(app, self.datastore, **self._kwargs)

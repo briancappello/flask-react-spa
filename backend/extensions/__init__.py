@@ -5,11 +5,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from sqlalchemy import MetaData
 
-from .auth.flask_security import Security
+from .flask_security import Security
 
 
 session = Session()
 csrf = CSRFProtect()
+
+# configure SQLAlchemy
 db = SQLAlchemy(metadata=MetaData(naming_convention={
     'ix': 'ix_%(column_0_label)s',
     'uq': 'uq_%(table_name)s_%(column_0_name)s',
