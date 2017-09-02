@@ -16,7 +16,7 @@ import {
 
 /**
  * Declarative Route Configuration
- * https://github.com/ReactTraining/react-router/blob/master/docs/guides/RouteConfiguration.md#configuration-with-plain-routes
+ * https://github.com/ReactTraining/react-router/blob/v3/docs/guides/RouteConfiguration.md#configuration-with-plain-routes
  */
 const routes = {
   path: '/',
