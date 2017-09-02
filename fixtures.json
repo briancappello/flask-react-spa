@@ -3,26 +3,28 @@
     {
       "id": 1,
       "email": "a@a.com",
-      "username": "aa",
-      "password": "pw",
-      "active": true
+      "username": "admin",
+      "password": "password",
+      "active": true,
+      "confirmed_at": "2017-08-30 00:00:00"
     },
     {
       "id": 2,
       "email": "a@b.com",
-      "username": "ab",
-      "password": "pw",
-      "active": true
+      "username": "user",
+      "password": "password",
+      "active": true,
+      "confirmed_at": "2017-08-30 00:00:00"
     }
   ]},
   { "model": "Role", "items": [
     {
       "id": 1,
-      "name": "admin"
+      "name": "ROLE_ADMIN"
     },
     {
       "id": 2,
-      "name": "user"
+      "name": "ROLE_USER"
     }
   ]},
   { "model": "UserRole", "items": [
