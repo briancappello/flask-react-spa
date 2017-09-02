@@ -8,6 +8,7 @@ import {
   Application,
   Home,
   Login,
+  Logout,
   NotFound,
   Styles,
   Profile,
@@ -28,6 +29,7 @@ const routes = {
     { path: 'profile', label: 'Profile', component: requireAuthentication(Profile) },
     { path: 'protected', label: 'Protected', component: requireAuthentication(Protected) },
     { path: 'login', component: Login },
+    { path: 'logout', component: Logout },
 
     // default 404 if no match
     { path: '*', component: NotFound },

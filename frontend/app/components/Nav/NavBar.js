@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { bindRoutineCreators } from 'actions'
-import { logout } from 'actions/auth'
 import Link from './Link'
 import routes from 'routes'
 import { topLevelMenu } from 'utils/menu'
@@ -12,11 +10,6 @@ import { topLevelMenu } from 'utils/menu'
 class NavBar extends Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
-  }
-
-  logout = (e) => {
-    e.preventDefault()
-    this.props.logout.trigger()
   }
 
   render() {
@@ -29,12 +22,12 @@ class NavBar extends Component {
             <span className="tld">api</span>
           </Link>
           <div className="menu left">
-            {topLevelMenu(routes, /* excludePaths= */ ['login', 'profile', '*'])}
+            {topLevelMenu(routes, /* excludePaths= */ ['login', 'logout', 'profile', '*'])}
           </div>
           <div className="menu right">
             {this.props.isAuthenticated
               ? this.renderAuthenticatedMenu()
-              : <Link to="/login">Login</Link>
+              : this.renderUnauthenticatedMenu()
             }
           </div>
         </div>
@@ -46,18 +39,24 @@ class NavBar extends Component {
     return (
       <div>
         <Link to="/profile">Profile</Link>
-        <a href="#" onClick={this.logout}>Logout</a>
+        <Link to="/logout">Logout</Link>
+      </div>
+    )
+  }
+
+  renderUnauthenticatedMenu() {
+    return (
+      <div>
+        <Link to="/login">Login</Link>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  routing: state.routing, // required for <Link> components to work correctly
-})
-
 export default connect(
-  mapStateToProps,
-  (dispatch) => bindRoutineCreators({ logout }, dispatch),
+  (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    routing: state.routing, // required for <Link> components to work correctly
+  }),
+  (dispatch) => ({}),
 )(NavBar)
