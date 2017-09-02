@@ -18,39 +18,79 @@ BUNDLES = {
 
 
 class BaseConfig(object):
+    ##########################################################################
+    # flask                                                                  #
+    ##########################################################################
     SECRET_KEY = os.environ.get('FLASK_SECRET_KEY', 'not-secret-key')  # FIXME
-    SECURITY_PASSWORD_SALT = os.environ.get('FLASK_SECURITY_PASSWORD_SALT', 'not-secret-salt')  # FIXME
-    SECURITY_TOKEN_MAX_AGE = 60 * 60  # 1 hour (in seconds)
-
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
     STRICT_SLASHES = False
 
-    PERMANENT_SESSION_LIFETIME = timedelta(minutes=60)
+    ##########################################################################
+    # session/cookies                                                        #
+    ##########################################################################
     SESSION_PROTECTION = 'strong'
     SESSION_COOKIE_HTTPONLY = True
-    SESSION_COOKIE_PATH = '/'
-    SESSION_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = True
     REMEMBER_COOKIE_HTTPONLY = True
+
+    # SECURITY_TOKEN_MAX_AGE is fixed from time of token generation;
+    # it does not update on refresh like a session timeout would. for that,
+    # we set (the ironically named) PERMANENT_SESSION_LIFETIME
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=60)
+
+    ##########################################################################
+    # database                                                               #
+    ##########################################################################
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    ##########################################################################
+    # security                                                               #
+    ##########################################################################
+    # NOTE: itsdangerous "salts" are not normal salts in the cryptographic
+    # sense, see https://pythonhosted.org/itsdangerous/#the-salt
+    SECURITY_PASSWORD_SALT = os.environ.get('FLASK_SECURITY_PASSWORD_SALT',
+                                            'security-password-salt')
 
 
 class ProdConfig(BaseConfig):
+    ##########################################################################
+    # flask                                                                  #
+    ##########################################################################
     ENV = 'prod'
     DEBUG = False
 
-    SESSION_COOKIE_SECURE = True  # only send cookies over https
+    ##########################################################################
+    # database                                                               #
+    ##########################################################################
+    SQLALCHEMY_DATABASE_URI = 'postgresql://user:pw@localhost/db_name'  # FIXME
+
+    ##########################################################################
+    # session/cookies                                                        #
+    ##########################################################################
     SESSION_COOKIE_DOMAIN = 'www.example.com'  # FIXME
     SESSION_TYPE = 'null'  # FIXME
-    SQLALCHEMY_DATABASE_URI = 'postgresql://user:pw@localhost/db_name'  # FIXME
 
 
 class DevConfig(BaseConfig):
+    ##########################################################################
+    # flask                                                                  #
+    ##########################################################################
     ENV = 'dev'
     DEBUG = True
-    DB_NAME = 'dev.sqlite'
+    # EXPLAIN_TEMPLATE_LOADING = True
+
+    ##########################################################################
+    # session/cookies                                                        #
+    ##########################################################################
+    SESSION_COOKIE_SECURE = False
     SESSION_TYPE = 'filesystem'
     SESSION_FILE_DIR = 'flask_sessions'
-    # SQLALCHEMY_ECHO = True
+
+    ##########################################################################
+    # database                                                               #
+    ##########################################################################
+    DB_NAME = 'dev.sqlite'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///%s' % os.path.join(PROJECT_ROOT, DB_NAME)
+    # SQLALCHEMY_ECHO = True
 
 
 class TestConfig(BaseConfig):
