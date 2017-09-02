@@ -1,4 +1,5 @@
 from flask_mail import Mail
+from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
@@ -30,9 +31,14 @@ migrate = Migrate(db=db, render_as_batch=True)
 user_datastore = SQLAlchemyUserDatastore(db, None, None)
 security = Security(datastore=user_datastore)
 
+# configure Flask-Marshmallow
+# even though it's not explicit, Flask-Marshmallow depends on SQLAlchemy
+# and therefore must come after it
+ma = Marshmallow()
+
 # Flask-Restful must be initialized _AFTER_ the SQLAlchemy extension has
 # been initialized, AND after all views, models, and serializers have
 # been imported. This is because the @api decorators create deferred
-# registrations that depend upon said dependencies having all been run
-# before Api().init_app() gets called
+# registrations that depend upon said dependencies having all been
+# completed before Api().init_app() gets called
 api = Api(prefix='/api/v1')
