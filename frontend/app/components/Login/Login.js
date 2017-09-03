@@ -86,7 +86,7 @@ class Login extends React.Component {
                         disabled={isAuthenticating}
                         onClick={this.onSubmit}
                 >
-                  Submit
+                  {isAuthenticating ? 'Logging in...' : 'Submit'}
                 </button>
               </div>
             </form>

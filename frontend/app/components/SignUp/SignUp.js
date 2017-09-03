@@ -36,7 +36,7 @@ class SignUp extends Component {
       return this.props.children
     }
 
-    const { errors } = this.props
+    const { isSubmitting, errors } = this.props
     return (
       <PageContent>
         <div className="row">
@@ -75,10 +75,10 @@ class SignUp extends Component {
               </div>
               <div className="row">
                 <button type="submit" className="button-primary"
-                        disabled={this.props.isSubmitting}
+                        disabled={isSubmitting}
                         onClick={this.onSubmit}
                 >
-                  Submit
+                  {isSubmitting ? 'Submitting...' : 'Submit'}
                 </button>
               </div>
 

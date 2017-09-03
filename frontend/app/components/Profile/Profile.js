@@ -41,7 +41,7 @@ class Profile extends Component {
     const { errors, isSubmitting } = this.props.profile
     return (
       <PageContent>
-        <h1>User profile!</h1>
+        <h1>Update Profile</h1>
         <form>
           <div className={`row ${classnames({ error: errors.username })}`}>
             <label htmlFor="username">Username</label>
@@ -65,7 +65,7 @@ class Profile extends Component {
                     onClick={this.onSubmit}
                     disabled={isSubmitting}
             >
-              Submit
+              {isSubmitting ? 'Saving...' : 'Save'}
             </button>
           </div>
         </form>
