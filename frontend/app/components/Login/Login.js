@@ -39,7 +39,7 @@ class Login extends React.Component {
     }
   }
 
-  login = (e) => {
+  onSubmit = (e) => {
     e.preventDefault()
     const { email, password, redirect } = this.state
     this.props.login.trigger({ email, password, redirect })
@@ -84,7 +84,7 @@ class Login extends React.Component {
                 <button type="submit"
                         className="btn btn-primary"
                         disabled={isAuthenticating}
-                        onClick={this.login}
+                        onClick={this.onSubmit}
                 >
                   Submit
                 </button>
