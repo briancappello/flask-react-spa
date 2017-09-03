@@ -1,14 +1,20 @@
 from functools import wraps
 from http import HTTPStatus
 from flask import abort, request
-from flask_principal import Permission, UserNeed
-from flask_security.decorators import (
-    auth_required as flask_security_auth_required,
-    roles_accepted,
-    roles_required,
-)
+from flask_login import current_user
+from flask_principal import Permission, RoleNeed, UserNeed
+from flask_security.decorators import auth_required as flask_security_auth_required
 
 from backend.utils import was_decorated_without_parenthesis
+
+
+def anonymous_user_required(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        if current_user.is_authenticated:
+            abort(HTTPStatus.FORBIDDEN)
+        return fn(*args, **kwargs)
+    return wrapper
 
 
 def auth_required(*args, **kwargs):
@@ -60,4 +66,55 @@ def auth_required_same_user(*args, **kwargs):
 
     if was_decorated_without_parenthesis(args):
         return wrapper(args[0])
+    return wrapper
+
+
+def roles_required(*roles):
+    """Decorator which specifies that a user must have all the specified roles.
+    Example::
+
+        @app.route('/dashboard')
+        @roles_required('ROLE_ADMIN', 'ROLE_EDITOR')
+        def dashboard():
+            return 'Dashboard'
+
+    The current user must have both the `ROLE_ADMIN` and `ROLE_EDITOR` roles
+    in order to view the page.
+
+    :param args: The required roles.
+    """
+    def wrapper(fn):
+        @wraps(fn)
+        def decorated_view(*args, **kwargs):
+            perms = [Permission(RoleNeed(role)) for role in roles]
+            for perm in perms:
+                if not perm.can():
+                    abort(HTTPStatus.FORBIDDEN)
+            return fn(*args, **kwargs)
+        return decorated_view
+    return wrapper
+
+
+def roles_accepted(*roles):
+    """Decorator which specifies that a user must have at least one of the
+    specified roles. Example::
+
+        @app.route('/create_post')
+        @roles_accepted('ROLE_ADMIN', 'ROLE_EDITOR')
+        def create_post():
+            return 'Create Post'
+
+    The current user must have either the `ROLE_ADMIN` role or `ROLE_EDITOR`
+    role in order to view the page.
+
+    :param args: The possible roles.
+    """
+    def wrapper(fn):
+        @wraps(fn)
+        def decorated_view(*args, **kwargs):
+            perm = Permission(*[RoleNeed(role) for role in roles])
+            if not perm.can():
+                abort(HTTPStatus.FORBIDDEN)
+            return fn(*args, **kwargs)
+        return decorated_view
     return wrapper
