@@ -33,6 +33,7 @@ from .magic import (
     get_bundle_blueprints,
     get_bundle_command_groups,
     get_bundle_models,
+    get_bundle_serializers,
     get_commands,
     get_deferred_extensions,
     get_extensions,
@@ -52,12 +53,14 @@ def create_app(config_object, **kwargs):
 
     register_blueprints(app)
     models = dict(get_bundle_models())
+    serializers = dict(get_bundle_serializers())
+    register_serializers(app, serializers)
 
     deferred_extensions = dict(get_deferred_extensions())
     register_extensions(app, deferred_extensions)
 
     register_cli_commands(app)
-    register_shell_context(app, extensions, deferred_extensions, models)
+    register_shell_context(app, extensions, deferred_extensions, models, serializers)
 
     return app
 
@@ -77,6 +80,14 @@ def configure_app(app, config_object):
         return response
 
 
+def register_serializers(app, serializers):
+    _serializers = {serializer.Meta.model.__name__: serializer()
+                    for serializer in serializers.values()}
+
+    from backend.extensions import api
+    api.serializers = _serializers
+
+
 def register_extensions(app, extensions):
     """Register and initialize extensions"""
     for extension in extensions.values():
@@ -93,13 +104,14 @@ def register_blueprints(app):
         app.register_blueprint(blueprint, url_prefix=url_prefix)
 
 
-def register_shell_context(app, extensions, deferred_extensions, models):
+def register_shell_context(app, extensions, deferred_extensions, models, serializers):
     """Register variables to automatically import when running `flask shell`"""
     def shell_context():
         ctx = {}
         ctx.update(extensions)
         ctx.update(deferred_extensions)
         ctx.update(models)
+        ctx.update(serializers)
         return ctx
     app.shell_context_processor(shell_context)
 

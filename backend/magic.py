@@ -2,6 +2,7 @@ import click
 import flask
 import inspect
 from importlib import import_module
+from flask_marshmallow.sqla import ModelSchema
 from flask_sqlalchemy import Model
 
 from .config import BUNDLES, DEFERRED_EXTENSIONS
@@ -46,6 +47,21 @@ def get_bundle_blueprints():
             # will end up looking like '/prefix//endpoint', which is no good
             url_prefix = (blueprint.url_prefix or '').rstrip('/')
             yield (blueprint, url_prefix)
+
+
+def get_bundle_serializers():
+    """An iterable of (SerializerName, SerializerClass) tuples"""
+    def is_serializer(name, obj):
+        return inspect.isclass(obj) and issubclass(obj, ModelSchema) and name not in ['ModelSerializer', 'ModelSchema']
+
+    for bundle in BUNDLES:
+        try:
+            serializers_module = import_module('{}.serializers'.format(bundle))
+        except ImportError:
+            continue  # allow bundles without any serializers
+
+        for name, serializer in _get_members(serializers_module, is_serializer):
+            yield (name, serializer)
 
 
 def get_bundle_models():

@@ -3,7 +3,7 @@ from marshmallow import pre_load, post_dump
 from backend.extensions import ma
 
 
-class BaseSchema(ma.ModelSchema):
+class ModelSerializer(ma.ModelSchema):
     def handle_error(self, error, data):
         """
         Customize the error messages for required/not-null validators with
@@ -16,7 +16,7 @@ class BaseSchema(ma.ModelSchema):
                     error.messages[field_name][i] = '%s is required.' % field_name.replace('_', ' ').title()
 
 
-class WrappedBaseSchema(BaseSchema):
+class WrappedSerializer(ModelSerializer):
     """
     A version of ModelSchema that automatically wraps serialized results with
     the model name, and automatically unwraps during deserialization.
@@ -32,7 +32,7 @@ class WrappedBaseSchema(BaseSchema):
         id = PrimaryKey
         name = String
 
-    class FooSerializer(WrappedBaseSchema):
+    class FooSerializer(WrappedSerializer):
         class Meta:
             model = Foo
     foo_serializer = FooSerializer()

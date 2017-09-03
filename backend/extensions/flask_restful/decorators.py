@@ -1,7 +1,7 @@
 from functools import wraps
 from http import HTTPStatus
 
-from flask import abort
+from flask import abort, request
 from flask_sqlalchemy import camel_to_snake_case
 
 from backend.utils import was_decorated_without_parenthesis
@@ -54,6 +54,60 @@ def param_converter(*args, **param_models):
                     abort(HTTPStatus.NOT_FOUND)
                 kwargs[arg_name] = instance
             return fn(*args, **kwargs)
+        return decorated
+
+    if was_decorated_without_parenthesis(args):
+        return wrapped(args[0])
+    return wrapped
+
+
+def list_loader(*args, model):
+    def wrapped(fn):
+        @wraps(fn)
+        def decorated(*args, **kwargs):
+            return fn(model.query.all())
+        return decorated
+
+    if was_decorated_without_parenthesis(args):
+        return wrapped(args[0])
+    return wrapped
+
+
+def patch_loader(*args, serializer):
+    def wrapped(fn):
+        @wraps(fn)
+        def decorated(*args, **kwargs):
+            result = serializer.load(request.get_json(), partial=True)
+            if not result.errors and not result.data.id:
+                abort(HTTPStatus.NOT_FOUND)
+            return fn(*result)
+        return decorated
+
+    if was_decorated_without_parenthesis(args):
+        return wrapped(args[0])
+    return wrapped
+
+
+def put_loader(*args, serializer):
+    def wrapped(fn):
+        @wraps(fn)
+        def decorated(*args, **kwargs):
+            result = serializer.load(request.get_json())
+            if not result.errors and not result.data.id:
+                abort(HTTPStatus.NOT_FOUND)
+            return fn(*result)
+        return decorated
+
+    if was_decorated_without_parenthesis(args):
+        return wrapped(args[0])
+    return wrapped
+
+
+def post_loader(*args, serializer):
+    def wrapped(fn):
+        @wraps(fn)
+        def decorated(*args, **kwargs):
+            return fn(*serializer.load(request.get_json()))
         return decorated
 
     if was_decorated_without_parenthesis(args):
