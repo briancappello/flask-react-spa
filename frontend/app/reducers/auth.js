@@ -2,6 +2,7 @@ import {
   login,
   logout,
   fetchProfile,
+  updateProfile,
   signUp,
 } from 'actions/auth'
 import storage from 'utils/storage'
@@ -15,7 +16,8 @@ export const initialState = {
   profile: {
     isLoading: false,
     isLoaded: false,
-    error: null,
+    isSubmitting: false,
+    errors: {},
   },
   signUp: {
     isSubmitting: false,
@@ -90,6 +92,38 @@ export default function(state = initialState, action) {
       return { ...state,
         profile: { ...state.profile,
           isLoading: false,
+        },
+      }
+
+    case updateProfile.REQUEST:
+      return { ...state,
+        profile: { ...state.profile,
+          isSubmitting: true,
+        },
+      }
+
+    case updateProfile.SUCCESS:
+      return { ...state,
+        user: { ...state.user,
+          ...payload.user,
+        },
+        profile: { ...state.profile,
+          errors: {},
+          isLoaded: true,
+        },
+      }
+
+    case updateProfile.FAILURE:
+      return { ...state,
+        profile: { ...state.profile,
+          errors: payload.errors,
+        },
+      }
+
+    case updateProfile.FULFILL:
+      return { ...state,
+        profile: { ...state.profile,
+          isSubmitting: false,
         },
       }
 

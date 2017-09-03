@@ -44,4 +44,8 @@ export default class Api {
   static signUp(payload) {
     return post(v1('/users'), payload)
   }
+
+  static updateProfile(token, user, payload) {
+    return patch(v1(`/users/${user.id}`), payload, { token })
+  }
 }

@@ -7,6 +7,7 @@ import {
   login,
   logout,
   fetchProfile,
+  updateProfile,
   signUp,
 } from 'actions/auth'
 import Api from 'utils/api'
@@ -78,10 +79,25 @@ export function *signUpSaga({ payload }) {
   }
 }
 
+export function *updateProfileSaga({ payload }) {
+  try {
+    yield put(updateProfile.request())
+    const { token, user } = yield select(selectAuth)
+    const data = yield call(Api.updateProfile, token, user, payload)
+    yield put(updateProfile.success(data))
+    yield put(flashSuccess('Profile successfully updated.'))
+  } catch (e) {
+    yield put(updateProfile.failure(e.response))
+  } finally {
+    yield put(updateProfile.fulfill())
+  }
+}
+
 export default () => [
   takeLatest(login.TRIGGER, loginSaga),
   takeLatest(logout.TRIGGER, logoutSaga),
   takeEvery(fetchProfile.MAYBE_TRIGGER, fetchProfileIfNeeded),
   takeLatest(fetchProfile.TRIGGER, fetchProfileSaga),
+  takeLatest(updateProfile.TRIGGER, updateProfileSaga),
   takeLatest(signUp.TRIGGER, signUpSaga),
 ]
