@@ -19,6 +19,10 @@ class SignUp extends Component {
     }
   }
 
+  componentDidMount() {
+    this.refs.username.focus()
+  }
+
   onSubmit = (e) => {
     e.preventDefault()
     const { username, email, password } = this.state
@@ -47,6 +51,7 @@ class SignUp extends Component {
                 <label htmlFor="username">Username</label>
                 <input type="text"
                        id="username"
+                       ref="username"
                        placeholder="Username"
                        className="full-width"
                        onChange={(e) => this.handleInputChange(e, 'username')}

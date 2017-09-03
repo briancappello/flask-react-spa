@@ -39,6 +39,10 @@ class Login extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.refs.username && this.refs.username.focus()
+  }
+
   onSubmit = (e) => {
     e.preventDefault()
     const { email, password, redirect } = this.state
@@ -66,6 +70,7 @@ class Login extends React.Component {
                 <label htmlFor="username">Email or Username</label>
                 <input type="text"
                        id="username"
+                       ref="username"
                        placeholder="Email or Username"
                        className="full-width"
                        onChange={(e) => this.handleInputChange(e, 'email')}
