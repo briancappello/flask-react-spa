@@ -23,9 +23,10 @@ class Login extends React.Component {
 
   constructor(props) {
     super(props)
-    const { location } = this.props
+    const { location, isAuthenticating } = this.props
 
     this.state = {
+      freshLogin: !isAuthenticating,
       email: '',
       password: '',
       redirect: location ? location.query.next || '/' : '/',
@@ -43,6 +44,12 @@ class Login extends React.Component {
     this.refs.username && this.refs.username.focus()
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isAuthenticated) {
+      this.props.push(this.state.redirect)
+    }
+  }
+
   onSubmit = (e) => {
     e.preventDefault()
     const { email, password, redirect } = this.state
@@ -56,7 +63,16 @@ class Login extends React.Component {
   }
 
   render() {
+    const { freshLogin } = this.state
     const { isAuthenticating, error } = this.props
+    if (!freshLogin && isAuthenticating) {
+      return (
+        <PageContent>
+          <h1>Logging in, just a moment...</h1>
+        </PageContent>
+      )
+    }
+
     return (
       <PageContent>
         <div className="row">

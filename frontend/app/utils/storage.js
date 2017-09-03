@@ -20,18 +20,23 @@ class Storage {
 
   getToken() {
     if (!this.token) {
-      this.token = localStorage.getItem('token')
+      const token = localStorage.getItem('token')
+      // FIXME: this crap is probably indicative of a bug somewhere...
+      this.token = token == 'null' || token == 'undefined' ? null : token
     }
     return this.token
   }
 
   getUser() {
     if (!this.user) {
+      let user
       try {
-        this.user = JSON.parse(localStorage.getItem('user'))
+        user = JSON.parse(localStorage.getItem('user'))
       } catch (e) {
-        this.user = null
+        user = null
       }
+      // FIXME: this crap is probably indicative of a bug somewhere...
+      this.user = user == 'null' || user == 'undefined' ? null : user
     }
     return this.user
   }

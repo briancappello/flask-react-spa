@@ -48,7 +48,7 @@ def login():
 @auth.route('/check-auth-token')
 @auth_required
 def check_auth_token():
-    return jsonify({'success': True})
+    return jsonify({'user': current_user._get_current_object()})
 
 
 @auth.route('/logout')

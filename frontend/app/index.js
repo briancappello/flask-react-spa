@@ -21,19 +21,17 @@ const store = configureStore(initialState, browserHistory)
 const history = syncHistoryWithStore(browserHistory, store)
 
 const token = storage.getToken()
-const user = storage.getUser()
-if (token && user) {
-  store.dispatch(login.success({ token, user }))
-  Api.checkAuthToken(token)
-    .then(() => {
+store.dispatch(login.request())
+Api.checkAuthToken(token)
+  .then(({ user }) => {
+    store.dispatch(login.success({ token, user }))
+    if (window.location.search.indexOf('welcome') === -1) {
       store.dispatch(flashInfo('Welcome back!'))
-    })
-    .catch(() => {
-      store.dispatch(logout.success())
-    })
-} else {
-  store.dispatch(logout.success())
-}
+    }
+  })
+  .catch(() => {
+    store.dispatch(logout.success())
+  })
 
 function rootNode(Root) {
   return (
