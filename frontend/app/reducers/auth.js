@@ -2,8 +2,8 @@ import {
   login,
   logout,
   fetchProfile,
-  updateProfile,
   signUp,
+  updateProfile,
 } from 'actions/auth'
 import storage from 'utils/storage'
 
