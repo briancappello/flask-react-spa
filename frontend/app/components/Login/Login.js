@@ -6,7 +6,7 @@ import { push } from 'react-router-redux'
 
 import { bindRoutineCreators } from 'actions'
 import { login } from 'actions/auth'
-import { flashInfo, flashDanger } from 'actions/flash'
+import { flashInfo } from 'actions/flash'
 import { PageContent } from 'components/Content'
 
 
@@ -14,12 +14,11 @@ class Login extends React.Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     isAuthenticating: PropTypes.bool.isRequired,
-    statusText: PropTypes.string,
+    error: PropTypes.string,
 
     push: PropTypes.func.isRequired,
     login: PropTypes.object.isRequired,
     flashInfo: PropTypes.func.isRequired,
-    flashDanger: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -29,7 +28,7 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
-      redirectTo: location ? location.query.next || '/' : '/',
+      redirect: location ? location.query.next || '/' : '/',
     }
   }
 
@@ -42,8 +41,8 @@ class Login extends React.Component {
 
   login = (e) => {
     e.preventDefault()
-    const { email, password, redirectTo } = this.state
-    this.props.login.trigger({ email, password, redirect: redirectTo })
+    const { email, password, redirect } = this.state
+    this.props.login.trigger({ email, password, redirect })
   }
 
   handleInputChange = (e, field) => {
@@ -52,26 +51,22 @@ class Login extends React.Component {
     })
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { statusText, flashDanger } = nextProps
-    if (statusText) {
-      flashDanger(statusText, null)
-    }
-  }
-
   render() {
+    const { isAuthenticating, error } = this.props
     return (
       <PageContent>
         <div className="row">
           <div className="six cols offset-by-three">
             <h1>Log in!</h1>
+            {error && <div className="flash danger">{error}</div>}
+            {error && <br/>}
             <p>Hint: a@a.com / pw</p>
             <form>
               <div className="row">
-                <label htmlFor="username">Username</label>
+                <label htmlFor="username">Email or Username</label>
                 <input type="text"
                        id="username"
-                       placeholder="Username"
+                       placeholder="Email or Username"
                        className="full-width"
                        onChange={(e) => this.handleInputChange(e, 'email')}
                 />
@@ -88,7 +83,7 @@ class Login extends React.Component {
               <div className="row">
                 <button type="submit"
                         className="btn btn-primary"
-                        disabled={this.props.isAuthenticating}
+                        disabled={isAuthenticating}
                         onClick={this.login}
                 >
                   Submit
@@ -102,18 +97,17 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isAuthenticated: state.auth.isAuthenticated,
-    isAuthenticating: state.auth.isAuthenticating,
-    statusText: state.auth.statusText,
-  }
-}
-
 export default connect(
-  mapStateToProps,
+  (state) => {
+    const { isAuthenticated, loginLogout } = state.auth
+    return {
+      isAuthenticated: isAuthenticated,
+      isAuthenticating: loginLogout.isAuthenticating,
+      error: loginLogout.error,
+    }
+  },
   (dispatch) => ({
     ...bindRoutineCreators({ login }, dispatch),
-    ...bindActionCreators({ flashInfo, flashDanger, push }, dispatch),
+    ...bindActionCreators({ flashInfo, push }, dispatch),
   })
 )(Login)

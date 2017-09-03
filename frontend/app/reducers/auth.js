@@ -8,11 +8,13 @@ import {
 import storage from 'utils/storage'
 
 export const initialState = {
+  isAuthenticated: false,
   token: null,
   user: {},
-  isAuthenticated: false,
-  isAuthenticating: false,
-  statusText: null,
+  loginLogout: {
+    isAuthenticating: false,
+    error: null,
+  },
   profile: {
     isLoading: false,
     isLoaded: false,
@@ -30,7 +32,9 @@ export default function(state = initialState, action) {
   switch (type) {
     case login.REQUEST:
       return { ...state,
-        isAuthenticating: true,
+        loginLogout: { ...state.loginLogout,
+          isAuthenticating: true,
+        },
       }
 
     case login.SUCCESS:
@@ -43,20 +47,26 @@ export default function(state = initialState, action) {
       }
 
     case login.FAILURE:
-      const { status, error } = payload
+      const { error } = payload
       storage.doLogout()
       return { ...state,
-        statusText: `Authentication Error (${status}): ${error}`,
+        loginLogout: { ...state.loginLogout,
+          error,
+        },
       }
 
     case login.FULFILL:
       return { ...state,
-        isAuthenticating: false,
+        loginLogout: { ...state.loginLogout,
+          isAuthenticating: false,
+        },
       }
 
     case logout.REQUEST:
       return { ...state,
-        isAuthenticating: true,
+        loginLogout: { ...state.loginLogout,
+          isAuthenticating: true,
+        },
       }
 
     case logout.SUCCESS:

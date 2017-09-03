@@ -84,6 +84,9 @@ class BaseConfig(object):
     ##########################################################################
     # security                                                               #
     ##########################################################################
+    # specify which user field attributes can be used for login
+    SECURITY_USER_IDENTITY_ATTRIBUTES = ['email', 'username']
+
     # NOTE: itsdangerous "salts" are not normal salts in the cryptographic
     # sense, see https://pythonhosted.org/itsdangerous/#the-salt
     SECURITY_PASSWORD_SALT = os.environ.get('FLASK_SECURITY_PASSWORD_SALT',
