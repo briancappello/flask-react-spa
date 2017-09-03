@@ -30,6 +30,7 @@ setupFrontendMiddleware(app, {
   outputPath: resolve(process.cwd(), 'static'),
   publicPath: '/',
   host: prettyHost,
+  frontendPort,
   backendPort,
 })
 
