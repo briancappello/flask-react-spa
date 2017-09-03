@@ -9,6 +9,7 @@ import {
   logout,
   fetchProfile,
   updateProfile,
+  resendConfirmationEmail,
   signUp,
 } from 'actions/auth'
 import Api from 'utils/api'
@@ -61,11 +62,18 @@ export const updateProfileSaga = createRoutineSaga(updateProfile, function *(pay
   return { user: response }
 })
 
+export const resendConfirmationEmailSaga = createRoutineSaga(resendConfirmationEmail, function *({ email }) {
+  const response = yield call(Api.resendConfirmationEmail, email)
+  yield put(flashSuccess('A new confirmation link has been sent your email address.'))
+  return response
+})
+
 export default () => [
   takeLatest(login.TRIGGER, loginSaga),
   takeLatest(logout.TRIGGER, logoutSaga),
   takeEvery(fetchProfile.MAYBE_TRIGGER, fetchProfileIfNeeded),
   takeLatest(fetchProfile.TRIGGER, fetchProfileSaga),
+  takeLatest(resendConfirmationEmail.TRIGGER, resendConfirmationEmailSaga),
   takeLatest(signUp.TRIGGER, signUpSaga),
   takeLatest(updateProfile.TRIGGER, updateProfileSaga),
 ]

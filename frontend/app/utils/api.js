@@ -41,6 +41,10 @@ export default class Api {
     return get(v1('/auth/logout'))
   }
 
+  static resendConfirmationEmail(email) {
+    return post(v1('/auth/resend-confirmation-email'), { email })
+  }
+
   static signUp(payload) {
     return post(v1('/users'), payload)
   }

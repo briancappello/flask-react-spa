@@ -1,6 +1,7 @@
 from http import HTTPStatus
 from flask import after_this_request, Blueprint, jsonify, request
 from flask_login import current_user
+from flask_security.confirmable import send_confirmation_instructions
 from flask_security.utils import config_value, get_message, login_user, logout_user
 from flask_security.views import _security, _commit
 from werkzeug.datastructures import MultiDict
@@ -82,3 +83,15 @@ class UserResource(ModelResource):
         return self.created(user, save=False)
 
 
+@auth.route('/resend-confirmation-email', methods=['POST'])
+def resend_confirmation_email():
+    """View function which sends confirmation instructions."""
+    form = _security.send_confirmation_form(MultiDict(request.get_json()))
+
+    if form.validate_on_submit():
+        send_confirmation_instructions(form.user)
+
+    if form.errors:
+        return jsonify({'errors': form.errors}), HTTPStatus.BAD_REQUEST
+
+    return '', HTTPStatus.NO_CONTENT

@@ -4,8 +4,9 @@ from flask_login import current_user
 from flask_principal import identity_loaded, RoleNeed
 from flask_security import Security as BaseSecurity
 from flask_security.core import _security, url_for_security
+from flask_security.signals import user_confirmed
 from flask_security.utils import slash_url_suffix
-from flask_security.views import confirm_email, send_confirmation
+from flask_security.views import confirm_email
 from werkzeug.routing import BuildError
 
 from backend.config import ROLE_HIERARCHY
@@ -57,15 +58,15 @@ class Security(BaseSecurity):
         # so that its email templates can be loaded/extended/overwritten
         if not self._kwargs['register_blueprint']:
             if self.confirmable:
-                security_bp.route(self.confirm_url,
-                                  methods=['GET', 'POST'],
-                                  endpoint='send_confirmation')(send_confirmation)
                 security_bp.route(self.confirm_url + slash_url_suffix(self.confirm_url,
                                                                       '<token>'),
                                   methods=['GET'],
                                   endpoint='confirm_email')(confirm_email)
             app.register_blueprint(security_bp)
             app.context_processor(_context_processor)
+
+        if self.confirmable:
+            user_confirmed.connect_via(app)(_on_user_confirmed)
 
 
 def _context_processor():
@@ -99,3 +100,7 @@ def _get_role_hierarchy(role_name, parent=None):
     if role_name in ROLE_HIERARCHY:
         for child_role_name in ROLE_HIERARCHY[role_name]:
             yield from _get_role_hierarchy(child_role_name, role_name)
+
+
+def _on_user_confirmed(sender, user):
+    user.active = True

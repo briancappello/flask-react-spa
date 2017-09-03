@@ -87,6 +87,11 @@ class BaseConfig(object):
     # specify which user field attributes can be used for login
     SECURITY_USER_IDENTITY_ATTRIBUTES = ['email', 'username']
 
+    # enable email confirmation before allowing login
+    SECURITY_CONFIRMABLE = True
+    # parsed as a kwarg to timedelta, so the time unit must always be plural
+    SECURITY_CONFIRM_EMAIL_WITHIN = '7 days'  # default 5 days
+
     # NOTE: itsdangerous "salts" are not normal salts in the cryptographic
     # sense, see https://pythonhosted.org/itsdangerous/#the-salt
     SECURITY_PASSWORD_SALT = os.environ.get('FLASK_SECURITY_PASSWORD_SALT',
@@ -139,6 +144,13 @@ class DevConfig(BaseConfig):
     ##########################################################################
     MAIL_PORT = 1025  # MailHog
     MAIL_DEFAULT_SENDER = ('Flask API', 'noreply@localhost')
+
+    ##########################################################################
+    # security                                                               #
+    ##########################################################################
+    SECURITY_CONFIRMABLE = True
+    SECURITY_CONFIRM_EMAIL_WITHIN = '1 minutes'  # for testing
+
 
 class TestConfig(BaseConfig):
     TESTING = True

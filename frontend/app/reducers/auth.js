@@ -2,6 +2,7 @@ import {
   login,
   logout,
   fetchProfile,
+  resendConfirmationEmail,
   signUp,
   updateProfile,
 } from 'actions/auth'
@@ -20,6 +21,11 @@ export const initialState = {
     isLoaded: false,
     isSubmitting: false,
     errors: {},
+  },
+  resendConfirmationEmail: {
+    isSubmitting: false,
+    emailSent: false,
+    error: null,
   },
   signUp: {
     isSubmitting: false,
@@ -102,6 +108,36 @@ export default function(state = initialState, action) {
       return { ...state,
         profile: { ...state.profile,
           isLoading: false,
+        },
+      }
+
+    case resendConfirmationEmail.REQUEST:
+      return { ...state,
+        resendConfirmationEmail: { ...state.resendConfirmationEmail,
+          isSubmitting: true,
+        },
+      }
+
+    case resendConfirmationEmail.SUCCESS:
+      return { ...state,
+        resendConfirmationEmail: { ...state.resendConfirmationEmail,
+          emailSent: true,
+          error: null,
+        },
+      }
+
+    case resendConfirmationEmail.FAILURE:
+      return { ...state,
+        resendConfirmationEmail: { ...state.resendConfirmationEmail,
+          emailSent: false,
+          error: payload.errors.email[0],
+        },
+      }
+
+    case resendConfirmationEmail.FULFILL:
+      return { ...state,
+        resendConfirmationEmail: { ...state.resendConfirmationEmail,
+          isSubmitting: false,
         },
       }
 
