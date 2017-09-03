@@ -1,10 +1,14 @@
 from http import HTTPStatus
 from flask import abort, Blueprint, url_for
+from flask_login import current_user
+from flask_principal import identity_loaded, RoleNeed
 from flask_security import Security as BaseSecurity
 from flask_security.core import _security, url_for_security
 from flask_security.utils import slash_url_suffix
 from flask_security.views import confirm_email, send_confirmation
 from werkzeug.routing import BuildError
+
+from backend.config import ROLE_HIERARCHY
 
 
 security_bp = Blueprint('security', 'flask_security',
@@ -26,15 +30,12 @@ class Security(BaseSecurity):
             # instead we provide our own views in backend.auth.views
             'register_blueprint': False,
 
-            # set any custom forms here
+            # set an optional custom anonymous user class
+            'anonymous_user': None,
+
+            # set a custom login form (NOTE: we don't use any of the other
+            # Flask-Security forms, instead Marshmallow serializers are used)
             'login_form': None,
-            'register_form': None,
-            'confirm_register_form': None,
-            'forgot_password_form': None,
-            'reset_password_form': None,
-            'change_password_form': None,
-            'send_confirmation_form': None,
-            'passwordless_login_form': None,
         }
         self._kwargs.update(kwargs)
         super(Security, self).__init__(app, datastore, **self._kwargs)
@@ -48,6 +49,9 @@ class Security(BaseSecurity):
 
         # override the unauthorized action to use abort(401) instead of returning HTML
         self._state.unauthorized_handler(unauthorized_handler)
+
+        # load user's role hierarchy
+        identity_loaded.connect_via(app)(on_identity_loaded)
 
         # we still need to register a blueprint under the flask_security namespace
         # so that its email templates can be loaded/extended/overwritten
@@ -75,3 +79,23 @@ def _context_processor():
 
 def unauthorized_handler():
     abort(HTTPStatus.UNAUTHORIZED)
+
+
+def on_identity_loaded(sender, identity):
+    role_names = set()
+    for role in getattr(current_user, 'roles', []):
+        role_names = role_names.union(set(_get_role_hierarchy(role.name)))
+    for role_name in role_names:
+        identity.provides.add(RoleNeed(role_name))
+
+
+def _get_role_hierarchy(role_name, parent=None):
+    if role_name != '__CRUD__':
+        yield role_name
+    else:
+        for action in ['CREATE', 'VIEW', 'EDIT', 'DELETE']:
+            yield '{}_{}'.format(parent, action)
+
+    if role_name in ROLE_HIERARCHY:
+        for child_role_name in ROLE_HIERARCHY[role_name]:
+            yield from _get_role_hierarchy(child_role_name, role_name)

@@ -9,6 +9,10 @@ from backend.utils import was_decorated_without_parenthesis
 
 
 def anonymous_user_required(fn):
+    """Decorator requiring no user be logged in
+
+    Aborts with HTTP 403: Forbidden if there is an authenticated user
+    """
     @wraps(fn)
     def wrapper(*args, **kwargs):
         if current_user.is_authenticated:
@@ -18,15 +22,37 @@ def anonymous_user_required(fn):
 
 
 def auth_required(*args, **kwargs):
+    """Decorator for requiring an authenticated user, optionally with specific roles
+
+    Roles are passed as keyword arguments, like so:
+    @auth_required(role='REQUIRE_THIS_ONE_ROLE')
+    @auth_required(roles=['REQUIRE', 'ALL', 'OF', 'THESE', 'ROLES'])
+    @auth_required(one_of=['EITHER_THIS_ROLE', 'OR_THIS_ONE'])
+
+    One of role or roles kwargs can also be combined with one_of:
+    @auth_required(role='REQUIRED', one_of=['THIS', 'OR_THIS'])
+    # equivalent, but more clearly describing the resultant behavior:
+    @auth_required(role='REQUIRED', and_one_of=['THIS', 'OR_THIS'])
+
+    Aborts with HTTP 401: Unauthenticated if no user is logged in, or
+    HTTP 403: Forbidden if any of the specified role checks fail
+    """
     required_roles = []
     one_of_roles = []
     if not was_decorated_without_parenthesis(args):
-        if 'role' in kwargs:
+        if 'role' in kwargs and 'roles' in kwargs:
+            raise RuntimeError('can only pass one of `role` or `roles` kwargs to auth_required')
+        elif 'role' in kwargs:
             required_roles = [kwargs['role']]
         elif 'roles' in kwargs:
             required_roles = kwargs['roles']
-        if 'one_of' in kwargs:
+
+        if 'one_of' in kwargs and 'and_one_of' in kwargs:
+            raise RuntimeError('can only pass one of `one_of` or `and_one_of` kwargs to auth_required')
+        elif 'one_of' in kwargs:
             one_of_roles = kwargs['one_of']
+        elif 'and_one_of' in kwargs:
+            one_of_roles = kwargs['and_one_of']
 
     def wrapper(fn):
         @wraps(fn)
@@ -43,6 +69,21 @@ def auth_required(*args, **kwargs):
 
 
 def auth_required_same_user(*args, **kwargs):
+    """Decorator for requiring an authenticated user to be the same as the
+    user in the URL parameters. By default the user url parameter name to
+    lookup is 'id', but this can be customized by passing an argument:
+
+    @auth_require_same_user('user_id')
+    @bp.route('/users/<int:user_id>/foo/<int:id>')
+    def get(user_id, id):
+        # do stuff
+
+    Any keyword arguments are passed along to the @auth_required decorator,
+    so roles can also be specified in the same was as it, eg:
+    @auth_required_same_user('user_id', role='ROLE_ADMIN')
+
+    Aborts with HTTP 403: Forbidden if the user-check fails
+    """
     auth_kwargs = {}
     user_id_parameter_name = 'id'
     if not was_decorated_without_parenthesis(args):
@@ -71,6 +112,9 @@ def auth_required_same_user(*args, **kwargs):
 
 def roles_required(*roles):
     """Decorator which specifies that a user must have all the specified roles.
+
+    Aborts with HTTP 403: Forbidden if the user doesn't have the required roles
+
     Example::
 
         @app.route('/dashboard')
@@ -97,7 +141,11 @@ def roles_required(*roles):
 
 def roles_accepted(*roles):
     """Decorator which specifies that a user must have at least one of the
-    specified roles. Example::
+    specified roles.
+
+    Aborts with HTTP: 403 if the user doesn't have at least one of the roles
+
+    Example::
 
         @app.route('/create_post')
         @roles_accepted('ROLE_ADMIN', 'ROLE_EDITOR')
