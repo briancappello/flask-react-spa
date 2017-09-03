@@ -1,8 +1,11 @@
+import re
 from flask_login import current_user
-from marshmallow import fields, validates, validates_schema, ValidationError
+from marshmallow import fields, validates, ValidationError
 
 from backend.extensions.flask_marshmallow import ModelSerializer
 from backend.auth.models import User, Role
+
+non_alphanumeric_re = re.compile(r'[^\w]')
 
 
 class UserSerializer(ModelSerializer):
@@ -15,21 +18,20 @@ class UserSerializer(ModelSerializer):
         dump_only = ('active', 'roles')
         load_only = ('password',)
 
-    @validates_schema
-    def validate_unique(self, data):
-        is_create = self.context.get('is_create', False)
+    @validates('email')
+    def validate_email(self, email):
+        existing = User.get_by(email=email)
+        if existing and (self.is_create() or existing != current_user):
+            raise ValidationError('Sorry, that email is already taken.')
 
-        username = data.get('username', False)
-        if username:
-            existing = User.get_by(username=username)
-            if existing and (is_create or current_user != existing):
-                raise ValidationError('Sorry, that username is already taken.', ['username'])
+    @validates('username')
+    def validate_username(self, username):
+        if re.search(non_alphanumeric_re, username):
+            raise ValidationError('Username should only contain letters, numbers and/or the underscore character.')
 
-        email = data.get('email', False)
-        if email:
-            existing = User.get_by(email=email)
-            if existing and (is_create or current_user != existing):
-                raise ValidationError('Sorry, that email is already taken.', ['email'])
+        existing = User.get_by(username=username)
+        if existing and (self.is_create() or existing != current_user):
+            raise ValidationError('Sorry, that username is already taken.')
 
     @validates('password')
     def validate_password(self, value):

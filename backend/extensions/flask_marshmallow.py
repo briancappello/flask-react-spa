@@ -4,6 +4,12 @@ from backend.extensions import ma
 
 
 class ModelSerializer(ma.ModelSchema):
+    def is_create(self):
+        """Check if we're creating a new object. Note that this context flag
+        must be set from the outside, ie when the class gets instantiated.
+        """
+        return self.context.get('is_create', False)
+
     def handle_error(self, error, data):
         """
         Customize the error messages for required/not-null validators with
