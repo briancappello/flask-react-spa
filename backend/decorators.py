@@ -1,69 +1,13 @@
 from functools import wraps
 from flask import abort
-from flask_principal import Permission, UserNeed
-from flask_security.decorators import (
-    auth_required as flask_security_auth_required,
+from .extensions.flask_security.decorators import (
+    auth_required,
+    auth_required_same_user,
     roles_required,
     roles_accepted,
 )
+ from .utils import was_wrapped_without_parenthesis
 from flask_sqlalchemy import camel_to_snake_case
-
-
-def auth_required(*args, **kwargs):
-    required_roles = []
-    one_of_roles = []
-    if not _was_decorated_without_parenthesis(*args):
-        if 'role' in kwargs:
-            required_roles = [kwargs['role']]
-        elif 'roles' in kwargs:
-            required_roles = kwargs['roles']
-        if 'one_of' in kwargs:
-            one_of_roles = kwargs['one_of']
-
-    def wrapper(fn):
-        @wraps(fn)
-        @flask_security_auth_required('session', 'token')
-        @roles_required(*required_roles)
-        @roles_accepted(*one_of_roles)
-        def decorated(*args, **kwargs):
-            return fn(*args, **kwargs)
-        return decorated
-
-    # was used as @auth_required
-    if _was_decorated_without_parenthesis(*args):
-        return wrapper(args[0])
-
-    # was used as @auth_required(kwargs)
-    return wrapper
-
-
-def auth_required_same_user(*args, **kwargs):
-    auth_kwargs = {}
-    user_id_parameter_name = 'id'
-    if not _was_decorated_without_parenthesis(*args):
-        auth_kwargs = kwargs
-        if args and isinstance(args[0], str):
-            user_id_parameter_name = args[0]
-
-    def wrapper(fn):
-        @wraps(fn)
-        @auth_required(**auth_kwargs)
-        def decorated(*args, **kwargs):
-            try:
-                user_id = kwargs[user_id_parameter_name]
-            except KeyError:
-                raise KeyError('Unable to find user id parameter in kwargs')
-            if not Permission(UserNeed(user_id)).can():
-                abort(403)
-            return fn(*args, **kwargs)
-        return decorated
-
-    # was used as @auth_required_same_user
-    if _was_decorated_without_parenthesis(*args):
-        return wrapper(args[0])
-
-    # was used as @auth_required_same_user(kwargs)
-    return wrapper
 
 
 def param_converter(**param_models):
@@ -115,7 +59,3 @@ def param_converter(**param_models):
             return fn(**kwargs)
         return decorated
     return wrapped
-
-
-def _was_decorated_without_parenthesis(*args):
-    return args and callable(args[0])
