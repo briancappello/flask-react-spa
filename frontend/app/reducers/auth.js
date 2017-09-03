@@ -27,26 +27,23 @@ export default function(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
     case login.REQUEST:
-      return {
-        ...initialState,
+      return { ...state,
         isAuthenticating: true,
       }
 
     case login.SUCCESS:
       const { token, user } = payload
       storage.doLogin(token, user)
-      return {
-        ...initialState,
+      return { ...state,
         isAuthenticated: true,
         token,
         user,
       }
 
     case login.FAILURE:
-      const { response: { status, error } } = payload
+      const { status, error } = payload
       storage.doLogout()
-      return {
-        ...initialState,
+      return { ...state,
         statusText: `Authentication Error (${status}): ${error}`,
       }
 
@@ -56,8 +53,7 @@ export default function(state = initialState, action) {
       }
 
     case logout.REQUEST:
-      return {
-        ...initialState,
+      return { ...state,
         isAuthenticating: true,
       }
 

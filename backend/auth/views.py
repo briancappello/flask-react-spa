@@ -1,7 +1,7 @@
 from http import HTTPStatus
 from flask import after_this_request, Blueprint, jsonify, request
 from flask_login import current_user
-from flask_security.utils import login_user, logout_user
+from flask_security.utils import get_message, login_user, logout_user
 from flask_security.views import _security, _commit
 from werkzeug.datastructures import MultiDict
 
@@ -28,10 +28,15 @@ def login():
         login_user(form.user, remember=form.remember.data)
         after_this_request(_commit)
 
-    if form.errors:
+    errors = form.errors
+    if get_message('CONFIRMATION_REQUIRED')[0] in errors.get('email', []):
         return jsonify({
-            'error': 'Invalid username or password.',
-        }), 401
+            'error': get_message('CONFIRMATION_REQUIRED')[0],
+        }), HTTPStatus.UNAUTHORIZED
+    elif errors:
+        return jsonify({
+            'error': 'Invalid username or password.'
+        }), HTTPStatus.UNAUTHORIZED
 
     return jsonify({
         'user': form.user.get_security_payload(),

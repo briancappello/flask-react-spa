@@ -20,7 +20,7 @@ export function *loginSaga(action) {
     yield put(push(redirect))
     yield put(flashSuccess('You have been successfully logged in.'))
   } catch (e) {
-    yield put(login.failure(e))
+    yield put(login.failure(e.response))
   } finally {
     yield put(login.fulfill())
   }
@@ -34,7 +34,7 @@ export function *logoutSaga() {
     yield put(push('/'))
     yield put(flashSuccess('You have been successfully logged out.'))
   } catch (e) {
-    yield put(logout.failure(e))
+    yield put(logout.failure(e.response))
   } finally {
     yield put(logout.fulfill())
   }

@@ -13,7 +13,7 @@ export function *fetchProtectedSaga() {
     const data = yield call(Api.fetchProtected, token)
     yield put(fetchProtected.success(data))
   } catch (e) {
-    yield put(fetchProtected.failure(e))
+    yield put(fetchProtected.failure(e.response))
   } finally {
     yield put(fetchProtected.fulfill())
   }
