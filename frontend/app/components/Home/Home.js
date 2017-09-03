@@ -1,8 +1,17 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import { PageContent } from 'components/Content'
+import { flashSuccess } from 'actions/flash'
 
-export default class Home extends Component {
+class Home extends Component {
+  componentWillMount() {
+    if (window.location.search.indexOf('welcome') > 0) {
+      this.props.flashSuccess('Welcome!')
+    }
+  }
+
   render() {
     return (
       <PageContent>
@@ -11,3 +20,8 @@ export default class Home extends Component {
     )
   }
 }
+
+export default connect(
+  (state) => ({}),
+  (dispatch) => bindActionCreators({ flashSuccess }, dispatch),
+)(Home)

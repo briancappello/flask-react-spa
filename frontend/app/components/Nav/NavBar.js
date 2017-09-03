@@ -22,7 +22,7 @@ class NavBar extends Component {
             <span className="tld">api</span>
           </Link>
           <div className="menu left">
-            {topLevelMenu(routes, /* excludePaths= */ ['login', 'logout', 'profile', '*'])}
+            {topLevelMenu(routes, /* excludePaths= */ ['login', 'logout', 'sign-up', 'profile', '*'])}
           </div>
           <div className="menu right">
             {this.props.isAuthenticated
@@ -47,6 +47,7 @@ class NavBar extends Component {
   renderUnauthenticatedMenu() {
     return (
       <div>
+        <Link to="/sign-up">Sign Up</Link>
         <Link to="/login">Login</Link>
       </div>
     )

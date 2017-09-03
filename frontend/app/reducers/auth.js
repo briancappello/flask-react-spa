@@ -1,4 +1,9 @@
-import { login, logout, fetchProfile } from 'actions/auth'
+import {
+  login,
+  logout,
+  fetchProfile,
+  signUp,
+} from 'actions/auth'
 import storage from 'utils/storage'
 
 export const initialState = {
@@ -12,6 +17,10 @@ export const initialState = {
     isLoaded: false,
     error: null,
   },
+  signUp: {
+    isSubmitting: false,
+    errors: {},
+  }
 }
 
 export default function(state = initialState, action) {
@@ -67,7 +76,7 @@ export default function(state = initialState, action) {
     case fetchProfile.SUCCESS:
       return { ...state,
         user: { ...state.user,
-          ...payload,
+          ...payload.user,
         },
         profile: { ...state.profile,
           isLoaded: true,
@@ -85,6 +94,40 @@ export default function(state = initialState, action) {
       return { ...state,
         profile: { ...state.profile,
           isLoading: false,
+        },
+      }
+
+    case signUp.REQUEST:
+      return { ...state,
+        signUp: { ...state.signUp,
+          isSubmitting: true,
+        },
+      }
+
+    case signUp.SUCCESS:
+      return { ...state,
+        user: { ...state.user,
+          ...payload.user,
+        },
+        profile: { ...state.profile,
+          isLoaded: true,
+        },
+        signUp: { ...state.signUp,
+          errors: {},
+        }
+      }
+
+    case signUp.FAILURE:
+      return { ...state,
+        signUp: { ...state.signUp,
+          errors: payload.errors,
+        }
+      }
+
+    case signUp.FULFILL:
+      return { ...state,
+        signUp: { ...state.signUp,
+          isSubmitting: false,
         },
       }
   }

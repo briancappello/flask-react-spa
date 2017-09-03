@@ -40,4 +40,8 @@ export default class Api {
   static logout() {
     return get(v1('/auth/logout'))
   }
+
+  static signUp(payload) {
+    return post(v1('/users'), payload)
+  }
 }

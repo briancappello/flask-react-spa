@@ -10,6 +10,9 @@ import {
   Login,
   Logout,
   NotFound,
+  PendingConfirmation,
+  ResendConfirmation,
+  SignUp,
   Styles,
   Profile,
   Protected,
@@ -30,6 +33,10 @@ const routes = {
     { path: 'protected', label: 'Protected', component: requireAuthentication(Protected) },
     { path: 'login', component: Login },
     { path: 'logout', component: Logout },
+    { path: 'sign-up', component: SignUp, childRoutes: [
+      { path: 'resend-confirmation-email', component: ResendConfirmation },
+      { path: 'pending-confirm-email', component: PendingConfirmation },
+    ] },
 
     // default 404 if no match
     { path: '*', component: NotFound },
