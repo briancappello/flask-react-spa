@@ -183,7 +183,9 @@ class Api(BaseApi):
         return 'api.' + endpoint
 
     def _register_serializers(self, app, serializers):
-        class JSONEncoder(BaseJSONEncoder):
+        BaseEncoderClass = app.json_encoder or BaseJSONEncoder
+
+        class JSONEncoder(BaseEncoderClass):
             def default(self, o):
                 if isinstance(o, Model):
                     model_name = o.__class__.__name__
