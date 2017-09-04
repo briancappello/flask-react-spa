@@ -4,7 +4,7 @@ import { push } from 'react-router-redux'
 import { selectAuth } from 'reducers/auth'
 import { flashClear, flashSuccess } from 'actions/flash'
 import {
-  checkAuthToken,
+  changePassword,
   login,
   logout,
   fetchProfile,
@@ -14,6 +14,12 @@ import {
 } from 'actions/auth'
 import Api from 'utils/api'
 import { createRoutineSaga } from 'sagas'
+
+export const changePasswordSaga = createRoutineSaga(changePassword, function *(payload) {
+  const response = yield call(Api.changePassword, payload)
+  yield put(flashSuccess('Your password has been successfully changed.'))
+  return response
+})
 
 export const loginSaga = createRoutineSaga(login, function *(actionPayload) {
   const { redirect, ...payload } = actionPayload
@@ -58,7 +64,7 @@ export const updateProfileSaga = createRoutineSaga(updateProfile, function *(pay
   yield put(flashClear())
   const { token, user } = yield select(selectAuth)
   const response = yield call(Api.updateProfile, token, user, payload)
-  yield put(flashSuccess('Profile successfully updated.'))
+  yield put(flashSuccess('Your profile has been successfully updated.'))
   return { user: response }
 })
 
@@ -69,6 +75,7 @@ export const resendConfirmationEmailSaga = createRoutineSaga(resendConfirmationE
 })
 
 export default () => [
+  takeLatest(changePassword.TRIGGER, changePasswordSaga),
   takeLatest(login.TRIGGER, loginSaga),
   takeLatest(logout.TRIGGER, logoutSaga),
   takeEvery(fetchProfile.MAYBE_TRIGGER, fetchProfileIfNeeded),

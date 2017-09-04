@@ -11,6 +11,8 @@ from werkzeug.routing import BuildError
 
 from backend.config import ROLE_HIERARCHY
 
+from .forms import ChangePasswordForm
+
 
 security_bp = Blueprint('security', 'flask_security',
                         template_folder='templates',
@@ -34,9 +36,10 @@ class Security(BaseSecurity):
             # set an optional custom anonymous user class
             'anonymous_user': None,
 
-            # set a custom login form (NOTE: we don't use any of the other
-            # Flask-Security forms, instead Marshmallow serializers are used)
+            # set a custom forms (NOTE: we don't use all of the Flask-Security
+            # forms, instead sometimes Marshmallow serializers are used)
             'login_form': None,
+            'change_password_form': ChangePasswordForm,
         }
         self._kwargs.update(kwargs)
         super(Security, self).__init__(app, datastore, **self._kwargs)

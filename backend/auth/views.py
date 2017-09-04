@@ -1,6 +1,7 @@
 from http import HTTPStatus
 from flask import after_this_request, Blueprint, jsonify, request
 from flask_login import current_user
+from flask_security.changeable import change_user_password
 from flask_security.confirmable import send_confirmation_instructions
 from flask_security.utils import config_value, get_message, login_user, logout_user
 from flask_security.views import _security, _commit
@@ -95,3 +96,19 @@ def resend_confirmation_email():
         return jsonify({'errors': form.errors}), HTTPStatus.BAD_REQUEST
 
     return '', HTTPStatus.NO_CONTENT
+
+
+@auth.route('/change-password', methods=['POST'])
+@auth_required
+def change_password():
+    user = current_user._get_current_object()
+    form = _security.change_password_form(MultiDict(request.get_json()))
+
+    if form.validate_on_submit():
+        after_this_request(_commit)
+        change_user_password(user, form.newPassword.data)
+
+    if form.errors:
+        return jsonify({'errors': form.errors}), HTTPStatus.BAD_REQUEST
+
+    return jsonify({'token': user.get_auth_token()})

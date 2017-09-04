@@ -21,6 +21,10 @@ function v1(uri) {
  * NOTE: Please keep the order alphabetized!
  */
 export default class Api {
+  static changePassword(payload) {
+    return post(v1('/auth/change-password'), payload)
+  }
+
   static checkAuthToken(token) {
     return get(v1('/auth/check-auth-token'), { token })
   }
