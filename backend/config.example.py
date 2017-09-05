@@ -92,6 +92,9 @@ class BaseConfig(object):
     # parsed as a kwarg to timedelta, so the time unit must always be plural
     SECURITY_CONFIRM_EMAIL_WITHIN = '7 days'  # default 5 days
 
+    # enable forgot password functionality
+    SECURITY_RECOVERABLE = True
+
     # NOTE: itsdangerous "salts" are not normal salts in the cryptographic
     # sense, see https://pythonhosted.org/itsdangerous/#the-salt
     SECURITY_PASSWORD_SALT = os.environ.get('FLASK_SECURITY_PASSWORD_SALT',

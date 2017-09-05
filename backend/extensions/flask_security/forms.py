@@ -13,7 +13,7 @@ password_length = Length(min=8, max=128,
                          message='Password must be at least 8 characters long.')
 
 
-class ChangePasswordForm(Form, PasswordFormMixin):
+class ChangePasswordFormMixin(object):
     newPassword = PasswordField(
         'New Password',
         validators=[password_required, password_length]
@@ -25,6 +25,8 @@ class ChangePasswordForm(Form, PasswordFormMixin):
                     EqualTo('newPassword', message='RETYPE_PASSWORD_MISMATCH')]
     )
 
+
+class ChangePasswordForm(Form, PasswordFormMixin, ChangePasswordFormMixin):
     def validate(self):
         if not super(ChangePasswordForm, self).validate():
             return False
@@ -36,3 +38,7 @@ class ChangePasswordForm(Form, PasswordFormMixin):
             self.newPassword.errors.append(get_message('PASSWORD_IS_THE_SAME')[0])
             return False
         return True
+
+
+class ResetPasswordForm(Form, ChangePasswordFormMixin):
+    pass

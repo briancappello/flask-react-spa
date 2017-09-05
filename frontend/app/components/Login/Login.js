@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import { Link } from 'components/Nav'
 
 import { bindRoutineCreators } from 'actions'
 import { login } from 'actions/auth'
@@ -63,6 +64,10 @@ class Login extends React.Component {
   }
 
   render() {
+    if (this.props.children) {
+      return this.props.children
+    }
+
     const { freshLogin } = this.state
     const { isAuthenticating, error } = this.props
     if (!freshLogin && isAuthenticating) {
@@ -109,6 +114,9 @@ class Login extends React.Component {
                 >
                   {isAuthenticating ? 'Logging in...' : 'Submit'}
                 </button>
+                <span className="pull-right">
+                  <Link to="/login/forgot-password" style={{lineHeight: '38px'}}>Forgot password?</Link>
+                </span>
               </div>
             </form>
           </div>

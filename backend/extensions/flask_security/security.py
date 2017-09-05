@@ -6,12 +6,12 @@ from flask_security import Security as BaseSecurity
 from flask_security.core import _security, url_for_security
 from flask_security.signals import user_confirmed
 from flask_security.utils import slash_url_suffix
-from flask_security.views import confirm_email
+from flask_security.views import confirm_email, forgot_password
 from werkzeug.routing import BuildError
 
 from backend.config import ROLE_HIERARCHY
 
-from .forms import ChangePasswordForm
+from .forms import ChangePasswordForm, ResetPasswordForm
 
 
 security_bp = Blueprint('security', 'flask_security',
@@ -40,6 +40,7 @@ class Security(BaseSecurity):
             # forms, instead sometimes Marshmallow serializers are used)
             'login_form': None,
             'change_password_form': ChangePasswordForm,
+            'reset_password_form': ResetPasswordForm,
         }
         self._kwargs.update(kwargs)
         super(Security, self).__init__(app, datastore, **self._kwargs)
@@ -57,19 +58,28 @@ class Security(BaseSecurity):
         # load user's role hierarchy
         identity_loaded.connect_via(app)(on_identity_loaded)
 
+        # only activate users after they've been confirmed
+        if self.confirmable:
+            user_confirmed.connect_via(app)(_on_user_confirmed)
+
         # we still need to register a blueprint under the flask_security namespace
         # so that its email templates can be loaded/extended/overwritten
         if not self._kwargs['register_blueprint']:
+            from backend.auth.views import reset_password
             if self.confirmable:
                 security_bp.route(self.confirm_url + slash_url_suffix(self.confirm_url,
                                                                       '<token>'),
                                   methods=['GET'],
                                   endpoint='confirm_email')(confirm_email)
+            if self.recoverable:
+                security_bp.route(self.reset_url,
+                                  methods=['POST'],
+                                  endpoint='forgot_password')(forgot_password)
+                security_bp.route('/reset-password/<token>',
+                                  methods=['GET', 'POST'],
+                                  endpoint='reset_password')(reset_password)
             app.register_blueprint(security_bp)
             app.context_processor(_context_processor)
-
-        if self.confirmable:
-            user_confirmed.connect_via(app)(_on_user_confirmed)
 
 
 def _context_processor():

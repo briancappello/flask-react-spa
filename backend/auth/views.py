@@ -1,8 +1,9 @@
 from http import HTTPStatus
-from flask import after_this_request, Blueprint, jsonify, request
+from flask import after_this_request, Blueprint, jsonify, redirect, request
 from flask_login import current_user
 from flask_security.changeable import change_user_password
 from flask_security.confirmable import send_confirmation_instructions
+from flask_security.recoverable import reset_password_token_status, send_reset_password_instructions, update_password
 from flask_security.utils import config_value, get_message, login_user, logout_user
 from flask_security.views import _security, _commit
 from werkzeug.datastructures import MultiDict
@@ -47,6 +48,7 @@ def login():
     })
 
 
+# FIXME implement remember me functionality
 @auth.route('/check-auth-token')
 @auth_required
 def check_auth_token():
@@ -112,3 +114,35 @@ def change_password():
         return jsonify({'errors': form.errors}), HTTPStatus.BAD_REQUEST
 
     return jsonify({'token': user.get_auth_token()})
+
+
+@anonymous_user_required
+def reset_password(token):
+    """View function that handles a reset password request."""
+
+    expired, invalid, user = reset_password_token_status(token)
+
+    # NOTE: these redirect URLs are for the _frontend_ router!
+
+    if invalid:
+        return redirect('/login/forgot-password?invalid')
+
+    if expired:
+        send_reset_password_instructions(user)
+        return redirect('/login/forgot-password?expired')
+
+    if request.method == 'GET':
+        return redirect('/login/reset-password/%s' % token)
+
+    form = _security.reset_password_form()
+
+    if form.validate_on_submit():
+        after_this_request(_commit)
+        update_password(user, form.newPassword.data)
+        login_user(user)
+        return jsonify({
+            'token': user.get_auth_token(),
+            'user': user,
+        })
+
+    return jsonify({'errors': form.errors}), HTTPStatus.BAD_REQUEST

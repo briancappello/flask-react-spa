@@ -5,6 +5,8 @@ import { selectAuth } from 'reducers/auth'
 import { flashClear, flashSuccess } from 'actions/flash'
 import {
   changePassword,
+  forgotPassword,
+  resetPassword,
   login,
   logout,
   fetchProfile,
@@ -19,6 +21,22 @@ export const changePasswordSaga = createRoutineSaga(changePassword, function *(p
   const response = yield call(Api.changePassword, payload)
   yield put(flashSuccess('Your password has been successfully changed.'))
   return response
+})
+
+export const forgotPasswordSaga = createRoutineSaga(forgotPassword, function *(payload) {
+  const response = yield call(Api.forgotPassword, payload)
+  yield put(flashSuccess('A password reset link has been sent to your email address.'))
+  return response
+})
+
+export const resetPasswordSaga = createRoutineSaga(resetPassword, function *(actionPayload) {
+  const { token: resetToken, ...payload } = actionPayload
+  const { token, user } = yield call(Api.resetPassword, resetToken, payload)
+  yield put(login.success({ token, user }))
+  yield put(fetchProfile.success({ user }))
+  yield put(push('/'))
+  yield put(flashSuccess('Welcome back! Your password has been successfully changed.'))
+  return { token, user }
 })
 
 export const loginSaga = createRoutineSaga(login, function *(actionPayload) {
@@ -45,8 +63,8 @@ export function *fetchProfileIfNeeded() {
 
 export const fetchProfileSaga = createRoutineSaga(fetchProfile, function *() {
   const { token, user } = yield select(selectAuth)
-  const data = yield call(Api.fetchProfile, token, user)
-  return { user: data }
+  const response = yield call(Api.fetchProfile, token, user)
+  return { user: response }
 })
 
 export const signUpSaga = createRoutineSaga(signUp, function *(payload) {
@@ -76,6 +94,8 @@ export const resendConfirmationEmailSaga = createRoutineSaga(resendConfirmationE
 
 export default () => [
   takeLatest(changePassword.TRIGGER, changePasswordSaga),
+  takeLatest(forgotPassword.TRIGGER, forgotPasswordSaga),
+  takeLatest(resetPassword.TRIGGER, resetPasswordSaga),
   takeLatest(login.TRIGGER, loginSaga),
   takeLatest(logout.TRIGGER, logoutSaga),
   takeEvery(fetchProfile.MAYBE_TRIGGER, fetchProfileIfNeeded),

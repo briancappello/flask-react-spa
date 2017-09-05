@@ -37,6 +37,10 @@ export default class Api {
     return get(v1('/test'), { token })
   }
 
+  static forgotPassword(payload) {
+    return post(url('/auth/reset'), payload)
+  }
+
   static login(payload) {
     return post(v1('/auth/login'), payload)
   }
@@ -47,6 +51,10 @@ export default class Api {
 
   static resendConfirmationEmail(email) {
     return post(v1('/auth/resend-confirmation-email'), { email })
+  }
+
+  static resetPassword(token, payload) {
+    return post(url(`/auth/reset/${token}`), payload)
   }
 
   static signUp(payload) {
