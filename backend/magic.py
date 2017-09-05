@@ -32,16 +32,18 @@ def _get_extensions(deferred):
 
 def get_bundle_blueprints():
     """An iterable of (blueprint_instance, url_prefix) tuples"""
-    def is_blueprint(obj):
-        return isinstance(obj, flask.Blueprint)
 
     for bundle in BUNDLES:
+        module_name = '{}.views'.format(bundle)
         try:
-            views_module = import_module('{}.views'.format(bundle))
+            views_module = import_module(module_name)
         except ImportError:
             continue  # allow bundles without any views
 
-        for _, blueprint in inspect.getmembers(views_module, is_blueprint):
+        def is_blueprint(obj):
+            return isinstance(obj, flask.Blueprint) and obj.import_name == module_name
+
+        for name, blueprint in inspect.getmembers(views_module, is_blueprint):
             # rstrip '/' off url_prefix because views should be declaring their
             # routes beginning with '/', and if url_prefix ends with '/', routes
             # will end up looking like '/prefix//endpoint', which is no good
