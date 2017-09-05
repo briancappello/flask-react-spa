@@ -12,7 +12,7 @@ const { join } = require('path')
 const defaults = require('lodash/defaultsDeep')
 const webpack = require('webpack')
 const pkg = require(join(process.cwd(), 'package.json'))
-const dllPlugin = require('./internals/dllConfig').dllPlugin
+const dllPlugin = require('../dllConfig').dllPlugin
 
 if (!pkg.dllPlugin) { process.exit(0) }
 

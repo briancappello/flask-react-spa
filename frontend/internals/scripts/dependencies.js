@@ -12,7 +12,7 @@ const writeFile = fs.writeFileSync
 
 const defaults = require('lodash/defaultsDeep')
 const pkg = require(path.join(process.cwd(), 'package.json'))
-const config = require('./dllConfig')
+const config = require('../dllConfig')
 const dllConfig = defaults(pkg.dllPlugin, config.dllPlugin.defaults)
 const outputPath = path.join(process.cwd(), dllConfig.path)
 const dllManifestPath = path.join(outputPath, 'package.json')
@@ -43,4 +43,4 @@ if (!exists(dllManifestPath)) {
 }
 
 // the BUILDING_DLL env var is set to avoid confusing the development environment
-exec('BUILDING_DLL=true webpack --display-chunks --color --config frontend/webpack.dll.config.js')
+exec('BUILDING_DLL=true webpack --display-chunks --color --config frontend/internals/webpack/webpack.dll.config.js')

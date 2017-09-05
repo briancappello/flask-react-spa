@@ -7,12 +7,7 @@ const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 const pkg = require(path.resolve(process.cwd(), 'package.json'))
 const dllPlugin = pkg.dllPlugin
 
-const PORT = process.env.PORT || 8888
-
 const plugins = [
-  new webpack.DefinePlugin({
-    server: { PORT },
-  }),
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoEmitOnErrorsPlugin(),
   new HtmlWebpackPlugin({
@@ -22,16 +17,17 @@ const plugins = [
 ]
 
 if (dllPlugin) {
-  glob.sync(`${dllPlugin.path}/*.dll.js`).forEach((dllPath) => {
-    plugins.push(new AddAssetHtmlPlugin({
-      filepath: dllPath,
-      includeSourcemap: false,
-    }))
+  const filepaths = glob.sync(`${dllPlugin.path}/*.dll.js`).map((dllPath) => {
+    return { filepath: dllPath, includeSourcemap: false }
   })
+  plugins.push(new AddAssetHtmlPlugin(filepaths))
 }
 
 module.exports = require('./webpack.base.config.js')({
-  devtool: 'source-map',
+  devtool: 'eval-source-map',
+  performance: {
+    hints: false,
+  },
   entry: {
     app: [
       'webpack-hot-middleware/client?reload=true',

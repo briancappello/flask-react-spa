@@ -22,14 +22,24 @@ module.exports = function addDevMiddlewares(app, webpackConfig, options) {
 
   // this hackery is so that we get cookies from the backend, but respond
   // with webpack's generated index.html
-  app.use('*', proxy(`http://${options.host}:${options.backendPort}`, {
-    proxyReqPathResolver: (req) => req.baseUrl,
+  app.use(/^(?!\/static\/).*/, proxy(`http://${options.host}:${options.backendPort}`, {
+    proxyReqPathResolver: (req) => {
+      console.log(`Proxying ${req.baseUrl}`)
+      return req.baseUrl
+    },
     userResDecorator: (rsp, data, req, res) => {
       return new Promise((resolve, reject) => {
+        // if we got a non-html response, return it as-is
+        if (res._headers['content-type'].indexOf('html') === -1) {
+          console.log('returning backend response.........')
+          return resolve(data)
+        }
+
         // if we got a redirect, set the correct port
         if (res.statusCode == 301 || res.statusCode == 302) {
-          const location = res._headers.location
-          res.location(location.replace(options.backendPort, options.frontendPort))
+          const location = res._headers.location.replace(options.backendPort, options.frontendPort)
+          console.log(`redirecting to ${location} ..........`)
+          res.location(location)
         }
 
         fs.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {
@@ -38,6 +48,7 @@ module.exports = function addDevMiddlewares(app, webpackConfig, options) {
             res.status(404)
             resolve('Not Found')
           } else {
+            console.log('returning index.html.........')
             resolve(file.toString())
           }
         })

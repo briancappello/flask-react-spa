@@ -6,8 +6,12 @@ const STYLES_ROOT = path.join(APP_ROOT, 'styles')
 
 process.traceDeprecation = true
 
+const PORT = process.env.PORT || 8888
+
 module.exports = (options) => ({
   devtool: options.devtool,
+  target: 'web',
+  performance: options.performance || {},
   resolve: {
     modules: [APP_ROOT, STYLES_ROOT, 'node_modules'],
     extensions: ['.js', '.jsx'],
@@ -73,5 +77,12 @@ module.exports = (options) => ({
     new webpack.ProvidePlugin({
       fetch: 'imports?this=>global!exports?global.fetch!whatwg-fetch',
     }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      },
+      server: { PORT },
+    }),
+    new webpack.NamedModulesPlugin(),
   ]),
 })
