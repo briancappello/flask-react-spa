@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
+import { bindActionCreators } from 'redux'
 import classnames from 'classnames'
 
 import { bindRoutineCreators } from 'actions'
@@ -19,6 +21,11 @@ class SignUp extends Component {
     }
   }
 
+  componentWillMount() {
+    if (this.props.isAuthenticated) {
+      this.props.push('/')
+    }
+  }
 
   onSubmit = (e) => {
     e.preventDefault()
@@ -93,6 +100,12 @@ class SignUp extends Component {
 }
 
 export default connect(
-  (state) => selectAuth(state).signUp,
-  (dispatch) => bindRoutineCreators({ signUp }, dispatch)
+  (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    ...selectAuth(state).signUp,
+  }),
+  (dispatch) => ({
+    ...bindRoutineCreators({ signUp }, dispatch),
+    ...bindActionCreators({ push }, dispatch),
+  }),
 )(SignUp)

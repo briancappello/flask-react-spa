@@ -14,11 +14,20 @@ import { flashInfo } from 'actions/flash'
 import Api from 'utils/api'
 import storage from 'utils/storage'
 
-const targetEl = document.getElementById('app')
+const APP_MOUNT_POINT = document.getElementById('app')
 
 const initialState = {}
 const store = configureStore(initialState, browserHistory)
 const history = syncHistoryWithStore(browserHistory, store)
+
+const renderRootComponent = (Component) => {
+  ReactDOM.render(
+    <HotReloadContainer>
+      <Component store={store} history={history} />
+    </HotReloadContainer>,
+    APP_MOUNT_POINT
+  )
+}
 
 const token = storage.getToken()
 store.dispatch(login.request())
@@ -32,20 +41,13 @@ Api.checkAuthToken(token)
   .catch(() => {
     store.dispatch(logout.success())
   })
-
-function rootNode(Root) {
-  return (
-    <HotReloadContainer>
-      <Root store={store} history={history} />
-    </HotReloadContainer>
-  )
-}
-
-ReactDOM.render(rootNode(Root), targetEl)
+  .then(() => {
+    renderRootComponent(Root)
+  })
 
 if (module.hot) {
   module.hot.accept('./components/Root', () => {
     const NextRoot = require('./components/Root').default
-    ReactDOM.render(rootNode(NextRoot), targetEl)
+    renderRootComponent(NextRoot)
   })
 }
