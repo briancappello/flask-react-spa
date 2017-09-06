@@ -3,17 +3,19 @@ http://flask.pocoo.org/docs/0.11/patterns/appfactories/
 
 Conventions to follow for magic to ensue:
 
-VIEWS, MODELS, and COMMANDS ("bundles")
+VIEWS, MODELS, SERIALIZERS and COMMANDS ("bundles")
 -----------------------------
 All views/models should be contained in bundle folders.
 Views should be in a file named `views.py` containing the flask.Blueprint instance.
 Models should be in a file named `models.py` and should extend database.Model
+Serializers should be in a file named `serializers.py` and should extend
+ flask_marshmallow.sqla.ModelSchema or backend.extensions.flask_marshmallow.ModelSerializer
 Commands should be in a file named `commands.py` containing a click.Group instance.
 Finally, each bundle folder must be registered in `config.py`
 
 EXTENSIONS
 -----------------------------
-All extensions should be instantiated in `extensions.py`
+All extensions should be instantiated in `extensions/__init__.py`
 
 CLI COMMANDS
 -----------------------------
@@ -21,7 +23,7 @@ Decorate custom CLI commands in `commands.py` using @cli.command()
 
 FLASK SHELL CONTEXT
 -----------------------------
-Database models and app extensions will automatically be added to
+Database models, serializers and app extensions will automatically be added to
 the shell context, presuming the above conventions have been followed.
 """
 import sys
