@@ -19,9 +19,10 @@ TEST_PATH = os.path.join(PROJECT_ROOT, 'tests')
 
 
 @cli.command()
-@click.option('--reset', is_flag=True, expose_value=True,
+@click.option('--reset/--no-reset', expose_value=True,
               prompt='Reset DB and run migrations before loading fixtures?')
 @click.argument('file', type=click.File())
+@with_appcontext
 def load_fixtures(file, reset):
     """Load database fixtures from JSON."""
     import json
@@ -31,6 +32,15 @@ def load_fixtures(file, reset):
 
     if reset:
         _reset_db()
+
+    # sqlalchemy and postgres sequences don't play so nice together when ids are
+    # explicitly set. so we need to modify the sequence start-point ourselves
+    is_postgres = current_app.config.get('SQLALCHEMY_DATABASE_URI', '').startswith('postgres')
+    sequences = []
+    if is_postgres:
+        sequences = [row[0] for row in db.session.execute("""
+            SELECT relname FROM pg_class WHERE relkind = 'S'
+        """)]
 
     click.echo('Loading fixtures.')
     for fixture in json.load(file):
@@ -51,12 +61,20 @@ def load_fixtures(file, reset):
         click.echo('Adding %d %s record%s.' % (len(records), fixture['model'],
                                                's' if len(records) > 1 else ''))
         db.session.add_all(records)
+
+        if is_postgres:
+            seq_name = '%s_id_seq' % model.__tablename__
+            if seq_name in sequences:
+                db.session.execute(
+                    'ALTER SEQUENCE %s RESTART WITH :count' % seq_name,
+                    {'count': len(records) + 1}
+                )
         db.session.commit()
     click.echo('Done.')
 
 
 @db_cli.command()
-@click.option('--drop', is_flag=True, expose_value=True,
+@click.option('--drop/--no-drop', expose_value=True,
               prompt='Drop DB tables?')
 @with_appcontext
 def drop(drop):
