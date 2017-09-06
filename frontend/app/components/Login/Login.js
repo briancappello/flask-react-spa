@@ -41,10 +41,6 @@ class Login extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.refs.username && this.refs.username.focus()
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.isAuthenticated) {
       this.props.push(this.state.redirect)
@@ -91,7 +87,7 @@ class Login extends React.Component {
                 <label htmlFor="username">Email or Username</label>
                 <input type="text"
                        id="username"
-                       ref="username"
+                       autoFocus
                        placeholder="Email or Username"
                        className="full-width"
                        onChange={(e) => this.handleInputChange(e, 'email')}
