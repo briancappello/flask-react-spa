@@ -5,7 +5,6 @@ from flask_principal import identity_loaded, RoleNeed
 from flask_security import Security as BaseSecurity
 from flask_security.core import _security, url_for_security
 from flask_security.signals import user_confirmed
-from flask_security.utils import slash_url_suffix
 from flask_security.views import confirm_email, forgot_password
 from werkzeug.routing import BuildError
 
@@ -67,15 +66,14 @@ class Security(BaseSecurity):
         if not self._kwargs['register_blueprint']:
             from backend.auth.views import reset_password
             if self.confirmable:
-                security_bp.route(self.confirm_url + slash_url_suffix(self.confirm_url,
-                                                                      '<token>'),
+                security_bp.route('/confirm/<token>',
                                   methods=['GET'],
                                   endpoint='confirm_email')(confirm_email)
             if self.recoverable:
-                security_bp.route(self.reset_url,
+                security_bp.route('/reset',
                                   methods=['POST'],
                                   endpoint='forgot_password')(forgot_password)
-                security_bp.route('/reset-password/<token>',
+                security_bp.route('/reset/<token>',
                                   methods=['GET', 'POST'],
                                   endpoint='reset_password')(reset_password)
             app.register_blueprint(security_bp)
