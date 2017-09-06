@@ -1,6 +1,6 @@
 from http import HTTPStatus
 from flask import abort, Blueprint, url_for
-from flask_login import current_user
+from flask_login import current_user, login_user, logout_user
 from flask_principal import identity_loaded, RoleNeed
 from flask_security import Security as BaseSecurity
 from flask_security.core import _security, url_for_security
@@ -117,3 +117,6 @@ def _get_role_hierarchy(role_name, parent=None):
 
 def _on_user_confirmed(sender, user):
     user.active = True
+    if user != current_user:
+        logout_user()
+        login_user(user)
