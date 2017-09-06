@@ -1,0 +1,16 @@
+# {{ ansible_managed }}
+
+[uwsgi]
+chdir           = {{ project_dir }}
+module          = wsgi:app
+home            = {{ virtualenv_dir }}
+logto           = {{ application_log_dir }}/uwsgi.log
+
+master          = true
+processes       = 10
+socket          = {{ uwsgi_socket_path }}
+chmod-socket    = 664
+chown-socket    = {{ nginx_user }}:{{ nginx_user }}
+uid             = {{ nginx_user }}
+gid             = {{ nginx_user }}
+vacuum          = true

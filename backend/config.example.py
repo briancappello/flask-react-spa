@@ -45,10 +45,16 @@ ROLE_HIERARCHY = {
 }
 
 
+def get_boolean_env(name, default):
+    default = 'true' if default else 'false'
+    return os.getenv(name, default).lower() in ['true', 'yes', '1']
+
+
 class BaseConfig(object):
     ##########################################################################
     # flask                                                                  #
     ##########################################################################
+    DEBUG = get_boolean_env('FLASK_DEBUG', False)
     SECRET_KEY = os.environ.get('FLASK_SECRET_KEY', 'not-secret-key')  # FIXME
     STRICT_SLASHES = False
 
@@ -73,13 +79,17 @@ class BaseConfig(object):
     ##########################################################################
     # mail                                                                   #
     ##########################################################################
-    MAIL_SERVER = 'localhost'
-    MAIL_PORT = 25
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = False
-    MAIL_USERNAME = None
-    MAIL_PASSWORD = None
-    MAIL_DEFAULT_SENDER = ('Flask API', 'noreply@example.com')  # FIXME
+    MAIL_SERVER = os.environ.get('FLASK_MAIL_HOST', 'localhost')
+    MAIL_PORT = int(os.environ.get('FLASK_MAIL_PORT', 25))
+    MAIL_USE_TLS = get_boolean_env('FLASK_MAIL_USE_TLS', False)
+    MAIL_USE_SSL = get_boolean_env('FLASK_MAIL_USE_SSL', False)
+    MAIL_USERNAME = os.environ.get('FLASK_MAIL_USERNAME', None)
+    MAIL_PASSWORD = os.environ.get('FLASK_MAIL_PASSWORD', None)
+    MAIL_DEFAULT_SENDER = (
+        os.environ.get('FLASK_MAIL_DEFAULT_SENDER_NAME', 'Flask API'),
+        os.environ.get('FLASK_MAIL_DEFAULT_SENDER_EMAIL',
+                       'noreply@%s' % os.environ.get('FLASK_DOMAIN', 'localhost'))
+    )
 
     ##########################################################################
     # security                                                               #
@@ -106,18 +116,26 @@ class ProdConfig(BaseConfig):
     # flask                                                                  #
     ##########################################################################
     ENV = 'prod'
-    DEBUG = False
+    DEBUG = get_boolean_env('FLASK_DEBUG', False)
 
     ##########################################################################
     # database                                                               #
     ##########################################################################
-    SQLALCHEMY_DATABASE_URI = 'postgresql://user:pw@localhost/db_name'  # FIXME
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{user}:{password}@{host}:{port}/{db_name}'.format(
+        user=os.environ.get('FLASK_DATABASE_USER', 'flask_api'),
+        password=os.environ.get('FLASK_DATABASE_PASSWORD', 'flask_api'),
+        host=os.environ.get('FLASK_DATABASE_HOST', '127.0.0.1'),
+        port=os.environ.get('FLASK_DATABASE_PORT', 5432),
+        db_name=os.environ.get('FLASK_DATABASE_NAME', 'flask_api'),
+    )
 
     ##########################################################################
     # session/cookies                                                        #
     ##########################################################################
-    SESSION_COOKIE_DOMAIN = 'www.example.com'  # FIXME
-    SESSION_TYPE = 'null'  # FIXME
+    SESSION_COOKIE_DOMAIN = os.environ.get('FLASK_DOMAIN', 'example.com')  # FIXME
+    SESSION_COOKIE_SECURE = get_boolean_env('SESSION_COOKIE_SECURE', True)
+    SESSION_TYPE = 'filesystem'  # FIXME, probably better to use sqlalchemy
+    SESSION_FILE_DIR = 'flask_sessions'
 
 
 class DevConfig(BaseConfig):
@@ -125,7 +143,7 @@ class DevConfig(BaseConfig):
     # flask                                                                  #
     ##########################################################################
     ENV = 'dev'
-    DEBUG = True
+    DEBUG = get_boolean_env('FLASK_DEBUG', True)
     # EXPLAIN_TEMPLATE_LOADING = True
 
     ##########################################################################

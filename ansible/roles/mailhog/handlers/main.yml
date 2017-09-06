@@ -1,0 +1,9 @@
+# handlers file for mailhog
+---
+- name: restart mailhog
+  service:
+    name: mailhog
+    state: restarted
+
+- name: reload nginx
+  service: name={{ nginx_svc }} state=reloaded

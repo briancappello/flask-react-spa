@@ -1,0 +1,15 @@
+# tasks file for mailhog
+---
+- name: service | systemd | update script
+  template:
+    src: mailhog.systemd.j2
+    dest: /lib/systemd/system/mailhog.service
+    owner: root
+    group: root
+    mode: 0644
+  register: _update_systemd_script
+  notify: restart mailhog
+
+- name: service | systemd | reload
+  command: systemctl daemon-reload
+  when: _update_systemd_script | changed

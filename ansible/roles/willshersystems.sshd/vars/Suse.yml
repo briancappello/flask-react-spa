@@ -1,0 +1,25 @@
+---
+sshd_packages:
+  - openssh
+sshd_sftp_server: /usr/lib/ssh/sftp-server
+sshd_defaults:
+  HostKey:
+    - /etc/ssh/ssh_host_rsa_key
+    - /etc/ssh/ssh_host_ecdsa_key
+    - /etc/ssh/ssh_host_ed25519_key
+  SyslogFacility: AUTH
+  AuthorizedKeysFile: .ssh/authorized_keys
+  PasswordAuthentication: yes
+  ChallengeResponseAuthentication: no
+  GSSAPIAuthentication: yes
+  GSSAPICleanupCredentials: no
+  UsePAM: yes
+  X11Forwarding: yes
+  UsePrivilegeSeparation: sandbox
+  AcceptEnv:
+    - LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+    - LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+    - LC_IDENTIFICATION LC_ALL LANGUAGE
+    - XMODIFIERS
+  Subsystem: "sftp {{ sshd_sftp_server }}"
+sshd_os_supported: yes

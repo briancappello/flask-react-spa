@@ -1,0 +1,54 @@
+---
+- name: Set OS dependent variables
+  include_vars: "{{ item }}"
+  with_first_found:
+   - "{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml"
+   - "{{ ansible_distribution }}.yml"
+   - "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
+   - "{{ ansible_os_family }}.yml"
+   - default.yml
+  tags:
+    - sshd
+
+- name: OS is supported
+  assert:
+    that: sshd_os_supported == True
+  tags:
+    - sshd
+
+- name: Installed
+  action: >
+    {{ ansible_pkg_mgr }}
+    name="{{ item }}"
+    state=installed
+  with_items: "{{ sshd_packages }}"
+  when: ansible_pkg_mgr != 'unknown'
+  tags:
+    - sshd
+
+- name: Configuration
+  template:
+    src: sshd_config.j2
+    dest: "{{ sshd_config_file }}"
+    owner: "{{ sshd_config_owner }}"
+    group: "{{ sshd_config_group }}"
+    mode: "{{ sshd_config_mode }}"
+    validate: "{{ sshd_binary }} -t -f %s"
+  notify: reload_sshd
+  tags:
+    - sshd
+
+- name: Service enabled and running
+  service:
+    name: "{{ sshd_service }}"
+    enabled: true
+    state: started
+  when: sshd_manage_service and ansible_virtualization_type != 'docker'
+  tags:
+    - sshd
+
+- name: Register that this role has run
+  set_fact: sshd_has_run=true
+  when: sshd_has_run is not defined
+  tags:
+    - sshd

@@ -1,0 +1,2 @@
+[all]
+centos1.io app_domain=centos1.io run_fixtures=True

@@ -1,0 +1,5 @@
+---
+redhat_family_deps:
+  - libselinux-python
+  - libsemanage-python
+  - policycoreutils-python

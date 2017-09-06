@@ -1,0 +1,20 @@
+# {{ ansible_managed }}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name mail.{{ app_domain }};
+
+    root {{ nginx_sites_dir }};
+
+    location /.well-known/acme-challenge/ {
+        try_files $uri $uri/ =404;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8025/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}

@@ -1,0 +1,7 @@
+---
+- name: disable site "{{ name }}"
+  file:
+    src: '{{ nginx_sites_available_dir }}/{{ name }}'
+    dest: '{{ nginx_sites_enabled_dir }}/{{ name }}'
+    state: absent
+  notify: reload nginx

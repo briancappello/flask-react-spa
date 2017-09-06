@@ -9,6 +9,8 @@ frontend/app/config.js
 backend/config.py
 flask_sessions/
 
+ansible/.password
+
 # C extensions
 *.so
 

@@ -1,0 +1,9 @@
+---
+sshd_config_group: wheel
+sshd_config_mode: "0600"
+sshd_sftp_server: /usr/libexec/sftp-server
+sshd_defaults:
+  AuthorizedKeysFile: .ssh/authorized_keys
+  Subsystem: "sftp {{ sshd_sftp_server }}"
+sshd_os_supported: yes
+sshd_manage_var_run: no

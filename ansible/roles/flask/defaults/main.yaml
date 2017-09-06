@@ -1,0 +1,46 @@
+---
+dependencies:
+  - '@Development Tools'
+  - python35u
+  - python35u-devel
+  - python35u-pip
+  - git
+  - libffi-devel
+  - openssl-devel
+
+python: python3.5
+pip: pip3.5
+
+python_path: '/usr/bin/{{ python }}'
+virtualenv_dir: '/virtualenvs/{{ project_name }}-env'
+project_dir: '{{ virtualenv_dir }}/{{ project_name }}'
+requirements_path: '{{ project_dir }}/requirements.txt'
+
+__all_the_env_vars__:
+  FLASK_ENV: '{{ FLASK_ENV | default(omit) }}'
+  FLASK_SECRET_KEY: '{{ FLASK_SECRET_KEY | default(omit) }}'
+  FLASK_DEBUG: '{{ FLASK_DEBUG | default(omit) }}'
+  FLASK_STATIC_FOLDER: '{{ FLASK_STATIC_FOLDER | default(omit) }}'
+  FLASK_DOMAIN: '{{ FLASK_DOMAIN | default(omit) }}'
+  SESSION_COOKIE_SECURE: '{{ SESSION_COOKIE_SECURE | default(omit) }}'
+
+  FLASK_DATABASE_NAME: '{{ FLASK_DATABASE_NAME | default(omit) }}'
+  FLASK_DATABASE_USER: '{{ FLASK_DATABASE_USER | default(omit) }}'
+  FLASK_DATABASE_PASSWORD: '{{ FLASK_DATABASE_PASSWORD | default(omit) }}'
+  FLASK_DATABASE_HOST: '{{ FLASK_DATABASE_HOST | default(omit) }}'
+  FLASK_DATABASE_PORT: '{{ FLASK_DATABASE_PORT | default(omit) }}'
+
+  FLASK_MAIL_HOST: '{{ FLASK_MAIL_HOST | default(omit) }}'
+  FLASK_MAIL_PORT: '{{ FLASK_MAIL_PORT | default(omit) }}'
+  FLASK_MAIL_HOST_USER: '{{ FLASK_MAIL_HOST_USER | default(omit) }}'
+  FLASK_MAIL_HOST_PASSWORD: '{{ FLASK_MAIL_HOST_PASSWORD | default(omit) }}'
+  FLASK_MAIL_DEFAULT_SENDER_NAME: '{{ FLASK_MAIL_DEFAULT_SENDER_NAME | default(omit) }}'
+  FLASK_MAIL_DEFAULT_SENDER_EMAIL: '{{ FLASK_MAIL_DEFAULT_SENDER_EMAIL | default(omit) }}'
+  FLASK_MAIL_USE_TLS: '{{ FLASK_MAIL_USE_TLS | default(omit) }}'
+  FLASK_MAIL_USE_SSL: '{{ FLASK_MAIL_USE_SSL | default(omit) }}'
+#  FLASK_MAIL_SSL_KEYFILE: '{{ FLASK_MAIL_SSL_KEYFILE | default(omit) }}'
+#  FLASK_MAIL_SSL_CERTFILE: '{{ FLASK_MAIL_SSL_CERTFILE | default(omit) }}'
+flask_environment: '{{ __all_the_env_vars__ | filter_omitted }}'
+
+run_migrations: yes
+run_fixtures: no

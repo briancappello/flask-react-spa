@@ -1,0 +1,24 @@
+---
+- hosts: all
+  user: root
+  vars:
+    username: deploy
+  tasks:
+    - name: create ansible user "{{ username }}"
+      user: name={{ username }} state=present shell=/bin/bash
+
+    - name: add ssh key to ansible user "{{ username }}"
+      authorized_key:
+        user: '{{ username }}'
+        key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_rsa.pub') }}"
+
+    - name: install sudo
+      package: name=sudo state=present
+
+    - name: give ansible user "{{ username }}" sudo permissions
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^{{ username }} ALL='
+        line: '{{ username }} ALL=(ALL) NOPASSWD:ALL'
+        validate: 'visudo -cf %s'

@@ -1,0 +1,28 @@
+---
+- name: install nginx
+  package: name={{ nginx_pkg }} state=present
+
+- name: create sites-available dir
+  file: path={{ nginx_sites_available_dir }} state=directory
+
+- name: create sites-enabled dir
+  file: path={{ nginx_sites_enabled_dir }} state=directory
+
+- name: create dynamic modules dir
+  file: path=/usr/share/nginx/modules state=directory
+
+- name: nginx config
+  template:
+    src: nginx.conf.j2
+    dest: '{{ nginx_conf }}'
+  notify: restart nginx
+
+- name: nginx default site config
+  template:
+    src: default.nginx.j2
+    dest: '{{ nginx_sites_available_dir }}/default'
+
+- include: disable_site.yaml name=default
+
+- name: make sure nginx is started and enabled at boot
+  service: name={{ nginx_svc }} state=started enabled=True

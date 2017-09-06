@@ -1,0 +1,57 @@
+---
+- name: ensure firewalld is stopped and disabled
+  when: redhat_family
+  service: name=firewalld state=stopped enabled=False
+  register: result
+  failed_when: "(result.msg is defined and 'Could not find the requested service' not in result.msg) or result.state != 'stopped'"
+  tags: iptables
+
+- name: set iptables allow rules
+  iptables_raw:
+    name: iptables_default_head
+    weight: 10
+    keep_unmanaged: '{{ iptables_keep_unmanaged }}'
+    state: present
+    rules: '{{ iptables_default_head }}'
+  tags: iptables
+
+- name: allow dns requests through the firewall
+  iptables_raw:
+    name: allow_dns_requests
+    weight: 50
+    state: present
+    rules: |
+      -A OUTPUT -p udp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+      -A INPUT -p udp --sport 53 -m state --state ESTABLISHED -j ACCEPT
+      -A OUTPUT -p tcp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+      -A INPUT -p tcp --sport 53 -m state --state ESTABLISHED -j ACCEPT
+  tags: iptables
+
+- name: allow http(s) client request/responses through the firewall
+  iptables_raw:
+    name: allow_http_requests
+    weight: 50
+    state: present
+    rules: |
+      -A OUTPUT -p tcp -m multiport --dports 80,443 -m state --state NEW,ESTABLISHED -j ACCEPT
+      -A INPUT -p tcp -m multiport --sports 80,443 -m state --state ESTABLISHED -j ACCEPT
+  tags: iptables
+
+#- name: allow the server to ssh into other machines
+#  iptables_raw:
+#    name: allow_ssh_client
+#    weight: 50
+#    state: present
+#    rules: |
+#      -A OUTPUT -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+#      -A INPUT -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+#  tags: iptables
+
+- name: set iptables default deny
+  iptables_raw:
+    name: iptables_default_deny
+    weight: 99
+    keep_unmanaged: '{{ iptables_keep_unmanaged }}'
+    state: present
+    rules: '{{ iptables_default_tail }}'
+  tags: iptables

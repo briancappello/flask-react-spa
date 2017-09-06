@@ -1,0 +1,16 @@
+# tasks file for mailhog
+---
+- name: add mailhog group
+  group:
+    name: "{{ item }}"
+  with_flattened:
+    - "{{ mailhog_group }}"
+    - "{{ mailhog_groups }}"
+
+- name: add mailhog user
+  user:
+    name: "{{ mailhog_user }}"
+    group: "{{ mailhog_group }}"
+    groups: "{{ mailhog_groups | join(',') }}"
+    home: '{{ mailhog_user_home }}'
+    shell: /bin/false

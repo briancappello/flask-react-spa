@@ -1,0 +1,25 @@
+---
+### USER OPTIONS
+# Don't apply OS defaults when set to true
+sshd_skip_defaults: false
+# If the below is false, don't manage the service or reload the SSH
+# daemon at all
+sshd_manage_service: true
+# If the below is false, don't reload the ssh deamon on change
+sshd_allow_reload: true
+# Empty dicts to avoid errors
+sshd: {}
+
+### VARS DEFAULTS
+### The following are defaults for OS specific configuration in var files in
+### this role. They should not be set by role users.
+sshd_packages: []
+sshd_config_owner: root
+sshd_config_group: root
+sshd_config_mode: "0600"
+sshd_config_file: /etc/ssh/sshd_config
+sshd_binary: /usr/sbin/sshd
+sshd_service: sshd
+sshd_sftp_server: /usr/lib/openssh/sftp-server
+sshd_defaults: {}
+sshd_os_supported: no

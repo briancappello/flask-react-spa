@@ -1,0 +1,11 @@
+---
+sshd_packages:
+  - openssh
+sshd_sftp_server: /usr/lib/ssh/sftp-server
+sshd_defaults:
+  AuthorizedKeysFile: .ssh/authorized_keys
+  ChallengeResponseAuthentication: no
+  PrintMotd: no
+  Subsystem: "sftp {{ sshd_sftp_server }}"
+  UsePAM: yes
+sshd_os_supported: yes

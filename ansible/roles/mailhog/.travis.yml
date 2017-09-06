@@ -1,0 +1,80 @@
+---
+sudo: required
+dist: trusty
+
+language: python
+python: "2.7"
+
+env:
+  - ANSIBLE_VERSION=latest
+  - ANSIBLE_VERSION=2.3.1.0
+  - ANSIBLE_VERSION=2.3.0.0
+  - ANSIBLE_VERSION=2.2.3.0
+  - ANSIBLE_VERSION=2.2.2.0
+  - ANSIBLE_VERSION=2.2.1.0
+  - ANSIBLE_VERSION=2.2.0.0
+  - ANSIBLE_VERSION=2.1.6
+  - ANSIBLE_VERSION=2.1.5
+  - ANSIBLE_VERSION=2.1.4
+  - ANSIBLE_VERSION=2.1.3
+  - ANSIBLE_VERSION=2.1.2
+  - ANSIBLE_VERSION=2.1.1.0
+  - ANSIBLE_VERSION=2.1.0.0
+  - ANSIBLE_VERSION=2.0.2.0
+  - ANSIBLE_VERSION=2.0.1.0
+  - ANSIBLE_VERSION=2.0.0.2
+  - ANSIBLE_VERSION=2.0.0.1
+  - ANSIBLE_VERSION=2.0.0.0
+  - ANSIBLE_VERSION=1.9.6
+
+branches:
+  only:
+    - master
+
+before_install:
+  - sudo apt-get update -qq
+
+  # Install netcat and wget
+  - sudo apt-get install --yes netcat-traditional wget
+
+install:
+  # Install Ansible.
+  - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible; else pip install ansible==$ANSIBLE_VERSION; fi
+  - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible-lint; fi
+
+script:
+  # Check the role/playbook's syntax.
+  - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
+
+  # Run the role/playbook with ansible-playbook.
+  - ansible-playbook -i tests/inventory tests/test.yml -vvvv
+
+  # Run the role/playbook again, checking to make sure it's idempotent.
+  - >
+    ansible-playbook -i tests/inventory tests/test.yml
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
+
+  # Test smpt connection
+  - >
+    echo QUIT | nc 127.0.0.1 1025
+    | grep -q '220'
+    && (echo 'Availability test: pass' && exit 0)
+    || (echo 'Availability test: fail' && exit 1)
+
+  # Test http connection
+  - >
+    wget http://127.0.0.1:8025/ -O /dev/null -S --quiet 2>&1
+    | grep -q '200 OK'
+    && (echo 'Availability test: pass' && exit 0)
+    || (echo 'Availability test: fail' && exit 1)
+
+  - if [ "$ANSIBLE_VERSION" = "latest" ]; then ansible-lint tests/test.yml || true; fi
+
+notifications:
+  email: false
+  hipchat:
+    rooms:
+      secure: tdE62LeHWo+FENXVZfB5rkaSUbXye9Zl27nICMDkn4uToQ8f0zsk59e3Te5zbaLXFVbCCgdD1jUWxTBCzOvqmnOy1hYrCem1MqD+sxPC+tdY+GsEonJ+KOV6O63MWGnAd3Qq/N2E2aECMfEcNgCz5BpkxhfSiYQMDY+8QzNVmm7cDKObvxBRAWInK+pbO6MM/eObM2BVrl0CM/D2DXzCjhcGZRIcyTmpUHmec8CYU04H0lkKG0agmFwNq5V/iYNGc++fq2E2IwiUnmyQWq2Wu8TrKWnT5TRE8V2jgEtfwamN9jjVdLuleZHqC04DJyAQ8FmloaDecynTB8rDGbnFC92YNxjOLuADEtY3e3pg+R5wbQYULfpPeGwRP0penkY348k7VZW8MPWEY55JyYNqXvCzhLFimfM6Yg2wrjDNipzflJN0tM2snHilJAXHBHaASpi3IyTtUg0LVN0D9yHJggs7UQLRSy7bIHxIQ7dRCFBivqUOMw5qJ1MV+L76mp0KRAfurhFoKp2dlDr76Ntc/MD2ZJbxj6QHzfvxKnPEkDKa6cv+oPM30OWFRJPvP9sBQDNJvW5wImkZtDHABxZ79FjXMQAvSAsa3zfeWDWDu9e/ybXYjHSL1THE1yLuiO9ecGoMm+cnOglBx5yke5lvFSpU2qAo+Thph+1wqPOEq60=
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

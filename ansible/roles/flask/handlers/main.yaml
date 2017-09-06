@@ -1,0 +1,6 @@
+---
+- name: restart application
+  service: name={{ project_name }} state=restarted
+
+- name: reload nginx
+  service: name={{ nginx_svc }} state=reloaded enabled=yes

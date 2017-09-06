@@ -1,0 +1,6 @@
+nginx_pkg: nginx
+nginx_svc: nginx
+
+nginx_user: nginx
+nginx_log_dir: /var/log/nginx
+nginx_conf: '{{ nginx_conf_dir }}/nginx.conf'

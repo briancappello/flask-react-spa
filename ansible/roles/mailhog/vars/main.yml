@@ -1,0 +1,12 @@
+# vars file for mailhog
+---
+mailhog_downloads_path: '{{ mailhog_user_home }}/downloads'
+
+mailhog_machine_map:
+  i686: 386
+  i386: 386
+  x86_64: amd64
+  amd64: amd64
+
+mailhog_log_file: /var/log/mailhog/mailhog.log
+mailhog_pid_file: /var/run/mailhog.pid

@@ -1,0 +1,37 @@
+---
+- include_vars: '{{ item }}'
+  with_first_found:
+    - files:
+      - '{{ os_family }}.yaml'
+      skip: yes
+  tags: always
+
+- name: install python dependencies
+  package: name={{ item }} state=present
+  with_items: '{{ dependencies }}'
+
+- name: update pip and setuptools
+  pip:
+    name: '{{ item }}'
+    state: latest
+    executable: '{{ pip }}'
+  with_items:
+    - pip
+    - setuptools
+
+- include: install_virtualenv.yaml
+
+- include: deploy_app.yaml
+  tags: flask.deploy
+
+- name: Ensure that the application file permissions are set properly
+  file: path={{ virtualenv_dir }}
+        recurse=yes
+        owner={{ nginx_user }}
+        group={{ nginx_user }}
+        state=directory
+  tags: flask.deploy
+  notify: restart application
+
+- include: uwsgi.yaml
+  tags: uwsgi

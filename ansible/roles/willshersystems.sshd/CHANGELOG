@@ -1,0 +1,27 @@
+0.2.5 23 January 2014 Matt Willsher <matt@willsher.systems>
+- Fix for sftp-server install on Debian removing openssh-sftp-server. Thanks to @ricbra 
+- Reinstate defaults.yml as fall through
+0.2.4 13 January 2014 Matt Willsher <matt@willsher.systems>
+- Allow reload to be skipped
+- Test for OS support
+- Documentation improvements
+0.2.3 13 January 2014 Matt Willsher <matt@willsher.systems>
+- Fixed HostbasedAuthentication typo
+0.2.2 13 January 2014 Matt Willsher <matt@willsher.systems>
+- Add warnings to README
+- Tidy up naming
+- Remove blacklist packages from Debian based distros
+0.2.1 12 January 2014 Matt Willsher <matt@willsher.systems>
+- Standardise README.md format
+- Add basic Travis CI testing
+- Add networking metadata type
+0.2.0 04 January 2014 Matt Willsher <matt@willsher.systems>
+- Change var file search order
+- Add Arch Linux defaults (thanks GitHub user @brenix).
+- A number of typo fixes (again, thanks @brenix), including UsePrivilegeSeparation.
+- A Ubuntu precise defaults.
+- A Debian jessie defaults.
+- Unknown Ubuntu and Debian versions default to wheezy defaults.
+- License to LGPL
+0.1.0 25 December 2014 Matt Willsher <matt@willsher.systems>
+- Initial release

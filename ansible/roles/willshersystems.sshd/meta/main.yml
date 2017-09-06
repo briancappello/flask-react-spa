@@ -1,0 +1,45 @@
+---
+galaxy_info:
+  author: Matt Willsher
+  description: OpenSSH SSH deamon configuration
+  company: Willsher Systems
+  license: LGPLv3
+  min_ansible_version: 1.8
+  platforms:
+  - name: Debian
+    versions:
+    - wheezy
+    - jessie
+  - name: Ubuntu
+    versions:
+    - precise
+    - trusty
+    - xenial
+  - name: FreeBSD
+    version:
+    - 10.1
+  - name: EL
+    versions:
+    - 6
+    - 7
+  - name: Fedora
+    versions:
+    - 22
+    - 23
+  - name: OpenBSD
+    versions:
+    - 6.0
+  galaxy_tags:
+  - networking
+  - system
+  - SSH
+  - OpenSSH
+  - sshd
+  - server
+  - ubuntu
+  - debian
+  - centos
+  - redhat
+  - freebsd
+  - openbsd
+dependencies: []

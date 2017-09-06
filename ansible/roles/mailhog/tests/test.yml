@@ -1,0 +1,10 @@
+# test file for mailhog
+---
+- hosts: localhost
+  connection: local
+  become: true
+  roles:
+    - ../../
+  vars:
+    mailhog_options:
+      hostname: "{{ inventory_hostname }}"

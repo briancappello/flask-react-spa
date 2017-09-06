@@ -1,0 +1,33 @@
+---
+# explicit allows (default deny policy)
+iptables_default_head: |
+  # set defaults to ACCEPT to prevent lockout if the rules are accidentally flushed
+  -P INPUT ACCEPT
+  -P OUTPUT ACCEPT
+  -P FORWARD ACCEPT
+
+  # allow all on localhost
+  -A INPUT -i lo -j ACCEPT
+  -A OUTPUT -o lo -j ACCEPT
+
+  # allow the server to be pinged
+  -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+  -A OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT
+
+  # allow the server to be ssh'd into
+  -A INPUT -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+  -A OUTPUT -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+
+  # allow established,related connections in and established connections out
+  -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+  -A OUTPUT -m state --state ESTABLISHED -j ACCEPT
+
+# default deny policy
+iptables_default_tail: |
+  -A INPUT -j DROP
+  -A OUTPUT -j DROP
+  -A FORWARD -j DROP
+
+# by default, delete all iptables rules not added by ansible
+# change to yes to keep these unmanaged rules
+iptables_keep_unmanaged: no

@@ -1,0 +1,11 @@
+# defaults file for mailhog
+---
+mailhog_version: v1.0.0
+mailhog_install_prefix: /usr/local/bin
+
+mailhog_user: mailhog
+mailhog_user_home: /var/mailhog
+mailhog_group: mailhog
+mailhog_groups: []
+
+mailhog_options: {}

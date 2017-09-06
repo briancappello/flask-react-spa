@@ -1,0 +1,35 @@
+# {{ ansible_managed }}
+{% macro render_option(key,value,indent=false) %}
+{%   if value is defined %}
+{%     if indent == true %}  {% endif %}
+{%     if value is sameas true %}
+{{ key }} yes
+{%     elif value is sameas false %}
+{{ key }} no
+{%     elif value is string or value is number %}
+{{ key }} {{ value }}
+{%     else %}
+{%       for i in value %}
+{{ key }} {{ i }}
+{%       endfor %}
+{%     endif %}
+{%   endif %}
+{% endmacro %}
+{% macro body_option(key,override) %}
+{%   set value = undefined %}
+{%   if override is defined %}
+{%     set value = override %}
+{%   elif sshd[key] is defined %}
+{%     set value = sshd[key] %}
+{%   elif sshd_defaults[key] is defined and sshd_skip_defaults != true %}
+{%     set value = sshd_defaults[key] %}
+{%   endif %}
+{{ render_option(key,value) -}}
+{% endmacro %}
+{% macro match_block(match_list) %}
+{%   if match_list["Condition"] is defined %}
+{%     set match_list = [ match_list ]%}
+{%   endif %}
+{%   if match_list is iterable %}
+{%     for match in match_list %}
+Match {{ match["Condition"] }}

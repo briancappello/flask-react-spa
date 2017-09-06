@@ -1,0 +1,43 @@
+# tasks file for mailhog
+---
+- name: create mailhog download directory
+  file:
+    path: "{{ mailhog_downloads_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: download mailhog {{ mailhog_version }}
+  get_url:
+    url: "https://github.com/mailhog/MailHog/releases/download/{{ mailhog_version }}/MailHog_linux_{{ mailhog_machine_map[ansible_machine] }}"
+    dest: "{{ mailhog_downloads_path }}/mailhog_{{ mailhog_version }}_{{ mailhog_machine_map[ansible_machine] }}"
+    owner: root
+    group: root
+    mode: 0755
+  notify: restart mailhog
+
+- name: install mailhog {{ mailhog_version }}
+  file:
+    src: "{{ mailhog_downloads_path }}/mailhog_{{ mailhog_version }}_{{ mailhog_machine_map[ansible_machine] }}"
+    dest: "{{ mailhog_install_prefix }}/mailhog"
+    state: link
+    force: true
+
+- name: ensure mailhog log directory exists
+  file:
+    path: "{{ mailhog_log_file | dirname  }}"
+    state: directory
+
+- name: create mailhog nginx proxy pass
+  template:
+    src: mailhog.nginx.j2
+    dest: '{{ nginx_sites_available_dir }}/mailhog'
+  notify: reload nginx
+
+- name: enable mailhog nginx proxy pass
+  file:
+    src: '{{ nginx_sites_available_dir }}/mailhog'
+    dest: '{{ nginx_sites_enabled_dir }}/mailhog'
+    state: link
+  notify: reload nginx

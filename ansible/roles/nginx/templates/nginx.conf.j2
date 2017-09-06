@@ -1,0 +1,70 @@
+# {{ ansible_managed }}
+
+user {{ nginx_user }};
+worker_processes auto; # one per CPU core
+pid /run/nginx.pid;
+
+# Load dynamic modules. See /usr/share/nginx/README.dynamic.
+include /usr/share/nginx/modules/*.conf;
+
+events {
+    # max clients == worker_connections * worker_processes
+    worker_connections 1024;
+    multi_accept on;
+    use epoll;
+}
+
+http {
+
+    ##
+    # Logging Settings
+    ##
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log {{ nginx_log_dir }}/access.log;
+    error_log {{ nginx_log_dir }}/error.log;
+
+    ##
+    # Basic Settings
+    ##
+
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 2048;
+
+    include             {{ nginx_conf_dir }}/mime.types;
+    default_type        application/octet-stream;
+
+    ##
+    # SSL Settings
+    ##
+
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+    ssl_prefer_server_ciphers on;
+
+    ##
+    # Gzip Settings
+    ##
+
+    gzip on;
+    gzip_disable "msie6";
+
+    # gzip_vary on;
+    # gzip_proxied any;
+    # gzip_comp_level 6;
+    # gzip_buffers 16 8k;
+    # gzip_http_version 1.1;
+    # gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    ##
+    # Virtual Host Configs
+    ##
+
+    include {{ nginx_conf_dir }}/conf.d/*.conf;
+    include {{ nginx_sites_enabled_dir }}/*;
+}

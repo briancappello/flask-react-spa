@@ -1,0 +1,25 @@
+; {{ ansible_managed }}
+
+[Unit]
+Description=MailHog
+After=network.target
+
+[Service]
+Type=simple
+PermissionsStartOnly=true
+ExecStartPre=/usr/bin/test -x {{ mailhog_install_prefix }}/mailhog
+ExecStartPre=/usr/bin/install -d \
+  -o {{ mailhog_user }} \
+  -g {{ mailhog_group }} \
+  -m 0755 \
+  {{ mailhog_log_file | dirname }}
+ExecStart=/bin/sh -c \
+  '{{ mailhog_install_prefix }}/mailhog{% for key, value in mailhog_options.iteritems() %} -{{ key }} {{ value }}{% endfor %} >> {{ mailhog_log_file }} 2>&1'
+
+PIDFile={{ mailhog_pid_file }}
+Restart=always
+User={{ mailhog_user }}
+Group={{ mailhog_group }}
+
+[Install]
+WantedBy=multi-user.target

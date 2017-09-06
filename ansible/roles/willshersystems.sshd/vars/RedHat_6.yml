@@ -1,0 +1,21 @@
+---
+sshd_packages:
+  - openssh
+  - openssh-server
+sshd_sftp_server: /usr/libexec/openssh/sftp-server
+sshd_defaults:
+  Protocol: 2
+  SyslogFacility: AUTHPRIV
+  PasswordAuthentication: yes
+  ChallengeResponseAuthentication: no
+  GSSAPIAuthentication: yes
+  GSSAPICleanupCredentials: yes
+  UsePAM: yes
+  AcceptEnv:
+    - LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+    - LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+    - LC_IDENTIFICATION LC_ALL LANGUAGE
+    - XMODIFIERS
+  X11Forwarding: yes
+  Subsystem: "sftp {{ sshd_sftp_server }}"
+sshd_os_supported: yes

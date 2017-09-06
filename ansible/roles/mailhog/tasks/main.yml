@@ -1,0 +1,12 @@
+---
+- include: user.yml
+
+- include: install.yml
+
+- include: service-systemd.yml
+
+- name: start and enable service
+  service:
+    name: mailhog
+    state: started
+    enabled: true

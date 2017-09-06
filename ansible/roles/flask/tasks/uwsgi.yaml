@@ -1,0 +1,47 @@
+---
+- name: install uWSGI
+  pip: virtualenv={{ virtualenv_dir }} name=uwsgi
+
+- name: create uwsgi startup script
+  template: src=uwsgi_start.sh.j2
+            dest={{ virtualenv_dir }}/bin/uwsgi_start
+            owner={{ nginx_user }}
+            group={{ nginx_user }}
+            mode=0755
+            backup=yes
+
+- when: redhat_family
+  include: selinux_nginx_socket_write.yaml
+
+- name: create uwsgi log folder
+  file: path={{ application_log_dir }}
+        owner={{ nginx_user }}
+        group={{ nginx_user }}
+        mode=0744
+        state=directory
+
+- name: create nginx uwsgi site config
+  template:
+    src: flask_app.nginx.j2
+    dest: '{{ nginx_sites_available_dir }}/{{ project_name }}'
+  notify: reload nginx
+
+- name: enable nginx uwsgi site
+  file:
+    src: '{{ nginx_sites_available_dir }}/{{ project_name }}'
+    dest: '{{ nginx_sites_enabled_dir }}/{{ project_name }}'
+    state: link
+  notify: reload nginx
+
+- name: create uwsgi systemd service
+  template:
+    src: uwsgi.systemd.j2
+    dest: /lib/systemd/system/{{ project_name }}.service
+  register: uwsgi_service
+
+- name: reload systemd
+  shell: systemctl daemon-reload
+  when: uwsgi_service | changed
+
+- name: (re)start and enable uwsgi systemd service
+  service: name={{ project_name }} state=restarted enabled=yes

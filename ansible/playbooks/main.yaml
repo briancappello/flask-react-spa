@@ -1,0 +1,115 @@
+---
+- name: make sure python is installed
+  hosts: all
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: install python (redhat family)
+      raw: test -e /usr/bin/python || (test -e /usr/bin/yum && yum install -y python)
+      register: raw_output
+      changed_when: 'raw_output.stdout != ""'
+
+- name: configure sshd
+  hosts: all
+  become: yes
+  roles:
+    - role: willshersystems.sshd
+      tags: sshd
+      vars:
+        sshd:
+          Port: 22
+          ListenAddress:
+            - '0.0.0.0'
+            - '::'
+          Protocol: 2
+          PubkeyAuthentication: yes
+          PermitRootLogin: without-password
+          PasswordAuthentication: no
+          PermitEmptyPasswords: no
+          ChallengeResponseAuthentication: no
+          KerberosAuthentication: no
+          KerberosOrLocalPasswd: no
+          GSSAPIAuthentication: no
+          AllowTcpForwarding: no
+          X11Forwarding: no
+          UsePrivilegeSeparation: sandbox
+          StrictModes: yes
+          IgnoreRhosts: yes
+          IgnoreUserKnownHosts: yes
+          HostbasedAuthentication: no
+          TCPKeepAlive: no
+
+- name: set variables
+  hosts: all
+  tags: always
+#  FIXME-vault
+#  vars_files:
+#    - secrets.yaml
+  tasks:
+    - name: include distro-family vars (if any)
+      include_vars: '{{ item }}'
+      with_first_found:
+        - files:
+          - '../distro_vars/{{ os_family }}.yaml'
+          skip: yes  # allow the file to not exist
+
+    - name: include distro-specific vars (if any)
+      include_vars: '{{ item }}'
+      with_first_found:
+        - files:
+          - '../distro_vars/{{ os }}.yaml'
+          skip: yes  # allow the file to not exist
+
+    - name: include distro-version-specific vars (if any)
+      include_vars: '{{ item }}'
+      with_first_found:
+        - files:
+          - '../distro_vars/{{ os }}{{ os_version }}.yaml'
+          skip: yes  # allow the file to not exist
+
+    - name: include environment vars
+      include_vars: '{{ item }}'
+      with_items:
+        - '../env_vars/defaults.yaml'
+        - '../env_vars/{{ app_env }}.yaml'
+
+    - when: app_env == 'prod'
+      set_fact:
+        le_fullchain_path: '/etc/letsencrypt/live/{{ app_domain }}/fullchain.pem'
+        le_privkey_path: '/etc/letsencrypt/live/{{ app_domain }}/privkey.pem'
+        le_chain_path: '/etc/letsencrypt/live/{{ app_domain }}/chain.pem'
+
+- name: provision server
+  hosts: all
+  user: deploy
+  become: yes
+  roles:
+    - when: redhat_family
+      role: geerlingguy.repo-epel
+    - when: redhat_family
+      role: repo-ius
+    - role: base
+    - role: iptables
+    - role: ANXS.postgresql
+      vars:
+        postgresql_version: 9.5
+        postgresql_users:
+          - name: '{{ FLASK_DATABASE_USER }}'
+            pass: '{{ FLASK_DATABASE_PASSWORD }}'
+            encrypted: no
+        postgresql_databases:
+          - name: '{{ FLASK_DATABASE_NAME }}'
+            owner: '{{ FLASK_DATABASE_USER }}'
+            hstore: no
+            uuid_ossp: no
+            citext: no
+        postgresql_user_privileges:
+          - name: '{{ FLASK_DATABASE_USER }}'
+            db: '{{ FLASK_DATABASE_NAME }}'
+            priv: ALL
+    - role: nginx
+    - role: flask
+      tags: flask
+    - when: app_env == 'dev' or app_env == 'staging'
+      role: mailhog
+      tags: mailhog

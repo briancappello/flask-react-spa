@@ -1,0 +1,7 @@
+# test file for mailhog
+---
+- hosts: all
+  remote_user: vagrant
+  become: true
+  roles:
+    - ../../

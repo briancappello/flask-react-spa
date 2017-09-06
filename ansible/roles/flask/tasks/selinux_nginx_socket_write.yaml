@@ -1,0 +1,23 @@
+---
+- name: create selinux work dir
+  file:
+    path: /var/lib/selinux
+    state: directory
+    mode: 0700
+
+- name: copy type enforcement file
+  template:
+    src: nginx.te
+    dest: /var/lib/selinux/nginx.te
+    mode: 0644
+  register: nginx_te
+
+- name: build and install policy
+  when: nginx_te | changed
+  command: '{{ item }}'
+  args:
+    chdir: /var/lib/selinux
+  with_items:
+    - 'checkmodule -M -m -o nginx.mod nginx.te'
+    - 'semodule_package -o nginx.pp -m nginx.mod'
+    - 'semodule -i nginx.pp'

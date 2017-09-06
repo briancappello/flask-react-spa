@@ -1,0 +1,78 @@
+---
+# project root dir on the local machine
+local_project_dir: '{{ inventory_dir }}/../'
+
+# project_name: the folder name of the project
+project_name: flask_api
+
+# app_name: the folder name of the main app in the flask project
+app_name: backend
+
+# app_env: the environment being deployed to (set in the hosts_<env> inventory files)
+# dev: use for deploying with ansible into a container/virtual machine
+# staging: use for deploying to staging in the cloud
+# prod: use for deploying to production in the cloud
+app_env: dev
+
+# app_domain: the domain to deploy to (set in the hosts_<env> inventory files)
+app_domain: example.com
+
+admin_email: 'webmaster@{{ app_domain }}'
+
+# the timezone to set the server to
+server_timezone: America/New_York
+
+# package names
+vim_pkg: vim
+ntp_pkg: ntp
+curl_pkg: curl
+
+# services (systemd daemon names)
+cron_svc: crond
+ntp_svc: ntpd
+nginx_svc: nginx
+
+nginx_conf_dir: /etc/nginx
+nginx_sites_dir: /usr/share/nginx/html
+nginx_sites_available_dir: '{{ nginx_conf_dir }}/sites-available'
+nginx_sites_enabled_dir: '{{ nginx_conf_dir }}/sites-enabled'
+
+application_log_dir: '/var/log/{{ project_name }}'
+uwsgi_log_file: '{{ application_log_dir }}/uwsgi_supervisor.log'
+uwsgi_socket_path: '/var/run/uwsgi/{{ project_name }}.sock'
+
+nginx_access_log_file: '{{ application_log_dir }}/nginx_access.log'
+nginx_error_log_file: '{{ application_log_dir }}/nginx_error.log'
+
+# *********************************************************************************
+# Host Operating System variables used to control execution of specific tasks
+# NOTE: these are all set on a per-host basis, and are dependent upon gather_facts
+# *********************************************************************************
+
+# ==============
+# OS string vars
+# ==============
+
+os: "{{ ansible_distribution | lower }}"
+os_version: "{{ ansible_distribution_version }}"
+os_family: "{{ ansible_os_family | lower }}_family"
+
+# ===============
+# OS boolean vars
+# ===============
+
+# package managers
+apt: ansible_pkg_mgr == 'apt'
+dnf: ansible_pkg_mgr == 'dnf'
+yum: ansible_pkg_mgr == 'yum'
+
+# specific distros
+centos: os == 'centos'
+rhel: os == 'redhat'
+debian: os == 'debian'
+fedora: os == 'fedora'
+ubuntu: os == 'ubuntu'
+
+# distro families
+debian_family: os_family == 'debian_family'
+redhat_family: os_family == 'redhat_family'

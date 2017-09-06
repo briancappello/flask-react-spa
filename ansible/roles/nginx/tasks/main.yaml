@@ -1,0 +1,25 @@
+---
+- name: include distro-family-specific vars (if any)
+  include_vars: '{{ item }}'
+  with_first_found:
+    - files:
+      - '{{ os_family }}.yaml'
+      skip: yes  # allow the file to not exist
+  tags: always
+
+- name: allow http/s server request/responses through the firewall
+  iptables_raw:
+    name: allow_httpd_server
+    state: present
+    rules: |
+      -A INPUT -p tcp -m multiport --dports 80,443 -m state --state NEW,ESTABLISHED -j ACCEPT
+      -A OUTPUT -p tcp -m multiport --sports 80,443 -m state --state ESTABLISHED -j ACCEPT
+
+- name: set SELinux policy for webservers
+  when: redhat_family
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: True
+
+- include: nginx.yaml

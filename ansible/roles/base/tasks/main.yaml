@@ -1,0 +1,37 @@
+---
+- name: install redhat-family-specific packages
+  when: redhat_family and redhat_family_deps is defined
+  package: name={{ item }} state=present
+  with_items: '{{ redhat_family_deps }}'
+
+- name: install distro-specific packages
+  when: distro_deps is defined
+  package: name={{ item }} state=present
+  with_items: '{{ distro_deps }}'
+
+- name: update packages (yum)
+  when: yum
+  yum: name='*' state=latest
+
+- name: install common packages
+  package: name={{ item }} state=present
+  with_items:
+    - '{{ vim_pkg }}'
+    - '{{ ntp_pkg }}'
+    - '{{ curl_pkg }}'
+
+- name: set timezone to {{ server_timezone }}
+  timezone:
+    name: '{{ server_timezone }}'
+  notify: restart crond
+
+- name: allow NTP through the firewall
+  iptables_raw:
+    name: allow_ntp
+    state: present
+    rules: |
+      -A OUTPUT -p udp --dport 123 -m state --state NEW,ESTABLISHED -j ACCEPT
+      -A INPUT -p udp --sport 123 -m state --state ESTABLISHED -j ACCEPT
+
+- name: start NTP daemon
+  service: name={{ ntp_svc }} state=started enabled=yes

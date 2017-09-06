@@ -1,0 +1,15 @@
+---
+FLASK_ENV: '{{ app_env }}'
+FLASK_DOMAIN: '{{ app_domain }}'
+FLASK_DEBUG: 'false'
+FLASK_SECRET_KEY: '7!(l)r@v&y$7&06=fm&%t+r_*o%oq1c2s)^8q-^lo8w(kzl!_+'
+FLASK_STATIC_FOLDER: '{{ nginx_sites_dir }}/{{ project_name }}/static'
+
+FLASK_DATABASE_NAME: 'flask_api'
+FLASK_DATABASE_USER: 'flask_api'
+FLASK_DATABASE_PASSWORD: 'flask_api'
+FLASK_DATABASE_HOST: '127.0.0.1'
+FLASK_DATABASE_PORT: '5432'
+
+FLASK_MAIL_HOST: 'localhost'
+FLASK_MAIL_PORT: '25'
