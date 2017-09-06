@@ -26,8 +26,16 @@ the shell context, presuming the above conventions have been followed.
 """
 import sys
 from flask import Flask, session
+from flask.helpers import get_debug_flag
 from flask_wtf.csrf import generate_csrf
 
+from .config import (
+    DevConfig,
+    ProdConfig,
+    TEMPLATE_FOLDER,
+    STATIC_FOLDER,
+    STATIC_URL_PATH,
+)
 from .logger import logger
 from .magic import (
     get_bundle_blueprints,
@@ -40,7 +48,17 @@ from .magic import (
 )
 
 
-def create_app(config_object, **kwargs):
+def create_app():
+    return _create_app(
+        # default to ProdConfig unless FLASK_DEBUG env var is explicitly set to true
+        DevConfig if get_debug_flag() else ProdConfig,
+        template_folder=TEMPLATE_FOLDER,
+        static_folder=STATIC_FOLDER,
+        static_url_path=STATIC_URL_PATH
+    )
+
+
+def _create_app(config_object, **kwargs):
     """Application factory pattern
 
     WARNING: HERE BE DRAGONS!!! DO NOT FUCK WITH THE ORDER OF THESE or nightmares will ensue
