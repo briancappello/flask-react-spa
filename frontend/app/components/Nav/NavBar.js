@@ -1,31 +1,26 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import Link from './Link'
-import routes from 'routes'
-import { topLevelMenu } from 'utils/menu'
 
 
 class NavBar extends Component {
-  static propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
-  }
-
+  // FIXME: mostly works, except for responsive menu behavior
   render() {
-    // mostly works, except for responsive menu behavior
+    const { isAuthenticated } = this.props
     return (
       <nav>
         <div className="container">
-          <Link to="/" className="brand" onlyActiveOnIndex={true}>
-            flask
-            <span className="tld">api</span>
+          <Link exact to="/" className="brand">
+            flask<span className="tld">api</span>
           </Link>
           <div className="menu left">
-            {topLevelMenu(routes, /* excludePaths= */ ['login', 'logout', 'sign-up', 'profile', '*'])}
+            <Link to="/about">About</Link>
+            <Link to="/styles">Styles</Link>
+            <Link to="/protected">Protected</Link>
           </div>
           <div className="menu right">
-            {this.props.isAuthenticated
+            {isAuthenticated
               ? this.renderAuthenticatedMenu()
               : this.renderUnauthenticatedMenu()
             }

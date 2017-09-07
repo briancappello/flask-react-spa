@@ -20,7 +20,7 @@ class ResetPassword extends React.Component {
   onSubmit = (e) => {
     e.preventDefault()
     this.props.resetPassword.trigger({
-      token: this.props.params.token,
+      token: this.props.match.params.token,
       ...this.state,
     })
   }

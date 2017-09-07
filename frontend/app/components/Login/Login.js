@@ -4,11 +4,12 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { Link } from 'components/Nav'
+import { parse } from 'query-string'
 
 import { bindRoutineCreators } from 'actions'
 import { login } from 'actions/auth'
 import { flashInfo } from 'actions/flash'
-import { PageContent } from 'components/Content'
+import { ForgotPassword, PageContent } from 'components'
 
 
 class Login extends React.Component {
@@ -25,12 +26,13 @@ class Login extends React.Component {
   constructor(props) {
     super(props)
     const { location, isAuthenticating } = this.props
+    const query = parse(location.search)
 
     this.state = {
       freshLogin: !isAuthenticating,
       email: '',
       password: '',
-      redirect: location ? location.query.next || '/' : '/',
+      redirect: query.next || '/',
     }
   }
 
@@ -60,12 +62,8 @@ class Login extends React.Component {
   }
 
   render() {
-    if (this.props.children) {
-      return this.props.children
-    }
-
     const { freshLogin } = this.state
-    const { isAuthenticating, error } = this.props
+    const { error, isAuthenticating, match } = this.props
     if (!freshLogin && isAuthenticating) {
       return (
         <PageContent>

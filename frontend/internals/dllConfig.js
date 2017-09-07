@@ -23,7 +23,7 @@ const dllConfig = {
         'react',
         'react-dom',
         'react-redux',
-        'react-router',
+        'react-router-dom',
         'react-router-redux',
         'redux',
         'redux-saga',

@@ -3,8 +3,7 @@ import 'babel-polyfill'
 import { AppContainer as HotReloadContainer } from 'react-hot-loader'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { browserHistory } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
+import createHistory from 'history/createBrowserHistory'
 
 import configureStore from 'configureStore'
 import Root from 'components/Root'
@@ -17,8 +16,8 @@ import storage from 'utils/storage'
 const APP_MOUNT_POINT = document.getElementById('app')
 
 const initialState = {}
-const store = configureStore(initialState, browserHistory)
-const history = syncHistoryWithStore(browserHistory, store)
+const history = createHistory()
+const store = configureStore(initialState, history)
 
 const renderRootComponent = (Component) => {
   ReactDOM.render(

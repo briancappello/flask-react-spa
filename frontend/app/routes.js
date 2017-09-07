@@ -1,11 +1,9 @@
 import React from 'react'
-import { Route, IndexRoute } from 'react-router'
-import { renderMenuRoutes } from 'utils/menu'
-import requireAuthentication from 'utils/auth'
+import { Route, Switch } from 'react-router-dom'
+import ProtectedRoute from 'utils/auth'
 
 import {
   About,
-  Application,
   ForgotPassword,
   Home,
   Login,
@@ -20,32 +18,25 @@ import {
   Protected,
 } from 'components'
 
-/**
- * Declarative Route Configuration
- * https://github.com/ReactTraining/react-router/blob/v3/docs/guides/RouteConfiguration.md#configuration-with-plain-routes
- */
-const routes = {
-  path: '/',
-  component: Application,
-  indexRoute: { component: Home },
-  childRoutes: [
-    { path: 'about', label: 'About', component: About },
-    { path: 'styles', label: 'Styles', component: Styles },
-    { path: 'profile', label: 'Profile', component: requireAuthentication(Profile) },
-    { path: 'protected', label: 'Protected', component: requireAuthentication(Protected) },
-    { path: 'login', component: Login, childRoutes: [
-      { path: 'forgot-password', component: ForgotPassword },
-      { path: 'reset-password/:token', component: ResetPassword },
-    ] },
-    { path: 'logout', component: Logout },
-    { path: 'sign-up', component: SignUp, childRoutes: [
-      { path: 'resend-confirmation-email', component: ResendConfirmation },
-      { path: 'pending-confirm-email', component: PendingConfirmation },
-    ] },
+export default () => (
+  <Switch>
+    <Route exact path="/" component={Home} />
+    <Route exact path="/about" component={About} />
+    <Route exact path="/styles" component={Styles} />
+    <ProtectedRoute exact path="/protected" component={Protected} />
 
-    // default 404 if no match
-    { path: '*', component: NotFound },
-  ],
-}
+    <Route exact path="/sign-up" component={SignUp} />
+    <Route exact path="/sign-up/resend-confirmation-email" component={ResendConfirmation} />
+    <Route exact path="/sign-up/pending-confirm-email" component={PendingConfirmation} />
 
-export default routes
+    <Route exact path="/login" component={Login} />
+    <Route exact path="/login/forgot-password" component={ForgotPassword} />
+    <Route exact path="/login/reset-password/:token" component={ResetPassword} />
+
+    <ProtectedRoute exact path="/profile" component={Profile} />
+    <Route exact path="/logout" component={Logout} />
+
+    {/* default 404 if no match */}
+    <Route component={NotFound} />
+  </Switch>
+)

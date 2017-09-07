@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Switch, Route } from 'react-router-dom'
 
 import { NavBar } from 'components/Nav'
+import Routes from 'routes'
 
-import styles from 'main.scss'
+import 'main.scss'
 
 export default class Application extends Component {
   render() {
@@ -13,7 +15,7 @@ export default class Application extends Component {
           <NavBar />
         </header>
         <main>
-          {this.props.children}
+          <Routes />
         </main>
         <footer>
           {/* Copyright {new Date().getFullYear()} Your Name */}
