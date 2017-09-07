@@ -13,13 +13,14 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
+import os
+import sys
+import guzzle_sphinx_theme
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('..'))
 
 
 # -- General configuration ------------------------------------------------
@@ -31,10 +32,13 @@
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc',
+extensions = [
+    'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages']
+    'sphinx.ext.githubpages',
+    'guzzle_sphinx_theme',
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -50,7 +54,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Flask React API'
-copyright = '2017, Brian Cappello'
+copyright = '2017 Brian Cappello'
 author = 'Brian Cappello'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -58,7 +62,7 @@ author = 'Brian Cappello'
 # built documents.
 #
 # The short X.Y version.
-version = '0.1.0'
+version = '0.1'
 # The full version, including alpha/beta/rc tags.
 release = '0.1.0'
 
@@ -85,14 +89,17 @@ todo_include_todos = False
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
-html_theme = 'alabaster'
+html_theme_path = guzzle_sphinx_theme.html_theme_path()
+html_theme = 'guzzle_sphinx_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {
+    'project_nav_name': 'Flask React API',
+    'projectlink': 'https://github.com/briancappello/flask-react-api',
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -106,14 +113,12 @@ html_static_path = ['_static']
 # refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
 html_sidebars = {
     '**': [
+        'logo-text.html',
         'about.html',
-        'navigation.html',
-        'relations.html',  # needs 'show_related': True theme option to display
+        'globaltoc.html',
         'searchbox.html',
-        'donate.html',
     ]
 }
-
 
 # -- Options for HTMLHelp output ------------------------------------------
 

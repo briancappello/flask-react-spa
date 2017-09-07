@@ -1,0 +1,29 @@
+{% extends '!layout.html' %}
+
+{%- block extrahead %}
+  {{ super() }}
+  <link href="_static/styles.css" rel="stylesheet">
+{%- endblock %}
+
+{# Displays the next and previous links both before and after content #}
+{% macro render_prev_next() -%}
+  {% if prev or next %}
+  <div class="footer-relations">
+    {% if prev %}
+      <div class="pull-left">
+        <a class="btn btn-default" href="{{ prev.link|e }}" title="{{ _('previous chapter')}}">&laquo; {{ prev.title }}</a>
+      </div>
+    {% endif %}
+    {%- if next and next.title != '&lt;no title&gt;' %}
+      <div class="pull-right">
+        <a class="btn btn-default" href="{{ next.link|e }}" title="{{ _('next chapter')}}">{{ next.title }} &raquo;</a>
+      </div>
+    {%- endif %}
+    </div>
+    <div class="clearer"></div>
+  {% endif %}
+{%- endmacro %}
+
+{%- block bottom_rel_links %}
+  {{ render_prev_next() }}
+{%- endblock %}

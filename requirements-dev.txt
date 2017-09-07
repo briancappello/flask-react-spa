@@ -1,0 +1,15 @@
+alabaster==0.7.10
+certifi==2017.7.27.1
+chardet==3.0.4
+docutils==0.14
+guzzle-sphinx-theme==0.7.11
+idna==2.6
+imagesize==0.7.1
+livereload==2.5.1
+Pygments==2.2.0
+requests==2.18.4
+snowballstemmer==1.2.1
+Sphinx==1.6.3
+sphinxcontrib-websupport==1.0.1
+tornado==4.5.2
+urllib3==1.22
