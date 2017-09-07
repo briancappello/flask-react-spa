@@ -1,20 +1,11 @@
-.. Flask React API documentation master file, created by
-   sphinx-quickstart on Thu Sep  7 06:48:34 2017.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Flask API & React/Redux SPA
+===========================
 
-Welcome to Flask React API's documentation!
-===========================================
+A **production-ready** boilerplate built with **Python/Flask** and **ES6 React/Redux**.
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+On the backend, it comes pre-configured with **SQLAlchemy** for data persistence, and includes a polished integration between **Flask-RESTful** and **Flask-Marshmallow** for painless model loading and serialization. **User authentication and registration** come working out-of-the-box, thanks to a little help from **Flask-Security**.
+
+For the frontend, we use **React v15.6** built by **Webpack 3 and Babel** with **Hot Reloading**. **Redux** and the awesome **Redux-Saga** library handle side-effects. And to tie it all together, **React Router** provides component-based routing.
 
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. include:: contents.rst

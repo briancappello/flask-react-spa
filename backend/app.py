@@ -1,5 +1,5 @@
 """ Flask Application Factory Pattern
-http://flask.pocoo.org/docs/0.11/patterns/appfactories/
+http://flask.pocoo.org/docs/0.12/patterns/appfactories/
 
 Conventions to follow for magic to ensue:
 
@@ -51,8 +51,14 @@ from .magic import (
 
 
 def create_app():
+    """Creates a pre-configured Flask application.
+
+    Defaults to using :class:`backend.config.ProdConfig`, unless the
+    :envvar:`FLASK_DEBUG` environment variable is explicitly set to "true",
+    in which case it uses :class:`backend.config.DevConfig`. Also configures
+    paths for the templates folder and static files.
+    """
     return _create_app(
-        # default to ProdConfig unless FLASK_DEBUG env var is explicitly set to true
         DevConfig if get_debug_flag() else ProdConfig,
         template_folder=TEMPLATE_FOLDER,
         static_folder=STATIC_FOLDER,
@@ -61,10 +67,13 @@ def create_app():
 
 
 def _create_app(config_object, **kwargs):
-    """Application factory pattern
+    """Creates a Flask application.
 
-    WARNING: HERE BE DRAGONS!!! DO NOT FUCK WITH THE ORDER OF THESE or nightmares will ensue
+    :param object config_object: The config class to use.
+    :param dict kwargs: Extra kwargs to pass to the Flask constructor.
     """
+    # WARNING: HERE BE DRAGONS!!!
+    # DO NOT FUCK WITH THE ORDER OF THESE CALLS or nightmares will ensue
     app = Flask(__name__, **kwargs)
     configure_app(app, config_object)
 
@@ -101,9 +110,13 @@ def configure_app(app, config_object):
 
 
 def register_serializers(app, serializers):
+    """Register and initialize serializers"""
     _serializers = {serializer.Meta.model.__name__: serializer()
                     for serializer in serializers.values()}
 
+    # FIXME there's almost certainly a better way to do this, perhaps somehow
+    # register the serializers with the app itself, and then any extension can
+    # later ask the app for the serializers?
     from backend.extensions import api
     api.serializers = _serializers
 
@@ -119,6 +132,7 @@ def register_blueprints(app):
     # disable strict_slashes on all routes by default
     if not app.config.get('STRICT_SLASHES', False):
         app.url_map.strict_slashes = False
+
     # register blueprints
     for blueprint, url_prefix in get_bundle_blueprints():
         app.register_blueprint(blueprint, url_prefix=url_prefix)

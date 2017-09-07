@@ -10,15 +10,17 @@ from . import commands, extensions
 
 
 def get_extensions():
+    """An iterable of (extension_instance_name, extension_instance) tuples"""
     return _get_extensions(deferred=False)
 
 
 def get_deferred_extensions():
+    """An iterable of (extension_instance_name, extension_instance) tuples"""
     return _get_extensions(deferred=True)
 
 
 def _get_extensions(deferred):
-    """An iterable of extension instances"""
+    """An iterable of (extension_instance_name, extension_instance) tuples"""
     def is_extension(obj):
         # we want *instantiated* extensions, not imported extension classes
         return not inspect.isclass(obj) and hasattr(obj, 'init_app')
@@ -52,7 +54,7 @@ def get_bundle_blueprints():
 
 
 def get_bundle_serializers():
-    """An iterable of (SerializerName, SerializerClass) tuples"""
+    """An iterable of (SerializerClassName, SerializerClass) tuples"""
     def is_serializer(name, obj):
         return inspect.isclass(obj) and issubclass(obj, ModelSchema) and name not in ['ModelSerializer', 'ModelSchema']
 
@@ -67,7 +69,7 @@ def get_bundle_serializers():
 
 
 def get_bundle_models():
-    """An iterable of (ModelName, ModelClass) tuples"""
+    """An iterable of (ModelClassName, ModelClass) tuples"""
     def is_model_class(name, obj):
         return inspect.isclass(obj) and issubclass(obj, Model) and name != 'Model'
 
@@ -82,14 +84,14 @@ def get_bundle_models():
 
 
 def get_commands():
-    """An iterable of (command_name, command_instance) tuples"""
+    """An iterable of (command_name, command_fn) tuples"""
     def is_click_command(obj):
         return isinstance(obj, click.Command) and not isinstance(obj, click.Group)
     return inspect.getmembers(commands, is_click_command)
 
 
 def get_bundle_command_groups():
-    """An iterable of (group_name, group_instance) tuples"""
+    """An iterable of (group_name, group_fn) tuples"""
     def is_click_group(obj):
         return isinstance(obj, click.Group)
 

@@ -23,6 +23,10 @@ UniqueConstraint = sqlalchemy.UniqueConstraint
 
 
 class Model(db.Model):
+    """Base table class with primary key, created_at and updated_at fields.
+    Includes convenience methods for querying, saving, updating and deleting
+    models.
+    """
     __abstract__ = True
     __table_args__ = {'extend_existing': True}
 
@@ -45,35 +49,62 @@ class Model(db.Model):
 
     @classmethod
     def get(cls, id):
-        """Get one record by ID."""
+        """Get one model by ID.
+
+        :param id: The model ID to get.
+        """
         return cls.query.get(int(id))
 
     @classmethod
     def get_by(cls, **kwargs):
-        """Get one record by keyword args."""
+        """Get one model by keyword arguments.
+
+        :param kwargs: The model attribute values to filter by.
+        """
         return cls.query.filter_by(**kwargs).first()
 
     @classmethod
-    def create(cls, commit=False, **kwargs):
-        """Create a new record add it to the database session."""
+    def filter_by(cls, **kwargs):
+        """Find models by keyword arguments.
+
+        :param kwargs: The model attribute values to filter by.
+        """
+        return cls.query.filter_by(**kwargs)
+
+    @classmethod
+    def create(cls, commit=True, **kwargs):
+        """Create a new model and add it to the database session.
+
+        :param bool commit: Whether or not to immediately commit the DB session.
+        :param kwargs: The model attribute values to create the model with.
+        """
         instance = cls(**kwargs)
         return instance.save(commit)
 
     def update(self, commit=False, **kwargs):
-        """Update fields on the record."""
+        """Update fields on the model.
+
+        :param bool commit: Whether or not to immediately commit the DB session.
+        """
         for attr, value in kwargs.items():
             setattr(self, attr, value)
         return self.save(commit)
 
     def save(self, commit=False):
-        """Save the record to the session."""
+        """Save the model.
+
+        :param bool commit: Whether or not to immediately commit the DB session.
+        """
         db.session.add(self)
         if commit:
             db.session.commit()
         return self
 
     def delete(self, commit=False):
-        """Delete the record from the session."""
+        """Delete the model.
+
+        :param bool commit: Whether or not to immediately commit the DB session.
+        """
         db.session.delete(self)
         return commit and db.session.commit()
 
@@ -91,11 +122,21 @@ class Model(db.Model):
 
 
 def foreign_key(table_name, nullable=False, **kwargs):
-    """Adds a foreign key column.
+    """Use to add a foreign key Column to a model.
 
-    Usage: ::
-        category_id = foreign_key('category')
-        category = relationship('Category', back_populates='categories')
+    For example::
+
+        class Post(database.Model):
+            category_id = foreign_key('category')
+
+    Is equivalent to::
+
+        class Post(database.Model):
+            category_id = Column(Integer, ForeignKey('category.id'))
+
+    :param str table_name: the table name of the referenced model
+    :param bool nullable: whether or not the foreign key can be null
+    :param dict kwargs: any other kwargs to pass the Column constructor
     """
     return Column(Integer, db.ForeignKey(table_name + '.id'), nullable=nullable, **kwargs)
 
