@@ -23,9 +23,21 @@ UniqueConstraint = sqlalchemy.UniqueConstraint
 
 
 class Model(db.Model):
-    """Base table class with primary key and convenience methods."""
     __abstract__ = True
     __table_args__ = {'extend_existing': True}
+
+    __repr_props__ = ('id', 'created_at', 'updated_at')
+    """Set to customize automatic string representation.
+    For example::
+
+        class User(database.Model):
+            __repr_props__ = ('id', 'email')
+
+            email = Column(String)
+
+        user = User(id=1, email='foo@bar.com')
+        print(user)  # prints <User id=1 email="foo@bar.com">
+    """
 
     id = Column(Integer, primary_key=True)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -65,15 +77,9 @@ class Model(db.Model):
         db.session.delete(self)
         return commit and db.session.commit()
 
-    def _repr_props_(self):
-        """Overload to adjust string representation. 'id' will always be included.
-        :return: iterable of property/column names
-        """
-        return ['created_at', 'updated_at']
-
     def __repr__(self):
         properties = ['{!s}={!r}'.format(prop, getattr(self, prop))
-                      for prop in self._repr_props_() if hasattr(self, prop)]
+                      for prop in self.__repr_props__ if hasattr(self, prop)]
         return '<{} id={} {}>'.format(self.__class__.__name__, self.id, ' '.join(properties))
 
 
