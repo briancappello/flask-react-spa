@@ -4,14 +4,18 @@ import authSagas from './auth'
 import protectedSagas from './protected'
 
 
-export function createRoutineSaga(routine, apiMethodGenerator) {
+export function createRoutineSaga(routine, successGenerator, failureGenerator) {
+  if (!failureGenerator) {
+    failureGenerator = function *(e) {
+      yield put(routine.failure(e.response))
+    }
+  }
   return function *({ payload }) {
     try {
       yield put(routine.request())
-      const response = yield apiMethodGenerator(payload)
-      yield put(routine.success(response))
+      yield successGenerator(payload)
     } catch (e) {
-      yield put(routine.failure(e.response))
+      yield failureGenerator(e)
     } finally {
       yield put(routine.fulfill())
     }
