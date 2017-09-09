@@ -27,6 +27,7 @@ const dllConfig = {
         'react-router',
         'react-router-redux',
         'redux',
+        'redux-form',
         'redux-saga',
       ],
       path: path.resolve('../node_modules/flask-api-dlls'),

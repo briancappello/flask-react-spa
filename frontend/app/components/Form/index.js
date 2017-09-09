@@ -1,1 +1,6 @@
-export { TextField } from './Input'
+export {
+  EmailField,
+  HiddenField,
+  PasswordField,
+  TextField,
+} from './Input'
