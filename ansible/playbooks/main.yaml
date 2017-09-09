@@ -92,7 +92,7 @@
     - role: iptables
     - role: ANXS.postgresql
       vars:
-        postgresql_version: 9.5
+        postgresql_version: 9.6
         postgresql_users:
           - name: '{{ FLASK_DATABASE_USER }}'
             pass: '{{ FLASK_DATABASE_PASSWORD }}'

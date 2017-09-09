@@ -2,10 +2,10 @@
 
 Ansible on the local machine should be at version 2.2+. The stack is pretty basic:
 
-- CentOS 7.3 or Ubuntu 16.04
-- Python 3.5
+- CentOS 7.3
+- Python 3.6
 - uWSGI + NGINX
-- PostgreSQL 9.5
+- PostgreSQL 9.6
 
 There are three supported environments: `dev`, `staging`, and `prod`. These are specified through the `app_env` variable in the inventory files (`hosts_<env>` in the `ansible` directory).
 

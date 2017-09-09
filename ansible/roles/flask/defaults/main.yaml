@@ -1,15 +1,15 @@
 ---
 dependencies:
   - '@Development Tools'
-  - python35u
-  - python35u-devel
-  - python35u-pip
+  - python36u
+  - python36u-devel
+  - python36u-pip
   - git
   - libffi-devel
   - openssl-devel
 
-python: python3.5
-pip: pip3.5
+python: python3.6
+pip: pip3.6
 
 python_path: '/usr/bin/{{ python }}'
 virtualenv_dir: '/virtualenvs'
