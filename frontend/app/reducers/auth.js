@@ -21,11 +21,6 @@ export const initialState = {
     emailSent: false,
     error: null,
   },
-  signUp: {
-    isSubmitting: false,
-    error: {},
-    errors: {},
-  }
 }
 
 export default function(state = initialState, action) {
@@ -116,13 +111,6 @@ export default function(state = initialState, action) {
         },
       }
 
-    case signUp.REQUEST:
-      return { ...state,
-        signUp: { ...state.signUp,
-          isSubmitting: true,
-        },
-      }
-
     case signUp.SUCCESS:
       return { ...state,
         user: { ...state.user,
@@ -130,25 +118,6 @@ export default function(state = initialState, action) {
         },
         profile: { ...state.profile,
           isLoaded: true,
-        },
-        signUp: { ...state.signUp,
-          error: {},
-          errors: {},
-        }
-      }
-
-    case signUp.FAILURE:
-      return { ...state,
-        signUp: { ...state.signUp,
-          error: payload,
-          errors: payload.errors || {},
-        }
-      }
-
-    case signUp.FULFILL:
-      return { ...state,
-        signUp: { ...state.signUp,
-          isSubmitting: false,
         },
       }
   }

@@ -93,16 +93,23 @@ export const fetchProfileSaga = createRoutineSaga(fetchProfile, function *() {
   yield put(fetchProfile.success(response))
 })
 
-export const signUpSaga = createRoutineSaga(signUp, function *(payload) {
-  const { token, user } = yield call(Api.signUp, payload)
-  yield put(signUp.success({ user }))
-  if (token) {
-    yield put(login.success({ token, user }))
-    yield put(push('/?welcome'))
-  } else {
-    yield put(push('/sign-up/pending-confirm-email'))
+export const signUpSaga = createRoutineSaga(
+  signUp,
+  function *onSuccess(payload) {
+    const { token, user } = yield call(Api.signUp, payload)
+    yield put(signUp.success({ user }))
+    if (token) {
+      yield put(login.success({ token, user }))
+      yield put(push('/?welcome'))
+    } else {
+      yield put(push('/sign-up/pending-confirm-email'))
+    }
+  },
+  function *onError(e) {
+    const error = new SubmissionError(e.response.errors)
+    yield put(signUp.failure(error))
   }
-})
+)
 
 export const updateProfileSaga = createRoutineSaga(updateProfile,
   function *onSuccess(payload) {
