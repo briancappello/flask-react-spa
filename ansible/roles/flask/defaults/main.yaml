@@ -55,3 +55,7 @@ supervisor_log_dir: '/var/log/supervisor'
 supervisord_log_file: '/var/log/supervisor/supervisord.log'
 supervisord_pid_file: '/var/run/supervisord.pid'
 supervisord_sock_file: '/var/run/supervisord.sock'
+
+celery: '{{ project_virtualenv_dir }}/bin/celery'
+celery_worker_log_file: '{{ application_log_dir }}/celery_worker.log'
+celery_beat_log_file: '{{ application_log_dir }}/celery_beat.log'

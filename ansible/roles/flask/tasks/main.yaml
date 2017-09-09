@@ -38,3 +38,6 @@
 
 - include: supervisor.yaml
   tags: supervisor
+
+- include: celery.yaml
+  tags: celery

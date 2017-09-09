@@ -78,6 +78,13 @@ class BaseConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     ##########################################################################
+    # celery                                                                 #
+    ##########################################################################
+    CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+    CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+    CELERY_ACCEPT_CONTENT = ('json', 'pickle')
+
+    ##########################################################################
     # mail                                                                   #
     ##########################################################################
     MAIL_SERVER = os.environ.get('FLASK_MAIL_HOST', 'localhost')
