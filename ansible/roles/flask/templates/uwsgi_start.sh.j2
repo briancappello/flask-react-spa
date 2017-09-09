@@ -7,16 +7,16 @@ echo "Starting $NAME as `whoami`"
 
 # Activate the virtual environment.
 cd {{ project_dir }}
-. {{ virtualenv_dir }}/bin/activate
+. {{ project_virtualenv_dir }}/bin/activate
 
 # Set additional environment variables.
-. {{ virtualenv_dir }}/bin/postactivate
+. {{ project_virtualenv_dir }}/bin/postactivate
 
 # Create the run directory if it doesn't exist.
 RUNDIR=$(dirname $SOCKFILE)
 test -d $RUNDIR || mkdir -p $RUNDIR
 
-exec {{ virtualenv_dir }}/bin/uwsgi \
+exec {{ project_virtualenv_dir }}/bin/uwsgi \
   --ini {{ project_dir }}/uwsgi.ini
   --uid {{ nginx_user }}
   --gid {{ nginx_user }}

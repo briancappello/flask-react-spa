@@ -25,7 +25,7 @@
   tags: flask.deploy
 
 - name: Ensure that the application file permissions are set properly
-  file: path={{ virtualenv_dir }}
+  file: path={{ project_virtualenv_dir }}
         recurse=yes
         owner={{ nginx_user }}
         group={{ nginx_user }}
