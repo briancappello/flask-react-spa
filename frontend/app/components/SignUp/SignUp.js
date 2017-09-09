@@ -44,12 +44,15 @@ class SignUp extends Component {
       return this.props.children
     }
 
-    const { isSubmitting, errors } = this.props
+    const { isSubmitting, error, errors } = this.props
+
     return (
       <PageContent>
         <div className="row">
           <div className="six cols offset-by-three">
             <h1>Sign Up</h1>
+            {error.status == 500 && <div className="flash danger">{error.statusText}</div>}
+            {error.status == 500 && <br/>}
             <form>
               <div className={`row ${classnames({ error: errors.username })}`}>
                 <label htmlFor="username">Username</label>

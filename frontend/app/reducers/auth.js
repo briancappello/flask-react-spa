@@ -46,6 +46,7 @@ export const initialState = {
   },
   signUp: {
     isSubmitting: false,
+    error: {},
     errors: {},
   }
 }
@@ -295,6 +296,7 @@ export default function(state = initialState, action) {
           isLoaded: true,
         },
         signUp: { ...state.signUp,
+          error: {},
           errors: {},
         }
       }
@@ -302,7 +304,8 @@ export default function(state = initialState, action) {
     case signUp.FAILURE:
       return { ...state,
         signUp: { ...state.signUp,
-          errors: payload.errors,
+          error: payload,
+          errors: payload.errors || {},
         }
       }
 
