@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Helmet from 'react-helmet'
 
 import { bindRoutineCreators } from 'actions'
 import { fetchProfile } from 'actions/auth'
@@ -17,6 +18,9 @@ class Profile extends Component {
   render() {
     return (
       <PageContent>
+        <Helmet>
+          <title>User Profile</title>
+        </Helmet>
         <div className="row">
           <div className="six cols">
             <UserInfo/>

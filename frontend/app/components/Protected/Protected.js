@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Helmet from 'react-helmet'
 
 import { bindRoutineCreators } from 'actions'
 import { fetchProtected } from 'actions/protected'
@@ -28,6 +29,9 @@ class Protected extends Component {
 
     return (
       <div>
+        <Helmet>
+          <title>Protected</title>
+        </Helmet>
         <h1>Protected!</h1>
         {data.key}
       </div>

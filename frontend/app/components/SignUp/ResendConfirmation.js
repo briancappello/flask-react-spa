@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
 import classnames from 'classnames'
+import Helmet from 'react-helmet'
 
 import { resendConfirmationEmail } from 'actions/auth'
 import { bindRoutineCreators } from 'actions'
@@ -33,6 +34,9 @@ class ResendConfirmation extends React.Component {
     const { isSubmitting, emailSent, error } = this.props
     return (
       <PageContent>
+        <Helmet>
+          <title>Resend Confirmation Email</title>
+        </Helmet>
         <h1>Oops, that confirmation link has expired.</h1>
         <h5>A new link should have been sent to your email address.</h5>
         <p>Please check your mail and try again.</p>

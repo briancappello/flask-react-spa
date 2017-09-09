@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
+import Helmet from 'react-helmet'
 
 import { bindRoutineCreators } from 'actions'
 import { resetPassword } from 'actions/auth'
@@ -30,6 +31,9 @@ class ResetPassword extends React.Component {
     const { isSubmitting, errors } = this.props
     return (
       <PageContent>
+        <Helmet>
+          <title>Reset Password</title>
+        </Helmet>
         <h1>Reset Password</h1>
         <p>Enter a new password and click submit to reset your password and login.</p>
         <form>

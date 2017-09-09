@@ -22,6 +22,7 @@ const dllConfig = {
         'lodash',
         'react',
         'react-dom',
+        'react-helmet',
         'react-redux',
         'react-router',
         'react-router-redux',

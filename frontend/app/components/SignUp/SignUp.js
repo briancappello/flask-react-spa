@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 import classnames from 'classnames'
+import Helmet from 'react-helmet'
 
 import { bindRoutineCreators } from 'actions'
 import { signUp } from 'actions/auth'
@@ -48,6 +49,9 @@ class SignUp extends Component {
 
     return (
       <PageContent>
+        <Helmet>
+          <title>Sign Up</title>
+        </Helmet>
         <div className="row">
           <div className="six cols offset-by-three">
             <h1>Sign Up</h1>

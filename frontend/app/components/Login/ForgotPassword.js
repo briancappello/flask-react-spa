@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
+import Helmet from 'react-helmet'
 
 import { bindRoutineCreators } from 'actions'
 import { forgotPassword } from 'actions/auth'
@@ -31,6 +32,9 @@ class ForgotPassword extends React.Component {
     const { errors, isSubmitting } = this.props
     return (
       <PageContent>
+        <Helmet>
+          <title>Forgot Password</title>
+        </Helmet>
         <h1>Forgot Password</h1>
         <form>
           <div className={`row ${classnames({ error: errors.email })}`}>

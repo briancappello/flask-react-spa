@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import Helmet from 'react-helmet'
+
 import { Link } from 'components/Nav'
 
 import { bindRoutineCreators } from 'actions'
@@ -76,6 +78,9 @@ class Login extends React.Component {
 
     return (
       <PageContent>
+        <Helmet>
+          <title>Login</title>
+        </Helmet>
         <div className="row">
           <div className="six cols offset-by-three">
             <h1>Log in!</h1>
