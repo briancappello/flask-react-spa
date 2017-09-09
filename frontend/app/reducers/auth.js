@@ -16,8 +16,6 @@ export const initialState = {
   profile: {
     isLoading: false,
     isLoaded: false,
-    isSubmitting: false,
-    errors: {},
   },
   resendConfirmationEmail: {
     isSubmitting: false,
@@ -144,35 +142,10 @@ export default function(state = initialState, action) {
         },
       }
 
-    case updateProfile.REQUEST:
-      return { ...state,
-        profile: { ...state.profile,
-          isSubmitting: true,
-        },
-      }
-
     case updateProfile.SUCCESS:
       return { ...state,
         user: { ...state.user,
           ...payload.user,
-        },
-        profile: { ...state.profile,
-          errors: {},
-          isLoaded: true,
-        },
-      }
-
-    case updateProfile.FAILURE:
-      return { ...state,
-        profile: { ...state.profile,
-          errors: payload.errors,
-        },
-      }
-
-    case updateProfile.FULFILL:
-      return { ...state,
-        profile: { ...state.profile,
-          isSubmitting: false,
         },
       }
 

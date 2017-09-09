@@ -97,13 +97,19 @@ export const signUpSaga = createRoutineSaga(signUp, function *(payload) {
   }
 })
 
-export const updateProfileSaga = createRoutineSaga(updateProfile, function *(payload) {
-  yield put(flashClear())
-  const { token, user } = yield select(selectAuth)
-  const response = yield call(Api.updateProfile, token, user, payload)
-  yield put(updateProfile.success({ user: response }))
-  yield put(flashSuccess('Your profile has been successfully updated.'))
-})
+export const updateProfileSaga = createRoutineSaga(updateProfile,
+  function *onSuccess(payload) {
+    yield put(flashClear())
+    const { token, user } = yield select(selectAuth)
+    const response = yield call(Api.updateProfile, token, user, payload)
+    yield put(updateProfile.success({ user: response }))
+    yield put(flashSuccess('Your profile has been successfully updated.'))
+  },
+  function *onError(e) {
+    const error = new SubmissionError(e.response.errors)
+    yield put(updateProfile.failure(error))
+  }
+)
 
 export const resendConfirmationEmailSaga = createRoutineSaga(resendConfirmationEmail, function *({ email }) {
   const response = yield call(Api.resendConfirmationEmail, email)
