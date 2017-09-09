@@ -25,10 +25,6 @@ export const initialState = {
     errors: {},
     success: false,
   },
-  loginLogout: {
-    isAuthenticating: false,
-    error: null,
-  },
   profile: {
     isLoading: false,
     isLoaded: false,
@@ -143,13 +139,6 @@ export default function(state = initialState, action) {
         },
       }
 
-    case login.REQUEST:
-      return { ...state,
-        loginLogout: { ...state.loginLogout,
-          isAuthenticating: true,
-        },
-      }
-
     case login.SUCCESS:
       const { token, user } = payload
       storage.doLogin(token, user)
@@ -160,29 +149,8 @@ export default function(state = initialState, action) {
       }
 
     case login.FAILURE:
-      const { error } = payload
-      storage.doLogout()
-      return { ...state,
-        loginLogout: { ...state.loginLogout,
-          error,
-        },
-      }
-
-    case login.FULFILL:
-      return { ...state,
-        loginLogout: { ...state.loginLogout,
-          isAuthenticating: false,
-        },
-      }
-
-    case logout.REQUEST:
-      return { ...state,
-        loginLogout: { ...state.loginLogout,
-          isAuthenticating: true,
-        },
-      }
-
     case logout.SUCCESS:
+    case logout.FAILURE:
     case logout.FULFILL:
       storage.doLogout()
       return initialState

@@ -1,5 +1,6 @@
 import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
+import { SubmissionError } from 'redux-form'
 
 import { selectAuth } from 'reducers/auth'
 import { flashClear, flashSuccess } from 'actions/flash'
@@ -47,6 +48,10 @@ export const loginSaga = createRoutineSaga(login,
     yield put(push(redirect))
     yield put(flashSuccess('You have been successfully logged in.'))
   },
+  function *onError(e) {
+    const error = new SubmissionError({ _error: e.response.error })
+    yield put(login.failure(error))
+  }
 )
 
 export const logoutSaga = createRoutineSaga(logout, function *() {
