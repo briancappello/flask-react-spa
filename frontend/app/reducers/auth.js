@@ -1,5 +1,4 @@
 import {
-  resetPassword,
   login,
   logout,
   fetchProfile,
@@ -22,10 +21,6 @@ export const initialState = {
     emailSent: false,
     error: null,
   },
-  resetPassword: {
-    isSubmitting: false,
-    errors: {},
-  },
   signUp: {
     isSubmitting: false,
     error: {},
@@ -36,34 +31,6 @@ export const initialState = {
 export default function(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
-
-    case resetPassword.REQUEST:
-      return { ...state,
-        resetPassword: { ...state.resetPassword,
-          isSubmitting: true,
-        },
-      }
-
-    case resetPassword.SUCCESS:
-      return { ...state,
-        resetPassword: { ...state.resetPassword,
-          errors: {},
-        },
-      }
-
-    case resetPassword.FAILURE:
-      return { ...state,
-        resetPassword: { ...state.resetPassword,
-          errors: payload.errors,
-        },
-      }
-
-    case resetPassword.FULFILL:
-      return { ...state,
-        resetPassword: { ...state.resetPassword,
-          isSubmitting: false,
-        },
-      }
 
     case login.SUCCESS:
       const { token, user } = payload

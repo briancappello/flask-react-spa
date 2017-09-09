@@ -42,15 +42,22 @@ export const forgotPasswordSaga = createRoutineSaga(forgotPassword,
   }
 )
 
-export const resetPasswordSaga = createRoutineSaga(resetPassword, function *(actionPayload) {
-  const { token: resetToken, ...payload } = actionPayload
-  const { token, user } = yield call(Api.resetPassword, resetToken, payload)
-  yield put(login.success({ token, user }))
-  yield put(fetchProfile.success({ user }))
-  yield put(resetPassword.success({ token, user }))
-  yield put(push('/'))
-  yield put(flashSuccess('Welcome back! Your password has been successfully changed.'))
-})
+export const resetPasswordSaga = createRoutineSaga(
+  resetPassword,
+  function *onSuccess(actionPayload) {
+    const { token: resetToken, ...payload } = actionPayload
+    const { token, user } = yield call(Api.resetPassword, resetToken, payload)
+    yield put(login.success({ token, user }))
+    yield put(fetchProfile.success({ user }))
+    yield put(resetPassword.success({ token, user }))
+    yield put(push('/'))
+    yield put(flashSuccess('Welcome back! Your password has been successfully changed.'))
+  },
+  function *onError(e) {
+    const error = new SubmissionError(e.response.errors)
+    yield put(resetPassword.failure(error))
+  }
+)
 
 export const loginSaga = createRoutineSaga(login,
   function *onSuccess(actionPayload) {
