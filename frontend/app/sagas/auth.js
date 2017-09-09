@@ -18,11 +18,17 @@ import {
 import Api from 'utils/api'
 import { createRoutineSaga } from 'sagas'
 
-export const changePasswordSaga = createRoutineSaga(changePassword, function *(payload) {
-  const response = yield call(Api.changePassword, payload)
-  yield put(changePassword.success(response))
-  yield put(flashSuccess('Your password has been successfully changed.'))
-})
+export const changePasswordSaga = createRoutineSaga(changePassword,
+  function *onSuccess(payload) {
+    const response = yield call(Api.changePassword, payload)
+    yield put(changePassword.success(response))
+    yield put(flashSuccess('Your password has been successfully changed.'))
+  },
+  function *onError(e) {
+    const error = new SubmissionError(e.response.errors)
+    yield put(changePassword.failure(error))
+  }
+)
 
 export const forgotPasswordSaga = createRoutineSaga(forgotPassword,
   function *onSuccess(payload) {
