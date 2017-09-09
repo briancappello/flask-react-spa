@@ -1,49 +1,35 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
 
 export default function requireAuthentication(Component) {
   class AuthenticatedComponent extends React.Component {
-    static propTypes = {
-      isAuthenticated: PropTypes.bool.isRequired,
-      location: PropTypes.object.isRequired,
-      dispatch: PropTypes.func.isRequired,
-    }
-
     componentWillMount() {
-      this.checkAuth()
+      this.checkAuth(this.props)
     }
 
     componentWillReceiveProps(nextProps) {
-      this.checkAuth()
+      this.checkAuth(nextProps)
     }
 
-    checkAuth() {
-      if (!this.props.isAuthenticated) {
-        const redirectAfterLogin = this.props.location.pathname
-        this.props.dispatch(push(`/login?next=${redirectAfterLogin}`))
+    checkAuth(props) {
+      const { isAuthenticated, location, push } = props
+      if (!isAuthenticated) {
+        push(`/login?next=${location.pathname}`)
       }
     }
 
     render() {
-      return (
-        <div>
-          {this.props.isAuthenticated === true
-            ? <Component {...this.props} />
-            : null
-          }
-        </div>
-      )
+      const { isAuthenticated, location, push, ...props } = this.props
+      return isAuthenticated
+        ? <Component {...props} />
+        : null
     }
   }
 
-  const mapStateToProps = (state) => {
-    return {
-      isAuthenticated: state.auth.isAuthenticated,
-      token: state.auth.token,
-    }
-  }
-
-  return connect(mapStateToProps)(AuthenticatedComponent)
+  return connect(
+    (state) => ({ isAuthenticated: state.auth.isAuthenticated }),
+    (dispatch) => bindActionCreators({ push }, dispatch),
+  )(AuthenticatedComponent)
 }
