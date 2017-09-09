@@ -32,16 +32,3 @@
     dest: '{{ nginx_sites_enabled_dir }}/{{ project_name }}'
     state: link
   notify: reload nginx
-
-- name: create uwsgi systemd service
-  template:
-    src: uwsgi.systemd.j2
-    dest: /lib/systemd/system/{{ project_name }}.service
-  register: uwsgi_service
-
-- name: reload systemd
-  shell: systemctl daemon-reload
-  when: uwsgi_service | changed
-
-- name: (re)start and enable uwsgi systemd service
-  service: name={{ project_name }} state=restarted enabled=yes

@@ -35,3 +35,6 @@
 
 - include: uwsgi.yaml
   tags: uwsgi
+
+- include: supervisor.yaml
+  tags: supervisor

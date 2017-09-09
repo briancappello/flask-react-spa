@@ -1,0 +1,27 @@
+; {{ ansible_managed }}
+
+[Unit]
+Description=Start/stop supervisor daemon and its configured subprocesses
+After=network.target
+
+[Service]
+Type=simple
+PermissionsStartOnly=true
+ExecStartPre=/usr/bin/test -x {{ supervisord }}
+ExecStartPre=/usr/bin/install -d \
+  -o root \
+  -g root \
+  -m 0755 \
+  {{ supervisor_log_dir }}
+ExecStart={{ supervisord }} -n -c {{ supervisord_conf_file }} $DAEMON_OPTS
+ExecStop={{ supervisorctl }} -c {{ supervisord_conf_file }} shutdown
+KillMode=process
+ExecReload={{ supervisorctl }} -c {{ supervisord_conf_file }} reload
+PIDFile={{ supervisord_pid_file }}
+Restart=on-failure
+RestartSec=5s
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

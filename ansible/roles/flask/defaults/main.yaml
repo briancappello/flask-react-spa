@@ -45,3 +45,13 @@ flask_environment: '{{ __all_the_env_vars__ | filter_omitted }}'
 
 run_migrations: yes
 run_fixtures: no
+
+supervisor_virtualenv_dir: '{{ virtualenv_dir }}/supervisor'
+supervisord: '{{ supervisor_virtualenv_dir }}/bin/supervisord'
+supervisorctl: '{{ supervisor_virtualenv_dir }}/bin/supervisorctl'
+supervisor_conf_dir: '/etc/supervisor'
+supervisord_conf_file: '{{ supervisor_conf_dir }}/supervisord.conf'
+supervisor_log_dir: '/var/log/supervisor'
+supervisord_log_file: '/var/log/supervisor/supervisord.log'
+supervisord_pid_file: '/var/run/supervisord.pid'
+supervisord_sock_file: '/var/run/supervisord.sock'

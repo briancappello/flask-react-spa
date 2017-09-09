@@ -1,0 +1,5 @@
+[program:{{ project_name }}]
+command={{ project_virtualenv_dir }}/bin/uwsgi_start
+directory={{ project_dir }}
+autostart=true
+autorestart=true
