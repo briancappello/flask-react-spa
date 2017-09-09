@@ -92,7 +92,7 @@
     - role: iptables
     - role: ANXS.postgresql
       vars:
-        postgresql_version: 9.5
+        postgresql_version: 9.6
         postgresql_users:
           - name: '{{ FLASK_DATABASE_USER }}'
             pass: '{{ FLASK_DATABASE_PASSWORD }}'
@@ -108,6 +108,8 @@
             db: '{{ FLASK_DATABASE_NAME }}'
             priv: ALL
     - role: nginx
+    - role: sbaerlocher.redis
+      tags: redis
     - role: flask
       tags: flask
     - when: app_env == 'dev' or app_env == 'staging'

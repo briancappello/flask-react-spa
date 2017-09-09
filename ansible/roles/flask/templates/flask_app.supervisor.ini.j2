@@ -1,0 +1,8 @@
+[program:{{ project_name }}]
+directory      = {{ project_dir }}
+command        = {{ project_virtualenv_dir }}/bin/uwsgi_start
+numprocs       = 1
+autostart      = true
+autorestart    = true
+stdout_logfile = {{ application_log_dir }}/{{ project_name }}_supervisor.log
+stderr_logfile = {{ application_log_dir }}/{{ project_name }}_supervisor.log

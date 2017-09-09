@@ -1,0 +1,42 @@
+---
+- name: create celery worker startup script
+  template: src=celery_worker_start.sh.j2
+            dest={{ project_virtualenv_dir }}/bin/celery_worker_start
+            owner={{ nginx_user }}
+            group={{ nginx_user }}
+            mode=0755
+            backup=yes
+
+- name: create celery worker supervisor file
+  template:
+    src: celery_worker.supervisor.ini.j2
+    dest: '{{ supervisor_conf_dir }}/celery_worker.ini'
+    owner: root
+    group: root
+    mode: 0644
+  register: celery_worker_conf
+
+- name: start and enable celery worker
+  when: celery_worker_conf | changed
+  supervisorctl: name=celery_worker state=restarted supervisorctl_path={{ supervisorctl }}
+
+- name: create celery beat startup script
+  template: src=celery_beat_start.sh.j2
+            dest={{ project_virtualenv_dir }}/bin/celery_beat_start
+            owner={{ nginx_user }}
+            group={{ nginx_user }}
+            mode=0755
+            backup=yes
+
+- name: create celery beat supervisor file
+  template:
+    src: celery_beat.supervisor.ini.j2
+    dest: '{{ supervisor_conf_dir }}/celery_beat.ini'
+    owner: root
+    group: root
+    mode: 0644
+  register: celery_beat_conf
+
+- name: start and enable celery beat
+  when: celery_beat_conf | changed
+  supervisorctl: name=celery_beat state=restarted supervisorctl_path={{ supervisorctl }}

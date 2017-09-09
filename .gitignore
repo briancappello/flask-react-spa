@@ -8,6 +8,8 @@ frontend/app/config.js
 *.sqlite
 backend/config.py
 flask_sessions/
+celerybeat-schedule
+celerybeat.pid
 
 ansible/.password
 

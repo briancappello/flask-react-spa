@@ -2,13 +2,13 @@
 - name: install virtualenv
   pip: name=virtualenv state=latest executable={{ pip }}
 
-- name: create virtualenv {{ virtualenv_dir }}
-  command: virtualenv -p {{ python_path }} {{ virtualenv_dir }}
-           creates={{ virtualenv_dir }}/bin/activate
+- name: create virtualenv {{ project_virtualenv_dir }}
+  command: virtualenv -p {{ python_path }} {{ project_virtualenv_dir }}
+           creates={{ project_virtualenv_dir }}/bin/activate
 
 - name: create virtualenv postactivate script
   template: src=virtualenv_postactivate.sh.j2
-            dest={{ virtualenv_dir }}/bin/postactivate
+            dest={{ project_virtualenv_dir }}/bin/postactivate
             owner={{ nginx_user }}
             group={{ nginx_user }}
             mode=0640

@@ -3,7 +3,7 @@
 [uwsgi]
 chdir           = {{ project_dir }}
 module          = wsgi:app
-home            = {{ virtualenv_dir }}
+home            = {{ project_virtualenv_dir }}
 logto           = {{ application_log_dir }}/uwsgi.log
 
 master          = true

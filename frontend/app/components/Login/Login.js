@@ -1,116 +1,70 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { Link } from 'components/Nav'
-import { parse } from 'query-string'
+import Helmet from 'react-helmet'
+import { reduxForm } from 'redux-form'
+import { parse as parseQueryString } from 'query-string'
 
-import { bindRoutineCreators } from 'actions'
 import { login } from 'actions/auth'
 import { flashInfo } from 'actions/flash'
-import { ForgotPassword, PageContent } from 'components'
+import { PageContent } from 'components/Content'
+import { Link } from 'components/Nav'
+import { HiddenField, PasswordField, TextField } from 'components/Form'
+import { required } from 'components/Form/validators'
 
 
 class Login extends React.Component {
-  static propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
-    isAuthenticating: PropTypes.bool.isRequired,
-    error: PropTypes.string,
-
-    push: PropTypes.func.isRequired,
-    login: PropTypes.object.isRequired,
-    flashInfo: PropTypes.func.isRequired,
-  }
-
-  constructor(props) {
-    super(props)
-    const { location, isAuthenticating } = this.props
-    const query = parse(location.search)
-
-    this.state = {
-      freshLogin: !isAuthenticating,
-      email: '',
-      password: '',
-      redirect: query.next || '/',
-    }
-  }
-
   componentWillMount() {
-    if (this.props.isAuthenticated) {
-      this.props.push('/')
-      this.props.flashInfo('You are already logged in.')
+    const { isAuthenticated, push, flashInfo } = this.props
+    if (isAuthenticated) {
+      push('/')
+      flashInfo('You are already logged in.')
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isAuthenticated) {
-      this.props.push(this.state.redirect)
-    }
-  }
-
-  onSubmit = (e) => {
-    e.preventDefault()
-    const { email, password, redirect } = this.state
-    this.props.login.trigger({ email, password, redirect })
-  }
-
-  handleInputChange = (e, field) => {
-    this.setState({
-      [field]: e.target.value || null,
-    })
   }
 
   render() {
-    const { freshLogin } = this.state
-    const { error, isAuthenticating, match } = this.props
-    if (!freshLogin && isAuthenticating) {
-      return (
-        <PageContent>
-          <h1>Logging in, just a moment...</h1>
-        </PageContent>
-      )
+    const { children, error, handleSubmit, submitting, pristine } = this.props
+
+    if (children) {
+      return children
     }
 
     return (
       <PageContent>
+        <Helmet>
+          <title>Login</title>
+        </Helmet>
         <div className="row">
           <div className="six cols offset-by-three">
             <h1>Log in!</h1>
             {error && <div className="flash danger">{error}</div>}
             {error && <br/>}
-            <p>Hint: a@a.com / pw</p>
-            <form>
-              <div className="row">
-                <label htmlFor="username">Email or Username</label>
-                <input type="text"
-                       id="username"
-                       autoFocus
-                       placeholder="Email or Username"
-                       className="full-width"
-                       onChange={(e) => this.handleInputChange(e, 'email')}
-                />
-              </div>
-              <div className="row">
-                <label htmlFor="password">Password</label>
-                <input type="password"
-                       id="password"
-                       placeholder="Password"
-                       className="full-width"
-                       onChange={(e) => this.handleInputChange(e, 'password')}
-                />
-              </div>
+            <p>Hint: a@a.com / password</p>
+            <form onSubmit={handleSubmit(login)}>
+              <HiddenField name="redirect" />
+              <TextField autoFocus name="email"
+                         label="Email or Username"
+                         className="full-width"
+                         validate={[required]}
+              />
+              <PasswordField name="password"
+                             className="full-width"
+                             validate={[required]}
+              />
               <div className="row">
                 <button type="submit"
                         className="btn btn-primary"
-                        disabled={isAuthenticating}
-                        onClick={this.onSubmit}
+                        disabled={pristine || submitting}
                 >
-                  {isAuthenticating ? 'Logging in...' : 'Submit'}
+                  {submitting ? 'Logging in...' : 'Submit'}
                 </button>
-                <span className="pull-right">
-                  <Link to="/login/forgot-password" style={{lineHeight: '38px'}}>Forgot password?</Link>
-                </span>
+                <Link to="/login/forgot-password"
+                      className="pull-right"
+                      style={{ lineHeight: '38px' }}
+                >
+                  Forgot password?
+                </Link>
               </div>
             </form>
           </div>
@@ -120,17 +74,19 @@ class Login extends React.Component {
   }
 }
 
+const LoginForm = reduxForm({
+  form: 'login',
+})(Login)
+
 export default connect(
-  (state) => {
-    const { isAuthenticated, loginLogout } = state.auth
+  (state, props) => {
+    const query = parseQueryString(props.location.search)
     return {
-      isAuthenticated: isAuthenticated,
-      isAuthenticating: loginLogout.isAuthenticating,
-      error: loginLogout.error,
+      isAuthenticated: state.auth.isAuthenticated,
+      initialValues: {
+        redirect: query.next || '/',
+      },
     }
   },
-  (dispatch) => ({
-    ...bindRoutineCreators({ login }, dispatch),
-    ...bindActionCreators({ flashInfo, push }, dispatch),
-  })
-)(Login)
+  (dispatch) => bindActionCreators({ flashInfo, push }, dispatch),
+)(LoginForm)

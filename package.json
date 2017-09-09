@@ -29,10 +29,12 @@
     "query-string": "^5.0.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-helmet": "^5.2.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^3.7.2",
+    "redux-form": "^7.0.4",
     "redux-saga": "^0.15.6",
     "skeleton-scss": "^2.0.4"
   },
@@ -89,10 +91,12 @@
       "lodash",
       "react",
       "react-dom",
+      "react-helmet",
       "react-redux",
       "react-router",
       "react-router-redux",
       "redux",
+      "redux-form",
       "redux-saga"
     ]
   },

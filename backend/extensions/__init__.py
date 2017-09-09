@@ -1,4 +1,3 @@
-from flask_mail import Mail
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_session import Session
@@ -6,6 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from sqlalchemy import MetaData
 
+from .flask_celery import FlaskCelery
+from .flask_mail import Mail
 from .flask_restful import Api
 from .flask_security import Security, SQLAlchemyUserDatastore
 
@@ -23,6 +24,8 @@ db = SQLAlchemy(metadata=MetaData(naming_convention={
     'pk': 'pk_%(table_name)s',
 }))
 migrate = Migrate(db=db, render_as_batch=True)
+
+celery = FlaskCelery('backend.app')
 
 # configure Flask-Security
 # we cannot import the User/Role models here, or it will cause a circular

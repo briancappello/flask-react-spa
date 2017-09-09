@@ -1,0 +1,21 @@
+; {{ ansible_managed }}
+
+[program:celery_beat]
+directory       = {{ project_dir }}
+command         = {{ project_virtualenv_dir }}/bin/celery_beat_start
+user            = {{ nginx_user }}
+numprocs        = 1
+stdout_logfile  = {{ celery_beat_log_file }}
+stderr_logfile  = {{ celery_beat_log_file }}
+autostart       = true
+autorestart     = true
+
+; total number of seconds for a startup to be considered successful
+startsecs       = 10
+
+; number of seconds to wait for tasks to finish before shutdown
+; increase if you have very long-running tasks
+stopwaitsecs    = 60
+
+killasgroup     = true
+priority        = 999

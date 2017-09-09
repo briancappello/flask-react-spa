@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Activate the virtual environment.
+cd {{ project_dir }}
+. {{ project_virtualenv_dir }}/bin/activate
+
+# Set additional environment variables.
+. {{ project_virtualenv_dir }}/bin/postactivate
+
+exec {{ celery }} beat -A wsgi.celery -l info

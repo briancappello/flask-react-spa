@@ -9,7 +9,8 @@ import Api from 'utils/api'
 
 export const fetchProtectedSaga = createRoutineSaga(fetchProtected, function *() {
   const { token } = yield select(selectAuth)
-  return yield call(Api.fetchProtected, token)
+  const response = yield call(Api.fetchProtected, token)
+  yield put(fetchProtected.success(response))
 })
 
 export function *fetchProtectedIfNeeded() {

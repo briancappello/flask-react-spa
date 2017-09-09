@@ -1,19 +1,20 @@
 ---
 dependencies:
   - '@Development Tools'
-  - python35u
-  - python35u-devel
-  - python35u-pip
+  - python36u
+  - python36u-devel
+  - python36u-pip
   - git
   - libffi-devel
   - openssl-devel
 
-python: python3.5
-pip: pip3.5
+python: python3.6
+pip: pip3.6
 
 python_path: '/usr/bin/{{ python }}'
-virtualenv_dir: '/virtualenvs/{{ project_name }}-env'
-project_dir: '{{ virtualenv_dir }}/{{ project_name }}'
+virtualenv_dir: '/virtualenvs'
+project_virtualenv_dir: '{{ virtualenv_dir }}/{{ project_name }}'
+project_dir: '{{ project_virtualenv_dir }}/{{ project_name }}'
 requirements_path: '{{ project_dir }}/requirements.txt'
 
 __all_the_env_vars__:
@@ -44,3 +45,17 @@ flask_environment: '{{ __all_the_env_vars__ | filter_omitted }}'
 
 run_migrations: yes
 run_fixtures: no
+
+supervisor_virtualenv_dir: '{{ virtualenv_dir }}/supervisor'
+supervisord: '{{ supervisor_virtualenv_dir }}/bin/supervisord'
+supervisorctl: '{{ supervisor_virtualenv_dir }}/bin/supervisorctl'
+supervisor_conf_dir: '/etc/supervisor'
+supervisord_conf_file: '{{ supervisor_conf_dir }}/supervisord.conf'
+supervisor_log_dir: '/var/log/supervisor'
+supervisord_log_file: '/var/log/supervisor/supervisord.log'
+supervisord_pid_file: '/var/run/supervisord.pid'
+supervisord_sock_file: '/var/run/supervisord.sock'
+
+celery: '{{ project_virtualenv_dir }}/bin/celery'
+celery_worker_log_file: '{{ application_log_dir }}/celery_worker.log'
+celery_beat_log_file: '{{ application_log_dir }}/celery_beat.log'

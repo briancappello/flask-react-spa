@@ -1,0 +1,62 @@
+---
+- name: install pip
+  easy_install:
+    name: pip
+    state: latest
+
+- name: create virtualenv for supervisor
+  command: virtualenv -p /usr/bin/python {{ supervisor_virtualenv_dir }}
+           creates={{ supervisor_virtualenv_dir }}/bin/activate
+
+- name: install supervisor
+  pip:
+    virtualenv: '{{ supervisor_virtualenv_dir }}'
+    name: supervisor
+
+- name: create supervisor conf dir
+  file:
+    path: '{{ supervisor_conf_dir }}'
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: create supervisor log dir
+  file:
+    path: '{{ supervisor_log_dir }}'
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: create supervisord conf file
+  template:
+    src: supervisord.conf.j2
+    dest: '{{ supervisord_conf_file }}'
+    owner: root
+    group: root
+    mode: 0640
+
+- name: create {{ project_name }} supervisor program conf file
+  template:
+    src: flask_app.supervisor.ini.j2
+    dest: '{{ supervisor_conf_dir }}/{{ project_name }}.ini'
+    owner: root
+    group: root
+    mode: 0644
+
+- name: create supervisor systemd service
+  template:
+    src: supervisor.systemd.j2
+    dest: /lib/systemd/system/supervisor.service
+    owner: root
+    group: root
+    mode: 0644
+  register: reload_systemd_daemon
+
+- name: reload systemd daemon
+  when: reload_systemd_daemon | changed
+  command: systemctl daemon-reload
+
+- name: start and enable supervisor
+  service: name=supervisor state=restarted enabled=true

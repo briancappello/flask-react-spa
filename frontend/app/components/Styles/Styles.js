@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Helmet from 'react-helmet'
 
 import { PageContent } from 'components'
 
@@ -43,6 +44,9 @@ export default class Styles extends Component {
   render() {
     return (
       <PageContent className="row">
+        <Helmet>
+          <title>Styles</title>
+        </Helmet>
         <aside className="two cols fixed">
           <h4>Styles</h4>
           <ul>

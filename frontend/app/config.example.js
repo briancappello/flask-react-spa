@@ -1,5 +1,6 @@
 //-------------------------------------
-// CONFIG.JS.example
+// config.example.js
+//
 // 1. copy this file to config.js
 // 2. adjust settings as necessary
 //-------------------------------------
@@ -25,5 +26,8 @@ export const LOG_LEVEL = DEBUG
 
 export const PORT = process.env.PORT || 8888
 export const SERVER_URL = process.env.NODE_ENV == 'production'
-    ? 'https://www.example.com'
+    ? ''  // FIXME
     : `http://localhost:${PORT}`
+
+export const SITE_NAME = 'Flask API'
+export const COPYRIGHT = 'Brian Cappello'

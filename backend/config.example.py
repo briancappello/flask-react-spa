@@ -61,6 +61,7 @@ class BaseConfig(object):
     ##########################################################################
     # session/cookies                                                        #
     ##########################################################################
+    SESSION_TYPE = 'redis'
     SESSION_PROTECTION = 'strong'
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SECURE = True
@@ -75,6 +76,13 @@ class BaseConfig(object):
     # database                                                               #
     ##########################################################################
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    ##########################################################################
+    # celery                                                                 #
+    ##########################################################################
+    CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+    CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+    CELERY_ACCEPT_CONTENT = ('json', 'pickle')
 
     ##########################################################################
     # mail                                                                   #
@@ -134,8 +142,6 @@ class ProdConfig(BaseConfig):
     ##########################################################################
     SESSION_COOKIE_DOMAIN = os.environ.get('FLASK_DOMAIN', 'example.com')  # FIXME
     SESSION_COOKIE_SECURE = get_boolean_env('SESSION_COOKIE_SECURE', True)
-    SESSION_TYPE = 'filesystem'  # FIXME, probably better to use sqlalchemy
-    SESSION_FILE_DIR = 'flask_sessions'
 
 
 class DevConfig(BaseConfig):
@@ -150,8 +156,6 @@ class DevConfig(BaseConfig):
     # session/cookies                                                        #
     ##########################################################################
     SESSION_COOKIE_SECURE = False
-    SESSION_TYPE = 'filesystem'
-    SESSION_FILE_DIR = 'flask_sessions'
 
     ##########################################################################
     # database                                                               #

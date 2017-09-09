@@ -2,95 +2,59 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
-import classnames from 'classnames'
+import { reduxForm } from 'redux-form'
+import Helmet from 'react-helmet'
 
-import { bindRoutineCreators } from 'actions'
 import { signUp } from 'actions/auth'
+import { PageContent } from 'components/Content'
+import { EmailField, PasswordField, TextField } from 'components/Form'
+import { required } from 'components/Form/validators'
 import { selectAuth } from 'reducers/auth'
 
-import { PageContent } from 'components/Content'
 
 class SignUp extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      username: null,
-      email: null,
-      password: null,
-    }
-  }
-
   componentWillMount() {
     if (this.props.isAuthenticated) {
       this.props.push('/')
     }
   }
 
-  onSubmit = (e) => {
-    e.preventDefault()
-    const { username, email, password } = this.state
-    this.props.signUp.trigger({ username, email, password })
-  }
-
-  handleInputChange = (e, field) => {
-    this.setState({
-      [field]: e.target.value || null,
-    })
-  }
-
   render() {
-    if (this.props.children) {
-      return this.props.children
+    const { children, handleSubmit, pristine, submitting } = this.props
+
+    if (children) {
+      return children
     }
 
-    const { isSubmitting, errors } = this.props
     return (
       <PageContent>
+        <Helmet>
+          <title>Sign Up</title>
+        </Helmet>
         <div className="row">
           <div className="six cols offset-by-three">
             <h1>Sign Up</h1>
-            <form>
-              <div className={`row ${classnames({ error: errors.username })}`}>
-                <label htmlFor="username">Username</label>
-                <input type="text"
-                       id="username"
-                       autoFocus
-                       placeholder="Username"
-                       className="full-width"
-                       onChange={(e) => this.handleInputChange(e, 'username')}
-                />
-                {errors.username && <span className="help">{errors.username}</span>}
-              </div>
-              <div className={`row ${classnames({ error: errors.email })}`}>
-                <label htmlFor="email">Email</label>
-                <input type="email"
-                       id="email"
-                       placeholder="Email"
-                       className="full-width"
-                       onChange={(e) => this.handleInputChange(e, 'email')}
-                />
-                {errors.email && <span className="help">{errors.email}</span>}
-              </div>
-              <div className={`row ${classnames({ error: errors.password })}`}>
-                <label htmlFor="password">Password</label>
-                <input type="password"
-                       id="password"
-                       placeholder="Password"
-                       className="full-width"
-                       onChange={(e) => this.handleInputChange(e, 'password')}
-                />
-                {errors.password && <span className="help">{errors.password}</span>}
-              </div>
+            <form onSubmit={handleSubmit(signUp)}>
+              <TextField name="username"
+                         className="full-width"
+                         validate={[required]}
+              />
+              <EmailField name="email"
+                          className="full-width"
+                          validate={[required]}
+              />
+              <PasswordField name="password"
+                             className="full-width"
+                             validate={[required]}
+              />
               <div className="row">
-                <button type="submit" className="button-primary"
-                        disabled={isSubmitting}
-                        onClick={this.onSubmit}
+                <button type="submit"
+                        className="button-primary"
+                        disabled={pristine || submitting}
                 >
-                  {isSubmitting ? 'Submitting...' : 'Submit'}
+                  {submitting ? 'Submitting...' : 'Submit'}
                 </button>
               </div>
-
             </form>
           </div>
         </div>
@@ -99,13 +63,11 @@ class SignUp extends Component {
   }
 }
 
+const SignUpForm = reduxForm({
+  form: 'signUp',
+})(SignUp)
+
 export default connect(
-  (state) => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    ...selectAuth(state).signUp,
-  }),
-  (dispatch) => ({
-    ...bindRoutineCreators({ signUp }, dispatch),
-    ...bindActionCreators({ push }, dispatch),
-  }),
-)(SignUp)
+  (state) => ({ isAuthenticated: state.auth.isAuthenticated }),
+  (dispatch) => bindActionCreators({ push }, dispatch),
+)(SignUpForm)

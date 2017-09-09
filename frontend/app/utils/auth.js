@@ -23,7 +23,5 @@ class ProtectedRoute extends React.Component {
 }
 
 export default connect(
-  (state) => ({
-    isAuthenticated: state.auth.isAuthenticated,
-  }),
+  (state) => ({ isAuthenticated: state.auth.isAuthenticated }),
 )(ProtectedRoute)
