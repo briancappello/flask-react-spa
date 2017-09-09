@@ -125,11 +125,18 @@ export const updateProfileSaga = createRoutineSaga(updateProfile,
   }
 )
 
-export const resendConfirmationEmailSaga = createRoutineSaga(resendConfirmationEmail, function *({ email }) {
-  const response = yield call(Api.resendConfirmationEmail, email)
-  yield put(resendConfirmationEmail.success(response))
-  yield put(flashSuccess('A new confirmation link has been sent your email address.'))
-})
+export const resendConfirmationEmailSaga = createRoutineSaga(
+  resendConfirmationEmail,
+  function *onSuccess({ email }) {
+    const response = yield call(Api.resendConfirmationEmail, email)
+    yield put(resendConfirmationEmail.success(response))
+    yield put(flashSuccess('A new confirmation link has been sent your email address.'))
+  },
+  function *onError(e) {
+    const error = new SubmissionError(e.response.errors)
+    yield put(resendConfirmationEmail.failure(error))
+  }
+)
 
 export default () => [
   takeLatest(changePassword.TRIGGER, changePasswordSaga),
