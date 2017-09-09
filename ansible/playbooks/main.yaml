@@ -108,6 +108,8 @@
             db: '{{ FLASK_DATABASE_NAME }}'
             priv: ALL
     - role: nginx
+    - role: sbaerlocher.redis
+      tags: redis
     - role: flask
       tags: flask
     - when: app_env == 'dev' or app_env == 'staging'
