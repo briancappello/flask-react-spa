@@ -12,12 +12,12 @@ def register_user(user):
     """
     if not _security.confirmable or _security.login_without_confirmation:
         user.active = True
-    user.save(commit=True)
 
     confirmation_link, token = None, None
     if _security.confirmable:
         confirmation_link, token = generate_confirmation_link(user)
 
+    after_this_request(_commit)
     user_registered.send(current_app._get_current_object(),
                          user=user, confirm_token=token)
 
@@ -26,7 +26,7 @@ def register_user(user):
                   'welcome', user=user, confirmation_link=confirmation_link)
 
     if not _security.confirmable or _security.login_without_confirmation:
-        after_this_request(_commit)
         login_user(user)
         return True
+
     return False

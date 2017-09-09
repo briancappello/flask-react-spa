@@ -1,4 +1,3 @@
-from flask_mail import Mail
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_session import Session
@@ -7,6 +6,7 @@ from flask_wtf import CSRFProtect
 from sqlalchemy import MetaData
 
 from .flask_celery import FlaskCelery
+from .flask_mail import Mail
 from .flask_restful import Api
 from .flask_security import Security, SQLAlchemyUserDatastore
 
