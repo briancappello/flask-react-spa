@@ -1,6 +1,5 @@
 import {
   changePassword,
-  forgotPassword,
   resetPassword,
   login,
   logout,
@@ -19,11 +18,6 @@ export const initialState = {
     isSubmitting: false,
     success: false,
     errors: {},
-  },
-  forgotPassword: {
-    isSubmitting: false,
-    errors: {},
-    success: false,
   },
   profile: {
     isLoading: false,
@@ -77,36 +71,6 @@ export default function(state = initialState, action) {
     case changePassword.FULFILL:
       return { ...state,
         changePassword: { ...state.changePassword,
-          isSubmitting: false,
-        },
-      }
-
-    case forgotPassword.REQUEST:
-      return { ...state,
-        forgotPassword: { ...state.forgotPassword,
-          isSubmitting: true,
-        },
-      }
-
-    case forgotPassword.SUCCESS:
-      return { ...state,
-        forgotPassword: { ...state.forgotPassword,
-          success: true,
-          errors: {}
-        },
-      }
-
-    case forgotPassword.FAILURE:
-      return { ...state,
-        forgotPassword: { ...state.forgotPassword,
-          errors: payload.response.errors,
-          success: false,
-        },
-      }
-
-    case forgotPassword.FULFILL:
-      return { ...state,
-        forgotPassword: { ...state.forgotPassword,
           isSubmitting: false,
         },
       }
