@@ -1,5 +1,6 @@
-import { put } from 'redux-saga/effects'
+import { call, put, race, take, takeEvery } from 'redux-saga/effects'
 
+import { ROUTINE_PROMISE } from 'actions'
 import authSagas from './auth'
 import protectedSagas from './protected'
 
@@ -22,7 +23,27 @@ export function createRoutineSaga(routine, successGenerator, failureGenerator) {
   }
 }
 
+
+export function *routineWatcherSaga({ payload }) {
+  const { data, routine, defer: { resolve, reject } } = payload
+  const [{ success, failure }] = yield [
+    race({
+      success: take(routine.SUCCESS),
+      failure: take(routine.FAILURE),
+    }),
+    put(routine.trigger(data)),
+  ]
+
+  if (success) {
+    yield call(resolve)
+  } else {
+    yield call(reject, failure && failure.payload || failure)
+  }
+}
+
+
 export default () => [
+  takeEvery(ROUTINE_PROMISE, routineWatcherSaga),
   ...authSagas(),
   ...protectedSagas(),
 ]

@@ -11,6 +11,8 @@ export const actionTypes = [
   'FULFILL',
 ]
 
+export const ROUTINE_PROMISE = 'actions/ROUTINE_PROMISE'
+
 /**
  * createRoutine(string: routineName)
  *
@@ -38,7 +40,7 @@ export const actionTypes = [
  * }
  */
 export function createRoutine(routineName) {
-  return actionTypes.reduce((routine, actionType) => {
+  const routine = actionTypes.reduce((routine, actionType) => {
     const actionName = `${routineName}_${actionType}`
     routine[actionType] = actionName
     routine[camelCase(actionType)] = (payload) => ({
@@ -47,6 +49,19 @@ export function createRoutine(routineName) {
     })
     return routine
   }, {})
+
+  const routinePromise = (data, dispatch) => {
+    return new Promise((resolve, reject) => dispatch({
+      type: ROUTINE_PROMISE,
+      payload: {
+        data,
+        routine,
+        defer: { resolve, reject },
+      },
+    }))
+  }
+
+  return Object.assign(routinePromise, routine)
 }
 
 /**
