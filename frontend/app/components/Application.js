@@ -20,7 +20,7 @@ import {
 } from 'components'
 import { NavBar } from 'components/Nav'
 import { SITE_NAME, COPYRIGHT } from 'config'
-import ProtectedRoute from 'utils/auth'
+import { AnonymousRoute, ProtectedRoute } from 'utils/route'
 
 import 'main.scss'
 
@@ -40,13 +40,13 @@ export default (props) => (
         <Route exact path="/styles" component={Styles} />
         <ProtectedRoute exact path="/protected" component={Protected} />
 
-        <Route exact path="/sign-up" component={SignUp} />
-        <Route exact path="/sign-up/resend-confirmation-email" component={ResendConfirmation} />
-        <Route exact path="/sign-up/pending-confirm-email" component={PendingConfirmation} />
+        <AnonymousRoute exact path="/sign-up" component={SignUp} />
+        <AnonymousRoute exact path="/sign-up/resend-confirmation-email" component={ResendConfirmation} />
+        <AnonymousRoute exact path="/sign-up/pending-confirm-email" component={PendingConfirmation} />
 
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/login/forgot-password" component={ForgotPassword} />
-        <Route exact path="/login/reset-password/:token" component={ResetPassword} />
+        <AnonymousRoute exact path="/login" component={Login} />
+        <AnonymousRoute exact path="/login/forgot-password" component={ForgotPassword} />
+        <AnonymousRoute exact path="/login/reset-password/:token" component={ResetPassword} />
 
         <ProtectedRoute exact path="/profile" component={Profile} />
         <Route exact path="/logout" component={Logout} />
