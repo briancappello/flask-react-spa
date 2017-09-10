@@ -16,18 +16,15 @@ import {
   signUp,
 } from 'actions/auth'
 import Api from 'utils/api'
-import { createRoutineSaga } from 'sagas'
+import { createRoutineSaga, createRoutineFormSaga } from 'sagas'
 
-export const changePasswordSaga = createRoutineSaga(changePassword,
-  function *onSuccess(payload) {
+export const changePasswordSaga = createRoutineFormSaga(
+  changePassword,
+  function *successGenerator(payload) {
     const response = yield call(Api.changePassword, payload)
     yield put(changePassword.success(response))
     yield put(flashSuccess('Your password has been successfully changed.'))
   },
-  function *onError(e) {
-    const error = new SubmissionError(e.response.errors)
-    yield put(changePassword.failure(error))
-  }
 )
 
 export const forgotPasswordSaga = createRoutineSaga(forgotPassword,
@@ -42,9 +39,9 @@ export const forgotPasswordSaga = createRoutineSaga(forgotPassword,
   }
 )
 
-export const resetPasswordSaga = createRoutineSaga(
+export const resetPasswordSaga = createRoutineFormSaga(
   resetPassword,
-  function *onSuccess(actionPayload) {
+  function *successGenerator(actionPayload) {
     const { token: resetToken, ...payload } = actionPayload
     const { token, user } = yield call(Api.resetPassword, resetToken, payload)
     yield put(login.success({ token, user }))
@@ -53,32 +50,28 @@ export const resetPasswordSaga = createRoutineSaga(
     yield put(push('/'))
     yield put(flashSuccess('Welcome back! Your password has been successfully changed.'))
   },
-  function *onError(e) {
-    const error = new SubmissionError(e.response.errors)
-    yield put(resetPassword.failure(error))
-  }
 )
 
-export const loginSaga = createRoutineSaga(login,
-  function *onSuccess(actionPayload) {
+export const loginSaga = createRoutineFormSaga(
+  login,
+  function *successGenerator(actionPayload) {
     const { redirect, ...payload } = actionPayload
     const response = yield call(Api.login, payload)
     yield put(login.success(response))
     yield put(push(redirect))
     yield put(flashSuccess('You have been successfully logged in.'))
   },
-  function *onError(e) {
-    const error = new SubmissionError({ _error: e.response.error })
-    yield put(login.failure(error))
-  }
 )
 
-export const logoutSaga = createRoutineSaga(logout, function *() {
-  const response = yield call(Api.logout)
-  yield put(logout.success(response))
-  yield put(push('/'))
-  yield put(flashSuccess('You have been successfully logged out.'))
-})
+export const logoutSaga = createRoutineSaga(
+  logout,
+  function *successGenerator() {
+    const response = yield call(Api.logout)
+    yield put(logout.success(response))
+    yield put(push('/'))
+    yield put(flashSuccess('You have been successfully logged out.'))
+  },
+)
 
 export function *maybeFetchProfileSaga() {
   const { isAuthenticated, profile: { isLoading, isLoaded } } = yield select(selectAuth)
@@ -87,15 +80,18 @@ export function *maybeFetchProfileSaga() {
   }
 }
 
-export const fetchProfileSaga = createRoutineSaga(fetchProfile, function *() {
-  const { token, user } = yield select(selectAuth)
-  const response = yield call(Api.fetchProfile, token, user)
-  yield put(fetchProfile.success(response))
-})
+export const fetchProfileSaga = createRoutineSaga(
+  fetchProfile,
+  function *successGenerator() {
+    const { token, user } = yield select(selectAuth)
+    const response = yield call(Api.fetchProfile, token, user)
+    yield put(fetchProfile.success(response))
+  },
+)
 
-export const signUpSaga = createRoutineSaga(
+export const signUpSaga = createRoutineFormSaga(
   signUp,
-  function *onSuccess(payload) {
+  function *successGenerator(payload) {
     const { token, user } = yield call(Api.signUp, payload)
     yield put(signUp.success({ user }))
     if (token) {
@@ -105,37 +101,26 @@ export const signUpSaga = createRoutineSaga(
       yield put(push('/sign-up/pending-confirm-email'))
     }
   },
-  function *onError(e) {
-    const error = new SubmissionError(e.response.errors)
-    yield put(signUp.failure(error))
-  }
 )
 
-export const updateProfileSaga = createRoutineSaga(updateProfile,
-  function *onSuccess(payload) {
+export const updateProfileSaga = createRoutineFormSaga(
+  updateProfile,
+  function *successGenerator(payload) {
     yield put(flashClear())
     const { token, user } = yield select(selectAuth)
     const response = yield call(Api.updateProfile, token, user, payload)
     yield put(updateProfile.success({ user: response }))
     yield put(flashSuccess('Your profile has been successfully updated.'))
   },
-  function *onError(e) {
-    const error = new SubmissionError(e.response.errors)
-    yield put(updateProfile.failure(error))
-  }
 )
 
-export const resendConfirmationEmailSaga = createRoutineSaga(
+export const resendConfirmationEmailSaga = createRoutineFormSaga(
   resendConfirmationEmail,
-  function *onSuccess({ email }) {
+  function *successGenerator({ email }) {
     const response = yield call(Api.resendConfirmationEmail, email)
     yield put(resendConfirmationEmail.success(response))
     yield put(flashSuccess('A new confirmation link has been sent your email address.'))
   },
-  function *onError(e) {
-    const error = new SubmissionError(e.response.errors)
-    yield put(resendConfirmationEmail.failure(error))
-  }
 )
 
 export default () => [
