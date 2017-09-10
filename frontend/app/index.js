@@ -40,8 +40,8 @@ Api.checkAuthToken(token)
   .then(() => {
     renderRootComponent(Root)
     const isAuthenticated = store.getState().auth.isAuthenticated
-    const isFirstVisit = window.location.search.indexOf('welcome') >= 0
-    if (isAuthenticated && !isFirstVisit) {
+    const alreadyHasFlash = store.getState().flash.visible
+    if (isAuthenticated && !alreadyHasFlash) {
       store.dispatch(flashInfo('Welcome back!'))
     }
   })
