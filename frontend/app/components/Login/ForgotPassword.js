@@ -18,22 +18,27 @@ class ForgotPassword extends React.Component {
         <Helmet>
           <title>Forgot Password</title>
         </Helmet>
-        <h1>Forgot Password</h1>
-        {error && <DangerAlert>{error}</DangerAlert>}
-        <form onSubmit={handleSubmit(forgotPassword)}>
-          <EmailField autoFocus name="email"
-                      label="Email Address"
-                      validate={[required]}
-          />
-          <div className="row">
-            <button type="submit"
-                    className="btn btn-primary"
-                    disabled={pristine || submitting}
-            >
-              {submitting ? 'Submitting...' : 'Submit'}
-            </button>
+        <div className="row">
+          <div className="six cols offset-by-three">
+            <h1>Forgot Password</h1>
+            {error && <DangerAlert>{error}</DangerAlert>}
+            <form onSubmit={handleSubmit(forgotPassword)}>
+              <EmailField autoFocus name="email"
+                          label="Email Address"
+                          className="full-width"
+                          validate={[required]}
+              />
+              <div className="row">
+                <button type="submit"
+                        className="btn btn-primary"
+                        disabled={pristine || submitting}
+                >
+                  {submitting ? 'Submitting...' : 'Submit'}
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </PageContent>
     )
   }
