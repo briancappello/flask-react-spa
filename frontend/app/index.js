@@ -33,15 +33,17 @@ store.dispatch(login.request())
 Api.checkAuthToken(token)
   .then(({ user }) => {
     store.dispatch(login.success({ token, user }))
-    if (window.location.search.indexOf('welcome') === -1) {
-      store.dispatch(flashInfo('Welcome back!'))
-    }
   })
   .catch(() => {
     store.dispatch(logout.success())
   })
   .then(() => {
     renderRootComponent(Root)
+    const isAuthenticated = store.getState().auth.isAuthenticated
+    const isFirstVisit = window.location.search.indexOf('welcome') >= 0
+    if (isAuthenticated && !isFirstVisit) {
+      store.dispatch(flashInfo('Welcome back!'))
+    }
   })
 
 if (module.hot) {

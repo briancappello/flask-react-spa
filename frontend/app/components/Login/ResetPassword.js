@@ -1,9 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { push } from 'react-router-redux'
 import { reduxForm } from 'redux-form'
 import Helmet from 'react-helmet'
 
 import { resetPassword } from 'actions/auth'
+import { flashInfo } from 'actions/flash'
 import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
 import { HiddenField, PasswordField } from 'components/Form'
@@ -11,6 +14,14 @@ import { required } from 'components/Form/validators'
 
 
 class ResetPassword extends React.Component {
+  componentWillMount() {
+    const { isAuthenticated, push, flashInfo } = this.props
+    if (isAuthenticated) {
+      push('/')
+      flashInfo('You are already logged in.')
+    }
+  }
+
   render() {
     const { error, handleSubmit, pristine, submitting } = this.props
     return (
@@ -47,5 +58,11 @@ const ResetPasswordForm = reduxForm({
 })(ResetPassword)
 
 export default connect(
-  (state, props) => ({ initialValues: { token: props.match.params.token } }),
+  (state, props) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    initialValues: {
+      token: props.match.params.token,
+    },
+  }),
+  (dispatch) => bindActionCreators({ flashInfo, push }, dispatch),
 )(ResetPasswordForm)

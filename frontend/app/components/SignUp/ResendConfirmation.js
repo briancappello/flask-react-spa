@@ -7,6 +7,7 @@ import { reduxForm, reset } from 'redux-form'
 import Helmet from 'react-helmet'
 
 import { resendConfirmationEmail } from 'actions/auth'
+import { flashInfo } from 'actions/flash'
 import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
 import { EmailField } from 'components/Form'
@@ -14,8 +15,10 @@ import { EmailField } from 'components/Form'
 
 class ResendConfirmation extends React.Component {
   componentWillMount() {
-    if (this.props.isAuthenticated) {
-      this.props.push('/')
+    const { isAuthenticated, push, flashInfo } = this.props
+    if (isAuthenticated) {
+      push('/')
+      flashInfo('You are already logged in.')
     }
   }
 
@@ -73,5 +76,5 @@ const ResendConfirmationForm = reduxForm({
 
 export default connect(
   (state) => ({ isAuthenticated: state.auth.isAuthenticated }),
-  (dispatch) => bindActionCreators({ push }, dispatch),
+  (dispatch) => bindActionCreators({ flashInfo, push }, dispatch),
 )(ResendConfirmationForm)

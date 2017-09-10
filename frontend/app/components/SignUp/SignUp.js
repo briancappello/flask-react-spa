@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { reduxForm } from 'redux-form'
 import Helmet from 'react-helmet'
 
+import { flashInfo } from 'actions/flash'
 import { signUp } from 'actions/auth'
 import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
@@ -15,18 +16,15 @@ import { selectAuth } from 'reducers/auth'
 
 class SignUp extends Component {
   componentWillMount() {
-    if (this.props.isAuthenticated) {
-      this.props.push('/')
+    const { isAuthenticated, push, flashInfo } = this.props
+    if (isAuthenticated) {
+      push('/')
+      flashInfo('You are already logged in.')
     }
   }
 
   render() {
-    const { children, error, handleSubmit, pristine, submitting } = this.props
-
-    if (children) {
-      return children
-    }
-
+    const { error, handleSubmit, pristine, submitting } = this.props
     return (
       <PageContent>
         <Helmet>
@@ -71,5 +69,5 @@ const SignUpForm = reduxForm({
 
 export default connect(
   (state) => ({ isAuthenticated: state.auth.isAuthenticated }),
-  (dispatch) => bindActionCreators({ push }, dispatch),
+  (dispatch) => bindActionCreators({ flashInfo, push }, dispatch),
 )(SignUpForm)

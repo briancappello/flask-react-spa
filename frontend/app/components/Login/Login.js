@@ -25,12 +25,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { children, error, handleSubmit, submitting, pristine } = this.props
-
-    if (children) {
-      return children
-    }
-
+    const { error, handleSubmit, submitting, pristine } = this.props
     return (
       <PageContent>
         <Helmet>
