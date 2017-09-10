@@ -6,6 +6,7 @@ import { reduxForm } from 'redux-form'
 import Helmet from 'react-helmet'
 
 import { signUp } from 'actions/auth'
+import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
 import { EmailField, PasswordField, TextField } from 'components/Form'
 import { required } from 'components/Form/validators'
@@ -20,7 +21,7 @@ class SignUp extends Component {
   }
 
   render() {
-    const { children, handleSubmit, pristine, submitting } = this.props
+    const { children, error, handleSubmit, pristine, submitting } = this.props
 
     if (children) {
       return children
@@ -34,6 +35,7 @@ class SignUp extends Component {
         <div className="row">
           <div className="six cols offset-by-three">
             <h1>Sign Up</h1>
+            {error && <DangerAlert>{error}</DangerAlert>}
             <form onSubmit={handleSubmit(signUp)}>
               <TextField name="username"
                          className="full-width"

@@ -4,6 +4,7 @@ import Helmet from 'react-helmet'
 import { reduxForm, reset } from 'redux-form'
 
 import { forgotPassword } from 'actions/auth'
+import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
 import { EmailField } from 'components/Form'
 import { required } from 'components/Form/validators'
@@ -11,13 +12,14 @@ import { required } from 'components/Form/validators'
 
 class ForgotPassword extends React.Component {
   render() {
-    const { handleSubmit, submitting, pristine } = this.props
+    const { error, handleSubmit, submitting, pristine } = this.props
     return (
       <PageContent>
         <Helmet>
           <title>Forgot Password</title>
         </Helmet>
         <h1>Forgot Password</h1>
+        {error && <DangerAlert>{error}</DangerAlert>}
         <form onSubmit={handleSubmit(forgotPassword)}>
           <EmailField autoFocus name="email"
                       label="Email Address"

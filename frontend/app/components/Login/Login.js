@@ -8,6 +8,7 @@ import { parse as parseQueryString } from 'query-string'
 
 import { login } from 'actions/auth'
 import { flashInfo } from 'actions/flash'
+import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
 import { Link } from 'components/Nav'
 import { HiddenField, PasswordField, TextField } from 'components/Form'
@@ -38,8 +39,7 @@ class Login extends React.Component {
         <div className="row">
           <div className="six cols offset-by-three">
             <h1>Log in!</h1>
-            {error && <div className="flash danger">{error}</div>}
-            {error && <br/>}
+            {error && <DangerAlert>{error}</DangerAlert>}
             <p>Hint: a@a.com / password</p>
             <form onSubmit={handleSubmit(login)}>
               <HiddenField name="redirect" />

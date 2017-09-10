@@ -7,6 +7,7 @@ import { reduxForm, reset } from 'redux-form'
 import Helmet from 'react-helmet'
 
 import { resendConfirmationEmail } from 'actions/auth'
+import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
 import { EmailField } from 'components/Form'
 
@@ -19,7 +20,7 @@ class ResendConfirmation extends React.Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, submitSucceeded } = this.props
+    const { error, handleSubmit, pristine, submitting, submitSucceeded } = this.props
     return (
       <PageContent>
         <Helmet>
@@ -31,9 +32,11 @@ class ResendConfirmation extends React.Component {
         <h6>Didn't receive an email? Enter your address below to try again.</h6>
         <div className="row">
           <div className="four cols">
+            {error && <DangerAlert>{error}</DangerAlert>}
             <form onSubmit={handleSubmit(resendConfirmationEmail)}>
               <EmailField name="email"
                           label="Email address"
+                          className="full-width"
                           disabled={submitSucceeded}
               />
               <div className="row">
