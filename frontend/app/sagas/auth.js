@@ -27,16 +27,13 @@ export const changePasswordSaga = createRoutineFormSaga(
   },
 )
 
-export const forgotPasswordSaga = createRoutineSaga(forgotPassword,
-  function *onSuccess(payload) {
+export const forgotPasswordSaga = createRoutineFormSaga(
+  forgotPassword,
+  function *successGenerator(payload) {
     const response = yield call(Api.forgotPassword, payload)
     yield put(forgotPassword.success(response))
     yield put(flashSuccess('A password reset link has been sent to your email address.'))
   },
-  function *onError(e) {
-    const error = new SubmissionError(e.response.response.errors)
-    yield put(forgotPassword.failure(error))
-  }
 )
 
 export const resetPasswordSaga = createRoutineFormSaga(

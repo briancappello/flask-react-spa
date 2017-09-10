@@ -5,7 +5,6 @@ from flask_principal import identity_loaded, RoleNeed
 from flask_security import Security as BaseSecurity
 from flask_security.core import _security, url_for_security
 from flask_security.signals import user_confirmed
-from flask_security.views import confirm_email, forgot_password
 from werkzeug.local import LocalProxy
 from werkzeug.routing import BuildError
 
@@ -68,7 +67,11 @@ class Security(BaseSecurity):
         # we still need to register a blueprint under the flask_security namespace
         # so that its email templates can be loaded/extended/overwritten
         if not self._kwargs['register_blueprint']:
-            from backend.auth.views import reset_password
+            from backend.auth.views import (
+                confirm_email,
+                forgot_password,
+                reset_password,
+            )
             if self.confirmable:
                 security_bp.route('/confirm/<token>',
                                   methods=['GET'],
