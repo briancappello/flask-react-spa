@@ -53,16 +53,14 @@ export default class DocComponent extends Component {
     return (
       <div>
         {topLevel
-          ? <h2 id={titleId}>
-              {title}
-            </h2>
-          : <h3 id={titleId}>
-              {title}
-            </h3>}
+          ? <h2 id={titleId}>{title}</h2>
+          : <h3 id={titleId}>{title}</h3>
+        }
         {this.renderDescription(description)}
         {Array.isArray(html)
           ? html.map((chunk, i) => this.renderHtml(chunk, i))
-          : this.renderHtml(html)}
+          : this.renderHtml(html)
+        }
       </div>
     )
   }

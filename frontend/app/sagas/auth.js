@@ -15,7 +15,7 @@ import {
   resendConfirmationEmail,
   signUp,
 } from 'actions/auth'
-import Api from 'utils/api'
+import { Api } from 'utils'
 import { createRoutineSaga, createRoutineFormSaga } from 'sagas'
 
 export const changePasswordSaga = createRoutineFormSaga(

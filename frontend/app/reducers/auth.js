@@ -5,7 +5,8 @@ import {
   signUp,
   updateProfile,
 } from 'actions/auth'
-import storage from 'utils/storage'
+import { storage } from 'utils'
+
 
 export const initialState = {
   isAuthenticated: false,

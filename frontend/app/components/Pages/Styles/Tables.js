@@ -1,5 +1,5 @@
 import React from 'react'
-import DocComponent from 'components/DocComponent'
+import { DocComponent } from 'components'
 
 export default class Tables extends DocComponent {
   title = 'Tables'

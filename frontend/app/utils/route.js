@@ -47,6 +47,7 @@ class UnconnectedAnonymousRoute extends React.Component {
       flashInfo,
       ...routeProps,
     } = this.props
+
     return <Route {...routeProps} render={(props) => (
       <Component {...props} />
     )} />

@@ -1,5 +1,5 @@
 import React from 'react'
-import DocComponent from 'components/DocComponent'
+import { DocComponent } from 'components'
 
 export default class Forms extends DocComponent {
   title = 'Forms'

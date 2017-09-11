@@ -6,12 +6,12 @@ import ReactDOM from 'react-dom'
 import createHistory from 'history/createBrowserHistory'
 
 import configureStore from 'configureStore'
-import Root from 'components/Root'
+import App from 'components/App'
 
 import { login, logout } from 'actions/auth'
 import { flashInfo } from 'actions/flash'
-import Api from 'utils/api'
-import storage from 'utils/storage'
+import { Api, storage } from 'utils'
+
 
 const APP_MOUNT_POINT = document.getElementById('app')
 
@@ -38,7 +38,7 @@ Api.checkAuthToken(token)
     store.dispatch(logout.success())
   })
   .then(() => {
-    renderRootComponent(Root)
+    renderRootComponent(App)
     const isAuthenticated = store.getState().auth.isAuthenticated
     const alreadyHasFlash = store.getState().flash.visible
     if (isAuthenticated && !alreadyHasFlash) {
@@ -47,8 +47,8 @@ Api.checkAuthToken(token)
   })
 
 if (module.hot) {
-  module.hot.accept('./components/Root', () => {
-    const NextRoot = require('./components/Root').default
-    renderRootComponent(NextRoot)
+  module.hot.accept('./components/App', () => {
+    const NextApp = require('./components/App').default
+    renderRootComponent(NextApp)
   })
 }

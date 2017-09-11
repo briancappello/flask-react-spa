@@ -4,8 +4,7 @@ import { selectAuth } from 'reducers/auth'
 import { selectProtected } from 'reducers/protected'
 import { fetchProtected } from 'actions/protected'
 import { createRoutineSaga } from 'sagas'
-
-import Api from 'utils/api'
+import { Api } from 'utils'
 
 
 export const fetchProtectedSaga = createRoutineSaga(
