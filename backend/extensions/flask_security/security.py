@@ -49,6 +49,10 @@ class Security(BaseSecurity):
         app.config.setdefault('SECURITY_POST_CONFIRM_VIEW', '/?welcome')
         app.config.setdefault('SECURITY_CONFIRM_ERROR_VIEW', '/sign-up/resend-confirmation-email')
 
+        # disable flask-security's use of .txt templates (instead we
+        # generate the plain text from the html message)
+        app.config.setdefault('SECURITY_EMAIL_PLAINTEXT', False)
+
         self._state = super(Security, self).init_app(app, self.datastore, **self._kwargs)
 
         # override the unauthorized action to use abort(401) instead of returning HTML
@@ -101,7 +105,7 @@ def unauthorized_handler():
 
 
 def send_mail_async(msg):
-    from backend.auth.tasks import send_mail_async_task
+    from backend.tasks import send_mail_async_task
     if isinstance(msg.sender, LocalProxy):
         msg.sender = msg.sender._get_current_object()
     return send_mail_async_task.delay(msg)
