@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 
@@ -9,7 +9,7 @@ import { EmailField, TextField } from 'components/Form'
 import { required } from 'components/Form/validators'
 
 
-class UserInfo extends Component {
+class UserInfo extends React.Component {
   componentWillMount() {
     this.props.fetchProfile.maybeTrigger()
   }
@@ -18,7 +18,7 @@ class UserInfo extends Component {
     const { error, handleSubmit, pristine, submitting } = this.props
     return (
       <div>
-        <h2>Update Profile</h2>
+        <h2>Update Profile!</h2>
         {error && <DangerAlert>{error}</DangerAlert>}
         <form onSubmit={handleSubmit(updateProfile)}>
           <TextField autoFocus name="username" validate={[required]} />

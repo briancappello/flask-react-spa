@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import Link from './Link'
 
 
-class NavBar extends Component {
+class NavBar extends React.Component {
   // FIXME: mostly works, except for responsive menu behavior
   render() {
     const { isAuthenticated } = this.props
@@ -55,5 +55,4 @@ export default connect(
     isAuthenticated: state.auth.isAuthenticated,
     routing: state.routing, // required for <Link> components to work correctly
   }),
-  (dispatch) => ({}),
 )(NavBar)

@@ -8,6 +8,7 @@ import {
   FLASH_CLEAR,
 } from 'actions/flash'
 
+
 export const initialState = {
   title: null,
   message: null,

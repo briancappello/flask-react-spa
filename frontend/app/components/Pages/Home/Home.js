@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { PageContent } from 'components/Content'
 import { flashSuccess } from 'actions/flash'
 
-class Home extends Component {
+
+class Home extends React.Component {
   componentWillMount() {
     if (window.location.search.indexOf('welcome') > 0) {
       this.props.flashSuccess('Welcome!')

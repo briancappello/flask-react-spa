@@ -1,12 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { DocComponent } from 'components'
 
-export default class Code extends Component {
+
+export default class Code extends React.Component {
   javascript = `\
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class CodeExample extends Component {
+class CodeExample extends React.Component {
 
     code = \`\\
 <blockquote>

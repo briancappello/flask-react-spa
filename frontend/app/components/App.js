@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
 import { Switch, Route } from 'react-router-dom'

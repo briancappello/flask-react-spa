@@ -1,13 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-// http://stackoverflow.com/questions/19038799/why-is-there-an-unexplainable-gap-between-these-inline-block-div-elements#answer-19038859
-function stripWhitespaceBetweenTags(str) {
-  return str.replace(/\>\s+\</g, '><')
-}
 
-export default class DocComponent extends Component {
+export default class DocComponent extends React.Component {
   renderHtml(html, key = 0) {
-    //html = stripWhitespaceBetweenTags(html);
     return (
       <div key={key}>
         <div dangerouslySetInnerHTML={{ __html: html }} />
@@ -40,12 +35,11 @@ export default class DocComponent extends Component {
       obj = this.props
       topLevel = false
     }
+
     const { title, description, html } = obj
 
     if (!title && !html) {
-      throw new Error(
-        'Either specify title and html as class variables or override the render() function.',
-      )
+      throw new Error('Either specify title and html as class variables or override the render() function.')
     }
 
     const titleId = title.toLowerCase().replace(' ', '-')

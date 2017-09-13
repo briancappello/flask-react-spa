@@ -2,6 +2,7 @@ import { LOGGING_ENABLED, LOG_LEVEL } from 'config'
 
 import { CRITICAL, ERROR, WARNING, INFO, DEBUG } from 'constants'
 
+
 const LOG_LEVELS = {
   [CRITICAL]: 4,
   [ERROR]: 3,

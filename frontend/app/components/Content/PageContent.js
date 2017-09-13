@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-import Flash from 'components/Flash/Flash'
+import Flash from 'components/Flash'
 
-export default class PageContent extends Component {
+
+export default class PageContent extends React.Component {
   static defaultProps = {
     className: '',
   }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 
@@ -7,7 +7,7 @@ import { fetchProtected } from 'actions/protected'
 import { PageContent } from 'components'
 
 
-class Protected extends Component {
+class Protected extends React.Component {
   componentWillMount() {
     this.props.fetchProtected.maybeTrigger()
   }
@@ -15,6 +15,9 @@ class Protected extends Component {
   render() {
     return (
       <PageContent>
+        <Helmet>
+          <title>Protected</title>
+        </Helmet>
         {this.renderContent()}
       </PageContent>
     )
@@ -29,9 +32,6 @@ class Protected extends Component {
 
     return (
       <div>
-        <Helmet>
-          <title>Protected</title>
-        </Helmet>
         <h1>Protected!</h1>
         {data.key}
       </div>
@@ -39,11 +39,7 @@ class Protected extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  ...state.protected,
-})
-
 export default connect(
-  mapStateToProps,
+  (state) => ({ ...state.protected }),
   (dispatch) => bindRoutineCreators({ fetchProtected }, dispatch),
 )(Protected)

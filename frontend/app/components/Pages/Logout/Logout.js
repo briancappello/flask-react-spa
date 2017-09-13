@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindRoutineCreators } from 'actions'
 import { logout } from 'actions/auth'
 
+
 class Logout extends React.Component {
   componentWillMount() {
     this.props.logout.trigger()

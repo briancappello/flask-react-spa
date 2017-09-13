@@ -6,6 +6,7 @@ import authReducer from './auth'
 import flashReducer from './flash'
 import protectedReducer from './protected'
 
+
 const rootReducer = combineReducers({
   auth: authReducer,
   flash: flashReducer,

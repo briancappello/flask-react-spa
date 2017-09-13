@@ -1,4 +1,6 @@
+import ChangePassword from './ChangePassword'
 import Profile from './Profile'
+import UserInfo from './UserInfo'
 
-export { Profile }
+export { ChangePassword, Profile, UserInfo }
 export default Profile

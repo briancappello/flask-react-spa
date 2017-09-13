@@ -1,6 +1,7 @@
 import React from 'react'
 import { DocComponent } from 'components'
 
+
 export default class BlockQuote extends DocComponent {
   title = 'Block Quotes'
   html = `\

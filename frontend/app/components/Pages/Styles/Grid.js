@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { DocComponent } from 'components'
 
 import './grid.scss'
 
-export default class Grid extends Component {
+
+export default class Grid extends React.Component {
   render() {
     return (
       <div className="grid-docs">

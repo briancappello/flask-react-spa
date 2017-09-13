@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { reduxForm } from 'redux-form'
 import Helmet from 'react-helmet'
 
@@ -18,7 +18,7 @@ const SignUp = (props) => {
       </Helmet>
       <div className="row">
         <div className="six cols offset-by-three">
-          <h1>Sign Up</h1>
+          <h1>Sign Up!</h1>
           {error && <DangerAlert>{error}</DangerAlert>}
           <form onSubmit={handleSubmit(signUp)}>
             <TextField name="username"

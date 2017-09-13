@@ -6,8 +6,9 @@ import { flashClearMiddleware } from 'middleware/flash'
 import rootReducer from 'reducers'
 import getSagas from 'sagas'
 
+
 const isDev = process.env.NODE_ENV !== 'production'
-const isWindowObject = typeof window === 'object'
+const hasWindowObject = typeof window === 'object'
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -23,7 +24,7 @@ export default function configureStore(initialState, history) {
   ]
 
   const composeEnhancers =
-    isDev && isWindowObject && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    isDev && hasWindowObject && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       : compose
 

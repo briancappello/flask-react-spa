@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 
@@ -10,7 +10,7 @@ import UserInfo from './UserInfo'
 import ChangePassword from './ChangePassword'
 
 
-class Profile extends Component {
+class Profile extends React.Component {
   componentWillMount() {
     this.props.fetchProfile.maybeTrigger()
   }
