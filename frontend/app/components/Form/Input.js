@@ -19,11 +19,19 @@ export const PasswordField = (props) =>
 export const TextField = (props) =>
   <Field type="text" component={_renderInput} required={_isRequired(props)} {...props} />
 
+export const TextArea = (props) =>
+  <Field component={_renderTextArea} required={_isRequired(props)} {...props} />
+
+
 const _isRequired = ({ validate }) => {
   return isArray(validate) && validate.indexOf(requiredValidator) !== -1
 }
 
-const _renderInput = ({ input, label, meta, required, ...props }) => {
+const _renderInput = (props) => _renderField({ component: 'input', ...props })
+
+const _renderTextArea = (props) => _renderField({ component: 'textarea', ...props })
+
+const _renderField = ({ component: Component, input, label, meta, required, ...props }) => {
   const { touched, error, warning } = meta
   const { name } = input
   const id = name
@@ -40,7 +48,7 @@ const _renderInput = ({ input, label, meta, required, ...props }) => {
       <label htmlFor={id} className={classnames({ required })}>
         {label}
       </label>
-      <input id={id} {...input} placeholder={label} {...props} />
+      <Component id={id} {...input} placeholder={label} {...props} />
       {hasError() && <div className="help">{error || warning}</div>}
     </div>
   )
