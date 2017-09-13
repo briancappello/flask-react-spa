@@ -1,6 +1,5 @@
 import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
-import { SubmissionError } from 'redux-form'
 
 import { selectAuth } from 'reducers/auth'
 import { flashClear, flashSuccess } from 'actions/flash'
