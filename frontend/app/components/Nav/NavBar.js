@@ -18,6 +18,7 @@ class NavBar extends Component {
             <Link to="/about">About</Link>
             <Link to="/styles">Styles</Link>
             <Link to="/protected">Protected</Link>
+            <Link to="/contact">Contact</Link>
           </div>
           <div className="menu right">
             {isAuthenticated

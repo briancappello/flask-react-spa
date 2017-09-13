@@ -87,6 +87,7 @@ class BaseConfig(object):
     ##########################################################################
     # mail                                                                   #
     ##########################################################################
+    MAIL_ADMINS = ('admin@example.com',)  # FIXME
     MAIL_SERVER = os.environ.get('FLASK_MAIL_HOST', 'localhost')
     MAIL_PORT = int(os.environ.get('FLASK_MAIL_PORT', 25))
     MAIL_USE_TLS = get_boolean_env('FLASK_MAIL_USE_TLS', False)

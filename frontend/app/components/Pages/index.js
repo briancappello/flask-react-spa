@@ -1,4 +1,5 @@
 export { default as About } from './About/About'
+export { Contact } from './Contact'
 export { default as Home } from './Home/Home'
 export { default as Login, ForgotPassword, ResetPassword } from './Login'
 export { default as Logout } from './Logout'

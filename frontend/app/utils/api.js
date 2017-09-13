@@ -29,6 +29,10 @@ export default class Api {
     return get(v1('/auth/check-auth-token'), { token })
   }
 
+  static contact(payload) {
+    return post(v1('/contact-submissions'), payload)
+  }
+
   static fetchProfile(token, user) {
     return get(v1(`/users/${user.id}`), { token })
   }
