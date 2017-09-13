@@ -1,0 +1,14 @@
+{% extends 'email/layout.html' %}
+
+{% block body %}
+  <p>Welcome to Flask React SPA, {{ user.username }}!</p>
+
+  {% if not security.confirmable %}
+    {% set login_url = url_for('site.index', _external=True) + '/login' %}
+    <p>You may now login at <a href="{{ login_url }}">{{ login_url }}</a></p>
+  {% else %}
+    <p>Please confirm your email by clicking the link below:</p>
+    <p><a href="{{ confirmation_link }}">Confirm my account</a></p>
+    <p>Or copy and paste it into your browser: {{ confirmation_link }}</p>
+  {% endif %}
+{% endblock %}
