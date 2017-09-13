@@ -29,5 +29,5 @@ export const SERVER_URL = process.env.NODE_ENV == 'production'
     ? ''  // FIXME
     : `http://localhost:${PORT}`
 
-export const SITE_NAME = 'Flask API'
-export const COPYRIGHT = 'Brian Cappello'
+export const SITE_NAME = 'Flask React SPA'
+export const COPYRIGHT = 'Company Name'

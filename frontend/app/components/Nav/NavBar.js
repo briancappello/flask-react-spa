@@ -12,7 +12,7 @@ class NavBar extends Component {
       <nav>
         <div className="container">
           <Link exact to="/" className="brand">
-            flask<span className="tld">api</span>
+            FlaskReact<span className="tld">SPA</span>
           </Link>
           <div className="menu left">
             <Link to="/about">About</Link>
