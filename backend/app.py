@@ -89,6 +89,8 @@ def _create_app(config_object, **kwargs):
 def configure_app(app, config_object):
     app.config.from_object(config_object)
 
+    app.jinja_env.add_extension('jinja2_time.TimeExtension')
+
     @app.before_request
     def enable_session_timeout():
         session.permanent = True  # set session to use PERMANENT_SESSION_LIFETIME
