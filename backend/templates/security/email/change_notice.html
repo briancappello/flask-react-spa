@@ -3,7 +3,7 @@
 {% block body %}
   <p>Your password has been changed.</p>
   {% if security.recoverable %}
-    {% set forgot_url = url_for_security('forgot_password', _external=True) %}
+    {% set forgot_url = url_for('site.index', _external=True) + '/login/forgot-password' %}
     <p>If you did not change your password, <a href="{{ forgot_url }}">click here to reset it</a> or copy the following URL to your browser:</p>
     <p>{{ forgot_url }}</p>
   {% endif %}
