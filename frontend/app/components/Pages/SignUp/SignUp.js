@@ -6,7 +6,6 @@ import { signUp } from 'actions/auth'
 import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
 import { EmailField, PasswordField, TextField } from 'components/Form'
-import { required } from 'components/Form/validators'
 
 
 const SignUp = (props) => {
@@ -23,15 +22,13 @@ const SignUp = (props) => {
           <form onSubmit={handleSubmit(signUp)}>
             <TextField name="username"
                        className="full-width"
-                       validate={[required]}
+                       autoFocus
             />
             <EmailField name="email"
                         className="full-width"
-                        validate={[required]}
             />
             <PasswordField name="password"
                            className="full-width"
-                           validate={[required]}
             />
             <div className="row">
               <button type="submit"

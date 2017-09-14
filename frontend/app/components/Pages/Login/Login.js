@@ -9,7 +9,6 @@ import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
 import { Link } from 'components/Nav'
 import { HiddenField, PasswordField, TextField } from 'components/Form'
-import { required } from 'components/Form/validators'
 
 
 const Login = (props) => {
@@ -26,14 +25,13 @@ const Login = (props) => {
           <p>Hint: a@a.com / password</p>
           <form onSubmit={handleSubmit(login)}>
             <HiddenField name="redirect" />
-            <TextField autoFocus name="email"
+            <TextField name="email"
                        label="Email or Username"
                        className="full-width"
-                       validate={[required]}
+                       autoFocus
             />
             <PasswordField name="password"
                            className="full-width"
-                           validate={[required]}
             />
             <div className="row">
               <button type="submit"

@@ -3,29 +3,22 @@ import classnames from 'classnames'
 import startCase from 'lodash/startCase'
 import { Field } from 'redux-form'
 
-import { required as requiredValidator } from './validators'
-import { inArray, isArray } from 'utils'
-
 
 export const EmailField = (props) =>
-  <Field type="email" component={_renderInput} required={_isRequired(props)} {...props} />
+  <Field type="email" component={_renderInput} {...props} />
 
 export const HiddenField = (props) =>
   <Field type="hidden" component="input" {...props} />
 
 export const PasswordField = (props) =>
-  <Field type="password" component={_renderInput} required={_isRequired(props)} {...props} />
+  <Field type="password" component={_renderInput} {...props} />
 
 export const TextField = (props) =>
-  <Field type="text" component={_renderInput} required={_isRequired(props)} {...props} />
+  <Field type="text" component={_renderInput} {...props} />
 
 export const TextArea = (props) =>
-  <Field component={_renderTextArea} required={_isRequired(props)} {...props} />
+  <Field component={_renderTextArea} {...props} />
 
-
-const _isRequired = ({ validate }) => {
-  return isArray(validate) && validate.indexOf(requiredValidator) !== -1
-}
 
 const _renderInput = (props) => _renderField({ component: 'input', ...props })
 

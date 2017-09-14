@@ -6,7 +6,6 @@ import Helmet from 'react-helmet'
 import { contact } from 'actions/site'
 import { DangerAlert, PageContent } from 'components'
 import { EmailField, TextArea, TextField } from 'components/Form'
-import { required } from 'components/Form/validators'
 
 
 const Contact = (props) => {
@@ -21,24 +20,21 @@ const Contact = (props) => {
       <form onSubmit={handleSubmit(contact)}>
         <div className="row">
           <div className="six cols">
-            <TextField autoFocus
-                       name="name"
+            <TextField name="name"
                        label="Name"
                        className="full-width"
-                       validate={[required]}
+                       autoFocus
             />
           </div>
           <div className="six cols">
             <EmailField name="email"
                         className="full-width"
-                        validate={[required]}
             />
           </div>
         </div>
         <TextArea name="message"
                   className="full-width"
                   rows="6"
-                  validate={[required]}
         />
         <div className="row">
           <button type="submit"

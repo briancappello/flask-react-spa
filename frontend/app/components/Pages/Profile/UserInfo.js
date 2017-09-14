@@ -6,7 +6,6 @@ import { bindRoutineCreators } from 'actions'
 import { fetchProfile, updateProfile } from 'actions/auth'
 import { DangerAlert } from 'components/Alert'
 import { EmailField, TextField } from 'components/Form'
-import { required } from 'components/Form/validators'
 
 
 class UserInfo extends React.Component {
@@ -21,8 +20,10 @@ class UserInfo extends React.Component {
         <h2>Update Profile!</h2>
         {error && <DangerAlert>{error}</DangerAlert>}
         <form onSubmit={handleSubmit(updateProfile)}>
-          <TextField autoFocus name="username" validate={[required]} />
-          <EmailField name="email" validate={[required]} />
+          <TextField name="username"
+                     autoFocus
+          />
+          <EmailField name="email" />
           <div className="row">
             <button type="submit"
                     className="btn btn-primary"

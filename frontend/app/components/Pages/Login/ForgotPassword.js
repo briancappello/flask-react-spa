@@ -6,7 +6,6 @@ import { forgotPassword } from 'actions/auth'
 import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
 import { EmailField } from 'components/Form'
-import { required } from 'components/Form/validators'
 
 
 const ForgotPassword = (props) => {
@@ -21,10 +20,10 @@ const ForgotPassword = (props) => {
           <h1>Forgot Password</h1>
           {error && <DangerAlert>{error}</DangerAlert>}
           <form onSubmit={handleSubmit(forgotPassword)}>
-            <EmailField autoFocus name="email"
+            <EmailField name="email"
                         label="Email Address"
                         className="full-width"
-                        validate={[required]}
+                        autoFocus
             />
             <div className="row">
               <button type="submit"

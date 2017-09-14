@@ -7,7 +7,6 @@ import { resetPassword } from 'actions/auth'
 import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
 import { HiddenField, PasswordField } from 'components/Form'
-import { required } from 'components/Form/validators'
 
 
 const ResetPassword = (props) => {
@@ -22,10 +21,11 @@ const ResetPassword = (props) => {
       <p>Enter a new password and click submit to reset your password and login.</p>
       <form onSubmit={handleSubmit(resetPassword)}>
         <HiddenField name="token" />
-        <PasswordField name="newPassword" validate={[required]} />
+        <PasswordField name="newPassword"
+                       autoFocus
+        />
         <PasswordField name="newPasswordConfirm"
                        label="Confirm New Password"
-                       validate={[required]}
         />
         <div className="row">
           <button type="submit"
