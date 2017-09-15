@@ -1,9 +1,9 @@
 ---
 - name: install virtualenv
-  pip: name=virtualenv state=latest executable={{ pip }}
+  pip: name=virtualenv state=latest executable={{ pip3 }}
 
 - name: create virtualenv {{ project_virtualenv_dir }}
-  command: virtualenv -p {{ python_path }} {{ project_virtualenv_dir }}
+  command: virtualenv -p {{ python3_path }} {{ project_virtualenv_dir }}
            creates={{ project_virtualenv_dir }}/bin/activate
 
 - name: create virtualenv postactivate script

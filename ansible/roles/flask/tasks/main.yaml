@@ -14,7 +14,7 @@
   pip:
     name: '{{ item }}'
     state: latest
-    executable: '{{ pip }}'
+    executable: '{{ pip3 }}'
   with_items:
     - pip
     - setuptools

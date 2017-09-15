@@ -8,11 +8,6 @@ dependencies:
   - libffi-devel
   - openssl-devel
 
-python: python3.6
-pip: pip3.6
-
-python_path: '/usr/bin/{{ python }}'
-virtualenv_dir: '/virtualenvs'
 project_virtualenv_dir: '{{ virtualenv_dir }}/{{ project_name }}'
 project_dir: '{{ project_virtualenv_dir }}/{{ project_name }}'
 requirements_path: '{{ project_dir }}/requirements.txt'

@@ -12,6 +12,7 @@ import { HiddenField, PasswordField, TextField } from 'components/Form'
 
 
 const Login = (props) => {
+  const isDev = process.env.NODE_ENV !== 'production'
   const { error, handleSubmit, submitting, pristine } = props
   return (
     <PageContent>
@@ -22,7 +23,7 @@ const Login = (props) => {
         <div className="six cols offset-by-three">
           <h1>Log in!</h1>
           {error && <DangerAlert>{error}</DangerAlert>}
-          <p>Hint: a@a.com / password</p>
+          {isDev && <p>Hint: a@a.com / password</p>}
           <form onSubmit={handleSubmit(login)}>
             <HiddenField name="redirect" />
             <TextField name="email"

@@ -42,9 +42,6 @@
 - name: set variables
   hosts: all
   tags: always
-#  FIXME-vault
-#  vars_files:
-#    - secrets.yaml
   tasks:
     - name: include distro-family vars (if any)
       include_vars: '{{ item }}'
@@ -73,11 +70,20 @@
         - '../env_vars/defaults.yaml'
         - '../env_vars/{{ app_env }}.yaml'
 
-    - when: app_env == 'prod'
+    - set_fact:
+        full_app_domain: '{% if app_subdomain %}{{ app_subdomain }}.{% endif %}{{ app_domain }}'
+
+    - name: set letsencrypt filepaths
+      when: app_env == 'prod'
       set_fact:
         le_fullchain_path: '/etc/letsencrypt/live/{{ app_domain }}/fullchain.pem'
         le_privkey_path: '/etc/letsencrypt/live/{{ app_domain }}/privkey.pem'
         le_chain_path: '/etc/letsencrypt/live/{{ app_domain }}/chain.pem'
+
+    - when: app_env == 'prod'
+      name: include production secret variables
+      include_vars:
+        file: ../secrets.yaml
 
 - name: provision server
   hosts: all
@@ -112,6 +118,19 @@
       tags: redis
     - role: flask
       tags: flask
-    - when: app_env == 'dev' or app_env == 'staging'
+    - when: app_env == 'dev'
       role: mailhog
       tags: mailhog
+
+- name: letsencrypt
+  hosts: all
+  user: deploy
+  become: yes
+  roles:
+    - role: letsencrypt
+      when: app_env == 'prod'
+      vars:
+        letsencrypt_cert_domains:
+          - webroot: '{{ nginx_sites_dir }}'
+            domains: ['{{ app_domain }}', '{{ full_app_domain }}']
+      tags: letsencrypt

@@ -32,7 +32,7 @@ def production_warning(env, args):
 @click.group(cls=FlaskGroup, create_app=lambda _: create_app(), help="""\
 A utility script for the Flask React SPA application.
 """)
-@click.option('--env', type=click.Choice(['dev', 'staging', 'prod']), default='dev')
+@click.option('--env', type=click.Choice(['dev', 'prod']), default='dev')
 @click.option('--warn/--no-warn', default=True)
 @click.pass_context
 def cli(ctx, env, warn):

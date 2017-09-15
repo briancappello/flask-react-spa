@@ -12,6 +12,7 @@ celerybeat-schedule
 celerybeat.pid
 
 ansible/.password
+ansible/secrets.yaml
 
 # C extensions
 *.so

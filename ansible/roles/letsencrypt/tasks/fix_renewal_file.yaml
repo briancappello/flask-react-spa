@@ -1,0 +1,22 @@
+---
+- name: Fix the renewal file
+  ini_file:
+    section: renewalparams
+    option: "{{ item.key }}"
+    value: "{{ item.value }}"
+    dest: "/etc/letsencrypt/renewal/{{ cert_domain.domains[0] }}.conf"
+  with_dict:
+    os_packages_only: False
+    verb: certonly
+    noninteractive_mode: False
+    uir: False
+    hsts: False
+    authenticator: '{{ letsencrypt_authenticator }}'
+
+- name: Fix the webroot map in the renewal file
+  ini_file:
+    section: "[webroot_map]"
+    option: "{{ item }}"
+    value: "{{ cert_domain.webroot }}"
+    dest: "/etc/letsencrypt/renewal/{{ cert_domain.domains[0] }}.conf"
+  with_items: '{{ cert_domain.domains }}'
