@@ -7,31 +7,31 @@ export default class Navigation extends DocComponent {
 
   html = `\
 <nav class="padded">  <!-- .padded adds left & right padding -->
-    <a href="#" class="brand">
-        Company<span class="tld">com</span>  <!-- the dot gets added by css -->
-    </a>
-    <div class="menu">
-        <a href="#" class="active">About</a>
-        <a href="#">Products</a>
-        <a href="#">Support</a>
-    </div>
-    <div class="menu right">
-        <a href="#">Login</a>
-    </div>
+  <a href="#" class="brand">
+    Company<span class="tld">com</span>  <!-- the dot gets added by css -->
+  </a>
+  <div class="menu">
+    <a href="#" class="active">About</a>
+    <a href="#">Products</a>
+    <a href="#">Support</a>
+  </div>
+  <div class="menu right">
+    <a href="#">Login</a>
+  </div>
 </nav>
 `
   navtop = `\
 <body class="fixed-nav-top">
-    <header>  <!-- <header> must be an immediate parent of <nav> -->
-        <nav>
-            <div class="container"> <!-- this is optional; full-width otherwise -->
-                <!-- brand and menu links here -->
-            </div>
-        </nav>
-    </header>
-    <main> <!-- use <main> to automatically get the correct margin-top -->
-        <!-- page content here -->
-    </main>
+  <header>  <!-- <header> must be an immediate parent of <nav> -->
+    <nav>
+      <div class="container"> <!-- this container is optional; full-width by default -->
+        <!-- brand and menu links here -->
+      </div>
+    </nav>
+  </header>
+  <main> <!-- use <main> to automatically get the correct margin-top -->
+    <!-- page content here -->
+  </main>
 </body>
 `
 

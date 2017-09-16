@@ -19,25 +19,26 @@ export default class Styles extends React.Component {
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Super Skeleton</title>
+  <meta charset="utf-8">
+  <title>Super Skeleton</title>
 </head>
 <body>
-    <header>
-        <nav>
-            <a class="brand">
-                superskeleton<span class="tld">com</span>
-            </a>
-            <div class="menu">
-                <!-- top-level menu links -->
-            </div>
-        </nav>
-    </header>
-    <main class="container">
-        <!-- your content here -->
-    </main>
-    <footer>
-    </footer>
+  <header>
+    <nav>
+      <a class="brand">
+        superskeleton<span class="tld">com</span>
+      </a>
+      <div class="menu">
+        <!-- top-level menu links -->
+      </div>
+    </nav>
+  </header>
+  <main class="container">
+    <!-- your content here -->
+  </main>
+  <footer>
+    <!-- footer content -->
+  </footer>
 </body>
 </html>
 `

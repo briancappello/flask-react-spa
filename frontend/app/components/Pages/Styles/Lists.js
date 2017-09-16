@@ -5,70 +5,70 @@ import { DocComponent } from 'components'
 export default class Lists extends DocComponent {
   unordered = `\
 <ul>
-    <li>
-        One
-        <ul>
-            <li>Stone</li>
-        </ul>
-    </li>
-    <li>
-        Two
-        <ul>
-            <li>Birds</li>
-        </ul>
-    </li>
-    <li>
-        Three
-        <ul>
-            <li>Nested</li>
-        </ul>
-    </li>
+  <li>
+    One
+    <ul>
+      <li>Stone</li>
+    </ul>
+  </li>
+  <li>
+    Two
+    <ul>
+      <li>Birds</li>
+    </ul>
+  </li>
+  <li>
+    Three
+    <ul>
+      <li>Nested</li>
+    </ul>
+  </li>
 </ul>
 `
 
   ordered = `\
 <ol>
-    <li>
-        One
-        <ol>
-            <li>Stone</li>
-        </ol>
-    </li>
-    <li>
-        Two
-        <ol>
-            <li>Birds</li>
-        </ol>
-    </li>
-    <li>
-        Three
-        <ol>
-            <li>Nested</li>
-        </ol>
-    </li>
+  <li>
+    One
+    <ol>
+      <li>Stone</li>
+    </ol>
+  </li>
+  <li>
+    Two
+    <ol>
+      <li>Birds</li>
+    </ol>
+  </li>
+  <li>
+    Three
+    <ol>
+      <li>Nested</li>
+    </ol>
+  </li>
 </ol>
 `
 
   mixed = `\
 <ol>
-    <li>
-        One
-        <ul>
-            <li>Stone</li>
-        </ul>
-    </li>
-    <li>
-        Two
-        <ul>
-            <li>Birds</li>
-        </ul>
-    </li>
-    <li>
-        Three
-        <ul>
-            <li>Nested</li>
-        </ul>
-    </li>
+  <li>
+    One
+    <ul>
+      <li>Stone</li>
+    </ul>
+  </li>
+  <li>
+    Two
+    <ul>
+      <li>Birds</li>
+    </ul>
+  </li>
+  <li>
+    Three
+    <ul>
+      <li>Nested</li>
+    </ul>
+  </li>
 </ol>
 `
 

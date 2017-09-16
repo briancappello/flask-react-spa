@@ -9,24 +9,24 @@ import PropTypes from 'prop-types';
 
 class CodeExample extends React.Component {
 
-    code = \`\\
+  code = \`\\
 <blockquote>
-    Failure is simply the opportunity to begin again, this time more intelligently.
-    <cite>Henry Ford</cite>
+  Failure is simply the opportunity to begin again, this time more intelligently.
+  <cite>Henry Ford</cite>
 </blockquote>
 \`
 
-    render() {
-        return (
-            <div>
-                {/* The following injects the unescaped HTML code into the DOM. */}
-                <div dangerouslySetInnerHTML={{__html: this.code}}></div>
+  render() {
+    return (
+      <div>
+        {/* The following injects the unescaped HTML code into the DOM. */}
+        <div dangerouslySetInnerHTML={{__html: this.code}}></div>
 
-                {/* And here we show the same HTML in a code block. */}
-                <pre><code>{this.code}</code></pre>
-            </div>
-        );
-    }
+        {/* And here we show the same HTML in a code block. */}
+        <pre><code>{this.code}</code></pre>
+      </div>
+    );
+  }
 }
 `
 
