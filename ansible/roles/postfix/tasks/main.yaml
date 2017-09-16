@@ -1,0 +1,114 @@
+---
+- name: install cyrus-sasl
+  package: name={{ cyrus_sasl_pkg }} state=present
+
+- name: install cyrus-sasl-plain (support for SMTPS authentication)
+  package: name={{ cyrus_sasl_plain_pkg }} state=present
+
+- name: start and enable saslauthd
+  service: name={{ saslauthd_svc }} state=started enabled=yes
+
+- name: install postfix
+  package: name={{ postfix_pkg }} state=present
+
+- name: allow SMTP through the firewall
+  iptables_raw:
+    name: allow_smtp_out
+    state: present
+    rules: |
+      -A OUTPUT -p tcp --dport 25 -m state --state NEW,ESTABLISHED -j ACCEPT
+      -A OUTPUT -p tcp --sport 25 -m state --state NEW,ESTABLISHED -j ACCEPT
+      -A INPUT -p tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT
+
+- name: configure postfix default sender hostname
+  lineinfile:
+    name: /etc/postfix/main.cf
+    regexp: '^#?myhostname ?='
+    line: 'myhostname = {{ app_domain }}'
+    state: present
+    backup: yes
+  notify: restart postfix
+
+- name: configure postfix TLS key file (smtpd/receiving)
+  lineinfile:
+    name: /etc/postfix/main.cf
+    regexp: '^#?smtpd_tls_key_file ?='
+    line: 'smtpd_tls_key_file = {{ le_privkey_path }}'
+    state: present
+    backup: yes
+  notify: restart postfix
+
+- name: configure postfix TLS cert file (smtpd/receiving)
+  lineinfile:
+    name: /etc/postfix/main.cf
+    regexp: '^#?smtpd_tls_cert_file ?='
+    line: 'smtpd_tls_cert_file = {{ le_fullchain_path }}'
+    state: present
+    backup: yes
+  notify: restart postfix
+
+- name: configure postfix TLS key file (smtp/sending)
+  lineinfile:
+    name: /etc/postfix/main.cf
+    regexp: '^#?smtp_tls_key_file ?='
+    line: 'smtp_tls_key_file = {{ le_privkey_path }}'
+    state: present
+    backup: yes
+  notify: restart postfix
+
+- name: configure postfix TLS cert file (smtp/sending)
+  lineinfile:
+    name: /etc/postfix/main.cf
+    regexp: '^#?smtp_tls_cert_file ?='
+    line: 'smtp_tls_cert_file = {{ le_fullchain_path }}'
+    state: present
+    backup: yes
+  notify: restart postfix
+
+- name: configure postfix TLS security level
+  lineinfile:
+    name: /etc/postfix/main.cf
+    regexp: '^#?smtp_tls_security_level ?='
+    line: 'smtp_tls_security_level = may'
+    state: present
+    backup: yes
+  notify: restart postfix
+
+- name: configure postfix milter_protocol
+  lineinfile:
+    name: /etc/postfix/main.cf
+    regexp: '^#?milter_protocol ?='
+    line: 'milter_protocol = 2'
+    state: present
+    backup: yes
+  notify: restart postfix
+
+- name: configure postfix milter_default_action
+  lineinfile:
+    name: /etc/postfix/main.cf
+    regexp: '^#?milter_default_action ?='
+    line: 'milter_default_action = accept'
+    state: present
+    backup: yes
+  notify: restart postfix
+
+- name: configure postfix smtpd_milters
+  lineinfile:
+    name: /etc/postfix/main.cf
+    regexp: '^#?smtpd_milters ?='
+    line: 'smtpd_milters = inet:localhost:8891'
+    state: present
+    backup: yes
+  notify: restart postfix
+
+- name: configure postfix non_smtpd_milters
+  lineinfile:
+    name: /etc/postfix/main.cf
+    regexp: '^#?non_smtpd_milters ?='
+    line: 'non_smtpd_milters = $smtpd_milters'
+    state: present
+    backup: yes
+  notify: restart postfix
+
+- name: ensure postfix is started and enabled at boot
+  service: name={{ postfix_svc }} state=started enabled=True

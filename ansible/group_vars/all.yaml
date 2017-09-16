@@ -27,11 +27,17 @@ server_timezone: America/New_York
 vim_pkg: vim
 ntp_pkg: ntp
 curl_pkg: curl
+cyrus_sasl_pkg: cyrus-sasl
+cyrus_sasl_plain_pkg: cyrus-sasl-plain
+postfix_pkg: postfix
 
 # services (systemd daemon names)
 cron_svc: crond
 ntp_svc: ntpd
 nginx_svc: nginx
+postfix_svc: postfix
+saslauthd_svc: saslauthd
+
 
 python3: python3.6
 pip3: pip3.6

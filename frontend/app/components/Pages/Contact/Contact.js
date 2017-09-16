@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { reduxForm } from 'redux-form'
+import { reduxForm, reset } from 'redux-form'
 import Helmet from 'react-helmet'
 
 import { contact } from 'actions/site'
@@ -51,6 +51,9 @@ const Contact = (props) => {
 
 const ContactForm = reduxForm({
   form: 'contact',
+  onSubmitSuccess: (_, dispatch) => {
+    dispatch(reset('contact'))
+  }
 })(Contact)
 
 export default connect(
