@@ -1,10 +1,10 @@
 ---
 - name: install uWSGI
-  pip: virtualenv={{ virtualenv_dir }} name=uwsgi
+  pip: virtualenv={{ project_virtualenv_dir }} name=uwsgi
 
 - name: create uwsgi startup script
   template: src=uwsgi_start.sh.j2
-            dest={{ virtualenv_dir }}/bin/uwsgi_start
+            dest={{ project_virtualenv_dir }}/bin/uwsgi_start
             owner={{ nginx_user }}
             group={{ nginx_user }}
             mode=0755
@@ -32,16 +32,3 @@
     dest: '{{ nginx_sites_enabled_dir }}/{{ project_name }}'
     state: link
   notify: reload nginx
-
-- name: create uwsgi systemd service
-  template:
-    src: uwsgi.systemd.j2
-    dest: /lib/systemd/system/{{ project_name }}.service
-  register: uwsgi_service
-
-- name: reload systemd
-  shell: systemctl daemon-reload
-  when: uwsgi_service | changed
-
-- name: (re)start and enable uwsgi systemd service
-  service: name={{ project_name }} state=restarted enabled=yes

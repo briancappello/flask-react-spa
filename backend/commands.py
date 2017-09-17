@@ -5,9 +5,11 @@ By using @cli.command(), functions are automatically registered and wrapped with
 
 The `clean`, `lint`, `test` and `urls` commands are adapted from Flask-Script 0.4.0
 """
-from dateutil.parser import parse as parse_date
-import os
 import click
+import os
+import subprocess
+
+from dateutil.parser import parse as parse_date
 from flask import current_app
 from flask.cli import cli, with_appcontext
 from flask_migrate.cli import db as db_cli
@@ -16,6 +18,21 @@ from flask_migrate.cli import db as db_cli
 DIR = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(DIR, os.pardir)
 TEST_PATH = os.path.join(PROJECT_ROOT, 'tests')
+
+
+@click.group()
+def celery():
+    pass
+
+
+@celery.command()
+def worker():
+    subprocess.run('celery worker -A wsgi.celery -l info', shell=True)
+
+
+@celery.command()
+def beat():
+    subprocess.run('celery beat -A wsgi.celery -l info', shell=True)
 
 
 @cli.command()

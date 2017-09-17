@@ -1,24 +1,63 @@
-import { put } from 'redux-saga/effects'
+import { call, put, race, take, takeEvery } from 'redux-saga/effects'
+import { SubmissionError } from 'redux-form'
 
+import { ROUTINE_PROMISE } from 'actions'
 import authSagas from './auth'
 import protectedSagas from './protected'
+import siteSagas from './site'
 
 
-export function createRoutineSaga(routine, apiMethodGenerator) {
+export function createRoutineSaga(routine, successGenerator, failureGenerator) {
+  if (!failureGenerator) {
+    failureGenerator = function *(e) {
+      yield put(routine.failure(e.response))
+    }
+  }
   return function *({ payload }) {
     try {
       yield put(routine.request())
-      const response = yield apiMethodGenerator(payload)
-      yield put(routine.success(response))
+      yield successGenerator(payload)
     } catch (e) {
-      yield put(routine.failure(e.response))
+      yield failureGenerator(e)
     } finally {
       yield put(routine.fulfill())
     }
   }
 }
 
+
+export function createRoutineFormSaga(routine, successGenerator) {
+  return createRoutineSaga(routine, successGenerator, function *onError(e) {
+    const error = new SubmissionError(Object.assign(
+      { _error: e.response.error || null },
+      e.response.errors || {},
+    ))
+    yield put(routine.failure(error))
+  })
+}
+
+
+export function *routineWatcherSaga({ payload }) {
+  const { data, routine, defer: { resolve, reject } } = payload
+  const [{ success, failure }] = yield [
+    race({
+      success: take(routine.SUCCESS),
+      failure: take(routine.FAILURE),
+    }),
+    put(routine.trigger(data)),
+  ]
+
+  if (success) {
+    yield call(resolve)
+  } else {
+    yield call(reject, failure && failure.payload || failure)
+  }
+}
+
+
 export default () => [
+  takeEvery(ROUTINE_PROMISE, routineWatcherSaga),
   ...authSagas(),
   ...protectedSagas(),
+  ...siteSagas(),
 ]

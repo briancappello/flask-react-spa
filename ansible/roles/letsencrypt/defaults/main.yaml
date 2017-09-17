@@ -1,0 +1,27 @@
+---
+letsencrypt_src_directory: /usr/local/share/letsencrypt
+letsencrypt_venv: '{{ virtualenv_dir }}/letsencrypt'
+certbot: '{{ letsencrypt_venv }}/bin/certbot'
+letsencrypt_cert_domains:
+  - webroot: '{{ nginx_sites_dir }}'
+    domains: ['{{ app_domain }}']
+letsencrypt_webroot_path: '{{ nginx_sites_dir }}'
+letsencrypt_authenticator: webroot
+letsencrypt_email: 'webmaster@{{ app_domain }}'
+# le docs suggest a random renewal time so we do twice daily, at 6:17am and 6:17pm EST
+letsencrypt_renewal_frequency:
+  day: '*'
+  hour: 6,18
+  minute: 17
+letsencrypt_renewal_command_args: '--renew-hook "nginx -s reload"'
+
+letsencrypt_depends:
+  - '@Development Tools'
+  - dialog
+  - augeas-libs
+  - openssl-devel
+  - openssl-libs
+  - libffi
+  - libffi-devel
+  - ca-certificates
+  - git

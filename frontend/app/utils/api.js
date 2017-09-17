@@ -7,6 +7,7 @@ import {
   delete_,
 } from './request'
 
+
 function url(uri) {
   return `${SERVER_URL}${uri}`
 }
@@ -27,6 +28,10 @@ export default class Api {
 
   static checkAuthToken(token) {
     return get(v1('/auth/check-auth-token'), { token })
+  }
+
+  static contact(payload) {
+    return post(v1('/contact-submissions'), payload)
   }
 
   static fetchProfile(token, user) {

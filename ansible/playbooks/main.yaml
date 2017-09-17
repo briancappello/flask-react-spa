@@ -42,9 +42,6 @@
 - name: set variables
   hosts: all
   tags: always
-#  FIXME-vault
-#  vars_files:
-#    - secrets.yaml
   tasks:
     - name: include distro-family vars (if any)
       include_vars: '{{ item }}'
@@ -73,11 +70,20 @@
         - '../env_vars/defaults.yaml'
         - '../env_vars/{{ app_env }}.yaml'
 
-    - when: app_env == 'prod'
+    - set_fact:
+        full_app_domain: '{% if app_subdomain %}{{ app_subdomain }}.{% endif %}{{ app_domain }}'
+
+    - name: set letsencrypt filepaths
+      when: app_env == 'prod'
       set_fact:
         le_fullchain_path: '/etc/letsencrypt/live/{{ app_domain }}/fullchain.pem'
         le_privkey_path: '/etc/letsencrypt/live/{{ app_domain }}/privkey.pem'
         le_chain_path: '/etc/letsencrypt/live/{{ app_domain }}/chain.pem'
+
+    - when: app_env == 'prod'
+      name: include production secret variables
+      include_vars:
+        file: ../secrets.yaml
 
 - name: provision server
   hosts: all
@@ -92,7 +98,7 @@
     - role: iptables
     - role: ANXS.postgresql
       vars:
-        postgresql_version: 9.5
+        postgresql_version: 9.6
         postgresql_users:
           - name: '{{ FLASK_DATABASE_USER }}'
             pass: '{{ FLASK_DATABASE_PASSWORD }}'
@@ -108,8 +114,39 @@
             db: '{{ FLASK_DATABASE_NAME }}'
             priv: ALL
     - role: nginx
+    - role: sbaerlocher.redis
+      tags: redis
     - role: flask
       tags: flask
-    - when: app_env == 'dev' or app_env == 'staging'
+    - when: app_env == 'dev'
       role: mailhog
       tags: mailhog
+
+- name: letsencrypt
+  hosts: all
+  user: deploy
+  become: yes
+  roles:
+    - role: letsencrypt
+      when: app_env == 'prod'
+      vars:
+        letsencrypt_cert_domains:
+          - webroot: '{{ nginx_sites_dir }}'
+            domains: ['{{ app_domain }}', '{{ full_app_domain }}']
+      tags: letsencrypt
+
+- name: postfix
+  hosts: all
+  user: deploy
+  become: yes
+  roles:
+    - role: bngsudheer.opendkim
+      when: app_env == 'prod'
+      vars:
+        dkim_selector: default
+        dkim_domains: ['{{ app_domain }}']
+      tags: opendkim
+
+    - role: postfix
+      when: app_env == 'prod'
+      tags: postfix

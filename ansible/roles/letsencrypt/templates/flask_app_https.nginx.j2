@@ -1,0 +1,126 @@
+# {{ ansible_managed }}
+
+# Base Config Generator:
+# https://mozilla.github.io/server-side-tls/ssl-config-generator/
+
+upstream flask {
+  server unix:{{ uwsgi_socket_path }};
+}
+
+server {
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+  server_name {{ full_app_domain }};
+  charset utf-8;
+
+  ssl_certificate {{ le_fullchain_path }};
+  ssl_certificate_key {{ le_privkey_path }};
+
+  ssl_session_timeout 1d;
+  ssl_session_cache shared:SSL:50m;
+  ssl_session_tickets off;
+
+  # OCSP Stapling
+  ssl_stapling on;
+  ssl_stapling_verify on;
+  ssl_trusted_certificate {{ le_chain_path }};
+
+  # Only use TLS v1.2 as Transport Security Protocol
+  ssl_protocols TLSv1.2;
+
+  # Only use ciphersuites that are considered modern and secure by Mozilla
+  ssl_ciphers 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256';
+
+  # Do not let attackers downgrade the ciphersuites in Client Hello
+  # Always use server-side offered ciphersuites
+  ssl_prefer_server_ciphers on;
+
+  # FIXME-dns resolver should be running on localhost
+  resolver 208.67.222.222 208.67.220.220;  # OpenDNS servers
+  # resolver 8.8.8.8 8.8.4.4;  # Google DNS servers
+
+  access_log {{ nginx_access_log_file }};
+  error_log {{ nginx_error_log_file }};
+
+  location /static/ {
+    alias {{ FLASK_STATIC_FOLDER }}/;
+  }
+
+  location ~ ^/(api|auth)/ {
+    uwsgi_pass flask;
+    include uwsgi_params;
+
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+
+  # always serve index.html for any other request
+  location / {
+    root {{ FLASK_STATIC_FOLDER }};
+    try_files $uri /index.html;
+  }
+}
+
+{% if app_env == 'prod' %}
+# redirect non-www to www
+server {
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+  server_name {{ app_domain }};
+
+  ssl_certificate {{ le_fullchain_path }};
+  ssl_certificate_key {{ le_privkey_path }};
+
+  ssl_session_timeout 1d;
+  ssl_session_cache shared:SSL:50m;
+  ssl_session_tickets off;
+
+  # OCSP Stapling
+  ssl_stapling on;
+  ssl_stapling_verify on;
+  ssl_trusted_certificate {{ le_chain_path }};
+
+  # Only use TLS v1.2 as Transport Security Protocol
+  ssl_protocols TLSv1.2;
+
+  # Only use ciphersuites that are considered modern and secure by Mozilla
+  ssl_ciphers 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256';
+
+  # Do not let attackers downgrade the ciphersuites in Client Hello
+  # Always use server-side offered ciphersuites
+  ssl_prefer_server_ciphers on;
+
+  # FIXME-dns resolver should be running on localhost
+  resolver 208.67.222.222 208.67.220.220;  # OpenDNS servers
+  # resolver 8.8.8.8 8.8.4.4;  # Google DNS servers
+
+  location / {
+    return 301 https://{{ full_app_domain }}$request_uri;
+  }
+}
+{% endif %}
+
+# redirect http to https
+server {
+  listen 80;
+  listen [::]:80;
+{% if app_env == 'prod' %}
+  server_name {{ app_domain }} {{ full_app_domain }};
+{% else %}
+  server_name {{ app_domain }};
+{% endif %}
+
+  root {{ nginx_sites_dir }};
+
+  # allow letsencrypt challenges over http
+  location /.well-known/ {
+    try_files $uri $uri/ =404;
+  }
+
+  # redirect everything else to https
+  location / {
+    return 301 https://$server_name$request_uri;
+  }
+}

@@ -83,18 +83,25 @@ def get_bundle_models():
             yield (name, model)
 
 
+def is_click_group(obj):
+    return isinstance(obj, click.Group)
+
+
 def get_commands():
     """An iterable of (command_name, command_fn) tuples"""
     def is_click_command(obj):
-        return isinstance(obj, click.Command) and not isinstance(obj, click.Group)
+        return isinstance(obj, click.Command) and not is_click_group(obj)
     return inspect.getmembers(commands, is_click_command)
 
 
-def get_bundle_command_groups():
-    """An iterable of (group_name, group_fn) tuples"""
-    def is_click_group(obj):
-        return isinstance(obj, click.Group)
+def get_extra_command_groups():
+    for name, group in inspect.getmembers(commands, is_click_group):
+        if name not in ['cli', 'db_cli']:
+            yield (name, group)
 
+
+def get_bundle_command_groups():
+    """An iterable of (group_name, group_instance) tuples"""
     for bundle in BUNDLES:
         try:
             commands_module = import_module('{}.commands'.format(bundle))

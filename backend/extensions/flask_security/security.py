@@ -5,7 +5,7 @@ from flask_principal import identity_loaded, RoleNeed
 from flask_security import Security as BaseSecurity
 from flask_security.core import _security, url_for_security
 from flask_security.signals import user_confirmed
-from flask_security.views import confirm_email, forgot_password
+from werkzeug.local import LocalProxy
 from werkzeug.routing import BuildError
 
 from backend.config import ROLE_HIERARCHY
@@ -49,10 +49,17 @@ class Security(BaseSecurity):
         app.config.setdefault('SECURITY_POST_CONFIRM_VIEW', '/?welcome')
         app.config.setdefault('SECURITY_CONFIRM_ERROR_VIEW', '/sign-up/resend-confirmation-email')
 
+        # disable flask-security's use of .txt templates (instead we
+        # generate the plain text from the html message)
+        app.config.setdefault('SECURITY_EMAIL_PLAINTEXT', False)
+
         self._state = super(Security, self).init_app(app, self.datastore, **self._kwargs)
 
         # override the unauthorized action to use abort(401) instead of returning HTML
         self._state.unauthorized_handler(unauthorized_handler)
+
+        # register a celery task to send emails asynchronously
+        self._state.send_mail_task(send_mail_async)
 
         # load user's role hierarchy
         identity_loaded.connect_via(app)(on_identity_loaded)
@@ -64,7 +71,11 @@ class Security(BaseSecurity):
         # we still need to register a blueprint under the flask_security namespace
         # so that its email templates can be loaded/extended/overwritten
         if not self._kwargs['register_blueprint']:
-            from backend.auth.views import reset_password
+            from backend.auth.views import (
+                confirm_email,
+                forgot_password,
+                reset_password,
+            )
             if self.confirmable:
                 security_bp.route('/confirm/<token>',
                                   methods=['GET'],
@@ -91,6 +102,13 @@ def _context_processor():
 
 def unauthorized_handler():
     abort(HTTPStatus.UNAUTHORIZED)
+
+
+def send_mail_async(msg):
+    from backend.tasks import send_mail_async_task
+    if isinstance(msg.sender, LocalProxy):
+        msg.sender = msg.sender._get_current_object()
+    return send_mail_async_task.delay(msg)
 
 
 def on_identity_loaded(sender, identity):

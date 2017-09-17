@@ -2,9 +2,23 @@ from http import HTTPStatus
 from flask import after_this_request, Blueprint, jsonify, redirect, request
 from flask_login import current_user
 from flask_security.changeable import change_user_password
-from flask_security.confirmable import send_confirmation_instructions
-from flask_security.recoverable import reset_password_token_status, send_reset_password_instructions, update_password
-from flask_security.utils import config_value, get_message, login_user, logout_user
+from flask_security.confirmable import (
+    confirm_email_token_status,
+    confirm_user,
+    send_confirmation_instructions,
+)
+from flask_security.recoverable import (
+    reset_password_token_status,
+    send_reset_password_instructions,
+    update_password,
+)
+from flask_security.utils import (
+    config_value,
+    get_message,
+    get_url,
+    login_user,
+    logout_user,
+)
 from flask_security.views import _security, _commit
 from werkzeug.datastructures import MultiDict
 
@@ -39,7 +53,7 @@ def login():
     elif form.errors:
         username_fields = config_value('USER_IDENTITY_ATTRIBUTES')
         return jsonify({
-            'error': 'Invalid {} or password.'.format('/'.join(username_fields))
+            'error': 'Invalid {} and/or password.'.format(', '.join(username_fields))
         }), HTTPStatus.UNAUTHORIZED
 
     return jsonify({
@@ -86,6 +100,33 @@ class UserResource(ModelResource):
         return self.created(user, save=False)
 
 
+def confirm_email(token):
+    """View function which handles a email confirmation request."""
+
+    expired, invalid, user = confirm_email_token_status(token)
+
+    if not user or invalid:
+        invalid = True
+
+    already_confirmed = user is not None and user.confirmed_at is not None
+    expired_and_not_confirmed = expired and not already_confirmed
+
+    if expired_and_not_confirmed:
+        send_confirmation_instructions(user)
+
+    if invalid or expired_and_not_confirmed:
+        return redirect(get_url(_security.confirm_error_view))
+
+    if user != current_user:
+        logout_user()
+        login_user(user)
+
+    if confirm_user(user):
+        after_this_request(_commit)
+
+    return redirect(get_url(_security.post_confirm_view))
+
+
 @auth.route('/resend-confirmation-email', methods=['POST'])
 def resend_confirmation_email():
     """View function which sends confirmation instructions."""
@@ -93,6 +134,20 @@ def resend_confirmation_email():
 
     if form.validate_on_submit():
         send_confirmation_instructions(form.user)
+
+    if form.errors:
+        return jsonify({'errors': form.errors}), HTTPStatus.BAD_REQUEST
+
+    return '', HTTPStatus.NO_CONTENT
+
+
+@anonymous_user_required
+def forgot_password():
+    """View function that handles a forgotten password request."""
+    form = _security.forgot_password_form(MultiDict(request.get_json()))
+
+    if form.validate_on_submit():
+        send_reset_password_instructions(form.user)
 
     if form.errors:
         return jsonify({'errors': form.errors}), HTTPStatus.BAD_REQUEST

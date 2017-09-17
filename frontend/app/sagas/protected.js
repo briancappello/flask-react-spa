@@ -4,13 +4,17 @@ import { selectAuth } from 'reducers/auth'
 import { selectProtected } from 'reducers/protected'
 import { fetchProtected } from 'actions/protected'
 import { createRoutineSaga } from 'sagas'
+import { Api } from 'utils'
 
-import Api from 'utils/api'
 
-export const fetchProtectedSaga = createRoutineSaga(fetchProtected, function *() {
-  const { token } = yield select(selectAuth)
-  return yield call(Api.fetchProtected, token)
-})
+export const fetchProtectedSaga = createRoutineSaga(
+  fetchProtected,
+  function *successGenerator() {
+    const { token } = yield select(selectAuth)
+    const response = yield call(Api.fetchProtected, token)
+    yield put(fetchProtected.success(response))
+  },
+)
 
 export function *fetchProtectedIfNeeded() {
     const { isLoaded, isLoading } = yield select(selectProtected)

@@ -1,0 +1,24 @@
+; {{ ansible_managed }}
+
+[unix_http_server]
+file = {{ supervisord_sock_file }}
+
+[supervisord]
+logfile          = {{ supervisord_log_file }}
+logfile_maxbytes = 50MB
+logfile_backups  = 10
+loglevel         = info
+childlogdir      = {{ supervisor_log_dir }}
+pidfile          = {{ supervisord_pid_file }}
+nodaemon         = false
+minfds           = 1024
+minprocs         = 200
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl = unix://{{ supervisord_sock_file }}
+
+[include]
+files = {{ supervisor_conf_dir }}/*.ini

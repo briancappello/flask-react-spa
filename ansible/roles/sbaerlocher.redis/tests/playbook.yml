@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  remote_user: root
+  sudo: yes
+  roles:
+    - ansible.redis

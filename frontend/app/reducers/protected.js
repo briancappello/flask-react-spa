@@ -3,6 +3,7 @@ import createReducer from './createReducer'
 import { logout } from 'actions/auth'
 import { fetchProtected } from 'actions/protected'
 
+
 export const initialState = {
   isLoaded: false,
   isLoading: false,

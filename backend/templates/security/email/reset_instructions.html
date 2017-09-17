@@ -1,0 +1,6 @@
+{% extends 'email/layout.html' %}
+
+{% block body %}
+  <p>Click the link below to reset your password:</p>
+  <p><a href="{{ reset_link }}">{{ reset_link }}</a></p>
+{% endblock %}

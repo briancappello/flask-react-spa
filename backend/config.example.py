@@ -61,6 +61,7 @@ class BaseConfig(object):
     ##########################################################################
     # session/cookies                                                        #
     ##########################################################################
+    SESSION_TYPE = 'redis'
     SESSION_PROTECTION = 'strong'
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SECURE = True
@@ -77,8 +78,16 @@ class BaseConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     ##########################################################################
+    # celery                                                                 #
+    ##########################################################################
+    CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+    CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+    CELERY_ACCEPT_CONTENT = ('json', 'pickle')
+
+    ##########################################################################
     # mail                                                                   #
     ##########################################################################
+    MAIL_ADMINS = ('admin@example.com',)  # FIXME
     MAIL_SERVER = os.environ.get('FLASK_MAIL_HOST', 'localhost')
     MAIL_PORT = int(os.environ.get('FLASK_MAIL_PORT', 25))
     MAIL_USE_TLS = get_boolean_env('FLASK_MAIL_USE_TLS', False)
@@ -86,7 +95,7 @@ class BaseConfig(object):
     MAIL_USERNAME = os.environ.get('FLASK_MAIL_USERNAME', None)
     MAIL_PASSWORD = os.environ.get('FLASK_MAIL_PASSWORD', None)
     MAIL_DEFAULT_SENDER = (
-        os.environ.get('FLASK_MAIL_DEFAULT_SENDER_NAME', 'Flask API'),
+        os.environ.get('FLASK_MAIL_DEFAULT_SENDER_NAME', 'Flask React API'),
         os.environ.get('FLASK_MAIL_DEFAULT_SENDER_EMAIL',
                        'noreply@%s' % os.environ.get('FLASK_DOMAIN', 'localhost'))
     )
@@ -134,8 +143,6 @@ class ProdConfig(BaseConfig):
     ##########################################################################
     SESSION_COOKIE_DOMAIN = os.environ.get('FLASK_DOMAIN', 'example.com')  # FIXME
     SESSION_COOKIE_SECURE = get_boolean_env('SESSION_COOKIE_SECURE', True)
-    SESSION_TYPE = 'filesystem'  # FIXME, probably better to use sqlalchemy
-    SESSION_FILE_DIR = 'flask_sessions'
 
 
 class DevConfig(BaseConfig):
@@ -150,8 +157,6 @@ class DevConfig(BaseConfig):
     # session/cookies                                                        #
     ##########################################################################
     SESSION_COOKIE_SECURE = False
-    SESSION_TYPE = 'filesystem'
-    SESSION_FILE_DIR = 'flask_sessions'
 
     ##########################################################################
     # database                                                               #
@@ -164,7 +169,7 @@ class DevConfig(BaseConfig):
     # mail                                                                   #
     ##########################################################################
     MAIL_PORT = 1025  # MailHog
-    MAIL_DEFAULT_SENDER = ('Flask API', 'noreply@localhost')
+    MAIL_DEFAULT_SENDER = ('Flask React SPA', 'noreply@localhost')
 
     ##########################################################################
     # security                                                               #

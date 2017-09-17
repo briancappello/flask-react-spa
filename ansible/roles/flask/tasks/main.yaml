@@ -14,7 +14,7 @@
   pip:
     name: '{{ item }}'
     state: latest
-    executable: '{{ pip }}'
+    executable: '{{ pip3 }}'
   with_items:
     - pip
     - setuptools
@@ -25,7 +25,7 @@
   tags: flask.deploy
 
 - name: Ensure that the application file permissions are set properly
-  file: path={{ virtualenv_dir }}
+  file: path={{ project_virtualenv_dir }}
         recurse=yes
         owner={{ nginx_user }}
         group={{ nginx_user }}
@@ -35,3 +35,9 @@
 
 - include: uwsgi.yaml
   tags: uwsgi
+
+- include: supervisor.yaml
+  tags: supervisor
+
+- include: celery.yaml
+  tags: celery

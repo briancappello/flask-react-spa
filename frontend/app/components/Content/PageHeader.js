@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
+
 
 /**
  * PageHeader
@@ -18,7 +19,7 @@ import React, { Component } from 'react'
  *     </div>
  * </PageHeader>
  */
-export default class PageHeader extends Component {
+export default class PageHeader extends React.Component {
   static defaultProps = {
     image: false,
     repeat: 'no-repeat',

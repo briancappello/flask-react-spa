@@ -51,18 +51,18 @@
   tags: flask.static_files
 
 - name: install packages from requirements.txt
-  pip: virtualenv={{ virtualenv_dir }} requirements={{ requirements_path }}
+  pip: virtualenv={{ project_virtualenv_dir }} requirements={{ requirements_path }}
 
 - name: run database migrations
   when: run_migrations is defined and run_migrations
-  command: "{{ virtualenv_dir }}/bin/{{ python }} manage.py --env=prod --no-warn db upgrade"
+  command: "{{ project_virtualenv_dir }}/bin/{{ python3 }} manage.py --env=prod --no-warn db upgrade"
   args:
     chdir: '{{ project_dir }}'
   tags: flask.run_migrations
 
 - name: run database fixtures
   when: run_fixtures is defined and run_fixtures
-  command: "{{ virtualenv_dir }}/bin/{{ python }} manage.py --env=prod --no-warn load_fixtures fixtures.json --reset"
+  command: "{{ project_virtualenv_dir }}/bin/{{ python3 }} manage.py --env=prod --no-warn load_fixtures fixtures.json --reset"
   args:
     chdir: '{{ project_dir }}'
   tags: flask.run_fixtures

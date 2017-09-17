@@ -15,7 +15,7 @@ This value can also be found in `virt-manager` under `Edit > Connection Details 
 Then, to build a new CentOS 7.3 image with a hostname of `centos73` and a static IP of `192.168.XXX.YYY`:
 
 ```bash
-$ ./build-centos83.sh centos73 192.168.XXX.YYY
+$ ./build-centos73.sh centos73 192.168.XXX.YYY
 
 # to "install" and run it (first run only):
 $ sudo ./run-centos73.sh centos73

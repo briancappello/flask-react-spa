@@ -10,12 +10,13 @@ app_name: backend
 
 # app_env: the environment being deployed to (set in the hosts_<env> inventory files)
 # dev: use for deploying with ansible into a container/virtual machine
-# staging: use for deploying to staging in the cloud
 # prod: use for deploying to production in the cloud
 app_env: dev
 
 # app_domain: the domain to deploy to (set in the hosts_<env> inventory files)
 app_domain: example.com
+app_subdomain: False
+full_app_domain: "will be set by playbooks/main.yaml (to play nice with ansible's variable-precedence rules)"
 
 admin_email: 'webmaster@{{ app_domain }}'
 
@@ -26,11 +27,22 @@ server_timezone: America/New_York
 vim_pkg: vim
 ntp_pkg: ntp
 curl_pkg: curl
+cyrus_sasl_pkg: cyrus-sasl
+cyrus_sasl_plain_pkg: cyrus-sasl-plain
+postfix_pkg: postfix
 
 # services (systemd daemon names)
 cron_svc: crond
 ntp_svc: ntpd
 nginx_svc: nginx
+postfix_svc: postfix
+saslauthd_svc: saslauthd
+
+
+python3: python3.6
+pip3: pip3.6
+python3_path: '/usr/bin/{{ python3 }}'
+virtualenv_dir: /virtualenvs
 
 nginx_conf_dir: /etc/nginx
 nginx_sites_dir: /usr/share/nginx/html
