@@ -20,6 +20,21 @@
       -A OUTPUT -p tcp --sport 25 -m state --state NEW,ESTABLISHED -j ACCEPT
       -A INPUT -p tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT
 
+- name: listen on localhost:465
+  blockinfile:
+    name: /etc/postfix/master.cf
+    block: |
+      465     inet  n       -       n       -       -       smtpd
+        -o syslog_name=postfix/smtps
+        -o smtpd_tls_wrappermode=yes
+        -o smtpd_sasl_auth_enable=yes
+        -o smtpd_reject_unlisted_recipient=no
+        -o smtpd_client_restrictions=
+        -o smtpd_helo_restrictions=
+        -o smtpd_sender_restrictions=
+        -o smtpd_recipient_restrictions=
+  notify: restart postfix
+
 - name: configure postfix default sender hostname
   lineinfile:
     name: /etc/postfix/main.cf

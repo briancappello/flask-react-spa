@@ -34,8 +34,7 @@ __all_the_env_vars__:
   FLASK_MAIL_DEFAULT_SENDER_EMAIL: '{{ FLASK_MAIL_DEFAULT_SENDER_EMAIL | default(omit) }}'
   FLASK_MAIL_USE_TLS: '{{ FLASK_MAIL_USE_TLS | default(omit) }}'
   FLASK_MAIL_USE_SSL: '{{ FLASK_MAIL_USE_SSL | default(omit) }}'
-#  FLASK_MAIL_SSL_KEYFILE: '{{ FLASK_MAIL_SSL_KEYFILE | default(omit) }}'
-#  FLASK_MAIL_SSL_CERTFILE: '{{ FLASK_MAIL_SSL_CERTFILE | default(omit) }}'
+
 flask_environment: '{{ __all_the_env_vars__ | filter_omitted }}'
 
 run_migrations: yes
