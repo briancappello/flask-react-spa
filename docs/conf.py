@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Flask React API documentation build configuration file, created by
+# Flask React SPA documentation build configuration file, created by
 # sphinx-quickstart on Thu Sep  7 06:48:34 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -53,7 +53,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'Flask React API'
+project = 'Flask React SPA'
 copyright = '2017 Brian Cappello'
 author = 'Brian Cappello'
 
@@ -97,8 +97,8 @@ html_theme = 'guzzle_sphinx_theme'
 # documentation.
 #
 html_theme_options = {
-    'project_nav_name': 'Flask React API',
-    'projectlink': 'https://github.com/briancappello/flask-react-api',
+    'project_nav_name': 'Flask React SPA',
+    'projectlink': 'https://github.com/briancappello/flask-react-spa',
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -108,22 +108,20 @@ html_static_path = ['_static']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
-#
-# This is required for the alabaster theme
-# refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
 html_sidebars = {
     '**': [
         'logo-text.html',
         'about.html',
         'globaltoc.html',
         'searchbox.html',
+        'github.html',
     ]
 }
 
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'FlaskReactAPIdoc'
+htmlhelp_basename = 'FlaskReactSPAdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -150,7 +148,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'FlaskReactAPI.tex', 'Flask React API Documentation',
+    (master_doc, 'FlaskReactSPA.tex', 'Flask React SPA Documentation',
      'Brian Cappello', 'manual'),
 ]
 
@@ -160,7 +158,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'flaskreactapi', 'Flask React API Documentation',
+    (master_doc, 'flaskreactspa', 'Flask React SPA Documentation',
      [author], 1)
 ]
 
@@ -171,8 +169,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'FlaskReactAPI', 'Flask React API Documentation',
-     author, 'FlaskReactAPI', 'One line description of project.',
+    (master_doc, 'FlaskReactSPA', 'Flask React SPA Documentation',
+     author, 'FlaskReactSPA', 'One line description of project.',
      'Miscellaneous'),
 ]
 
