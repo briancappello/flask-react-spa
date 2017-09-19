@@ -11,7 +11,7 @@ export const contactSaga = createRoutineFormSaga(
   function *successGenerator(payload) {
     const response = yield call(Api.contact, payload)
     yield put(contact.success(response))
-    yield put(flashSuccess('Your contact submission has been received.'))
+    yield put(flashSuccess('Your contact submission has been sent. We will do our best to respond in a timely manner!'))
   }
 )
 
