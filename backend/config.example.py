@@ -4,8 +4,9 @@ from datetime import timedelta
 APP_DIR = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
 
-TEMPLATE_FOLDER = os.path.join(PROJECT_ROOT, 'frontend')
-STATIC_FOLDER = os.path.join(PROJECT_ROOT, 'static')
+TEMPLATE_FOLDER = os.path.join(PROJECT_ROOT, 'backend', 'templates')
+STATIC_FOLDER = os.environ.get('FLASK_STATIC_FOLDER',
+                               os.path.join(PROJECT_ROOT, 'static'))
 STATIC_URL_PATH = '/static'  # serve asset files in static/ at /static/
 
 # bundle folders to register with the app, in python module dot notation
