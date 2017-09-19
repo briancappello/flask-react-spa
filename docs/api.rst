@@ -33,13 +33,27 @@ App Factory
 
 .. autofunction:: backend.app._create_app
 
+The following methods are all automatically called by :meth:`backend.app._create_app`:
+
+.. autofunction:: backend.app.configure_app
+
+.. autofunction:: backend.app.register_extensions
+
+.. autofunction:: backend.app.register_blueprints
+
+.. autofunction:: backend.app.register_serializers
+
+.. autofunction:: backend.app.register_cli_commands
+
+.. autofunction:: backend.app.register_shell_context
+
 
 Database
 --------
-
-.. autofunction:: backend.database.foreign_key
 
 .. autoclass:: backend.database.Model
    :members: __repr_props__, get, get_by, filter_by, create, update, save, delete
    :undoc-members: __repr_props__
    :special-members: __repr_props__
+
+.. autofunction:: backend.database.foreign_key

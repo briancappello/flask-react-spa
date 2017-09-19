@@ -96,6 +96,7 @@ def _create_app(config_object, **kwargs):
 
 
 def configure_app(app, config_object):
+    """General application configuration."""
     app.config.from_object(config_object)
 
     app.jinja_env.add_extension('jinja2_time.TimeExtension')
@@ -112,26 +113,14 @@ def configure_app(app, config_object):
         return response
 
 
-def register_serializers(app, serializers):
-    """Register and initialize serializers"""
-    _serializers = {serializer.Meta.model.__name__: serializer()
-                    for serializer in serializers.values()}
-
-    # FIXME there's almost certainly a better way to do this, perhaps somehow
-    # register the serializers with the app itself, and then any extension can
-    # later ask the app for the serializers?
-    from backend.extensions import api
-    api.serializers = _serializers
-
-
 def register_extensions(app, extensions):
-    """Register and initialize extensions"""
+    """Register and initialize extensions."""
     for extension in extensions.values():
         extension.init_app(app)
 
 
 def register_blueprints(app):
-    """Register bundle views"""
+    """Register bundle views."""
     # disable strict_slashes on all routes by default
     if not app.config.get('STRICT_SLASHES', False):
         app.url_map.strict_slashes = False
@@ -141,16 +130,16 @@ def register_blueprints(app):
         app.register_blueprint(blueprint, url_prefix=url_prefix)
 
 
-def register_shell_context(app, extensions, deferred_extensions, models, serializers):
-    """Register variables to automatically import when running `flask shell`"""
-    def shell_context():
-        ctx = {}
-        ctx.update(extensions)
-        ctx.update(deferred_extensions)
-        ctx.update(models)
-        ctx.update(serializers)
-        return ctx
-    app.shell_context_processor(shell_context)
+def register_serializers(app, serializers):
+    """Register and initialize serializers."""
+    _serializers = {serializer.Meta.model.__name__: serializer()
+                    for serializer in serializers.values()}
+
+    # FIXME there's almost certainly a better way to do this, perhaps somehow
+    # register the serializers with the app itself, and then any extension can
+    # later ask the app for the serializers?
+    from backend.extensions import api
+    api.serializers = _serializers
 
 
 def register_cli_commands(app):
@@ -164,3 +153,15 @@ def register_cli_commands(app):
             logger.error('Command name conflict: "%s" is taken.' % name)
             sys.exit(1)
         app.cli.add_command(command)
+
+
+def register_shell_context(app, extensions, deferred_extensions, models, serializers):
+    """Register variables to automatically import when running `flask shell`."""
+    def shell_context():
+        ctx = {}
+        ctx.update(extensions)
+        ctx.update(deferred_extensions)
+        ctx.update(models)
+        ctx.update(serializers)
+        return ctx
+    app.shell_context_processor(shell_context)

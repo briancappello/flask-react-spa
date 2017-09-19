@@ -23,15 +23,16 @@ UniqueConstraint = sqlalchemy.UniqueConstraint
 
 
 class Model(db.Model):
-    """Base table class with primary key, created_at and updated_at fields.
-    Includes convenience methods for querying, saving, updating and deleting
-    models.
+    """Base table class with :attr:`id` primary key, :attr:`created_at` and
+    :attr:`updated_at` fields. It includes convenience methods for creating,
+    querying, saving, updating and deleting models.
     """
     __abstract__ = True
     __table_args__ = {'extend_existing': True}
 
     __repr_props__ = ('id', 'created_at', 'updated_at')
     """Set to customize automatic string representation.
+
     For example::
 
         class User(database.Model):
@@ -144,7 +145,7 @@ def foreign_key(table_name, nullable=False, **kwargs):
 def join_table(model_name1, model_name2, *extra_columns):
     """Creates a join table.
 
-    Usage: ::
+    Usage::
         symbol_industry = join_table('Symbol', 'Industry')
         class Symbol(Model):
             industries = relationship('Industry', secondary=symbol_industry, back_populates='symbols')
