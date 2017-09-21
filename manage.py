@@ -15,7 +15,7 @@ import sys
 import click
 import time
 
-from flask.cli import FlaskGroup
+from flask.cli import FlaskGroup, run_command
 from backend.app import create_app
 
 
@@ -29,7 +29,10 @@ def production_warning(env, args):
             time.sleep(1)
 
 
-@click.group(cls=FlaskGroup, create_app=lambda _: create_app(), help="""\
+@click.group(cls=FlaskGroup,
+             add_default_commands=False,
+             create_app=lambda _: create_app(),
+             help="""\
 A utility script for the Flask React SPA application.
 """)
 @click.option('--env', type=click.Choice(['dev', 'prod']), default='dev')
@@ -49,4 +52,5 @@ if __name__ == '__main__':
     if args.env == 'dev':
         os.environ['FLASK_DEBUG'] = 'true'
 
+    cli.add_command(run_command)
     cli.main(args=sys.argv[1:])
