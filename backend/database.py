@@ -112,7 +112,7 @@ class Model(db.Model):
     def __repr__(self):
         properties = ['{!s}={!r}'.format(prop, getattr(self, prop))
                       for prop in self.__repr_props__ if hasattr(self, prop)]
-        return '<{} id={} {}>'.format(self.__class__.__name__, self.id, ' '.join(properties))
+        return '<{} {}>'.format(self.__class__.__name__, ' '.join(properties))
 
 
 # RELATIONSHIP DOCS
