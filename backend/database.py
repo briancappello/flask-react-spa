@@ -116,10 +116,10 @@ class Model(db.Model):
 
 
 # RELATIONSHIP DOCS
-# http://flask-sqlalchemy.pocoo.org/2.1/models/#one-to-many-relationships
-# http://flask-sqlalchemy.pocoo.org/2.1/models/#many-to-many-relationships
-# http://docs.sqlalchemy.org/en/rel_1_0/orm/basic_relationships.html#relationship-patterns
-# http://docs.sqlalchemy.org/en/rel_1_0/orm/backref.html#relationships-backref
+# http://docs.sqlalchemy.org/en/rel_1_1/orm/basic_relationships.html#relationship-patterns
+# http://docs.sqlalchemy.org/en/rel_1_1/orm/backref.html#relationships-backref
+# http://flask-sqlalchemy.pocoo.org/2.2/models/#one-to-many-relationships
+# http://flask-sqlalchemy.pocoo.org/2.2/models/#many-to-many-relationships
 
 
 def foreign_key(table_name, nullable=False, **kwargs):
