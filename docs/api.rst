@@ -51,9 +51,11 @@ The following methods are all automatically called by :meth:`backend.app._create
 Database
 --------
 
-.. autoclass:: backend.database.Model
+.. autoclass:: backend.database.BaseModel
    :members: __repr_props__, get, get_by, filter_by, create, update, save, delete
    :undoc-members: __repr_props__
    :special-members: __repr_props__
+
+.. autoclass:: backend.database.Model
 
 .. autofunction:: backend.database.foreign_key

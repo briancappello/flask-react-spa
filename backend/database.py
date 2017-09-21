@@ -2,12 +2,11 @@ from datetime import datetime
 
 import sqlalchemy
 from sqlalchemy.orm.relationships import RelationshipProperty
-from sqlalchemy.ext.associationproxy import association_proxy
 
 from .extensions import db
 
 # alias common names
-BaseModel = db.Model            # type: db.Model
+from sqlalchemy.ext.associationproxy import association_proxy
 Table = db.Table                # type: sqlalchemy.schema.Table
 # FIXME: Column defaults nullable to True; should probably override that
 Column = db.Column              # type: sqlalchemy.schema.Column
@@ -22,15 +21,14 @@ ForeignKey = db.ForeignKey
 UniqueConstraint = sqlalchemy.UniqueConstraint
 
 
-class Model(db.Model):
-    """Base table class with :attr:`id` primary key, :attr:`created_at` and
-    :attr:`updated_at` fields. It includes convenience methods for creating,
+class BaseModel(db.Model):
+    """Base table class. It includes convenience methods for creating,
     querying, saving, updating and deleting models.
     """
     __abstract__ = True
     __table_args__ = {'extend_existing': True}
 
-    __repr_props__ = ('id', 'created_at', 'updated_at')
+    __repr_props__ = ()
     """Set to customize automatic string representation.
 
     For example::
@@ -43,10 +41,6 @@ class Model(db.Model):
         user = User(id=1, email='foo@bar.com')
         print(user)  # prints <User id=1 email="foo@bar.com">
     """
-
-    id = Column(Integer, primary_key=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     @classmethod
     def get(cls, id):
@@ -113,6 +107,21 @@ class Model(db.Model):
         properties = ['{!s}={!r}'.format(prop, getattr(self, prop))
                       for prop in self.__repr_props__ if hasattr(self, prop)]
         return '<{} {}>'.format(self.__class__.__name__, ' '.join(properties))
+
+
+class Model(BaseModel):
+    """Base table class that extends :class:`backend.database.BaseModel` and
+    includes a primary key :attr:`id` field along with automatically
+    date-stamped :attr:`created_at` and :attr:`updated_at` fields.
+    """
+    __abstract__ = True
+    __table_args__ = {'extend_existing': True}
+
+    id = Column(Integer, primary_key=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    __repr_props__ = ('id', 'created_at', 'updated_at')
 
 
 # RELATIONSHIP DOCS
