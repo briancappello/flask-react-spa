@@ -7,6 +7,7 @@ The `clean`, `lint`, `test` and `urls` commands are adapted from Flask-Script 0.
 """
 import click
 import os
+import inspect
 import subprocess
 import sys
 
@@ -221,8 +222,10 @@ def url(url, method):
     try:
         rule, arguments = current_app.url_map.bind('localhost')\
             .match(url, method=method, return_rule=True)
-        row = (rule.rule, rule.endpoint, _format_dict(arguments), _format_rule_options(rule))
-        _print_url_rules(('Rule', 'Endpoint', 'Arguments', 'Options'), [row])
+        _print_url_rules(
+            ('Rule', 'View', 'Arguments', 'Options'),
+            [(rule.rule, _get_rule_view(rule), _format_dict(arguments), _format_rule_options(rule))]
+        )
     except (NotFound, MethodNotAllowed) as e:
         _print_url_rules(('Rule',), [('<{}>'.format(e),)])
 
@@ -236,10 +239,10 @@ def urls(order):
         current_app.url_map.iter_rules(),
         key=lambda rule: getattr(rule, order)
     )
-    rows = [
-        (rule.rule, rule.endpoint, _format_rule_options(rule)) for rule in rules
-    ]
-    _print_url_rules(('Rule', 'Endpoint', 'Options'), rows)
+    _print_url_rules(
+        ('Rule', 'View', 'Options'),
+        [(rule.rule, _get_rule_view(rule), _format_rule_options(rule)) for rule in rules]
+    )
 
 
 def _print_url_rules(columns, rows):
@@ -266,6 +269,15 @@ def _print_url_rules(columns, rows):
 
     for row in rows:
         click.echo(str_template % row)
+
+
+def _get_rule_view(rule):
+    view_fn = current_app.view_functions[rule.endpoint]
+    view_module = inspect.getmodule(view_fn)
+    view_fn_name = view_fn.__name__
+    if 'View.as_view' in view_fn.__qualname__:
+        view_fn_name = view_fn.__dict__['view_class'].__name__
+    return '{}:{}'.format(view_module.__name__, view_fn_name)
 
 
 def _format_rule_options(url_rule):
