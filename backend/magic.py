@@ -94,15 +94,17 @@ def is_click_group(obj):
 
 def get_commands():
     """An iterable of (command_name, command_fn) tuples"""
-    def is_click_command(obj):
-        return isinstance(obj, click.Command) and not is_click_group(obj)
-    return inspect.getmembers(commands, is_click_command)
-
-
-def get_extra_command_groups():
+    existing_group_commands = {}
     for name, group in inspect.getmembers(commands, is_click_group):
         if name not in ['cli', 'db_cli']:
+            existing_group_commands.update(group.commands)
             yield (name, group)
+
+    def is_click_command(name, obj):
+        is_command = isinstance(obj, click.Command) and not is_click_group(obj)
+        return is_command and name not in existing_group_commands
+
+    yield from _get_members(commands, is_click_command)
 
 
 def get_bundle_command_groups():
@@ -112,8 +114,16 @@ def get_bundle_command_groups():
         if not module:
             continue
 
-        for name, group in inspect.getmembers(module, is_click_group):
-            yield (name, group)
+        # only load top-level groups
+        # inspect.getmembers is sadly ordered alphabetically, as opposed to
+        # declaration order, so we need to loop twice
+        members = inspect.getmembers(module, is_click_group)
+        nested_commands = {}
+        for name, group in members:
+            nested_commands.update(group.commands)
+        for name, group in members:
+            if name not in nested_commands:
+                yield (name, group)
 
 
 def _get_members(module, predicate):

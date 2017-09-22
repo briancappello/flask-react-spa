@@ -45,7 +45,6 @@ from .magic import (
     get_bundle_models,
     get_bundle_serializers,
     get_commands,
-    get_extra_command_groups,
     get_deferred_extensions,
     get_extensions,
 )
@@ -146,7 +145,6 @@ def register_cli_commands(app):
     """Register all the Click commands declared in commands.py and
     each bundle's commands.py"""
     commands = list(get_commands())
-    commands += list(get_extra_command_groups())
     commands += list(get_bundle_command_groups())
     for name, command in commands:
         if name in app.cli.commands:
