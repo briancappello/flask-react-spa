@@ -7,6 +7,6 @@ from ..database import (
 
 
 class ContactSubmission(Model):
-    name = Column(String(50), nullable=False)
-    email = Column(String(50), nullable=False)
-    message = Column(Text, nullable=False)
+    name = Column(String(50))
+    email = Column(String(50))
+    message = Column(Text)

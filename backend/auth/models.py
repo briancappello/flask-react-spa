@@ -17,11 +17,11 @@ from ..extensions import user_datastore
 
 
 class User(Model, UserMixin):
-    username = Column(String(50), unique=True, nullable=False, index=True)
-    email = Column(String(50), unique=True, nullable=False, index=True)
-    password = Column(String)
-    active = Column(Boolean(name='active'), nullable=False, default=False)
-    confirmed_at = Column(DateTime())
+    username = Column(String(50), unique=True, index=True)
+    email = Column(String(50), unique=True, index=True)
+    password = Column(String, nullable=True)
+    active = Column(Boolean(name='active'), default=False)
+    confirmed_at = Column(DateTime(), nullable=True)
     roles = association_proxy('user_roles', 'role')
 
     __repr_props__ = ('id', 'username', 'email')
@@ -35,8 +35,8 @@ class User(Model, UserMixin):
 
 
 class Role(Model, RoleMixin):
-    name = Column(String(50), nullable=False, unique=True, index=True)
-    description = Column(String(255))
+    name = Column(String(50), unique=True, index=True)
+    description = Column(String(255), nullable=True)
 
     __repr_props__ = ('id', 'name')
 

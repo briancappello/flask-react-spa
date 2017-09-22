@@ -16,8 +16,6 @@ class __relationship_type_hinter__(RelationshipProperty):
 # alias common names
 from sqlalchemy.ext.associationproxy import association_proxy
 Table = db.Table                # type: sqlalchemy.schema.Table
-# FIXME: Column defaults nullable to True; should probably override that
-Column = db.Column              # type: sqlalchemy.schema.Column
 String = db.String              # type: sqlalchemy.types.String
 Text = db.Text                  # type: sqlalchemy.types.Text
 Integer = db.Integer            # type: sqlalchemy.types.Integer
@@ -27,6 +25,12 @@ relationship = db.relationship  # type: __relationship_type_hinter__
 backref = db.backref            # type: __relationship_type_hinter__
 ForeignKey = db.ForeignKey      # type: sqlalchemy.schema.ForeignKey
 UniqueConstraint = sqlalchemy.UniqueConstraint
+
+
+class Column(db.Column):
+    # overridden to make nullable False by default
+    def __init__(self, *args, nullable=False, **kwargs):
+        super(Column, self).__init__(*args, nullable=nullable, **kwargs)
 
 
 class BaseModel(db.Model):
