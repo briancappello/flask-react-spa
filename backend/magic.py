@@ -9,6 +9,17 @@ from .config import BUNDLES, DEFERRED_EXTENSIONS
 from . import commands, extensions
 
 
+def safe_import_module(module_name):
+    """Like importlib's import_module, except it does not raise ImportError
+    if the requested module_name was not found
+    """
+    try:
+        return import_module(module_name)
+    except ImportError as e:
+        if module_name not in str(e):
+            raise e
+
+
 def get_extensions():
     """An iterable of (extension_instance_name, extension_instance) tuples"""
     return _get_extensions(deferred=False)
@@ -34,18 +45,16 @@ def _get_extensions(deferred):
 
 def get_bundle_blueprints():
     """An iterable of (blueprint_instance, url_prefix) tuples"""
-
     for bundle in BUNDLES:
-        module_name = '{}.views'.format(bundle)
-        try:
-            views_module = import_module(module_name)
-        except ImportError:
-            continue  # allow bundles without any views
+        module = safe_import_module('{}.views'.format(bundle))
+        if not module:
+            continue
 
-        def is_blueprint(obj):
-            return isinstance(obj, flask.Blueprint) and obj.import_name == module_name
+        def is_bundle_blueprint(obj):
+            is_bp = isinstance(obj, flask.Blueprint)
+            return is_bp and obj.import_name == module.__name__
 
-        for name, blueprint in inspect.getmembers(views_module, is_blueprint):
+        for name, blueprint in inspect.getmembers(module, is_bundle_blueprint):
             # rstrip '/' off url_prefix because views should be declaring their
             # routes beginning with '/', and if url_prefix ends with '/', routes
             # will end up looking like '/prefix//endpoint', which is no good
@@ -59,13 +68,11 @@ def get_bundle_serializers():
         return inspect.isclass(obj) and issubclass(obj, ModelSchema) and name not in ['ModelSerializer', 'ModelSchema']
 
     for bundle in BUNDLES:
-        try:
-            serializers_module = import_module('{}.serializers'.format(bundle))
-        except ImportError:
-            continue  # allow bundles without any serializers
+        module = safe_import_module('{}.serializers'.format(bundle))
+        if not module:
+            continue
 
-        for name, serializer in _get_members(serializers_module, is_serializer):
-            yield (name, serializer)
+        yield from _get_members(module, is_serializer)
 
 
 def get_bundle_models():
@@ -74,13 +81,11 @@ def get_bundle_models():
         return inspect.isclass(obj) and issubclass(obj, Model) and name != 'Model'
 
     for bundle in BUNDLES:
-        try:
-            models_module = import_module('{}.models'.format(bundle))
-        except ImportError:
-            continue  # allow bundles without any models
+        module = safe_import_module('{}.models'.format(bundle))
+        if not module:
+            continue
 
-        for name, model in _get_members(models_module, is_model_class):
-            yield (name, model)
+        yield from _get_members(module, is_model_class)
 
 
 def is_click_group(obj):
@@ -103,12 +108,11 @@ def get_extra_command_groups():
 def get_bundle_command_groups():
     """An iterable of (group_name, group_instance) tuples"""
     for bundle in BUNDLES:
-        try:
-            commands_module = import_module('{}.commands'.format(bundle))
-        except ImportError:
-            continue  # allow bundles without any commands
+        module = safe_import_module('{}.commands'.format(bundle))
+        if not module:
+            continue
 
-        for name, group in inspect.getmembers(commands_module, is_click_group):
+        for name, group in inspect.getmembers(module, is_click_group):
             yield (name, group)
 
 
