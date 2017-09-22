@@ -5,6 +5,14 @@ from sqlalchemy.orm.relationships import RelationshipProperty
 
 from .extensions import db
 
+
+# a bit of hackery to make type-hinting in PyCharm work correctly
+class __relationship_type_hinter__(RelationshipProperty):
+    # implement __call__ to silence the silly "not callable" warning
+    def __call__(self, *args, **kwargs):
+        pass
+
+
 # alias common names
 from sqlalchemy.ext.associationproxy import association_proxy
 Table = db.Table                # type: sqlalchemy.schema.Table
@@ -15,9 +23,9 @@ Text = db.Text                  # type: sqlalchemy.types.Text
 Integer = db.Integer            # type: sqlalchemy.types.Integer
 Boolean = db.Boolean            # type: sqlalchemy.types.Boolean
 DateTime = db.DateTime          # type: sqlalchemy.types.DateTime
-relationship = db.relationship  # type: RelationshipProperty
-backref = db.backref            # type: RelationshipProperty
-ForeignKey = db.ForeignKey
+relationship = db.relationship  # type: __relationship_type_hinter__
+backref = db.backref            # type: __relationship_type_hinter__
+ForeignKey = db.ForeignKey      # type: sqlalchemy.schema.ForeignKey
 UniqueConstraint = sqlalchemy.UniqueConstraint
 
 
