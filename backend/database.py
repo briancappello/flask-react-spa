@@ -161,23 +161,3 @@ def foreign_key(table_name, nullable=False, **kwargs):
     :param dict kwargs: any other kwargs to pass the Column constructor
     """
     return Column(Integer, db.ForeignKey(table_name + '.id'), nullable=nullable, **kwargs)
-
-
-def join_table(model_name1, model_name2, *extra_columns):
-    """Creates a join table.
-
-    Usage::
-        symbol_industry = join_table('Symbol', 'Industry')
-        class Symbol(Model):
-            industries = relationship('Industry', secondary=symbol_industry, back_populates='symbols')
-        class Industry(Model)
-            symbols = relationship('Symbol', secondary=symbol_industry, back_populates='industries')
-    """
-    table1 = model_name1.lower()
-    table2 = model_name2.lower()
-    return Table(
-        '{}_{}'.format(table1, table2),
-        Column('{}_id'.format(table1), Integer, db.ForeignKey('{}.id'.format(table1))),
-        Column('{}_id'.format(table2), Integer, db.ForeignKey('{}.id'.format(table2))),
-        *extra_columns
-    )
