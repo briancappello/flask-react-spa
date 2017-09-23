@@ -148,13 +148,15 @@ def foreign_key(table_name, nullable=False, **kwargs):
 
     For example::
 
-        class Post(database.Model):
+        class Post(Model):
             category_id = foreign_key('category')
+            category = relationship('Category', back_populates='posts')
 
     Is equivalent to::
 
-        class Post(database.Model):
-            category_id = Column(Integer, ForeignKey('category.id'))
+        class Post(Model):
+            category_id = Column(Integer, ForeignKey('category.id'), nullable=False)
+            category = relationship('Category', back_populates='posts')
 
     :param str table_name: the table name of the referenced model
     :param bool nullable: whether or not the foreign key can be null
