@@ -15,6 +15,7 @@ class __relationship_type_hinter__(RelationshipProperty):
 
 # alias common names
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 Table = db.Table                # type: sqlalchemy.schema.Table
 String = db.String              # type: sqlalchemy.types.String
 Text = db.Text                  # type: sqlalchemy.types.Text
