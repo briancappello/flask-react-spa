@@ -42,7 +42,7 @@ Dependencies:
 
 ```bash
 # install
-$ git clone https://github.com/briancappello/flask-react-spa.git
+$ git clone git@github.com:briancappello/flask-react-spa.git
 $ cd flask-react-spa
 $ mkvirtualenv -p /path/to/python3 flask_react_spa
 $ pip install -r requirements.txt
