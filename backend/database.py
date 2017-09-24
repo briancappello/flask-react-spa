@@ -1,12 +1,12 @@
 from datetime import datetime
 
 import sqlalchemy
-from sqlalchemy.orm.relationships import RelationshipProperty
 
 from .extensions import db
 
 
 # a bit of hackery to make type-hinting in PyCharm work correctly
+from sqlalchemy.orm.relationships import RelationshipProperty
 class __relationship_type_hinter__(RelationshipProperty):
     # implement __call__ to silence the silly "not callable" warning
     def __call__(self, *args, **kwargs):
@@ -93,6 +93,7 @@ class BaseModel(db.Model):
         """Update fields on the model.
 
         :param bool commit: Whether or not to immediately commit the DB session.
+        :param kwargs: The model attribute values to update the model with.
         """
         for attr, value in kwargs.items():
             setattr(self, attr, value)
