@@ -73,12 +73,13 @@ def beat():
     subprocess.run('celery beat -A wsgi.celery -l info', shell=True)
 
 
-@cli.command()
+# FIXME: document json file format, relationships
+@db_cli.command()
 @click.option('--reset/--no-reset', expose_value=True,
               prompt='Reset DB and run migrations before loading fixtures?')
 @click.argument('file', type=click.File())
 @with_appcontext
-def load_fixtures(file, reset):
+def fixtures(file, reset):
     """Load database fixtures from JSON."""
     import json
     from .extensions import db
@@ -100,8 +101,6 @@ def load_fixtures(file, reset):
     click.echo('Loading fixtures.')
     for fixture in json.load(file):
         model = models[fixture['model']]
-        # FIXME: document json file format, relationships
-        records = []
         for model_kwargs in fixture['items']:
             d = {}
             for k, v in model_kwargs.items():
@@ -112,19 +111,21 @@ def load_fixtures(file, reset):
                     d[k] = parse_date(v)
                 except:
                     d[k] = v
-            records.append(model(**d))
-        click.echo('Adding %d %s record%s.' % (len(records), fixture['model'],
-                                               's' if len(records) > 1 else ''))
-        db.session.add_all(records)
+            model.create(**d, commit=False)
+
+        count = len(fixture['items'])
+        click.echo('Adding %d %s record%s.' % (count, fixture['model'],
+                                               's' if count > 1 else ''))
 
         if is_postgres:
             seq_name = '%s_id_seq' % model.__tablename__
             if seq_name in sequences:
                 db.session.execute(
                     'ALTER SEQUENCE %s RESTART WITH :count' % seq_name,
-                    {'count': len(records) + 1}
+                    {'count': count + 1}
                 )
-        db.session.commit()
+
+    db.session.commit()
     click.echo('Done.')
 
 
