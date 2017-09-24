@@ -37,6 +37,8 @@ from .config import (
     TEMPLATE_FOLDER,
     STATIC_FOLDER,
     STATIC_URL_PATH,
+    EXTENSIONS,
+    DEFERRED_EXTENSIONS,
 )
 from .logger import logger
 from .magic import (
@@ -45,7 +47,6 @@ from .magic import (
     get_bundle_models,
     get_bundle_serializers,
     get_commands,
-    get_deferred_extensions,
     get_extensions,
 )
 
@@ -78,18 +79,18 @@ def _create_app(config_object, **kwargs):
     configure_app(app, config_object)
 
     extensions = dict(get_extensions())
-    register_extensions(app, extensions)
+    register_extensions(app, [extensions[name] for name in EXTENSIONS])
 
     register_blueprints(app)
     models = dict(get_bundle_models())
     serializers = dict(get_bundle_serializers())
     register_serializers(app, serializers)
 
-    deferred_extensions = dict(get_deferred_extensions())
-    register_extensions(app, deferred_extensions)
+    # deferred extensions
+    register_extensions(app, [extensions[name] for name in DEFERRED_EXTENSIONS])
 
     register_cli_commands(app)
-    register_shell_context(app, extensions, deferred_extensions, models, serializers)
+    register_shell_context(app, extensions, models, serializers)
 
     return app
 
@@ -114,7 +115,7 @@ def configure_app(app, config_object):
 
 def register_extensions(app, extensions):
     """Register and initialize extensions."""
-    for extension in extensions.values():
+    for extension in extensions:
         extension.init_app(app)
 
 
@@ -153,12 +154,11 @@ def register_cli_commands(app):
         app.cli.add_command(command)
 
 
-def register_shell_context(app, extensions, deferred_extensions, models, serializers):
+def register_shell_context(app, extensions, models, serializers):
     """Register variables to automatically import when running `flask shell`."""
     def shell_context():
         ctx = {}
         ctx.update(extensions)
-        ctx.update(deferred_extensions)
         ctx.update(models)
         ctx.update(serializers)
         return ctx

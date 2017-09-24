@@ -9,15 +9,27 @@ STATIC_FOLDER = os.environ.get('FLASK_STATIC_FOLDER',
                                os.path.join(PROJECT_ROOT, 'static'))
 STATIC_URL_PATH = '/static'  # serve asset files in static/ at /static/
 
-# bundle folders to register with the app, in python module dot notation
+# list of extensions to register before the bundles
+# NOTE: these must be the names of extension _instances_ (not extension class names)
+EXTENSIONS = [
+    'session',
+    'csrf',
+    'mail',
+    'db',
+    'migrate',
+    'celery',
+    'security',
+    'ma',
+]
+
+# list of bundle modules to register with the app, in dot notation
 BUNDLES = [
     'backend.site',
     'backend.auth',
     'backend.api',
 ]
 
-# normally extensions are registered before the bundles (views, models & serializers)
-# this is a list of extensions to register _after_ the bundles
+# list of extensions to register after the bundles
 # NOTE: these must be the names of extension _instances_ (not extension class names)
 DEFERRED_EXTENSIONS = [
     'api',

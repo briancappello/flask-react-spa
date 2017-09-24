@@ -5,7 +5,7 @@ from importlib import import_module
 from flask_marshmallow.sqla import ModelSchema
 from flask_sqlalchemy import Model
 
-from .config import BUNDLES, DEFERRED_EXTENSIONS
+from .config import BUNDLES
 from . import commands, extensions
 
 
@@ -22,25 +22,10 @@ def safe_import_module(module_name):
 
 def get_extensions():
     """An iterable of (extension_instance_name, extension_instance) tuples"""
-    return _get_extensions(deferred=False)
-
-
-def get_deferred_extensions():
-    """An iterable of (extension_instance_name, extension_instance) tuples"""
-    return _get_extensions(deferred=True)
-
-
-def _get_extensions(deferred):
-    """An iterable of (extension_instance_name, extension_instance) tuples"""
     def is_extension(obj):
         # we want *instantiated* extensions, not imported extension classes
         return not inspect.isclass(obj) and hasattr(obj, 'init_app')
-
-    for name, extension in inspect.getmembers(extensions, is_extension):
-        yield_deferred = deferred and name in DEFERRED_EXTENSIONS
-        yield_not_deferred = not deferred and name not in DEFERRED_EXTENSIONS
-        if yield_deferred or yield_not_deferred:
-            yield (name, extension)
+    return inspect.getmembers(extensions, is_extension)
 
 
 def get_bundle_blueprints():
