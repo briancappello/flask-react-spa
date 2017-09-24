@@ -56,6 +56,11 @@ class BaseModel(db.Model):
     """
 
     @classmethod
+    def all(cls):
+        """Get all models."""
+        return cls.query.all()
+
+    @classmethod
     def get(cls, id):
         """Get one model by ID.
 
@@ -70,6 +75,18 @@ class BaseModel(db.Model):
         :param kwargs: The model attribute values to filter by.
         """
         return cls.query.filter_by(**kwargs).first()
+
+    @classmethod
+    def get_or_create(cls, commit=True, **kwargs):
+        """Get or create model by keyword arguments.
+
+        :param bool commit: Whether or not to immediately commit the DB session (if create).
+        :param kwargs: The model attributes to get or create by.
+        """
+        instance = cls.get_by(**kwargs)
+        if not instance:
+            instance = cls.create(**kwargs, commit=commit)
+        return instance
 
     @classmethod
     def filter_by(cls, **kwargs):
