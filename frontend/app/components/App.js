@@ -18,7 +18,6 @@ import {
   SignUp,
   Styles,
   Profile,
-  Protected,
 } from 'components/Pages'
 
 import { NavBar } from 'components'
@@ -33,7 +32,6 @@ const Routes = () => (
     <Route exact path="/" component={Home} />
     <Route exact path="/about" component={About} />
     <Route exact path="/styles" component={Styles} />
-    <ProtectedRoute exact path="/protected" component={Protected} />
     <Route exact path="/contact" component={Contact} />
 
     <AnonymousRoute exact path="/sign-up" component={SignUp} />

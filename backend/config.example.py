@@ -26,7 +26,6 @@ EXTENSIONS = [
 BUNDLES = [
     'backend.site',
     'backend.auth',
-    'backend.api',
 ]
 
 # list of extensions to register after the bundles
