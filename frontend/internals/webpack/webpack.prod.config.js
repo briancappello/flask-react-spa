@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = require('./webpack.base.config.js')({
   entry: {
@@ -21,8 +22,6 @@ module.exports = require('./webpack.base.config.js')({
       minChunks: 2,
       async: true,
     }),
-
-    // Minify and optimize the index.html
     new HtmlWebpackPlugin({
       template: 'frontend/index.html',
       minify: {
@@ -39,13 +38,15 @@ module.exports = require('./webpack.base.config.js')({
       },
       inject: true,
     }),
-
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
       },
     }),
-
     new webpack.optimize.UglifyJsPlugin(),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'disabled',
+      generateStatsFile: true,
+    }),
   ],
 })

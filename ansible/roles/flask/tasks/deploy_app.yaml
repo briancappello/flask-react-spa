@@ -39,6 +39,8 @@
     dest: '{{ FLASK_STATIC_FOLDER }}'
     recursive: yes
     delete: yes
+    rsync_opts:
+      - "--exclude=*.stats"
   tags: flask.static_files
 
 - name: set ownership of static files to {{ nginx_user }}
