@@ -24,6 +24,10 @@ if (dllPlugin) {
 }
 
 module.exports = require('./webpack.base.config.js')({
+  output: {
+    filename: '[name].js',
+    chunkFilename: '[name].chunk.js',
+  },
   devtool: 'eval-source-map',
   performance: {
     hints: false,

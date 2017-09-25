@@ -1,0 +1,86 @@
+@keyframes circleFadeDelay {
+  0%, 39%, 100% { opacity: 0; }
+  40% { opacity: 1; }
+}
+
+.spinner-loading-indicator {
+  margin: 2px;
+  display: inline-block;
+  min-width: 14px;
+  min-height: 14px;
+  max-width: 40px;
+  max-height: 40px;
+  position: relative;
+  vertical-align: middle;
+
+  .spinner-circle {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    &:before {
+      content: '';
+      display: block;
+      margin: 0 auto;
+      width: 15%;
+      height: 15%;
+      border-radius: 100%;
+      animation: circleFadeDelay 1.2s infinite ease-in-out both;
+    }
+
+    &.r30 {
+      transform: rotate(30deg);
+      &:before { animation-delay: -1.1s; }
+    }
+    &.r60 {
+      transform: rotate(60deg);
+      &:before { animation-delay: -1.0s; }
+    }
+    &.r90{
+      transform: rotate(90deg);
+      &:before { animation-delay: -0.9s; }
+    }
+    &.r120{
+      transform: rotate(120deg);
+      &:before { animation-delay: -0.8s; }
+    }
+    &.r150{
+      transform: rotate(150deg);
+      &:before { animation-delay: -0.7s; }
+    }
+    &.r180{
+      transform: rotate(180deg);
+      &:before { animation-delay: -0.6s; }
+    }
+    &.r210{
+      transform: rotate(210deg);
+      &:before { animation-delay: -0.5s; }
+    }
+    &.r240{
+      transform: rotate(240deg);
+      &:before { animation-delay: -0.4s; }
+    }
+    &.r270{
+      transform: rotate(270deg);
+      &:before { animation-delay: -0.3s; }
+    }
+    &.r300{
+      transform: rotate(300deg);
+      &:before { animation-delay: -0.2s; }
+    }
+    &.r330{
+      transform: rotate(330deg);
+      &:before { animation-delay: -0.1s; }
+    }
+  }
+
+  // spinner colors
+  &.white .spinner-circle:before {
+    background-color: #fff;
+  }
+  &.black .spinner-circle:before {
+    background-color: #000;
+  }
+}

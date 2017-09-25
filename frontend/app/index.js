@@ -49,6 +49,7 @@ AuthApi.checkAuthToken(token)
 
 if (module.hot) {
   module.hot.accept('./components/App', () => {
+    ReactDOM.unmountComponentAtNode(APP_MOUNT_POINT)
     const NextApp = require('./components/App').default
     renderRootComponent(NextApp)
   })

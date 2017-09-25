@@ -15,6 +15,11 @@ module.exports = (options) => ({
   resolve: {
     modules: [APP_ROOT, STYLES_ROOT, 'node_modules'],
     extensions: ['.js', '.jsx'],
+    mainFields: [
+      'browser',
+      'jsnext:main',
+      'main',
+    ],
   },
   entry: options.entry,
   output: Object.assign(

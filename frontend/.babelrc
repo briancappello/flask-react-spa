@@ -1,7 +1,8 @@
 {
   "presets": [
-    ["es2015", { "modules": false, "loose": true }],
-    "react"
+    ["env", { "modules": false, "loose": true }],
+    "react",
+    "stage-0"
   ],
   "env": {
     "development": {

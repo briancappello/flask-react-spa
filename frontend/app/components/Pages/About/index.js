@@ -1,4 +1,9 @@
-import About from './About'
+import Loadable from 'react-loadable'
 
-export { About }
-export default About
+import Loading from 'components/Loading'
+
+
+export default Loadable({
+  loader: () => import('./About'),
+  loading: Loading,
+})
