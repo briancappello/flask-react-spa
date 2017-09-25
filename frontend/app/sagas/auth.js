@@ -14,14 +14,14 @@ import {
   resendConfirmationEmail,
   signUp,
 } from 'actions/auth'
-import { Api } from 'utils'
+import AuthApi from 'api/auth'
 import { createRoutineSaga, createRoutineFormSaga } from 'sagas'
 
 
 export const changePasswordSaga = createRoutineFormSaga(
   changePassword,
   function *successGenerator(payload) {
-    const response = yield call(Api.changePassword, payload)
+    const response = yield call(AuthApi.changePassword, payload)
     yield put(changePassword.success(response))
     yield put(flashSuccess('Your password has been successfully changed.'))
   },
@@ -30,7 +30,7 @@ export const changePasswordSaga = createRoutineFormSaga(
 export const forgotPasswordSaga = createRoutineFormSaga(
   forgotPassword,
   function *successGenerator(payload) {
-    const response = yield call(Api.forgotPassword, payload)
+    const response = yield call(AuthApi.forgotPassword, payload)
     yield put(forgotPassword.success(response))
     yield put(flashSuccess('A password reset link has been sent to your email address.'))
   },
@@ -40,7 +40,7 @@ export const resetPasswordSaga = createRoutineFormSaga(
   resetPassword,
   function *successGenerator(actionPayload) {
     const { token: resetToken, ...payload } = actionPayload
-    const { token, user } = yield call(Api.resetPassword, resetToken, payload)
+    const { token, user } = yield call(AuthApi.resetPassword, resetToken, payload)
     yield put(login.success({ token, user }))
     yield put(fetchProfile.success({ user }))
     yield put(resetPassword.success({ token, user }))
@@ -53,7 +53,7 @@ export const loginSaga = createRoutineFormSaga(
   login,
   function *successGenerator(actionPayload) {
     const { redirect, ...payload } = actionPayload
-    const response = yield call(Api.login, payload)
+    const response = yield call(AuthApi.login, payload)
     yield put(login.success(response))
     yield put(push(redirect))
     yield put(flashSuccess('You have been successfully logged in.'))
@@ -63,7 +63,7 @@ export const loginSaga = createRoutineFormSaga(
 export const logoutSaga = createRoutineSaga(
   logout,
   function *successGenerator() {
-    const response = yield call(Api.logout)
+    const response = yield call(AuthApi.logout)
     yield put(logout.success(response))
     yield put(push('/'))
     yield put(flashSuccess('You have been successfully logged out.'))
@@ -81,7 +81,7 @@ export const fetchProfileSaga = createRoutineSaga(
   fetchProfile,
   function *successGenerator() {
     const { token, user } = yield select(selectAuth)
-    const response = yield call(Api.fetchProfile, token, user)
+    const response = yield call(AuthApi.fetchProfile, token, user)
     yield put(fetchProfile.success(response))
   },
 )
@@ -89,7 +89,7 @@ export const fetchProfileSaga = createRoutineSaga(
 export const signUpSaga = createRoutineFormSaga(
   signUp,
   function *successGenerator(payload) {
-    const { token, user } = yield call(Api.signUp, payload)
+    const { token, user } = yield call(AuthApi.signUp, payload)
     yield put(signUp.success({ user }))
     if (token) {
       yield put(login.success({ token, user }))
@@ -105,7 +105,7 @@ export const updateProfileSaga = createRoutineFormSaga(
   function *successGenerator(payload) {
     yield put(flashClear())
     const { token, user } = yield select(selectAuth)
-    const response = yield call(Api.updateProfile, token, user, payload)
+    const response = yield call(AuthApi.updateProfile, token, user, payload)
     yield put(updateProfile.success({ user: response }))
     yield put(flashSuccess('Your profile has been successfully updated.'))
   },
@@ -114,7 +114,7 @@ export const updateProfileSaga = createRoutineFormSaga(
 export const resendConfirmationEmailSaga = createRoutineFormSaga(
   resendConfirmationEmail,
   function *successGenerator({ email }) {
-    const response = yield call(Api.resendConfirmationEmail, email)
+    const response = yield call(AuthApi.resendConfirmationEmail, email)
     yield put(resendConfirmationEmail.success(response))
     yield put(flashSuccess('A new confirmation link has been sent your email address.'))
   },

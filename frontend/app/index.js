@@ -10,7 +10,8 @@ import App from 'components/App'
 
 import { login, logout } from 'actions/auth'
 import { flashInfo } from 'actions/flash'
-import { Api, storage } from 'utils'
+import AuthApi from 'api/auth'
+import { storage } from 'utils'
 
 
 const APP_MOUNT_POINT = document.getElementById('app')
@@ -30,7 +31,7 @@ const renderRootComponent = (Component) => {
 
 const token = storage.getToken()
 store.dispatch(login.request())
-Api.checkAuthToken(token)
+AuthApi.checkAuthToken(token)
   .then(({ user }) => {
     store.dispatch(login.success({ token, user }))
   })

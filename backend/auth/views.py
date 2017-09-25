@@ -34,10 +34,10 @@ from backend.extensions.flask_security import register_user
 from .models import User
 
 
-auth = Blueprint('auth', __name__, url_prefix='/api/v1/auth')
+auth = Blueprint('auth', __name__, url_prefix='/auth')
 
 
-@auth.route('/login', methods=['POST'])
+@api.bp_route(auth, '/login', methods=['POST'])
 def login():
     form = _security.login_form(MultiDict(request.get_json()))
 
@@ -63,20 +63,20 @@ def login():
 
 
 # FIXME implement remember me functionality
-@auth.route('/check-auth-token')
+@api.bp_route(auth, '/check-auth-token')
 @auth_required
 def check_auth_token():
     return jsonify({'user': current_user._get_current_object()})
 
 
-@auth.route('/logout')
+@api.bp_route(auth, '/logout')
 def logout():
     if current_user.is_authenticated:
         logout_user()
     return '', HTTPStatus.NO_CONTENT
 
 
-@api.model_resource(User, '/users', '/users/<int:id>')
+@api.bp_model_resource(auth, User, '/users', '/users/<int:id>')
 class UserResource(ModelResource):
     exclude_methods = ['delete', 'list']
     method_decorators = {
@@ -127,7 +127,7 @@ def confirm_email(token):
     return redirect(get_url(_security.post_confirm_view))
 
 
-@auth.route('/resend-confirmation-email', methods=['POST'])
+@api.bp_route(auth, '/resend-confirmation-email', methods=['POST'])
 def resend_confirmation_email():
     """View function which sends confirmation instructions."""
     form = _security.send_confirmation_form(MultiDict(request.get_json()))
@@ -155,7 +155,7 @@ def forgot_password():
     return '', HTTPStatus.NO_CONTENT
 
 
-@auth.route('/change-password', methods=['POST'])
+@api.bp_route(auth, '/change-password', methods=['POST'])
 @auth_required
 def change_password():
     user = current_user._get_current_object()

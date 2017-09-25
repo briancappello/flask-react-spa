@@ -76,7 +76,7 @@ class Api(BaseApi):
 
         self._register_serializers(app, self.serializers)
 
-    def resource(self, model, *urls, **kwargs):
+    def resource(self, *urls, **kwargs):
         """Wraps a :class:`~flask_restful.Resource` class, adding it to the
         api. Parameters are the same as :meth:`~flask_restful.Api.add_resource`.
 
@@ -96,6 +96,10 @@ class Api(BaseApi):
             self.add_resource(cls, *urls, endpoint=endpoint, **kwargs)
             return cls
         return decorator
+
+    def bp_resource(self, bp, *urls, **kwargs):
+        urls = ('{}{}'.format(bp.url_prefix or '', url) for url in urls)
+        return self.resource(*urls, **kwargs)
 
     def model_resource(self, model, *urls, **kwargs):
         """Wraps a :class:`ModelResource` class, adding it to the api.
@@ -120,6 +124,10 @@ class Api(BaseApi):
             return cls
         return decorator
 
+    def bp_model_resource(self, bp, model, *urls, **kwargs):
+        urls = ('{}{}'.format(bp.url_prefix or '', url) for url in urls)
+        return self.model_resource(model, *urls, **kwargs)
+
     def serializer(self, *args):
         """Wraps a :class:`~backend.extensions.flask_marshmallow.ModelSerializer`
          class, registering the wrapped serializer as the specific one to use
@@ -143,7 +151,7 @@ class Api(BaseApi):
             return decorator(args[0])
         return decorator
 
-    def route(self, rule, **options):
+    def route(self, rule, **kwargs):
         """Decorator for registering individual view functions, like blueprints:
 
         api = Api(prefix='/api/v1')
@@ -153,16 +161,21 @@ class Api(BaseApi):
             # do stuff
         """
         def decorator(fn):
-            endpoint = self._get_endpoint(fn, options.pop('endpoint', None))
-            self.add_url_rule(rule, endpoint, fn, **options)
+            endpoint = self._get_endpoint(fn, kwargs.pop('endpoint', None))
+            self.add_url_rule(rule, endpoint, fn, **kwargs)
             return fn
         return decorator
 
-    def add_url_rule(self, rule, endpoint=None, view_func=None, **options):
+    def bp_route(self, bp, rule, **kwargs):
+        return self.route('{}{}'.format(bp.url_prefix or '', rule), **kwargs)
+
+    def add_url_rule(self, rule, endpoint=None, view_func=None, **kwargs):
         if not rule.startswith('/'):
             raise ValueError('URL rule must start with a forward slash (/)')
         rule = self.prefix + rule
-        self.record(lambda _app: _app.add_url_rule(rule, endpoint, view_func, **options))
+        self.record(
+            lambda _app: _app.add_url_rule(rule, endpoint, view_func, **kwargs)
+        )
 
     def record(self, fn):
         if self._got_registered_once:

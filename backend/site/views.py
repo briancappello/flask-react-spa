@@ -16,7 +16,7 @@ def index(path=None):
     return render_template('index.html')
 
 
-@api.model_resource(ContactSubmission, '/contact-submissions')
+@api.bp_model_resource(site, ContactSubmission, '/contact-submissions')
 class ContactSubmissionResource(ModelResource):
     include_methods = ('create',)
 

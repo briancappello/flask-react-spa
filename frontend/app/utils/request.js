@@ -1,6 +1,16 @@
 import fetch from 'isomorphic-fetch'
 import * as Cookies from 'js-cookie'
+import { stringify } from 'query-string'
 
+import { SERVER_URL } from 'config'
+
+
+export function url(uri, queryParams) {
+  const baseUrl = `${SERVER_URL}${uri}`
+  return queryParams
+    ? `${baseUrl}?${stringify(queryParams)}`
+    : baseUrl
+}
 
 export function get(url, kwargs = {}) {
   const { token, ...options } = kwargs
