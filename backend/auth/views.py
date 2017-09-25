@@ -57,7 +57,7 @@ def login():
         }), HTTPStatus.UNAUTHORIZED
 
     return jsonify({
-        'user': form.user.get_security_payload(),
+        'user': form.user,
         'token': form.user.get_auth_token(),
     })
 
