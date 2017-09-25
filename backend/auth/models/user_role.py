@@ -7,9 +7,8 @@ from backend.database import (
 
 class UserRole(BaseModel):
     """Join table between User and Role"""
-    __tablename__ = 'user_role'
-    user_id = foreign_key('user', primary_key=True)
-    role_id = foreign_key('role', primary_key=True)
+    user_id = foreign_key('User', primary_key=True)
+    role_id = foreign_key('Role', primary_key=True)
 
     user = relationship('User', back_populates='user_roles')
     role = relationship('Role', back_populates='role_users')

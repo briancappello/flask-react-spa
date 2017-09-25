@@ -1,6 +1,7 @@
-from datetime import datetime
-
 import sqlalchemy
+
+from datetime import datetime
+from flask_sqlalchemy import camel_to_snake_case
 
 from .extensions import db
 
@@ -16,7 +17,6 @@ class __relationship_type_hinter__(RelationshipProperty):
 # alias common names
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
-Table = db.Table                # type: sqlalchemy.schema.Table
 String = db.String              # type: sqlalchemy.types.String
 Text = db.Text                  # type: sqlalchemy.types.Text
 Integer = db.Integer            # type: sqlalchemy.types.Integer
@@ -162,13 +162,13 @@ class Model(BaseModel):
 # http://flask-sqlalchemy.pocoo.org/2.2/models/#many-to-many-relationships
 
 
-def foreign_key(table_name, nullable=False, **kwargs):
+def foreign_key(model_or_table_name, **kwargs):
     """Use to add a foreign key Column to a model.
 
     For example::
 
         class Post(Model):
-            category_id = foreign_key('category')
+            category_id = foreign_key('Category')
             category = relationship('Category', back_populates='posts')
 
     Is equivalent to::
@@ -177,8 +177,22 @@ def foreign_key(table_name, nullable=False, **kwargs):
             category_id = Column(Integer, ForeignKey('category.id'), nullable=False)
             category = relationship('Category', back_populates='posts')
 
-    :param str table_name: the table name of the referenced model
-    :param bool nullable: whether or not the foreign key can be null
+    :param model_or_table_name: the model or table name to link to
+
+        If given a lowercase string, it's treated as an explicit table name.
+
+        If there are any uppercase characters, it's assumed to be a model name,
+        and will be converted to snake case using the same automatic conversion
+        as Flask-SQLAlchemy does itself.
+
+        If given an instance of :class:`flask_sqlalchemy.Model`, use its
+        :attr:`__tablename__` attribute.
+
     :param dict kwargs: any other kwargs to pass the Column constructor
     """
-    return Column(Integer, db.ForeignKey(table_name + '.id'), nullable=nullable, **kwargs)
+    table_name = model_or_table_name
+    if isinstance(model_or_table_name, db.Model):
+        table_name = model_or_table_name.__tablename__
+    elif table_name != model_or_table_name.lower():
+        table_name = camel_to_snake_case(model_or_table_name)
+    return Column(Integer, db.ForeignKey('{}.id'.format(table_name)), **kwargs)
