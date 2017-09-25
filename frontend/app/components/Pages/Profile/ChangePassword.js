@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { reduxForm, reset } from 'redux-form'
+import { reduxForm, actions } from 'redux-form'
+const { reset } = actions
 
 import { changePassword } from 'actions/auth'
 import { DangerAlert } from 'components/Alert'

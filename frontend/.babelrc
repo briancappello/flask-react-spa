@@ -21,13 +21,20 @@
         "transform-class-properties",
         "transform-object-rest-spread",
         "syntax-export-extensions",
-        "transform-export-extensions"
+        "transform-export-extensions",
+        ["transform-imports", {
+          "redux-form": {
+            "transform": "redux-form/es/${member}",
+            "preventFullImport": true
+          }
+        }]
       ]
     },
     "test": {
       "presets": [
-        ["es2015"],
-        "react"
+        ["env"],
+        "react",
+        "stage-0"
       ],
       "plugins": [
         "transform-es2015-modules-commonjs",

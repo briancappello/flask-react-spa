@@ -1,7 +1,8 @@
 import React from 'react'
-import classnames from 'classnames'
-import { reduxForm, reset } from 'redux-form'
 import Helmet from 'react-helmet'
+import classnames from 'classnames'
+import { reduxForm, actions } from 'redux-form'
+const { reset } = actions
 
 import { resendConfirmationEmail } from 'actions/auth'
 import { DangerAlert } from 'components/Alert'
