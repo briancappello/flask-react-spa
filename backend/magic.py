@@ -37,7 +37,7 @@ def get_bundle_blueprints():
 
         def is_bundle_blueprint(obj):
             is_bp = isinstance(obj, flask.Blueprint)
-            return is_bp and obj.import_name == module.__name__
+            return is_bp and obj.import_name.startswith(module.__name__)
 
         for name, blueprint in inspect.getmembers(module, is_bundle_blueprint):
             # rstrip '/' off url_prefix because views should be declaring their
