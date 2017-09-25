@@ -3,7 +3,7 @@ import { routerMiddleware } from 'react-router-redux'
 import createSagaMiddleware from 'redux-saga'
 import { flashClearMiddleware } from 'middleware/flash'
 
-import rootReducer from 'reducers'
+import createReducer from 'reducers'
 import getSagas from 'sagas'
 
 
@@ -29,10 +29,15 @@ export default function configureStore(initialState, history) {
       : compose
 
   const store = createStore(
-    rootReducer,
+    createReducer(),
     initialState,
     composeEnhancers(...enhancers)
   )
+
+  // extensions
+  store.runSaga = sagaMiddleware.run
+  store.injectedReducers = {}
+  store.injectedSagas = {}
 
   let runningSagas = sagaMiddleware.run(function *() {
     yield getSagas()
@@ -40,16 +45,16 @@ export default function configureStore(initialState, history) {
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      const nextRootReducer = require('./reducers').default
-      store.replaceReducer(nextRootReducer)
+      const nextCreateReducer = require('./reducers').default
+      store.replaceReducer(nextCreateReducer(store.injectedReducers))
     })
 
     module.hot.accept('./sagas', () => {
-      const getNewSagas = require('./sagas').default
+      const nextGetSagas = require('./sagas').default
       runningSagas.cancel()
       runningSagas.done.then(() => {
         runningSagas = sagaMiddleware.run(function *() {
-          yield getNewSagas()
+          yield nextGetSagas()
         })
       })
     })

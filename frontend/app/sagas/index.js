@@ -3,7 +3,6 @@ import { SubmissionError } from 'redux-form'
 
 import { ROUTINE_PROMISE } from 'actions'
 import authSagas from './auth'
-import siteSagas from './site'
 
 
 export function createRoutineSaga(routine, successGenerator, failureGenerator) {
@@ -57,5 +56,4 @@ export function *routineWatcherSaga({ payload }) {
 export default () => [
   takeEvery(ROUTINE_PROMISE, routineWatcherSaga),
   ...authSagas(),
-  ...siteSagas(),
 ]

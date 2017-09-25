@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { flashSuccess } from 'actions/flash'
-import { contact } from 'actions/site'
+import { contact } from 'actions/contact'
 import { createRoutineFormSaga } from 'sagas'
 import SiteApi from 'api/site'
 
@@ -15,6 +15,6 @@ export const contactSaga = createRoutineFormSaga(
   }
 )
 
-export default () => [
-  takeLatest(contact.TRIGGER, contactSaga),
-]
+export default function *() {
+  yield takeLatest(contact.TRIGGER, contactSaga)
+}

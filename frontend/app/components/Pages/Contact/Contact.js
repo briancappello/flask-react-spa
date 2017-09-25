@@ -1,11 +1,16 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { reduxForm, reset } from 'redux-form'
 import Helmet from 'react-helmet'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { reduxForm, actions } from 'redux-form'
+const { reset } = actions
 
-import { contact } from 'actions/site'
+import { contact } from 'actions/contact'
 import { DangerAlert, PageContent } from 'components'
 import { EmailField, TextArea, TextField } from 'components/Form'
+
+import contactSaga from 'sagas/contact'
+import injectSaga from 'utils/injectSaga'
 
 
 const Contact = (props) => {
@@ -49,24 +54,23 @@ const Contact = (props) => {
   )
 }
 
-const ContactForm = reduxForm({
+const withConnect = connect(
+  (state) => state.auth.isAuthenticated
+    ? { initialValues: { email: state.auth.user.email } }
+    : {},
+)
+
+const withForm = reduxForm({
   form: 'contact',
   onSubmitSuccess: (_, dispatch) => {
     dispatch(reset('contact'))
   }
-})(Contact)
+})
 
-export default connect(
-  (state) => {
-    const { isAuthenticated, user } = state.auth
-    if (!isAuthenticated) {
-      return {}
-    }
+const withSaga = injectSaga({ key: 'contact', saga: contactSaga })
 
-    return {
-      initialValues: {
-        email: user.email,
-      },
-    }
-  }
-)(ContactForm)
+export default compose(
+  withConnect,
+  withForm,
+  withSaga,
+)(Contact)

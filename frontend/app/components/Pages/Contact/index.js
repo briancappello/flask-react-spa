@@ -1,4 +1,9 @@
-import { default as Contact } from './Contact'
+import Loadable from 'react-loadable'
 
-export { Contact }
-export default Contact
+import Loading from 'components/Loading'
+
+
+export default Loadable({
+  loader: () => import('./Contact'),
+  loading: Loading,
+})

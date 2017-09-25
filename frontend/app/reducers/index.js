@@ -6,12 +6,14 @@ import authReducer from './auth'
 import flashReducer from './flash'
 
 
-const rootReducer = combineReducers({
-  auth: authReducer,
-  flash: flashReducer,
+export default function createReducer(injectedReducers) {
+  return combineReducers({
+    auth: authReducer,
+    flash: flashReducer,
 
-  form: formReducer,
-  routing: routerReducer,
-})
+    form: formReducer,
+    routing: routerReducer,
 
-export default rootReducer
+    ...injectedReducers,
+  })
+}
