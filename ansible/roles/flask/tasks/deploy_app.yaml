@@ -64,7 +64,7 @@
 
 - name: run database fixtures
   when: run_fixtures is defined and run_fixtures
-  command: "{{ project_virtualenv_dir }}/bin/{{ python3 }} manage.py --env=prod --no-warn load_fixtures fixtures.json --reset"
+  command: "{{ project_virtualenv_dir }}/bin/{{ python3 }} manage.py --env=prod --no-warn db fixtures fixtures.json --reset"
   args:
     chdir: '{{ project_dir }}'
   tags: flask.run_fixtures

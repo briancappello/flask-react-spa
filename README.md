@@ -56,7 +56,7 @@ $ edit `frontend/app/config.example.js` and save as `frontend/app/config.js`
 $ python manage.py db upgrade
 
 # load db fixtures (optional)
-$ python manage.py load_fixtures fixtures.json
+$ python manage.py db fixtures fixtures.json
 
 # frontend dev server:
 $ npm run start

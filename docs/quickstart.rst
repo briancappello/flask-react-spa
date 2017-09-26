@@ -26,7 +26,7 @@ Configure:
    python manage.py db upgrade
 
    # load db fixtures (optional)
-   python manage.py load_fixtures fixtures.json
+   python manage.py db fixtures fixtures.json
 
 Run:
 ----
