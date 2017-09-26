@@ -22,14 +22,11 @@ module.exports = (options) => ({
     ],
   },
   entry: options.entry,
-  output: Object.assign(
-    {
-      path: path.join(process.cwd(), 'static'),
-      filename: '[name].js',
-      publicPath: '/static/',
-    },
-    options.output
-  ),
+  output: Object.assign({
+    path: path.join(process.cwd(), 'static'),
+    filename: '[name].js',
+    publicPath: '/static/',
+  }, options.output),
   module: {
     rules: [
       {

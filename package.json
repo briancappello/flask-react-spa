@@ -81,32 +81,7 @@
     "webpack-hot-middleware": "^2.18.2"
   },
   "dllPlugin": {
-    "path": "node_modules/flask-api-dlls",
-    "exclude": [
-      "chalk",
-      "compression",
-      "express",
-      "ip",
-      "normalize.css",
-      "super-skeleton",
-      "skeleton-scss"
-    ],
-    "include": [
-      "babel-polyfill",
-      "core-js",
-      "history",
-      "isomorphic-fetch",
-      "lodash",
-      "react",
-      "react-dom",
-      "react-helmet",
-      "react-redux",
-      "react-router-dom",
-      "react-router-redux",
-      "redux",
-      "redux-form",
-      "redux-saga"
-    ]
+    "path": "node_modules/flask-api-dlls"
   },
   "jest": {
     "collectCoverageFrom": [

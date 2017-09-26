@@ -14,7 +14,10 @@ const webpack = require('webpack')
 const pkg = require(join(process.cwd(), 'package.json'))
 const dllPlugin = require('../dllConfig').dllPlugin
 
-if (!pkg.dllPlugin) { process.exit(0) }
+if (!pkg.dllPlugin) {
+  console.error('Please configure dllPlugin setting in package.json to use webpack dll generator')
+  process.exit(1)
+}
 
 const dllConfig = defaults(pkg.dllPlugin, dllPlugin.defaults)
 const outputPath = join(process.cwd(), dllConfig.path)
