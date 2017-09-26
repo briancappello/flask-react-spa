@@ -7,8 +7,9 @@ import { parse } from 'query-string'
 
 import { login } from 'actions/auth'
 import { DangerAlert, PageContent } from 'components'
-import { Link } from 'components/Nav'
+import { NavLink } from 'components/Nav'
 import { HiddenField, PasswordField, TextField } from 'components/Form'
+import { ROUTES } from 'routes'
 
 
 const Login = (props) => {
@@ -41,12 +42,10 @@ const Login = (props) => {
               >
                 {submitting ? 'Logging in...' : 'Submit'}
               </button>
-              <Link to="/login/forgot-password"
-                    className="pull-right"
-                    style={{ lineHeight: '38px' }}
-              >
-                Forgot password?
-              </Link>
+              <NavLink to={ROUTES.ForgotPassword}
+                       className="pull-right"
+                       style={{lineHeight: '38px'}}
+              />
             </div>
           </form>
         </div>

@@ -1,4 +1,2 @@
-import Link from './Link'
-import NavBar from './NavBar'
-
-export { Link, NavBar }
+export { default as NavBar } from './NavBar'
+export { default as NavLink } from './NavLink'

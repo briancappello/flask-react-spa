@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Link from './Link'
+import { ROUTES } from 'routes'
+import NavLink from './NavLink'
 
 
 class NavBar extends React.Component {
@@ -11,13 +12,13 @@ class NavBar extends React.Component {
     return (
       <nav>
         <div className="container">
-          <Link exact to="/" className="brand">
+          <NavLink exact to={ROUTES.Home} className="brand">
             FlaskReact<span className="tld">SPA</span>
-          </Link>
+          </NavLink>
           <div className="menu left">
-            <Link to="/about">About</Link>
-            <Link to="/styles">Styles</Link>
-            <Link to="/contact">Contact</Link>
+            <NavLink to={ROUTES.About} />
+            <NavLink to={ROUTES.Styles} />
+            <NavLink to={ROUTES.Contact} />
           </div>
           <div className="menu right">
             {isAuthenticated
@@ -33,8 +34,8 @@ class NavBar extends React.Component {
   renderAuthenticatedMenu() {
     return (
       <div>
-        <Link to="/profile">Profile</Link>
-        <Link to="/logout">Logout</Link>
+        <NavLink to={ROUTES.Profile} />
+        <NavLink to={ROUTES.Logout} />
       </div>
     )
   }
@@ -42,8 +43,8 @@ class NavBar extends React.Component {
   renderUnauthenticatedMenu() {
     return (
       <div>
-        <Link to="/sign-up">Sign Up</Link>
-        <Link to="/login">Login</Link>
+        <NavLink to={ROUTES.SignUp} />
+        <NavLink to={ROUTES.Login} />
       </div>
     )
   }
@@ -52,6 +53,6 @@ class NavBar extends React.Component {
 export default connect(
   (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
-    routing: state.routing, // required for <Link> components to work correctly
+    routing: state.routing, // required for <NavLink> components to work correctly
   }),
 )(NavBar)
