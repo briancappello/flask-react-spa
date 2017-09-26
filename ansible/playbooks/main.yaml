@@ -90,12 +90,12 @@
   user: deploy
   become: yes
   roles:
+    - role: iptables
     - when: redhat_family
       role: geerlingguy.repo-epel
     - when: redhat_family
       role: repo-ius
     - role: base
-    - role: iptables
     - role: ANXS.postgresql
       vars:
         postgresql_version: 9.6
