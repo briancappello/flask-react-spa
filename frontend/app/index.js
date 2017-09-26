@@ -8,7 +8,7 @@ import createHistory from 'history/createBrowserHistory'
 import configureStore from 'configureStore'
 import App from 'components/App'
 
-import { login, logout } from 'actions/auth'
+import { login } from 'actions/auth'
 import { flashInfo } from 'actions/flash'
 import AuthApi from 'api/auth'
 import { storage } from 'utils'
@@ -36,9 +36,10 @@ AuthApi.checkAuthToken(token)
     store.dispatch(login.success({ token, user }))
   })
   .catch(() => {
-    store.dispatch(logout.success())
+    store.dispatch(login.failure())
   })
   .then(() => {
+    store.dispatch(login.fulfill())
     renderRootComponent(App)
     const isAuthenticated = store.getState().auth.isAuthenticated
     const alreadyHasFlash = store.getState().flash.visible

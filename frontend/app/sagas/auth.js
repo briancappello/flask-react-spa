@@ -1,4 +1,4 @@
-import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
 
 import { selectAuth } from 'reducers/auth'
@@ -9,7 +9,6 @@ import {
   resetPassword,
   login,
   logout,
-  fetchProfile,
   updateProfile,
   resendConfirmationEmail,
   signUp,
@@ -41,8 +40,6 @@ export const resetPasswordSaga = createRoutineFormSaga(
   function *successGenerator(actionPayload) {
     const { token: resetToken, ...payload } = actionPayload
     const { token, user } = yield call(AuthApi.resetPassword, resetToken, payload)
-    yield put(login.success({ token, user }))
-    yield put(fetchProfile.success({ user }))
     yield put(resetPassword.success({ token, user }))
     yield put(push('/'))
     yield put(flashSuccess('Welcome back! Your password has been successfully changed.'))
@@ -55,7 +52,6 @@ export const loginSaga = createRoutineFormSaga(
     const { redirect, ...payload } = actionPayload
     const response = yield call(AuthApi.login, payload)
     yield put(login.success(response))
-    yield put(fetchProfile.success(response))
     yield put(push(redirect))
     yield put(flashSuccess('You have been successfully logged in.'))
   },
@@ -68,22 +64,6 @@ export const logoutSaga = createRoutineSaga(
     yield put(logout.success(response))
     yield put(push('/'))
     yield put(flashSuccess('You have been successfully logged out.'))
-  },
-)
-
-export function *maybeFetchProfileSaga() {
-  const { isAuthenticated, profile: { isLoading, isLoaded } } = yield select(selectAuth)
-  if (isAuthenticated && !(isLoaded || isLoading)) {
-    yield put(fetchProfile.trigger())
-  }
-}
-
-export const fetchProfileSaga = createRoutineSaga(
-  fetchProfile,
-  function *successGenerator() {
-    const { token, user } = yield select(selectAuth)
-    const response = yield call(AuthApi.fetchProfile, token, user)
-    yield put(fetchProfile.success({ user: response }))
   },
 )
 
@@ -127,8 +107,6 @@ export default () => [
   takeLatest(resetPassword.TRIGGER, resetPasswordSaga),
   takeLatest(login.TRIGGER, loginSaga),
   takeLatest(logout.TRIGGER, logoutSaga),
-  takeEvery(fetchProfile.MAYBE_TRIGGER, maybeFetchProfileSaga),
-  takeLatest(fetchProfile.TRIGGER, fetchProfileSaga),
   takeLatest(resendConfirmationEmail.TRIGGER, resendConfirmationEmailSaga),
   takeLatest(signUp.TRIGGER, signUpSaga),
   takeLatest(updateProfile.TRIGGER, updateProfileSaga),

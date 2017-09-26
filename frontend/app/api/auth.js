@@ -26,10 +26,6 @@ export default class Auth {
     return get(authV1('/check-auth-token'), { token })
   }
 
-  static fetchProfile(token, user) {
-    return get(authV1(`/users/${user.id}`), { token })
-  }
-
   static forgotPassword(payload) {
     return post(authUrl('/reset'), payload)
   }
