@@ -1,6 +1,7 @@
 import React from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { reduxForm } from 'redux-form'
+import reduxForm from 'redux-form/es/reduxForm'
 
 import { bindRoutineCreators } from 'actions'
 import { fetchProfile, updateProfile } from 'actions/auth'
@@ -38,11 +39,16 @@ class UserInfo extends React.Component {
   }
 }
 
-const UserInfoForm = reduxForm({
+const withForm = reduxForm({
   form: 'userInfo',
-})(UserInfo)
+})
 
-export default connect(
+const withConnect = connect(
   (state) => ({ initialValues: state.auth.user }),
   (dispatch) => bindRoutineCreators({ fetchProfile }, dispatch),
-)(UserInfoForm)
+)
+
+export default compose(
+  withConnect,
+  withForm,
+)(UserInfo)

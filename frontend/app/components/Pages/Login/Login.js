@@ -1,12 +1,12 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
-import { reduxForm } from 'redux-form'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import reduxForm from 'redux-form/es/reduxForm'
 import { parse } from 'query-string'
 
 import { login } from 'actions/auth'
-import { DangerAlert } from 'components/Alert'
-import { PageContent } from 'components/Content'
+import { DangerAlert, PageContent } from 'components'
 import { Link } from 'components/Nav'
 import { HiddenField, PasswordField, TextField } from 'components/Form'
 
@@ -55,14 +55,19 @@ const Login = (props) => {
   )
 }
 
-const LoginForm = reduxForm({
+const withForm = reduxForm({
   form: 'login',
-})(Login)
+})
 
-export default connect(
+const withConnect = connect(
   (state, props) => ({
     initialValues: {
       redirect: parse(props.location.search).next || '/',
-    },
-  }),
-)(LoginForm)
+    }
+  })
+)
+
+export default compose(
+  withConnect,
+  withForm,
+)(Login)

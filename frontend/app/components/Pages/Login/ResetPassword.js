@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { reduxForm } from 'redux-form'
+import reduxForm from 'redux-form/es/reduxForm'
 import Helmet from 'react-helmet'
 
 import { resetPassword } from 'actions/auth'

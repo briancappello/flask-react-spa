@@ -1,7 +1,8 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import { reduxForm, actions } from 'redux-form'
-const { reset } = actions
+import reduxForm from 'redux-form/es/reduxForm'
+import formActions from 'redux-form/es/actions'
+const { reset } = formActions
 
 import { forgotPassword } from 'actions/auth'
 import { DangerAlert } from 'components/Alert'

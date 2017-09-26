@@ -1,8 +1,10 @@
 import React from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { reduxForm, actions } from 'redux-form'
-const { reset } = actions
+import reduxForm from 'redux-form/es/reduxForm'
+import formActions from 'redux-form/es/actions'
+const { reset } = formActions
 
 import { changePassword } from 'actions/auth'
 import { DangerAlert } from 'components/Alert'
@@ -90,11 +92,16 @@ class ChangePassword extends React.Component {
   }
 }
 
-const ChangePasswordForm = reduxForm({
+const withForm = reduxForm({
   form: FORM_NAME,
-})(ChangePassword)
+})
 
-export default connect(
+const withConnect = connect(
   (state) => ({}),
   (dispatch) => bindActionCreators({ reset }, dispatch),
-)(ChangePasswordForm)
+)
+
+export default compose(
+  withConnect,
+  withForm,
+)(ChangePassword)

@@ -1,5 +1,5 @@
 import React from 'react'
-import { reduxForm } from 'redux-form'
+import reduxForm from 'redux-form/es/reduxForm'
 import Helmet from 'react-helmet'
 
 import { signUp } from 'actions/auth'
