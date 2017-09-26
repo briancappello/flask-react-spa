@@ -53,8 +53,9 @@ application_log_dir: '/var/log/{{ project_name }}'
 uwsgi_log_file: '{{ application_log_dir }}/uwsgi_supervisor.log'
 uwsgi_socket_path: '/var/run/uwsgi/{{ project_name }}.sock'
 
-nginx_access_log_file: '{{ application_log_dir }}/nginx_access.log'
-nginx_error_log_file: '{{ application_log_dir }}/nginx_error.log'
+nginx_log_dir: /var/log/nginx
+nginx_access_log_file: '{{ nginx_log_dir }}/{{ project_name }}_access.log'
+nginx_error_log_file: '{{ nginx_log_dir }}/{{ project_name }}_error.log'
 
 # *********************************************************************************
 # Host Operating System variables used to control execution of specific tasks
