@@ -2,7 +2,7 @@
 
 A **production-ready** boilerplate built with **Python 3**, **Flask** and **ES6 React**.
 
-## [React](https://facebook.github.io/react/) Frontend
+## [React v16](https://facebook.github.io/react/) Frontend
 
 - [Redux](http://redux.js.org/), [Redux-Form](https://redux-form.com) and [Redux-Saga](https://redux-saga.js.org/) for handling state and side effects
 - [React Router v4](https://reacttraining.com/react-router/web)
