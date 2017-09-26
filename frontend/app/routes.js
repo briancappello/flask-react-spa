@@ -2,8 +2,8 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import startCase from 'lodash/startCase'
 
-import * as pageComponents from 'components/Pages'
-import { NotFound } from 'components/Pages'
+import * as pages from 'pages'
+import { NotFound } from 'pages'
 import { AnonymousRoute, ProtectedRoute } from 'utils/route'
 
 
@@ -14,7 +14,6 @@ import { AnonymousRoute, ProtectedRoute } from 'utils/route'
  * Values are URL paths (in React Router path notation)
  */
 export const ROUTES = {
-  // ComponentName: path
   Home: '/',
   About: '/about',
   Styles: '/styles',
@@ -32,11 +31,11 @@ export const ROUTES = {
 /**
  * extra route details
  *
- * keys: ComponentName
+ * keys: path
  * values: Object with possible keys of:
  *  - label: string, label to use for links (default: startCase(ComponentName))
- *  - Component: The component to use (default: pageComponents[ComponentName])
- *  - RouteComponent: AnonymousRoute, ProtectedRoute or Route (default)
+ *  - Component: The component to use (default: pages[ComponentName])
+ *  - RouteComponent: AnonymousRoute, ProtectedRoute or Route (default: Route)
  */
 const extraRouteDetails = {
   [ROUTES.SignUp]: { RouteComponent: AnonymousRoute },
@@ -58,7 +57,7 @@ Object.keys(ROUTES).forEach((componentName) => {
   ROUTE_MAP[path] = {
     name: componentName,
     label: routeDetails && routeDetails.label || startCase(componentName),
-    Component: routeDetails && routeDetails.Component || pageComponents[componentName],
+    Component: routeDetails && routeDetails.Component || pages[componentName],
     RouteComponent: routeDetails && routeDetails.RouteComponent || Route,
   }
 })
@@ -77,9 +76,8 @@ const cachedRoutes = Object.keys(ROUTE_MAP).map((path) => {
 })
 cachedRoutes.push(<Route component={NotFound} key="*" />)
 
-export const Routes = () => (
+export default () => (
   <Switch>
     {cachedRoutes}
   </Switch>
 )
-export default Routes
