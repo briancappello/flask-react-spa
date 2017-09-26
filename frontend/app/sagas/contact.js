@@ -15,6 +15,6 @@ export const contactSaga = createRoutineFormSaga(
   }
 )
 
-export default function *() {
-  yield takeLatest(contact.TRIGGER, contactSaga)
-}
+export default () => [
+  takeLatest(contact.TRIGGER, contactSaga)
+]

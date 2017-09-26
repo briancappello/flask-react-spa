@@ -10,8 +10,8 @@ import { contact } from 'actions/contact'
 import { DangerAlert, PageContent } from 'components'
 import { EmailField, TextArea, TextField } from 'components/Form'
 
-import contactSaga from 'sagas/contact'
-import injectSaga from 'utils/injectSaga'
+import contactSagas from 'sagas/contact'
+import injectSagas from 'utils/injectSagas'
 
 
 const Contact = (props) => {
@@ -68,7 +68,7 @@ const withForm = reduxForm({
   }
 })
 
-const withSaga = injectSaga({ key: 'contact', saga: contactSaga })
+const withSaga = injectSagas({ key: 'contact', sagas: contactSagas })
 
 export default compose(
   withConnect,
