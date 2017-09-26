@@ -1,9 +1,6 @@
-import Loadable from 'react-loadable'
-
-import Loading from 'components/Loading'
+import { Loadable } from 'components'
 
 
 export default Loadable({
   loader: () => import('./About'),
-  loading: Loading,
 })

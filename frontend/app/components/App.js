@@ -20,7 +20,7 @@ import {
   Profile,
 } from 'components/Pages'
 
-import { NavBar } from 'components'
+import { NavBar, ProgressBar } from 'components'
 import { SITE_NAME, COPYRIGHT } from 'config'
 import { AnonymousRoute, ProtectedRoute } from 'utils'
 
@@ -55,6 +55,7 @@ const AppLayout = () => (
     <Helmet titleTemplate={`%s - ${SITE_NAME}`}
             defaultTitle={SITE_NAME}
     />
+    <ProgressBar />
     <header>
       <NavBar />
     </header>
