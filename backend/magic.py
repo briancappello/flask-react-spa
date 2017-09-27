@@ -1,6 +1,5 @@
 import click
 import flask
-import itertools
 import inspect
 from importlib import import_module
 from flask_marshmallow.sqla import ModelSchema
@@ -21,41 +20,25 @@ def safe_import_module(module_name):
             raise e
 
 
-def group_members_by_module(module_names):
-    """Groups a list of dot-notation imports by module name
-    For example, given input of [
-        'one.a',
-        'one.b',
-        'two.ext.c',
-        'two.ext.d',
-        'three.sub.ext.e',
-    ]
-    Then the result will be [
-        ('one', {'a', 'b'}),
-        ('two.ext', {'c', 'd'}),
-        ('three.sub.ext', {'e'}),
-    ]
-    """
-    # itertools.groupby needs its keys (module names) already sorted
-    pairs = sorted((x.rsplit('.', maxsplit=1) for x in module_names),
-                   key=lambda x: x[0])
-    return ((module_name, set(x[1] for x in group))
-            for module_name, group in itertools.groupby(pairs,
-                                                        key=lambda x: x[0]))
-
-
 def get_extensions(import_names):
     """An iterable of (instance_name, extension_instance) tuples"""
     def is_extension(obj):
         # we want *instantiated* extensions, not imported extension classes
         return not inspect.isclass(obj) and hasattr(obj, 'init_app')
-    for module_name, members in group_members_by_module(import_names):
-        module = import_module(module_name)
-        for name, ext in inspect.getmembers(module, is_extension):
-            if name in members:
-                members.discard(name)
-                yield name, ext
-        if members:
+
+    module_extensions = {}
+    for import_name in import_names:
+        module_name, extension_name = import_name.rsplit(':')
+
+        if module_name not in module_extensions:
+            module = import_module(module_name)
+            module_extensions[module_name] = dict(
+                inspect.getmembers(module, is_extension))
+
+        members = module_extensions[module_name]
+        if extension_name in members:
+            yield extension_name, members[extension_name]
+        else:
             from warnings import warn
             singular = len(members) == 1
             warn('Could not find the %s extension%s in the %s module'
