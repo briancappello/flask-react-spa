@@ -34,10 +34,14 @@ from backend.extensions.flask_security import register_user
 from .models import User
 
 
-auth = Blueprint('auth', __name__, url_prefix='/auth')
+# blueprint must be named security for compatibility with Flask-Security
+# (this way we can override its views and email templates without breaking
+#  logic internal to Flask-Security)
+security = Blueprint('security', __name__, url_prefix='/auth',
+                     template_folder='templates')
 
 
-@api.bp_route(auth, '/login', methods=['POST'])
+@api.bp_route(security, '/login', methods=['POST'])
 def login():
     form = _security.login_form(MultiDict(request.get_json()))
 
@@ -63,20 +67,20 @@ def login():
 
 
 # FIXME implement remember me functionality
-@api.bp_route(auth, '/check-auth-token')
+@api.bp_route(security, '/check-auth-token')
 @auth_required
 def check_auth_token():
     return jsonify({'user': current_user._get_current_object()})
 
 
-@api.bp_route(auth, '/logout')
+@api.bp_route(security, '/logout')
 def logout():
     if current_user.is_authenticated:
         logout_user()
     return '', HTTPStatus.NO_CONTENT
 
 
-@api.bp_model_resource(auth, User, '/users', '/users/<int:id>')
+@api.bp_model_resource(security, User, '/users', '/users/<int:id>')
 class UserResource(ModelResource):
     exclude_methods = ['delete', 'list']
     method_decorators = {
@@ -100,6 +104,7 @@ class UserResource(ModelResource):
         return self.created(user, save=False)
 
 
+@security.route('/confirm/<token>', methods=['GET'])
 def confirm_email(token):
     """View function which handles a email confirmation request."""
 
@@ -127,7 +132,7 @@ def confirm_email(token):
     return redirect(get_url(_security.post_confirm_view))
 
 
-@api.bp_route(auth, '/resend-confirmation-email', methods=['POST'])
+@api.bp_route(security, '/resend-confirmation-email', methods=['POST'])
 def resend_confirmation_email():
     """View function which sends confirmation instructions."""
     form = _security.send_confirmation_form(MultiDict(request.get_json()))
@@ -140,6 +145,7 @@ def resend_confirmation_email():
     return '', HTTPStatus.NO_CONTENT
 
 
+@security.route('/reset', methods=['POST'])
 @anonymous_user_required
 def forgot_password():
     """View function that handles a forgotten password request."""
@@ -153,7 +159,7 @@ def forgot_password():
     return '', HTTPStatus.NO_CONTENT
 
 
-@api.bp_route(auth, '/change-password', methods=['POST'])
+@api.bp_route(security, '/change-password', methods=['POST'])
 @auth_required
 def change_password():
     user = current_user._get_current_object()
@@ -168,6 +174,7 @@ def change_password():
     return jsonify({'token': user.get_auth_token()})
 
 
+@security.route('/reset/<token>', methods=['GET', 'POST'])
 @anonymous_user_required
 def reset_password(token):
     """View function that handles a reset password request."""

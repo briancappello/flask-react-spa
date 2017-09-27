@@ -1,21 +1,15 @@
 from http import HTTPStatus
-from flask import abort, Blueprint, url_for
+from flask import abort
 from flask_login import current_user, login_user, logout_user
 from flask_principal import identity_loaded, RoleNeed
 from flask_security import Security as BaseSecurity
-from flask_security.core import _security, url_for_security
+from flask_security.core import _context_processor
 from flask_security.signals import user_confirmed
 from werkzeug.local import LocalProxy
-from werkzeug.routing import BuildError
 
 from backend.config import ROLE_HIERARCHY
 
 from .forms import ChangePasswordForm, ResetPasswordForm
-
-
-security_bp = Blueprint('security', 'flask_security',
-                        template_folder='templates',
-                        url_prefix='/auth')
 
 
 class Security(BaseSecurity):
@@ -35,8 +29,8 @@ class Security(BaseSecurity):
             # set an optional custom anonymous user class
             'anonymous_user': None,
 
-            # set a custom forms (NOTE: we don't use all of the Flask-Security
-            # forms, instead sometimes Marshmallow serializers are used)
+            # set custom forms (NOTE: we don't always use Flask-Security forms,
+            # instead sometimes Marshmallow serializers are used)
             'login_form': None,
             'change_password_form': ChangePasswordForm,
             'reset_password_form': ResetPasswordForm,
@@ -60,36 +54,8 @@ class Security(BaseSecurity):
         if self.confirmable:
             user_confirmed.connect_via(app)(_on_user_confirmed)
 
-        # we still need to register a blueprint under the flask_security namespace
-        # so that its email templates can be loaded/extended/overwritten
         if not self._kwargs['register_blueprint']:
-            from backend.auth.views import (
-                confirm_email,
-                forgot_password,
-                reset_password,
-            )
-            if self.confirmable:
-                security_bp.route('/confirm/<token>',
-                                  methods=['GET'],
-                                  endpoint='confirm_email')(confirm_email)
-            if self.recoverable:
-                security_bp.route('/reset',
-                                  methods=['POST'],
-                                  endpoint='forgot_password')(forgot_password)
-                security_bp.route('/reset/<token>',
-                                  methods=['GET', 'POST'],
-                                  endpoint='reset_password')(reset_password)
-            app.register_blueprint(security_bp)
             app.context_processor(_context_processor)
-
-
-def _context_processor():
-    def url_maybe_for_security(endpoint, **kwargs):
-        try:
-            return url_for_security(endpoint, **kwargs)
-        except BuildError:
-            return url_for('auth.{}'.format(endpoint), **kwargs)
-    return dict(url_for_security=url_maybe_for_security, security=_security)
 
 
 def unauthorized_handler():
