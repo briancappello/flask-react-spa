@@ -1,8 +1,8 @@
 import re
 from bs4 import BeautifulSoup
 
-from backend.extensions.flask_mail import mail
-from backend.extensions.flask_celery import celery
+from backend.extensions.celery import celery
+from backend.extensions.mail import mail
 
 
 @celery.task(serializer='pickle')

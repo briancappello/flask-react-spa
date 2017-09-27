@@ -2,7 +2,7 @@ import html
 import re
 
 from marshmallow import fields, pre_load
-from backend.extensions.flask_marshmallow import ModelSerializer
+from backend.api import ModelSerializer
 
 from ..models import ContactSubmission
 

@@ -1,6 +1,7 @@
 from flask import Blueprint, current_app, render_template
 
-from backend.flask_restful import api, ModelResource
+from backend.api import ModelResource
+from backend.extensions import api
 from backend.utils import send_mail
 
 from .models import ContactSubmission

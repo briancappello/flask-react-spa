@@ -2,10 +2,11 @@ import re
 from flask_login import current_user
 from marshmallow import fields, validates, ValidationError
 
-from backend.extensions.flask_marshmallow import ModelSerializer
-from backend.security.models import User
+from backend.api import ModelSerializer
 
-non_alphanumeric_re = re.compile(r'[^\w]')
+from ..models import User
+
+NON_ALPHANUMERIC_RE = re.compile(r'[^\w]')
 
 
 class UserSerializer(ModelSerializer):
@@ -26,7 +27,7 @@ class UserSerializer(ModelSerializer):
 
     @validates('username')
     def validate_username(self, username):
-        if re.search(non_alphanumeric_re, username):
+        if re.search(NON_ALPHANUMERIC_RE, username):
             raise ValidationError('Username should only contain letters, numbers and/or the underscore character.')
 
         existing = User.get_by(username=username)

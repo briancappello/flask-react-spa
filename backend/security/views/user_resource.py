@@ -4,7 +4,8 @@ from flask_security.signals import user_registered
 from flask_security.utils import config_value, login_user, send_mail
 from flask_security.views import _commit, _security
 
-from backend.flask_restful import api, ModelResource, CREATE, GET, PATCH
+from backend.api import ModelResource, CREATE, GET, PATCH
+from backend.extensions import api
 
 from .blueprint import security
 from ..decorators import anonymous_user_required, auth_required_same_user

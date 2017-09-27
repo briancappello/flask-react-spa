@@ -129,13 +129,13 @@ class Api(BaseApi):
         return self.model_resource(model, *urls, **kwargs)
 
     def serializer(self, *args):
-        """Wraps a :class:`~backend.extensions.flask_marshmallow.ModelSerializer`
+        """Wraps a :class:`~backend.api.ModelSerializer`
          class, registering the wrapped serializer as the specific one to use
          for the serializer's model. Does not take any arguments.
 
          Example::
-            from backend.flask_restful import api
-            from backend.extensions.flask_marshmallow import ModelSerializer
+            from backend.extensions import api
+            from backend.api import ModelSerializer
             from models import Foo
 
             @api.serializer  # @api.serializer() works too

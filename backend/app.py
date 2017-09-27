@@ -9,13 +9,9 @@ All views/models should be contained in bundle folders.
 Views should be in a file named `views.py` containing the flask.Blueprint instance.
 Models should be in a file named `models.py` and should extend database.Model
 Serializers should be in a file named `serializers.py` and should extend
- flask_marshmallow.sqla.ModelSchema or backend.extensions.flask_marshmallow.ModelSerializer
+ flask_marshmallow.sqla.ModelSchema or backend.api.ModelSerializer
 Commands should be in a file named `commands.py` containing a click.Group instance.
 Finally, each bundle folder must be registered in `config.py`
-
-EXTENSIONS
------------------------------
-All extensions should be instantiated in `extensions/__init__.py`
 
 CLI COMMANDS
 -----------------------------
@@ -40,7 +36,6 @@ from .config import (
     EXTENSIONS,
     DEFERRED_EXTENSIONS,
 )
-from .flask_restful import api
 from .logger import logger
 from .magic import (
     get_bundle_blueprints,
@@ -140,6 +135,7 @@ def register_serializers(app, serializers):
     # FIXME there's almost certainly a better way to do this, perhaps somehow
     # register the serializers with the app itself, and then any extension can
     # later ask the app for the serializers?
+    from .extensions import api
     api.serializers = _serializers
 
 

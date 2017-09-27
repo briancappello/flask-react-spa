@@ -9,29 +9,29 @@ STATIC_FOLDER = os.environ.get('FLASK_STATIC_FOLDER',
                                os.path.join(PROJECT_ROOT, 'static'))
 STATIC_URL_PATH = '/static'  # serve asset files in static/ at /static/
 
-# ordered list of extensions to register before the bundles
-# syntax is import.name.in.dot.module.notation:extension_instance_name
-EXTENSIONS = [
-    'backend.extensions:session',   # should be first
-    'backend.extensions:csrf',      # should be second
-    'backend.extensions:db',
-    'backend.extensions:migrate',   # must come after db
-    'backend.extensions.flask_celery:celery',
-    'backend.extensions.flask_mail:mail',
-    'backend.extensions.flask_marshmallow:ma',  # must come after db
-    'backend.security:security',    # must come after celery and mail
-]
-
 # list of bundle modules to register with the app, in dot notation
 BUNDLES = [
     'backend.site',
     'backend.security',
 ]
 
+# ordered list of extensions to register before the bundles
+# syntax is import.name.in.dot.module.notation:extension_instance_name
+EXTENSIONS = [
+    'backend.extensions:session',               # should be first
+    'backend.extensions:csrf',                  # should be second
+    'backend.extensions:db',
+    'backend.extensions:migrate',               # must come after db
+    'backend.extensions.celery:celery',
+    'backend.extensions.mail:mail',
+    'backend.extensions.marshmallow:ma',        # must come after db
+    'backend.extensions.security:security',     # must come after celery and mail
+]
+
 # list of extensions to register after the bundles
 # syntax is import.name.in.dot.module.notation:extension_instance_name
 DEFERRED_EXTENSIONS = [
-    'backend.flask_restful:api',
+    'backend.extensions:api',
 ]
 
 # Declare role inheritances

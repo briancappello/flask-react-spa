@@ -1,3 +1,4 @@
+from backend.api import Api
 from flask_migrate import Migrate
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
@@ -17,3 +18,10 @@ db = SQLAlchemy(metadata=MetaData(naming_convention={
     'pk': 'pk_%(table_name)s',
 }))
 migrate = Migrate(db=db, render_as_batch=True)
+
+# Flask-Restful must be initialized _AFTER_ the SQLAlchemy extension has
+# been initialized, AND after all views, models, and serializers have
+# been imported. This is because the @api decorators create deferred
+# registrations that depend upon said dependencies having all been
+# completed before Api().init_app() gets called
+api = Api(prefix='/api/v1')
