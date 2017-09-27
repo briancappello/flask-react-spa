@@ -8,7 +8,7 @@ from flask_security.views import _security, _commit
 from http import HTTPStatus
 from werkzeug.datastructures import MultiDict
 
-from backend.extensions import api
+from backend.flask_restful import api
 
 from .blueprint import frontend, security
 

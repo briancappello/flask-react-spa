@@ -31,7 +31,7 @@ BUNDLES = [
 # list of extensions to register after the bundles
 # syntax is import.name.in.dot.module.notation:extension_instance_name
 DEFERRED_EXTENSIONS = [
-    'backend.extensions:api',
+    'backend.flask_restful:api',
 ]
 
 # Declare role inheritances

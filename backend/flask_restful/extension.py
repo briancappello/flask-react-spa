@@ -134,7 +134,7 @@ class Api(BaseApi):
          for the serializer's model. Does not take any arguments.
 
          Example::
-            from backend.extensions import api
+            from backend.flask_restful import api
             from backend.extensions.flask_marshmallow import ModelSerializer
             from models import Foo
 

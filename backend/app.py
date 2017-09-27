@@ -40,6 +40,7 @@ from .config import (
     EXTENSIONS,
     DEFERRED_EXTENSIONS,
 )
+from .flask_restful import api
 from .logger import logger
 from .magic import (
     get_bundle_blueprints,
@@ -139,7 +140,6 @@ def register_serializers(app, serializers):
     # FIXME there's almost certainly a better way to do this, perhaps somehow
     # register the serializers with the app itself, and then any extension can
     # later ask the app for the serializers?
-    from backend.extensions import api
     api.serializers = _serializers
 
 
