@@ -1,5 +1,5 @@
 from backend.extensions.flask_marshmallow import ModelSerializer
-from backend.auth.models import Role
+from backend.security.models import Role
 
 
 class RoleSerializer(ModelSerializer):

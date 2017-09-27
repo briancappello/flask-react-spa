@@ -25,7 +25,7 @@ EXTENSIONS = [
 # list of bundle modules to register with the app, in dot notation
 BUNDLES = [
     'backend.site',
-    'backend.auth',
+    'backend.security',
 ]
 
 # list of extensions to register after the bundles

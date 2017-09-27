@@ -29,7 +29,7 @@ celery = FlaskCelery('backend.app')
 
 # configure Flask-Security
 # we cannot import the User/Role models here, or it will cause a circular
-# dependency. instead, backend.auth.models imports user_datastore and
+# dependency. instead, backend.security.models imports user_datastore and
 # sets the user_model/role_model attributes on the datastore itself
 user_datastore = SQLAlchemyUserDatastore(db, None, None)
 security = Security(datastore=user_datastore)

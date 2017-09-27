@@ -23,7 +23,7 @@ class Security(BaseSecurity):
     def __init__(self, app=None, datastore=None, **kwargs):
         self._kwargs = {
             # disable flask_security's views (their json handling isn't so great)
-            # instead we provide our own views in backend.auth.views
+            # instead we provide our own views in backend.security.views
             'register_blueprint': False,
 
             # set an optional custom anonymous user class

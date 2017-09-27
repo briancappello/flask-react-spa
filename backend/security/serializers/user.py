@@ -3,7 +3,7 @@ from flask_login import current_user
 from marshmallow import fields, validates, ValidationError
 
 from backend.extensions.flask_marshmallow import ModelSerializer
-from backend.auth.models import User
+from backend.security.models import User
 
 non_alphanumeric_re = re.compile(r'[^\w]')
 
