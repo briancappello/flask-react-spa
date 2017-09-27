@@ -11,7 +11,7 @@ import { DangerAlert } from 'components/Alert'
 import { PasswordField } from 'components/Form'
 
 import changePasswordSagas from 'sagas/auth/changePassword'
-import injectSagas from 'utils/injectSagas'
+import { injectSagas } from 'utils/async'
 
 
 const FORM_NAME = 'changePassword'

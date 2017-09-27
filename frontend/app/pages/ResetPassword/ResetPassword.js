@@ -9,9 +9,8 @@ import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
 import { HiddenField, PasswordField } from 'components/Form'
 
-import { DAEMON } from 'utils/constants'
 import resetPasswordSagas from 'sagas/auth/resetPassword'
-import injectSagas from 'utils/injectSagas'
+import { DAEMON, injectSagas } from 'utils/async'
 
 
 const FORM_NAME = 'resetPassword'

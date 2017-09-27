@@ -5,16 +5,16 @@ import Field from 'redux-form/es/Field'
 
 
 export const EmailField = (props) =>
-  <Field type="email" component={_renderInput} {...props} />
+  <Field component={_renderInput} type="email" {...props} />
 
 export const HiddenField = (props) =>
-  <Field type="hidden" component="input" {...props} />
+  <Field component="input" type="hidden" {...props} />
 
 export const PasswordField = (props) =>
-  <Field type="password" component={_renderInput} {...props} />
+  <Field component={_renderInput} type="password" {...props} />
 
 export const TextField = (props) =>
-  <Field type="text" component={_renderInput} {...props} />
+  <Field component={_renderInput} type="text" {...props} />
 
 export const TextArea = (props) =>
   <Field component={_renderTextArea} {...props} />
@@ -26,9 +26,6 @@ const _renderTextArea = (props) => _renderField({ component: 'textarea', ...prop
 
 const _renderField = ({ component: Component, input, label, meta, required, ...props }) => {
   const { touched, error, warning } = meta
-  const { name } = input
-  const id = name
-  label = label || startCase(name)
 
   const hasError = () => {
     if (touched && error) return 'error'
@@ -36,12 +33,18 @@ const _renderField = ({ component: Component, input, label, meta, required, ...p
     return null
   }
 
+  const { name } = input
+  label = label || startCase(name)
+
   return (
-    <div className={`row ${classnames({ error: hasError() })}`}>
-      <label htmlFor={id} className={classnames({ required })}>
+    <div className={`row ${classnames({
+      error: hasError() === 'error',
+      warning: hasError() === 'warning',
+    })}`}>
+      <label htmlFor={name} className={classnames({ required })}>
         {label}
       </label>
-      <Component id={id} {...input} placeholder={label} {...props} />
+      <Component id={name} {...input} placeholder={label} {...props} />
       {hasError() && <div className="help">{error || warning}</div>}
     </div>
   )

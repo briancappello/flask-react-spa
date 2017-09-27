@@ -79,8 +79,10 @@ export default function(state = initialState, action) {
           isLoaded: true,
         },
       }
+
+    default:
+      return state
   }
-  return state
 }
 
 export const selectAuth = (state) => state.auth

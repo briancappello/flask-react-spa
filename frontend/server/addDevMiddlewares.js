@@ -20,6 +20,7 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
   // artifacts, we use it instead
   const fs = middleware.fileSystem
 
+  // serve webpack's generated index.html for all remaining requests
   app.get('*', (req, res) => {
     fs.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {
       if (err) {

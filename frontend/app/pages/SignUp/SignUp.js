@@ -9,7 +9,7 @@ import { PageContent } from 'components/Content'
 import { EmailField, PasswordField, TextField } from 'components/Form'
 
 import signUpSagas from 'sagas/auth/signUp'
-import injectSagas from 'utils/injectSagas'
+import { injectSagas } from 'utils/async'
 
 
 const FORM_NAME = 'signUp'

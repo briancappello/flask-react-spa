@@ -11,7 +11,7 @@ import { DangerAlert, PageContent } from 'components'
 import { EmailField, TextArea, TextField } from 'components/Form'
 
 import contactSagas from 'sagas/contact'
-import injectSagas from 'utils/injectSagas'
+import { injectSagas } from 'utils/async'
 
 
 const FORM_NAME = 'contact'

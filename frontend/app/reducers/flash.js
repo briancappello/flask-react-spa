@@ -1,5 +1,3 @@
-import createReducer from './createReducer'
-
 import {
   FLASH_SUCCESS,
   FLASH_INFO,
@@ -16,36 +14,41 @@ export const initialState = {
   visible: false,
 }
 
-export default createReducer(initialState, {
-  [FLASH_SUCCESS]: (state, payload) => {
-    return {
-      ...payload,
-      visible: true,
-      severity: 'success',
-    }
-  },
-  [FLASH_INFO]: (state, payload) => {
-    return {
-      ...payload,
-      visible: true,
-      severity: 'info',
-    }
-  },
-  [FLASH_WARNING]: (state, payload) => {
-    return {
-      ...payload,
-      visible: true,
-      severity: 'warning',
-    }
-  },
-  [FLASH_DANGER]: (state, payload) => {
-    return {
-      ...payload,
-      visible: true,
-      severity: 'danger',
-    }
-  },
-  [FLASH_CLEAR]: (state, payload) => {
-    return initialState
-  },
-})
+export default (state = initialState, action) => {
+  const { type, payload } = action
+  switch (type) {
+    case FLASH_CLEAR:
+      return initialState
+
+    case FLASH_SUCCESS:
+      return {
+        ...payload,
+        visible: true,
+        severity: 'success',
+      }
+
+    case FLASH_INFO:
+      return {
+        ...payload,
+        visible: true,
+        severity: 'info',
+      }
+
+    case FLASH_WARNING:
+      return {
+        ...payload,
+        visible: true,
+        severity: 'warning',
+      }
+
+    case FLASH_DANGER:
+      return {
+        ...payload,
+        visible: true,
+        severity: 'danger',
+      }
+
+    default:
+      return state
+  }
+}

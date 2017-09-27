@@ -11,9 +11,8 @@ import { NavLink } from 'components/Nav'
 import { HiddenField, PasswordField, TextField } from 'components/Form'
 import { ROUTES } from 'routes'
 
-import { DAEMON } from 'utils/constants'
 import loginSagas from 'sagas/auth/login'
-import injectSagas from 'utils/injectSagas'
+import { DAEMON, injectSagas } from 'utils/async'
 
 
 const FORM_NAME = 'login'

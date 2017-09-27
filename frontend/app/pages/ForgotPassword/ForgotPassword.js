@@ -11,7 +11,7 @@ import { PageContent } from 'components/Content'
 import { EmailField } from 'components/Form'
 
 import forgotPasswordSagas from 'sagas/auth/forgotPassword'
-import injectSagas from 'utils/injectSagas'
+import { injectSagas } from 'utils/async'
 
 
 const FORM_NAME = 'forgotPassword'

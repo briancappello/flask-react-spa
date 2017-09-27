@@ -5,9 +5,8 @@ import { connect } from 'react-redux'
 import { bindRoutineCreators } from 'actions'
 import { logout } from 'actions/auth'
 
-import { DAEMON } from 'utils/constants'
 import logoutSagas from 'sagas/auth/logout'
-import injectSagas from 'utils/injectSagas'
+import { DAEMON, injectSagas } from 'utils/async'
 
 
 class Logout extends React.Component {

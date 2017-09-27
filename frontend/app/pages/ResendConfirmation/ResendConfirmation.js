@@ -12,7 +12,7 @@ import { PageContent } from 'components/Content'
 import { EmailField } from 'components/Form'
 
 import resendConfirmationSagas from 'sagas/auth/resendConfirmation'
-import injectSagas from 'utils/injectSagas'
+import { injectSagas } from 'utils/async'
 
 
 const FORM_NAME = 'resendConfirmation'

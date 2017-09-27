@@ -18,10 +18,7 @@ const UnconnectedProtectedRoute = (props) => {
   return <Route {...routeProps} render={(props) => (
     isAuthenticated
       ? <Component {...props} />
-      : <Redirect to={{
-          pathname: '/login',
-          search: `?next=${location.pathname}`,
-        }} />
+      : <Redirect to={{ pathname: '/login', search: `?next=${location.pathname}`}} />
   )} />
 }
 
@@ -48,9 +45,7 @@ class UnconnectedAnonymousRoute extends React.Component {
       ...routeProps,
     } = this.props
 
-    return <Route {...routeProps} render={(props) => (
-      <Component {...props} />
-    )} />
+    return <Route {...routeProps} render={(props) => <Component {...props} />} />
   }
 }
 

@@ -17,9 +17,7 @@ export default function configureStore(initialState, history) {
   let middlewares = [
     sagaMiddleware,
     routerMiddleware(history),
-    loadingBarMiddleware({
-      promiseTypeSuffixes: ['TRIGGER', 'FULFILL'],
-    }),
+    loadingBarMiddleware({ promiseTypeSuffixes: ['TRIGGER', 'FULFILL'] }),
     flashClearMiddleware,
   ]
 

@@ -9,7 +9,7 @@ import { DangerAlert } from 'components/Alert'
 import { EmailField, TextField } from 'components/Form'
 
 import updateProfileSagas from 'sagas/auth/updateProfile'
-import injectSagas from 'utils/injectSagas'
+import { injectSagas } from 'utils/async'
 
 
 const FORM_NAME = 'updateProfile'

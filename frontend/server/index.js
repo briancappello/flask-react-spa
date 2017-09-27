@@ -1,12 +1,14 @@
-/* eslint consistent-return:0 */
-
+/**
+ * this frontend dev server code is adapted from react-boilerplate:
+ * https://github.com/react-boilerplate/react-boilerplate/tree/c28e1539cefb3957fb4cfd848bf1efd34a0725d8/server
+ */
 const express = require('express')
 const proxy = require('express-http-proxy')
 const url = require('url')
 const logger = require('./logger')
 
 const argv = require('minimist')(process.argv.slice(2))
-const addDevMiddlewares = require('./middlewares/addDevMiddlewares')
+const addDevMiddlewares = require('./addDevMiddlewares')
 const webpackConfig = require('../internals/webpack/webpack.dev.config')
 const isDev = process.env.NODE_ENV !== 'production'
 const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngrok') : false
