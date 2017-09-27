@@ -224,8 +224,13 @@ def url(url, method):
         rule, arguments = current_app.url_map.bind('localhost')\
             .match(url, method=method, return_rule=True)
         _print_url_rules(
-            ('Rule', 'View', 'Arguments', 'Options'),
-            [(rule.rule, _get_rule_view(rule), _format_dict(arguments), _format_rule_options(rule))]
+            ('Rule', 'Endpoint', 'View', 'Arguments', 'Options'),
+            [(rule.rule,
+              rule.endpoint,
+              _get_rule_view(rule),
+              _format_dict(arguments),
+              _format_rule_options(rule),
+              )]
         )
     except (NotFound, MethodNotAllowed) as e:
         _print_url_rules(('Rule',), [('<{}>'.format(e),)])
@@ -241,8 +246,12 @@ def urls(order):
         key=lambda rule: getattr(rule, order)
     )
     _print_url_rules(
-        ('Rule', 'View', 'Options'),
-        [(rule.rule, _get_rule_view(rule), _format_rule_options(rule)) for rule in rules]
+        ('Rule', 'Endpoint', 'View', 'Options'),
+        [(rule.rule,
+          rule.endpoint,
+          _get_rule_view(rule),
+          _format_rule_options(rule),
+          ) for rule in rules]
     )
 
 
