@@ -25,6 +25,10 @@ export function createRoutineSaga(routine, successGenerator, failureGenerator) {
 
 export function createRoutineFormSaga(routine, successGenerator) {
   return createRoutineSaga(routine, successGenerator, function *onError(e) {
+    if (!e.response) {
+      // something unexpected went wrong, probably in the successGenerator fn
+      throw e
+    }
     const error = new SubmissionError(Object.assign(
       { _error: e.response.error || null },
       e.response.errors || {},
