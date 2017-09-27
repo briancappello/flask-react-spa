@@ -1,6 +1,8 @@
+from flask_marshmallow import Marshmallow
 from marshmallow import pre_load, post_dump
 
-from backend.extensions import ma
+
+ma = Marshmallow()
 
 
 class ModelSerializer(ma.ModelSchema):

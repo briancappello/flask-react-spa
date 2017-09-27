@@ -8,6 +8,7 @@ from flask_security.signals import user_confirmed
 from werkzeug.local import LocalProxy
 
 from backend.config import ROLE_HIERARCHY
+from backend.tasks import send_mail_async_task
 
 from .forms import ChangePasswordForm, ResetPasswordForm
 
@@ -63,7 +64,6 @@ def unauthorized_handler():
 
 
 def send_mail_async(msg):
-    from backend.tasks import send_mail_async_task
     if isinstance(msg.sender, LocalProxy):
         msg.sender = msg.sender._get_current_object()
     return send_mail_async_task.delay(msg)

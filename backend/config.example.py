@@ -16,9 +16,9 @@ EXTENSIONS = [
     'backend.extensions:csrf',      # should be second
     'backend.extensions:db',
     'backend.extensions:migrate',   # must come after db
-    'backend.extensions:celery',
-    'backend.extensions:mail',
-    'backend.extensions:ma',  # must come after db
+    'backend.extensions.flask_celery:celery',
+    'backend.extensions.flask_mail:mail',
+    'backend.extensions.flask_marshmallow:ma',  # must come after db
     'backend.security:security',    # must come after celery and mail
 ]
 

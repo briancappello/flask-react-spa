@@ -39,3 +39,6 @@ class FlaskCelery(Celery):
         if value:
             self._preconf[key] = value
             self._preconf_set_by_auto.add(key)
+
+
+celery = FlaskCelery('backend.app')

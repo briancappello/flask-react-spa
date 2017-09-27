@@ -1,18 +1,14 @@
-from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from sqlalchemy import MetaData
 
-from .flask_celery import FlaskCelery
-from .flask_mail import Mail
 from .flask_restful import Api
 
 
 session = Session()
 csrf = CSRFProtect()
-mail = Mail()
 
 # configure SQLAlchemy
 db = SQLAlchemy(metadata=MetaData(naming_convention={
@@ -23,13 +19,6 @@ db = SQLAlchemy(metadata=MetaData(naming_convention={
     'pk': 'pk_%(table_name)s',
 }))
 migrate = Migrate(db=db, render_as_batch=True)
-
-celery = FlaskCelery('backend.app')
-
-# configure Flask-Marshmallow
-# even though it's not explicit, Flask-Marshmallow depends on SQLAlchemy
-# and therefore must come after it
-ma = Marshmallow()
 
 # Flask-Restful must be initialized _AFTER_ the SQLAlchemy extension has
 # been initialized, AND after all views, models, and serializers have
