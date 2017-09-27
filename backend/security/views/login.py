@@ -10,9 +10,10 @@ from werkzeug.datastructures import MultiDict
 
 from backend.extensions import api
 
-from .blueprint import security
+from .blueprint import frontend, security
 
 
+@frontend.route('/login')
 @api.bp_route(security, '/login', methods=['POST'])
 def login():
     form = _security.login_form(MultiDict(request.get_json()))

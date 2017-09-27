@@ -1,4 +1,4 @@
-from .blueprint import security
+from .blueprint import frontend, security
 from .change_password import change_password
 from .check_auth_token import check_auth_token
 from .confirm_email import confirm_email

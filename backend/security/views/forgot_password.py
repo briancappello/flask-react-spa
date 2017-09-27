@@ -4,10 +4,11 @@ from flask_security.views import _security
 from http import HTTPStatus
 from werkzeug.datastructures import MultiDict
 
-from .blueprint import security
+from .blueprint import frontend, security
 from ..decorators import anonymous_user_required
 
 
+@frontend.route('/login/forgot-password')
 @security.route('/reset', methods=['POST'])
 @anonymous_user_required
 def forgot_password():

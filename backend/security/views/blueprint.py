@@ -5,3 +5,8 @@ from flask import Blueprint
 #  logic internal to Flask-Security)
 security = Blueprint('security', __name__, url_prefix='/auth',
                      template_folder='templates')
+
+
+# a bit of a hack so we can use flask's url_for to generate links to the
+# frontend router (useful for email templates)
+frontend = Blueprint('frontend', __name__)
