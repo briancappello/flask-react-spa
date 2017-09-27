@@ -28,7 +28,7 @@ from backend.decorators import (
     auth_required_same_user,
 )
 from backend.extensions import api
-from backend.extensions.flask_restful import ModelResource
+from backend.extensions.flask_restful import ModelResource, CREATE, GET, PATCH
 from backend.extensions.flask_security import register_user
 
 from .models import User
@@ -82,11 +82,10 @@ def logout():
 
 @api.bp_model_resource(security, User, '/users', '/users/<int:id>')
 class UserResource(ModelResource):
-    exclude_methods = ['delete', 'list']
+    include_methods = [CREATE, GET, PATCH]
     method_decorators = {
-        'get': [auth_required_same_user],
-        'patch': [auth_required_same_user],
-        'put': [auth_required_same_user],
+        GET: [auth_required_same_user],
+        PATCH: [auth_required_same_user],
     }
 
     @anonymous_user_required
