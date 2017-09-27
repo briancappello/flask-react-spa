@@ -19,7 +19,7 @@ class ChangePasswordFormMixin(object):
         validators=[password_required, password_length]
     )
 
-    newPasswordConfirm = PasswordField(
+    confirmNewPassword = PasswordField(
         'Confirm New Password',
         validators=[password_required,
                     EqualTo('newPassword', message='RETYPE_PASSWORD_MISMATCH')]

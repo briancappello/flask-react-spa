@@ -30,7 +30,7 @@ const ResetPassword = (props) => {
         <PasswordField name="newPassword"
                        autoFocus
         />
-        <PasswordField name="newPasswordConfirm"
+        <PasswordField name="confirmNewPassword"
                        label="Confirm New Password"
         />
         <div className="row">

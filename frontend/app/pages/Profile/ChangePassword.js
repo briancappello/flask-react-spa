@@ -59,7 +59,7 @@ class ChangePassword extends React.Component {
           <PasswordField name="newPassword"
                          label="New Password"
           />
-          <PasswordField name="newPasswordConfirm"
+          <PasswordField name="confirmNewPassword"
                          label="Confirm New Password"
           />
           <div className="row">

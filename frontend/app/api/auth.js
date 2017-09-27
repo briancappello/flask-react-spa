@@ -18,39 +18,71 @@ function authV1(uri, queryParams) {
 }
 
 export default class Auth {
-  static changePassword(payload) {
-    return post(authV1('/change-password'), payload)
+  /**
+   * @param {string} password
+   * @param {string} newPassword
+   * @param {string} confirmNewPassword
+   */
+  static changePassword({ password, newPassword, confirmNewPassword }) {
+    return post(authV1('/change-password'), { password, newPassword, confirmNewPassword })
   }
 
+  /**
+   * @param {string} token The user's auth token
+   */
   static checkAuthToken(token) {
     return get(authV1('/check-auth-token'), { token })
   }
 
-  static forgotPassword(payload) {
-    return post(authUrl('/reset'), payload)
+  /**
+   * @param {string} email
+   */
+  static forgotPassword({ email }) {
+    return post(authUrl('/reset'), { email })
   }
 
-  static login(payload) {
-    return post(authV1('/login'), payload)
+  /**
+   * @param {string} email The username or email to authenticate
+   * @param {string} password
+   */
+  static login({ email, password }) {
+    return post(authV1('/login'), { email, password })
   }
 
   static logout() {
     return get(authV1('/logout'))
   }
 
+  /**
+   * @param {string} email
+   */
   static resendConfirmationEmail(email) {
     return post(authV1('/resend-confirmation-email'), { email })
   }
 
-  static resetPassword(token, payload) {
-    return post(authUrl(`/reset/${token}`), payload)
+  /**
+   * @param {string} token The reset token from the URL
+   * @param {string} newPassword
+   * @param {string} confirmNewPassword
+   */
+  static resetPassword(token, { newPassword, confirmNewPassword }) {
+    return post(authUrl(`/reset/${token}`), { newPassword, confirmNewPassword })
   }
 
-  static signUp(payload) {
-    return post(authV1('/users'), payload)
+  /**
+   * @param {string} username
+   * @param {string} email
+   * @param {string} password
+   */
+  static signUp({ username, email, password }) {
+    return post(authV1('/users'), { username, email, password })
   }
 
-  static updateProfile(token, user, payload) {
-    return patch(authV1(`/users/${user.id}`), payload, { token })
+  /**
+   * @param {object} user The user whose profile is being updated
+   * @param {object} payload Any modified fields to be updated
+   */
+  static updateProfile(user, payload) {
+    return patch(authV1(`/users/${user.id}`), payload)
   }
 }

@@ -3,7 +3,12 @@ import { v1 } from './versions'
 
 
 export default class Site {
-  static contact(payload) {
-    return post(v1('/contact-submissions'), payload)
+  /**
+   * @param {string} name
+   * @param {string} email
+   * @param {string} message
+   */
+  static contact({ name, email, message }) {
+    return post(v1('/contact-submissions'), { name, email, message })
   }
 }

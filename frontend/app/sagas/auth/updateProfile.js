@@ -11,9 +11,9 @@ export const updateProfileSaga = createRoutineFormSaga(
   updateProfile,
   function *successGenerator(payload) {
     yield put(flashClear())
-    const { token, user } = yield select(selectAuth)
-    const response = yield call(AuthApi.updateProfile, token, user, payload)
-    yield put(updateProfile.success({ user: response }))
+    const { user } = yield select(selectAuth)
+    const updatedUser = yield call(AuthApi.updateProfile, user, payload)
+    yield put(updateProfile.success({ user: updatedUser }))
     yield put(flashSuccess('Your profile has been successfully updated.'))
   },
 )
