@@ -9,8 +9,8 @@ import { createRoutineFormSaga } from 'sagas'
 export const forgotPasswordSaga = createRoutineFormSaga(
   forgotPassword,
   function *successGenerator(payload) {
-    const response = yield call(AuthApi.forgotPassword, payload)
-    yield put(forgotPassword.success(response))
+    yield call(AuthApi.forgotPassword, payload)
+    yield put(forgotPassword.success())
     yield put(flashSuccess('A password reset link has been sent to your email address.'))
   },
 )

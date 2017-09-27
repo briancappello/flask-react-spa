@@ -1,4 +1,5 @@
 import {
+  changePassword,
   login,
   logout,
   resetPassword,
@@ -61,6 +62,11 @@ export default function(state = initialState, action) {
         profile: { ...state.profile,
           isLoading: false,
         },
+      }
+
+    case changePassword.SUCCESS:
+      return { ...state,
+        token: payload.token,
       }
 
     case updateProfile.SUCCESS:

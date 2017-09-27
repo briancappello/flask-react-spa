@@ -10,8 +10,8 @@ import { createRoutineSaga } from 'sagas'
 export const logoutSaga = createRoutineSaga(
   logout,
   function *successGenerator() {
-    const response = yield call(AuthApi.logout)
-    yield put(logout.success(response))
+    yield call(AuthApi.logout)
+    yield put(logout.success())
     yield put(push('/'))
     yield put(flashSuccess('You have been successfully logged out.'))
   },

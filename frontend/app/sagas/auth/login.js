@@ -11,8 +11,8 @@ export const loginSaga = createRoutineFormSaga(
   login,
   function *successGenerator(actionPayload) {
     const { redirect, ...payload } = actionPayload
-    const response = yield call(AuthApi.login, payload)
-    yield put(login.success(response))
+    const { token, user } = yield call(AuthApi.login, payload)
+    yield put(login.success({ token, user }))
     yield put(push(redirect))
     yield put(flashSuccess('You have been successfully logged in.'))
   },

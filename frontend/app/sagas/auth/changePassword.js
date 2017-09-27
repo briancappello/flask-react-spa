@@ -9,8 +9,8 @@ import { createRoutineFormSaga } from 'sagas'
 export const changePasswordSaga = createRoutineFormSaga(
   changePassword,
   function *successGenerator(payload) {
-    const response = yield call(AuthApi.changePassword, payload)
-    yield put(changePassword.success(response))
+    const { token } = yield call(AuthApi.changePassword, payload)
+    yield put(changePassword.success({ token }))
     yield put(flashSuccess('Your password has been successfully changed.'))
   },
 )

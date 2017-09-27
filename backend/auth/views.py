@@ -134,8 +134,7 @@ def resend_confirmation_email():
 
     if form.validate_on_submit():
         send_confirmation_instructions(form.user)
-
-    if form.errors:
+    else:
         return jsonify({'errors': form.errors}), HTTPStatus.BAD_REQUEST
 
     return '', HTTPStatus.NO_CONTENT
@@ -148,8 +147,7 @@ def forgot_password():
 
     if form.validate_on_submit():
         send_reset_password_instructions(form.user)
-
-    if form.errors:
+    else:
         return jsonify({'errors': form.errors}), HTTPStatus.BAD_REQUEST
 
     return '', HTTPStatus.NO_CONTENT
@@ -164,8 +162,7 @@ def change_password():
     if form.validate_on_submit():
         after_this_request(_commit)
         change_user_password(user, form.newPassword.data)
-
-    if form.errors:
+    else:
         return jsonify({'errors': form.errors}), HTTPStatus.BAD_REQUEST
 
     return jsonify({'token': user.get_auth_token()})
@@ -195,9 +192,10 @@ def reset_password(token):
         after_this_request(_commit)
         update_password(user, form.newPassword.data)
         login_user(user)
-        return jsonify({
-            'token': user.get_auth_token(),
-            'user': user,
-        })
+    else:
+        return jsonify({'errors': form.errors}), HTTPStatus.BAD_REQUEST
 
-    return jsonify({'errors': form.errors}), HTTPStatus.BAD_REQUEST
+    return jsonify({
+        'token': user.get_auth_token(),
+        'user': user,
+    })

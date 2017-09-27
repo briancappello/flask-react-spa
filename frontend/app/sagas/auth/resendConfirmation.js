@@ -9,8 +9,8 @@ import { createRoutineFormSaga } from 'sagas'
 export const resendConfirmationEmailSaga = createRoutineFormSaga(
   resendConfirmationEmail,
   function *successGenerator({ email }) {
-    const response = yield call(AuthApi.resendConfirmationEmail, email)
-    yield put(resendConfirmationEmail.success(response))
+    yield call(AuthApi.resendConfirmationEmail, email)
+    yield put(resendConfirmationEmail.success())
     yield put(flashSuccess('A new confirmation link has been sent your email address.'))
   },
 )
