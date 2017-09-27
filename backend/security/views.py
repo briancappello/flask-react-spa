@@ -166,15 +166,12 @@ def reset_password(token):
     expired, invalid, user = reset_password_token_status(token)
 
     # NOTE: these redirect URLs are for the _frontend_ router!
-
     if invalid:
         return redirect('/login/forgot-password?invalid')
-
-    if expired:
+    elif expired:
         send_reset_password_instructions(user)
         return redirect('/login/forgot-password?expired')
-
-    if request.method == 'GET':
+    elif request.method == 'GET':
         return redirect('/login/reset-password/%s' % token)
 
     form = _security.reset_password_form()
