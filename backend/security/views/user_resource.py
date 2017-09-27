@@ -4,6 +4,36 @@ from flask_security.signals import user_registered
 from flask_security.utils import config_value, login_user, send_mail
 from flask_security.views import _commit, _security
 
+from backend.extensions import api
+from backend.extensions.flask_restful import ModelResource, CREATE, GET, PATCH
+
+from .blueprint import security
+from ..decorators import anonymous_user_required, auth_required_same_user
+from ..models import User
+
+
+@api.bp_model_resource(security, User, '/users', '/users/<int:id>')
+class UserResource(ModelResource):
+    include_methods = [CREATE, GET, PATCH]
+    method_decorators = {
+        GET: [auth_required_same_user],
+        PATCH: [auth_required_same_user],
+    }
+
+    @anonymous_user_required
+    def create(self, user, errors):
+        if errors:
+            return self.errors(errors)
+
+        # complete registration, save user to db, and maybe log them in
+        user_logged_in = register_user(user)
+        if user_logged_in:
+            return self.created({
+                'token': user.get_auth_token(),
+                'user': user,
+            }, save=False)
+        return self.created(user, save=False)
+
 
 def register_user(user):
     """Performs the user registration process.
