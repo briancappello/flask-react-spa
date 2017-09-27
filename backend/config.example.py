@@ -12,14 +12,14 @@ STATIC_URL_PATH = '/static'  # serve asset files in static/ at /static/
 # list of extensions to register before the bundles
 # NOTE: these must be the names of extension _instances_ (not extension class names)
 EXTENSIONS = [
-    'session',
-    'csrf',
-    'mail',
-    'db',
-    'migrate',
-    'celery',
-    'security',
-    'ma',
+    'backend.extensions.session',
+    'backend.extensions.csrf',
+    'backend.extensions.mail',
+    'backend.extensions.db',
+    'backend.extensions.migrate',
+    'backend.extensions.celery',
+    'backend.extensions.ma',
+    'backend.security.security',
 ]
 
 # list of bundle modules to register with the app, in dot notation
@@ -31,7 +31,7 @@ BUNDLES = [
 # list of extensions to register after the bundles
 # NOTE: these must be the names of extension _instances_ (not extension class names)
 DEFERRED_EXTENSIONS = [
-    'api',
+    'backend.extensions.api',
 ]
 
 # Declare role inheritances

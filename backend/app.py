@@ -78,16 +78,17 @@ def _create_app(config_object, **kwargs):
     app = Flask(__name__, **kwargs)
     configure_app(app, config_object)
 
-    extensions = dict(get_extensions())
-    register_extensions(app, [extensions[name] for name in EXTENSIONS])
+    extensions = dict(get_extensions(EXTENSIONS))
+    register_extensions(app, extensions)
 
     register_blueprints(app)
     models = dict(get_bundle_models())
     serializers = dict(get_bundle_serializers())
     register_serializers(app, serializers)
 
-    # deferred extensions
-    register_extensions(app, [extensions[name] for name in DEFERRED_EXTENSIONS])
+    deferred_extensions = dict(get_extensions(DEFERRED_EXTENSIONS))
+    extensions.update(deferred_extensions)
+    register_extensions(app, deferred_extensions)
 
     register_cli_commands(app)
     register_shell_context(app, extensions, models, serializers)
@@ -115,7 +116,7 @@ def configure_app(app, config_object):
 
 def register_extensions(app, extensions):
     """Register and initialize extensions."""
-    for extension in extensions:
+    for extension in extensions.values():
         extension.init_app(app)
 
 

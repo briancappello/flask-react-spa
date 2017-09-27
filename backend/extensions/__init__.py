@@ -5,8 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from sqlalchemy import MetaData
 
-from backend.security import Security, SQLAlchemyUserDatastore
-
 from .flask_celery import FlaskCelery
 from .flask_mail import Mail
 from .flask_restful import Api
@@ -27,13 +25,6 @@ db = SQLAlchemy(metadata=MetaData(naming_convention={
 migrate = Migrate(db=db, render_as_batch=True)
 
 celery = FlaskCelery('backend.app')
-
-# configure Flask-Security
-# we cannot import the User/Role models here, or it will cause a circular
-# dependency. instead, backend.security.models imports user_datastore and
-# sets the user_model/role_model attributes on the datastore itself
-user_datastore = SQLAlchemyUserDatastore(db, None, None)
-security = Security(datastore=user_datastore)
 
 # configure Flask-Marshmallow
 # even though it's not explicit, Flask-Marshmallow depends on SQLAlchemy

@@ -1,12 +1,13 @@
 import click
 import flask
+import itertools
 import inspect
 from importlib import import_module
 from flask_marshmallow.sqla import ModelSchema
 from flask_sqlalchemy import Model
 
 from .config import BUNDLES
-from . import commands, extensions
+from . import commands
 
 
 def safe_import_module(module_name):
@@ -20,12 +21,50 @@ def safe_import_module(module_name):
             raise e
 
 
-def get_extensions():
-    """An iterable of (extension_instance_name, extension_instance) tuples"""
+def group_members_by_module(module_names):
+    """Groups a list of dot-notation imports by module name
+    For example, given input of [
+        'one.a',
+        'one.b',
+        'two.ext.c',
+        'two.ext.d',
+        'three.sub.ext.e',
+    ]
+    Then the result will be [
+        ('one', {'a', 'b'}),
+        ('two.ext', {'c', 'd'}),
+        ('three.sub.ext', {'e'}),
+    ]
+    """
+    # itertools.groupby needs its keys (module names) already sorted
+    pairs = sorted((x.rsplit('.', maxsplit=1) for x in module_names),
+                   key=lambda x: x[0])
+    return ((module_name, set(x[1] for x in group))
+            for module_name, group in itertools.groupby(pairs,
+                                                        key=lambda x: x[0]))
+
+
+def get_extensions(import_names):
+    """An iterable of (instance_name, extension_instance) tuples"""
     def is_extension(obj):
         # we want *instantiated* extensions, not imported extension classes
         return not inspect.isclass(obj) and hasattr(obj, 'init_app')
-    return inspect.getmembers(extensions, is_extension)
+    for module_name, members in group_members_by_module(import_names):
+        module = import_module(module_name)
+        for name, ext in inspect.getmembers(module, is_extension):
+            if name in members:
+                members.discard(name)
+                yield name, ext
+        if members:
+            from warnings import warn
+            singular = len(members) == 1
+            warn('Could not find the %s extension%s in the %s module'
+                 ' (did you forget to instantiate %s?)' % (
+                    ', '.join(members),
+                    '' if not singular else 's',
+                    module_name,
+                    'it' if not singular else 'them',
+                 ))
 
 
 def get_bundle_blueprints():
