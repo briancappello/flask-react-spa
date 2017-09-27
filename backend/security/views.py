@@ -158,21 +158,6 @@ def forgot_password():
     return '', HTTPStatus.NO_CONTENT
 
 
-@api.bp_route(security, '/change-password', methods=['POST'])
-@auth_required
-def change_password():
-    user = current_user._get_current_object()
-    form = _security.change_password_form(MultiDict(request.get_json()))
-
-    if form.validate_on_submit():
-        after_this_request(_commit)
-        change_user_password(user, form.newPassword.data)
-    else:
-        return jsonify({'errors': form.errors}), HTTPStatus.BAD_REQUEST
-
-    return jsonify({'token': user.get_auth_token()})
-
-
 @security.route('/reset/<token>', methods=['GET', 'POST'])
 @anonymous_user_required
 def reset_password(token):
@@ -205,3 +190,18 @@ def reset_password(token):
         'token': user.get_auth_token(),
         'user': user,
     })
+
+
+@api.bp_route(security, '/change-password', methods=['POST'])
+@auth_required
+def change_password():
+    user = current_user._get_current_object()
+    form = _security.change_password_form(MultiDict(request.get_json()))
+
+    if form.validate_on_submit():
+        after_this_request(_commit)
+        change_user_password(user, form.newPassword.data)
+    else:
+        return jsonify({'errors': form.errors}), HTTPStatus.BAD_REQUEST
+
+    return jsonify({'token': user.get_auth_token()})
