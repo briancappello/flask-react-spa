@@ -1,4 +1,4 @@
-from ..database import (
+from backend.database import (
     Model,
     Column,
     String,

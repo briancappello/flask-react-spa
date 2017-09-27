@@ -3,7 +3,7 @@ from flask_login import current_user
 from marshmallow import fields, validates, ValidationError
 
 from backend.extensions.flask_marshmallow import ModelSerializer
-from backend.auth.models import User, Role
+from backend.auth.models import User
 
 non_alphanumeric_re = re.compile(r'[^\w]')
 
@@ -37,9 +37,3 @@ class UserSerializer(ModelSerializer):
     def validate_password(self, value):
         if not value or len(value) < 8:
             raise ValidationError('Password must be at least 8 characters long.')
-
-
-class RoleSerializer(ModelSerializer):
-    class Meta:
-        model = Role
-        fields = ('id', 'name', 'description')

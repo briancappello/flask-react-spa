@@ -4,7 +4,7 @@ import re
 from marshmallow import fields, pre_load
 from backend.extensions.flask_marshmallow import ModelSerializer
 
-from .models import ContactSubmission
+from ..models import ContactSubmission
 
 
 class ContactSubmissionSerializer(ModelSerializer):
