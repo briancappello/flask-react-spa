@@ -72,6 +72,8 @@ export default function(state = initialState, action) {
 
     case signUp.SUCCESS:
       return { ...state,
+        isAuthenticated: !!payload.token,
+        token: payload.token || null,
         user: { ...state.user,
           ...payload.user,
         },
