@@ -5,10 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from sqlalchemy import MetaData
 
+from backend.security import Security, SQLAlchemyUserDatastore
+
 from .flask_celery import FlaskCelery
 from .flask_mail import Mail
 from .flask_restful import Api
-from .flask_security import Security, SQLAlchemyUserDatastore
 
 
 session = Session()

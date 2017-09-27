@@ -22,16 +22,16 @@ from flask_security.utils import (
 from flask_security.views import _security, _commit
 from werkzeug.datastructures import MultiDict
 
-from backend.decorators import (
+from backend.extensions import api
+from backend.extensions.flask_restful import ModelResource, CREATE, GET, PATCH
+
+from .decorators import (
     anonymous_user_required,
     auth_required,
     auth_required_same_user,
 )
-from backend.extensions import api
-from backend.extensions.flask_restful import ModelResource, CREATE, GET, PATCH
-from backend.extensions.flask_security import register_user
-
 from .models import User
+from .register_user import register_user
 
 
 # blueprint must be named security for compatibility with Flask-Security
