@@ -45,14 +45,6 @@ class Security(BaseSecurity):
         super(Security, self).__init__(app, datastore, **self._kwargs)
 
     def init_app(self, app):
-        # set our own config defaults before calling super().init_app
-        app.config.setdefault('SECURITY_POST_CONFIRM_VIEW', '/?welcome')
-        app.config.setdefault('SECURITY_CONFIRM_ERROR_VIEW', '/sign-up/resend-confirmation-email')
-
-        # disable flask-security's use of .txt templates (instead we
-        # generate the plain text from the html message)
-        app.config.setdefault('SECURITY_EMAIL_PLAINTEXT', False)
-
         self._state = super(Security, self).init_app(app, self.datastore, **self._kwargs)
 
         # override the unauthorized action to use abort(401) instead of returning HTML

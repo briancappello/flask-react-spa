@@ -118,18 +118,28 @@ class BaseConfig(object):
     # specify which user field attributes can be used for login
     SECURITY_USER_IDENTITY_ATTRIBUTES = ['email', 'username']
 
-    # enable email confirmation before allowing login
-    SECURITY_CONFIRMABLE = True
-    # parsed as a kwarg to timedelta, so the time unit must always be plural
-    SECURITY_CONFIRM_EMAIL_WITHIN = '7 days'  # default 5 days
-
-    # enable forgot password functionality
-    SECURITY_RECOVERABLE = True
-
     # NOTE: itsdangerous "salts" are not normal salts in the cryptographic
     # sense, see https://pythonhosted.org/itsdangerous/#the-salt
     SECURITY_PASSWORD_SALT = os.environ.get('FLASK_SECURITY_PASSWORD_SALT',
                                             'security-password-salt')
+
+    # disable flask-security's use of .txt templates (instead we
+    # generate the plain text from the html message)
+    SECURITY_EMAIL_PLAINTEXT = False
+
+    # enable forgot password functionality
+    SECURITY_RECOVERABLE = True
+
+    # enable email confirmation before allowing login
+    SECURITY_CONFIRMABLE = True
+
+    # this setting is parsed as a kwarg to timedelta, so the time unit must
+    # always be plural
+    SECURITY_CONFIRM_EMAIL_WITHIN = '7 days'  # default 5 days
+
+    # urls for the *frontend* router
+    SECURITY_CONFIRM_ERROR_VIEW = '/sign-up/resend-confirmation-email'
+    SECURITY_POST_CONFIRM_VIEW = '/?welcome'
 
 
 class ProdConfig(BaseConfig):
