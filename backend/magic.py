@@ -44,9 +44,9 @@ def get_extensions(import_names):
             warn('Could not find the %s extension%s in the %s module'
                  ' (did you forget to instantiate %s?)' % (
                     ', '.join(members),
-                    '' if not singular else 's',
+                    '' if singular else 's',
                     module_name,
-                    'it' if not singular else 'them',
+                    'it' if singular else 'them',
                  ))
 
 
