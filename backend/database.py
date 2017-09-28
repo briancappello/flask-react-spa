@@ -2,6 +2,7 @@ import sqlalchemy
 
 from datetime import datetime
 from flask_sqlalchemy import camel_to_snake_case
+from sqlalchemy import event
 
 from .extensions import db
 
@@ -26,6 +27,20 @@ relationship = db.relationship  # type: __relationship_type_hinter__
 backref = db.backref            # type: __relationship_type_hinter__
 ForeignKey = db.ForeignKey      # type: sqlalchemy.schema.ForeignKey
 UniqueConstraint = sqlalchemy.UniqueConstraint
+
+
+def listen(event_name, fn):
+    def wrapper(cls):
+        event.listen(cls, event_name, fn)
+        return cls
+    return wrapper
+
+
+def listen_on(event_name, field_name, fn):
+    def wrapper(cls):
+        event.listen(getattr(cls, field_name), event_name, fn)
+        return cls
+    return wrapper
 
 
 class Column(db.Column):
