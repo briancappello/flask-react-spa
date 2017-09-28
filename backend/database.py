@@ -5,6 +5,7 @@ from flask_sqlalchemy import camel_to_snake_case
 from sqlalchemy import event
 
 from .extensions import db
+from .utils import slugify as _slugify
 
 
 # a bit of hackery to make type-hinting in PyCharm work correctly
@@ -39,6 +40,18 @@ def listen(event_name, fn):
 def listen_on(event_name, field_name, fn):
     def wrapper(cls):
         event.listen(getattr(cls, field_name), event_name, fn)
+        return cls
+    return wrapper
+
+
+def _set_slug(target, value, old_value, _):
+    if value and (not target.slug or value != old_value):
+        target.slug = _slugify(value)
+
+
+def slugify(field):
+    def wrapper(cls):
+        event.listen(getattr(cls, field), 'set', _set_slug)
         return cls
     return wrapper
 
