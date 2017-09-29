@@ -44,7 +44,7 @@ def fixtures(file, reset):
                     d[k] = parse_date(v)
                 except:
                     d[k] = v
-            model.create(**d, commit=False)
+            model.create(**d)
 
         count = len(fixture['items'])
         click.echo('Adding %d %s record%s.' % (count, fixture['model'],

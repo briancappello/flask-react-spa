@@ -105,7 +105,7 @@ class BaseModel(db.Model):
         return cls.query.filter_by(**kwargs).first()
 
     @classmethod
-    def get_or_create(cls, commit=True, **kwargs):
+    def get_or_create(cls, commit=False, **kwargs):
         """Get or create model by keyword arguments.
 
         :param bool commit: Whether or not to immediately commit the DB session (if create).
@@ -125,7 +125,7 @@ class BaseModel(db.Model):
         return cls.query.filter_by(**kwargs)
 
     @classmethod
-    def create(cls, commit=True, **kwargs):
+    def create(cls, commit=False, **kwargs):
         """Create a new model and add it to the database session.
 
         :param bool commit: Whether or not to immediately commit the DB session.
