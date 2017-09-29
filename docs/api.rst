@@ -59,3 +59,7 @@ Database
 .. autoclass:: backend.database.Model
 
 .. autofunction:: backend.database.foreign_key
+
+.. autofunction:: backend.database.attach_events
+.. autofunction:: backend.database.on
+.. autofunction:: backend.database.slugify
