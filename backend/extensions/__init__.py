@@ -23,5 +23,5 @@ migrate = Migrate(db=db, render_as_batch=True)
 # been initialized, AND after all views, models, and serializers have
 # been imported. This is because the @api decorators create deferred
 # registrations that depend upon said dependencies having all been
-# completed before Api().init_app() gets called
-api = Api(prefix='/api/v1')
+# completed before Api('api').init_app() gets called
+api = Api('api', prefix='/api/v1')

@@ -19,7 +19,7 @@ class Api(BaseApi):
     - can register individual view functions ala blueprints, via @api.route()
     - supports using flask.jsonify() in resources
     """
-    def __init__(self, app=None, prefix='',
+    def __init__(self, name, app=None, prefix='',
                  default_mediatype='application/json',
                  decorators=None, catch_all_404s=False,
                  serve_challenge_on_401=False,
@@ -32,6 +32,8 @@ class Api(BaseApi):
                                   serve_challenge_on_401=serve_challenge_on_401,
                                   url_part_order=url_part_order,
                                   errors=errors)
+        # name prefix for endpoints
+        self.name = name
 
         # configure a customized output_json function so that we can use
         # Flask's current_app.json_encoder setting
@@ -107,15 +109,17 @@ class Api(BaseApi):
         the same as :meth:`add_resource`.
 
         Example::
-            from models import Foo
 
-            @api.resource(Foo, '/foo', '/foo/<int:id>')
-            class FooResource(Resource):
-                def get(self, foo):
-                    return foo
+            from backend.extensions import api
+            from models import User
 
-                def list(self, foos):
-                    return foos
+            @api.model_resource(User, '/users', '/users/<int:id>')
+            class UserResource(Resource):
+                def get(self, user):
+                    return user
+
+                def list(self, users):
+                    return users
         """
         def decorator(cls):
             cls.model = model
@@ -125,6 +129,25 @@ class Api(BaseApi):
         return decorator
 
     def bp_model_resource(self, bp, model, *urls, **kwargs):
+        """Wraps a :class:`ModelResource` class, adding it to the api.
+        The bp and model parameters are required, but otherwise parameters are
+        the same as :meth:`add_resource`.
+
+        Example::
+
+            from backend.extensions import api
+            from models import User
+
+            security = Blueprint('security', url_prefix='/security')
+
+            @api.bp_model_resource(security, User, '/users', '/users/<int:id>')
+            class UserResource(Resource):
+                def get(self, user):
+                    return user
+
+                def list(self, users):
+                    return users
+        """
         urls = ('{}{}'.format(bp.url_prefix or '', url) for url in urls)
         return self.model_resource(model, *urls, **kwargs)
 
@@ -134,6 +157,7 @@ class Api(BaseApi):
          for the serializer's model. Does not take any arguments.
 
          Example::
+
             from backend.extensions import api
             from backend.api import ModelSerializer
             from models import Foo
@@ -152,13 +176,15 @@ class Api(BaseApi):
         return decorator
 
     def route(self, rule, **kwargs):
-        """Decorator for registering individual view functions, like blueprints:
+        """Decorator for registering individual view functions.
 
-        api = Api(prefix='/api/v1')
+        Usage::
 
-        @api.route('/foo')
-        def get_foo():
-            # do stuff
+            api = Api('api', prefix='/api/v1')
+
+            @api.route('/foo')  # resulting url: /api/v1/foo
+            def get_foo():
+                # do stuff
         """
         def decorator(fn):
             endpoint = self._get_endpoint(fn, kwargs.pop('endpoint', None))
@@ -167,6 +193,17 @@ class Api(BaseApi):
         return decorator
 
     def bp_route(self, bp, rule, **kwargs):
+        """Decorator for registering individual view functions.
+
+        Usage::
+
+            api = Api('api', prefix='/api/v1')
+            team = Blueprint('team', url_prefix='/team')
+
+            @api.bp_route(team, '/users')  # resulting url: /api/v1/team/users
+            def users():
+                # do stuff
+        """
         return self.route('{}{}'.format(bp.url_prefix or '', rule), **kwargs)
 
     def add_url_rule(self, rule, endpoint=None, view_func=None, **kwargs):
@@ -193,7 +230,7 @@ class Api(BaseApi):
                 endpoint = '{}s_resource'.format(camel_to_snake_case(view_func.model.__name__))
         else:
             endpoint = view_func.__name__
-        return 'api.' + endpoint
+        return '{}.{}'.format(self.name, endpoint)
 
     def _register_serializers(self, app, serializers):
         BaseEncoderClass = app.json_encoder or BaseJSONEncoder
