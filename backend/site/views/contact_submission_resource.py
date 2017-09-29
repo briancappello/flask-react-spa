@@ -1,19 +1,11 @@
-from flask import Blueprint, current_app, render_template
+from flask import current_app
 
 from backend.api import ModelResource
 from backend.extensions import api
 from backend.utils import send_mail
 
-from .models import ContactSubmission
-
-
-site = Blueprint('site', __name__, template_folder='templates')
-
-
-@site.route('/')
-@site.route('/<path:path>')
-def index(path=None):
-    return render_template('index.html')
+from .blueprint import site
+from ..models import ContactSubmission
 
 
 @api.bp_model_resource(site, ContactSubmission, '/contact-submissions')
