@@ -58,13 +58,17 @@ class Api(BaseApi):
         for deferred in self.deferred_functions:
             deferred(app)
 
-        # register serializer overrides
-        for model_name, serializer_class in self.deferred_serializers:
+        # instantiate serializers
+        for model_name, serializer_class in self.serializers.items():
             self.serializers[model_name] = serializer_class()
+            self.serializers_many[model_name] = serializer_class(many=True)
 
-        # instantiate list serializers
-        for model_name, serializer in self.serializers.items():
-            self.serializers_many[model_name] = serializer.__class__(many=True)
+        # register serializer overrides
+        for model_name, serializer_class, many in self.deferred_serializers:
+            if many:
+                self.serializers_many[model_name] = serializer_class(many=True)
+            else:
+                self.serializers[model_name] = serializer_class()
 
         # attach serializers to Resource instances so that they can perform
         # automatic deserialization from json requests
@@ -151,7 +155,7 @@ class Api(BaseApi):
         urls = ('{}{}'.format(bp.url_prefix or '', url) for url in urls)
         return self.model_resource(model, *urls, **kwargs)
 
-    def serializer(self, *args):
+    def serializer(self, *args, many=False):
         """Wraps a :class:`~backend.api.ModelSerializer`
          class, registering the wrapped serializer as the specific one to use
          for the serializer's model. Does not take any arguments.
@@ -166,10 +170,15 @@ class Api(BaseApi):
             class FooSerializer(ModelSerializer):
                 class Meta:
                     model = Foo
+
+            @api.serializer(many=True)
+            class FooListSerializer(ModelSerializer):
+                class Meta:
+                    model = Foo
          """
         def decorator(serializer_class):
             model_name = serializer_class.Meta.model.__name__
-            self.deferred_serializers.append((model_name, serializer_class))
+            self.deferred_serializers.append((model_name, serializer_class, many))
             return serializer_class
         if was_decorated_without_parenthesis(args):
             return decorator(args[0])

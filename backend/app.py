@@ -129,8 +129,8 @@ def register_blueprints(app):
 
 def register_serializers(app, serializers):
     """Register and initialize serializers."""
-    _serializers = {serializer.Meta.model.__name__: serializer()
-                    for serializer in serializers.values()}
+    _serializers = {serializer_class.Meta.model.__name__: serializer_class
+                    for serializer_class in serializers.values()}
 
     # FIXME there's almost certainly a better way to do this, perhaps somehow
     # register the serializers with the app itself, and then any extension can
