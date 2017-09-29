@@ -1,3 +1,14 @@
+from marshmallow import (
+    fields,
+    pre_load,
+    post_load,
+    pre_dump,
+    post_dump,
+    validates,
+    validates_schema,
+    ValidationError,
+)
+
 from .extension import Api
 from .constants import (
     ALL_METHODS,
@@ -8,8 +19,6 @@ from .constants import (
     LIST,
     PATCH,
     PUT,
-    PARAM_NAME_RE,
-    LAST_PARAM_NAME_RE,
 )
 from .decorators import param_converter
 from .model_resource import ModelResource

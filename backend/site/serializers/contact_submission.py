@@ -1,8 +1,7 @@
 import html
 import re
 
-from marshmallow import fields, pre_load
-from backend.api import ModelSerializer
+from backend.api import ModelSerializer, fields, pre_load
 
 from ..models import ContactSubmission
 

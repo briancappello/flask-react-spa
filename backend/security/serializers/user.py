@@ -1,8 +1,7 @@
 import re
 from flask_login import current_user
-from marshmallow import fields, validates, ValidationError
 
-from backend.api import ModelSerializer
+from backend.api import ModelSerializer, fields, validates, ValidationError
 
 from ..models import User
 
