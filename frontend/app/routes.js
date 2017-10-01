@@ -54,12 +54,16 @@ export const ROUTE_MAP = {}
 Object.keys(ROUTES).forEach((componentName) => {
   const path = ROUTES[componentName]
   const routeDetails = extraRouteDetails[path]
-  ROUTE_MAP[path] = {
+  const route = {
     name: componentName,
     label: routeDetails && routeDetails.label || startCase(componentName),
     Component: routeDetails && routeDetails.Component || pages[componentName],
     RouteComponent: routeDetails && routeDetails.RouteComponent || Route,
   }
+  if (!route.Component) {
+    throw new Error(`Could not find component named ${componentName} for ${path}`)
+  }
+  ROUTE_MAP[path] = route
 })
 
 /**
