@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import isFunction from 'lodash/isFunction'
-import isString from 'lodash/isString'
 
 import { ROUTE_MAP } from 'routes'
 
@@ -11,49 +10,44 @@ export default class LoadableNavLink extends React.Component {
 
   static propTypes = {
     children: PropTypes.node,
-    to: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.shape({
-        pathname: PropTypes.string,
-        search: PropTypes.string,
-        hash: PropTypes.string,
-        state: PropTypes.object,
-      }),
-    ]),
+    to: PropTypes.string,
+    params: PropTypes.object,
   }
 
   constructor(props) {
     super(props)
-
-    const { to } = props
-    if (isString(to)) {
-      this.pathname = to
-    } else {
-      this.pathname = to.pathname
-    }
+    this.route = ROUTE_MAP[props.to]
   }
 
   maybePreloadComponent = () => {
-    const route = ROUTE_MAP[this.pathname]
-    if (!route) {
+    if (!this.route) {
       return
     }
 
-    const { Component } = route
-    if (isFunction(Component.preload)) {
-      Component.preload()
+    const { component } = this.route
+    if (isFunction(component.preload)) {
+      component.preload()
+    }
+  }
+
+  getTo() {
+    const { to, params } = this.props
+    if (this.route) {
+      return this.route.toPath(params)
+    } else {
+      return to
     }
   }
 
   render() {
-    const { to, children, ...props } = this.props
+    const { children, ...props } = this.props
     return (
-      <NavLink to={to}
+      <NavLink {...props}
                activeClassName="active"
                onMouseOver={this.maybePreloadComponent}
-               {...props}
+               to={this.getTo()}
       >
-        {children || ROUTE_MAP[this.pathname].label}
+        {children || this.route.label}
       </NavLink>
     )
   }
