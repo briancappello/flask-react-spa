@@ -34,7 +34,7 @@ export function injectSagaFactory(store, isValid) {
   return function injectSaga(key, descriptor = {}, args) {
     if (!isValid) checkStore(store)
 
-    const newDescriptor = { ...descriptor, mode: descriptor.mode || RESTART_ON_REMOUNT }
+    const newDescriptor = { ...descriptor, mode: descriptor.mode || DAEMON }
     const { saga, mode } = newDescriptor
 
     checkKey(key)
