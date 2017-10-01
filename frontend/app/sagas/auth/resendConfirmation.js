@@ -6,6 +6,8 @@ import AuthApi from 'api/auth'
 import { createRoutineFormSaga } from 'sagas'
 
 
+export const KEY = 'resendConfirmation'
+
 export const resendConfirmationEmailSaga = createRoutineFormSaga(
   resendConfirmationEmail,
   function *successGenerator({ email }) {

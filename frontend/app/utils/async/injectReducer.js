@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import hoistNonReactStatics from 'hoist-non-react-statics'
+import get from 'lodash/get'
 
 import getInjectors from './reducerInjectors'
 
@@ -12,7 +13,14 @@ import getInjectors from './reducerInjectors'
  * @param {function} reducer A reducer that will be injected
  *
  */
-export default ({ key, reducer }) => (WrappedComponent) => {
+export default (props) => (WrappedComponent) => {
+  if (get(props, '__esModule', false)) {
+    props = {
+      key: props.KEY,
+      reducer: props.default,
+    }
+  }
+
   class ReducerInjector extends React.Component {
     static WrappedComponent = WrappedComponent
     static contextTypes = {
@@ -23,7 +31,7 @@ export default ({ key, reducer }) => (WrappedComponent) => {
     componentWillMount() {
       const { injectReducer } = this.injectors
 
-      injectReducer(key, reducer)
+      injectReducer(props.key, props.reducer)
     }
 
     injectors = getInjectors(this.context.store)

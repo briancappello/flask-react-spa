@@ -7,8 +7,6 @@ import { signUp } from 'actions/auth'
 import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
 import { EmailField, PasswordField, TextField } from 'components/Form'
-
-import signUpSagas from 'sagas/auth/signUp'
 import { injectSagas } from 'utils/async'
 
 
@@ -53,7 +51,7 @@ const SignUp = (props) => {
 
 const withForm = reduxForm({ form: FORM_NAME })
 
-const withSagas = injectSagas({ key: FORM_NAME, sagas: signUpSagas })
+const withSagas = injectSagas(require('sagas/auth/signUp'))
 
 export default compose(
   withForm,

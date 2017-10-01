@@ -7,8 +7,6 @@ import { bindRoutineCreators } from 'actions'
 import { updateProfile } from 'actions/auth'
 import { DangerAlert } from 'components/Alert'
 import { EmailField, TextField } from 'components/Form'
-
-import updateProfileSagas from 'sagas/auth/updateProfile'
 import { injectSagas } from 'utils/async'
 
 
@@ -44,7 +42,7 @@ const withConnect = connect(
   (state) => ({ initialValues: state.auth.user }),
 )
 
-const withSagas = injectSagas({ key: FORM_NAME, sagas: updateProfileSagas })
+const withSagas = injectSagas(require('sagas/auth/updateProfile'))
 
 export default compose(
   withConnect,

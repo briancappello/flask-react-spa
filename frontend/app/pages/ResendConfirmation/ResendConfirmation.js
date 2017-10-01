@@ -10,8 +10,6 @@ import { resendConfirmationEmail } from 'actions/auth'
 import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
 import { EmailField } from 'components/Form'
-
-import resendConfirmationSagas from 'sagas/auth/resendConfirmation'
 import { injectSagas } from 'utils/async'
 
 
@@ -68,7 +66,7 @@ const withForm = reduxForm({
   },
 })
 
-const withSagas = injectSagas({ key: FORM_NAME, sagas: resendConfirmationSagas })
+const withSagas = injectSagas(require('sagas/auth/resendConfirmation'))
 
 export default compose(
   withForm,

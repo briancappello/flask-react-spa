@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import hoistNonReactStatics from 'hoist-non-react-statics'
+import get from 'lodash/get'
 
 import getInjectors from './sagaInjectors'
 
@@ -16,7 +17,15 @@ import getInjectors from './sagaInjectors'
  *   - constants.ONCE_TILL_UNMOUNT — behaves like 'RESTART_ON_REMOUNT' but never runs it again.
  *
  */
-export default ({ key, sagas, mode }) => (WrappedComponent) => {
+export default (props) => (WrappedComponent) => {
+  if (get(props, '__esModule', false)) {
+    props = {
+      key: props.KEY,
+      sagas: props.default,
+      mode: get(props, 'MODE', null),
+    }
+  }
+
   class InjectSaga extends React.Component {
     static WrappedComponent = WrappedComponent
     static contextTypes = {
@@ -29,16 +38,16 @@ export default ({ key, sagas, mode }) => (WrappedComponent) => {
 
       // create a root saga to inject
       const saga = function *() {
-        yield sagas()
+        yield props.sagas()
       }
 
-      injectSaga(key, { saga, mode }, this.props)
+      injectSaga(props.key, { saga, mode: props.mode }, this.props)
     }
 
     componentWillUnmount() {
       const { ejectSaga } = this.injectors
 
-      ejectSaga(key)
+      ejectSaga(props.key)
     }
 
     injectors = getInjectors(this.context.store)

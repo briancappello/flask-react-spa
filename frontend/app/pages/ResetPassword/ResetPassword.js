@@ -8,9 +8,7 @@ import { resetPassword } from 'actions/auth'
 import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
 import { HiddenField, PasswordField } from 'components/Form'
-
-import resetPasswordSagas from 'sagas/auth/resetPassword'
-import { DAEMON, injectSagas } from 'utils/async'
+import { injectSagas } from 'utils/async'
 
 
 const FORM_NAME = 'resetPassword'
@@ -56,7 +54,7 @@ const withConnect = connect(
   }),
 )
 
-const withSagas = injectSagas({ key: FORM_NAME, sagas: resetPasswordSagas, mode: DAEMON })
+const withSagas = injectSagas(require('sagas/auth/resetPassword'))
 
 export default compose(
   withConnect,

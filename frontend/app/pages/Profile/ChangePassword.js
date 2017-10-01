@@ -9,8 +9,6 @@ const { reset } = formActions
 import { changePassword } from 'actions/auth'
 import { DangerAlert } from 'components/Alert'
 import { PasswordField } from 'components/Form'
-
-import changePasswordSagas from 'sagas/auth/changePassword'
 import { injectSagas } from 'utils/async'
 
 
@@ -102,7 +100,7 @@ const withConnect = connect(
   (dispatch) => bindActionCreators({ reset }, dispatch),
 )
 
-const withSagas = injectSagas({ key: FORM_NAME, sagas: changePasswordSagas })
+const withSagas = injectSagas(require('sagas/auth/changePassword'))
 
 export default compose(
   withConnect,

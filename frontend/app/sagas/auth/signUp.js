@@ -6,6 +6,8 @@ import AuthApi from 'api/auth'
 import { createRoutineFormSaga } from 'sagas'
 
 
+export const KEY = 'signUp'
+
 export const signUpSaga = createRoutineFormSaga(
   signUp,
   function *successGenerator(payload) {

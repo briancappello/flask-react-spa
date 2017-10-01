@@ -7,6 +7,8 @@ import AuthApi from 'api/auth'
 import { createRoutineFormSaga } from 'sagas'
 
 
+export const KEY = 'updateProfile'
+
 export const updateProfileSaga = createRoutineFormSaga(
   updateProfile,
   function *successGenerator(payload) {

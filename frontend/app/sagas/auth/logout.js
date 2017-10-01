@@ -7,6 +7,8 @@ import AuthApi from 'api/auth'
 import { createRoutineSaga } from 'sagas'
 
 
+export const KEY = 'logout'
+
 export const logoutSaga = createRoutineSaga(
   logout,
   function *successGenerator() {

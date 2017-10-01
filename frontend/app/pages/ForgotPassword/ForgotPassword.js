@@ -9,8 +9,6 @@ import { forgotPassword } from 'actions/auth'
 import { DangerAlert } from 'components/Alert'
 import { PageContent } from 'components/Content'
 import { EmailField } from 'components/Form'
-
-import forgotPasswordSagas from 'sagas/auth/forgotPassword'
 import { injectSagas } from 'utils/async'
 
 
@@ -55,7 +53,7 @@ const withForm = reduxForm({
   },
 })
 
-const withSagas = injectSagas({ key: FORM_NAME, sagas: forgotPasswordSagas })
+const withSagas = injectSagas(require('sagas/auth/forgotPassword'))
 
 export default compose(
   withForm,

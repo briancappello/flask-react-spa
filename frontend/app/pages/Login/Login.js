@@ -10,9 +10,7 @@ import { DangerAlert, PageContent } from 'components'
 import { NavLink } from 'components/Nav'
 import { HiddenField, PasswordField, TextField } from 'components/Form'
 import { ROUTES } from 'routes'
-
-import loginSagas from 'sagas/auth/login'
-import { DAEMON, injectSagas } from 'utils/async'
+import { injectSagas } from 'utils/async'
 
 
 const FORM_NAME = 'login'
@@ -69,7 +67,7 @@ const withConnect = connect(
   })
 )
 
-const withSagas = injectSagas({ key: FORM_NAME, sagas: loginSagas, mode: DAEMON })
+const withSagas = injectSagas(require('sagas/auth/login'))
 
 export default compose(
   withConnect,

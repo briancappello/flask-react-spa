@@ -9,8 +9,6 @@ const { reset } = formActions
 import { contact } from 'actions/contact'
 import { DangerAlert, PageContent } from 'components'
 import { EmailField, TextArea, TextField } from 'components/Form'
-
-import contactSagas from 'sagas/contact'
 import { injectSagas } from 'utils/async'
 
 
@@ -70,7 +68,7 @@ const withForm = reduxForm({
   }
 })
 
-const withSaga = injectSagas({ key: FORM_NAME, sagas: contactSagas })
+const withSaga = injectSagas(require('sagas/contact'))
 
 export default compose(
   withConnect,

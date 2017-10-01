@@ -4,9 +4,7 @@ import { connect } from 'react-redux'
 
 import { bindRoutineCreators } from 'actions'
 import { logout } from 'actions/auth'
-
-import logoutSagas from 'sagas/auth/logout'
-import { DAEMON, injectSagas } from 'utils/async'
+import { injectSagas } from 'utils/async'
 
 
 class Logout extends React.Component {
@@ -24,7 +22,7 @@ const withConnect = connect(
   (dispatch) => bindRoutineCreators({ logout }, dispatch),
 )
 
-const withSagas = injectSagas({ key: 'logout', sagas: logoutSagas, mode: DAEMON })
+const withSagas = injectSagas(require('sagas/auth/logout'))
 
 export default compose(
   withConnect,

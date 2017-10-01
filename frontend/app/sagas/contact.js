@@ -6,6 +6,8 @@ import { createRoutineFormSaga } from 'sagas'
 import SiteApi from 'api/site'
 
 
+export const KEY = 'contact'
+
 export const contactSaga = createRoutineFormSaga(
   contact,
   function *successGenerator(payload) {
