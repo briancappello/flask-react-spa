@@ -1,21 +1,30 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 
 import Flash from 'components/Flash'
+import { ScrollIntoView } from 'components/Nav/HashLink'
 
 
-export default class PageContent extends React.Component {
+class PageContent extends React.Component {
+
   static defaultProps = {
     className: '',
   }
 
   render() {
+    const { children, className, location: { hash } } = this.props
     return (
       <div className="container">
         <Flash />
-        <div className={`${this.props.className} content`}>
-          {this.props.children}
+        <div className={`${className} content`}>
+          <ScrollIntoView id={hash && hash.slice(1) || null}>
+            {children}
+          </ScrollIntoView>
         </div>
       </div>
     )
   }
 }
+
+export default withRouter(PageContent)

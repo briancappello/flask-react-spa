@@ -1,7 +1,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 
-import { PageContent } from 'components'
+import { HashLink, PageContent } from 'components'
 
 import BlockQuote from './BlockQuote'
 import Buttons from './Buttons'
@@ -52,24 +52,24 @@ export default class Styles extends React.Component {
         <aside className="two cols fixed">
           <h4>Styles</h4>
           <ul>
-            <li><a href="#site-template">Site Template</a></li>
-            <li><a href="#navigation">Navigation</a></li>
-            <li><a href="#block-quotes">Block Quotes</a></li>
+            <li><HashLink to="#site-template">Site Template</HashLink></li>
+            <li><HashLink to="#navigation">Navigation</HashLink></li>
+            <li><HashLink to="#block-quotes">Block Quotes</HashLink></li>
             <li>
-              <a href="#grid">Grid</a>
+              <HashLink to="#grid">Grid</HashLink>
               <ul>
-                <li><a href="#columns">Columns</a></li>
-                <li><a href="#fractions">Fractions</a></li>
-                <li><a href="#column-offsets">Column Offsets</a></li>
-                <li><a href="#fraction-offsets">Fraction Offsets</a></li>
+                <li><HashLink to="#columns">Columns</HashLink></li>
+                <li><HashLink to="#fractions">Fractions</HashLink></li>
+                <li><HashLink to="#column-offsets">Column Offsets</HashLink></li>
+                <li><HashLink to="#fraction-offsets">Fraction Offsets</HashLink></li>
               </ul>
             </li>
-            <li><a href="#typography">Typography</a></li>
-            <li><a href="#buttons">Buttons</a></li>
-            <li><a href="#forms">Forms</a></li>
-            <li><a href="#lists">Lists</a></li>
-            <li><a href="#code">Code</a></li>
-            <li><a href="#tables">Tables</a></li>
+            <li><HashLink to="#typography">Typography</HashLink></li>
+            <li><HashLink to="#buttons">Buttons</HashLink></li>
+            <li><HashLink to="#forms">Forms</HashLink></li>
+            <li><HashLink to="#lists">Lists</HashLink></li>
+            <li><HashLink to="#code">Code</HashLink></li>
+            <li><HashLink to="#tables">Tables</HashLink></li>
           </ul>
         </aside>
         <div className="ten cols offset-by-two">
