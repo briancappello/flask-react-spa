@@ -4,6 +4,8 @@
       "id": 1,
       "email": "a@a.com",
       "username": "admin",
+      "first_name": "The",
+      "last_name": "Admin",
       "password": "password",
       "active": true,
       "confirmed_at": "2017-08-30 00:00:00"
@@ -12,6 +14,8 @@
       "id": 2,
       "email": "a@b.com",
       "username": "user",
+      "first_name": "The",
+      "last_name": "User",
       "password": "password",
       "active": true,
       "confirmed_at": "2017-08-30 00:00:00"

@@ -70,12 +70,15 @@ export default class Auth {
   }
 
   /**
-   * @param {string} username
-   * @param {string} email
-   * @param {string} password
+   * @param {Object} payload The user details
+   * @param {string} payload.firstName
+   * @param {string} payload.lastName
+   * @param {string} payload.username
+   * @param {string} payload.email
+   * @param {string} payload.password
    */
-  static signUp({ username, email, password }) {
-    return post(authV1('/users'), { username, email, password })
+  static signUp(payload) {
+    return post(authV1('/users'), payload)
   }
 
   /**

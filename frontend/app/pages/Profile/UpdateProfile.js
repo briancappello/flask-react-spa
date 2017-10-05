@@ -19,9 +19,11 @@ const UpdateProfile = (props) => {
       <h2>Update Profile!</h2>
       {error && <DangerAlert>{error}</DangerAlert>}
       <form onSubmit={handleSubmit(updateProfile)}>
-        <TextField name="username"
+        <TextField name="firstName"
                    autoFocus
         />
+        <TextField name="lastName" />
+        <TextField name="username" />
         <EmailField name="email" />
         <div className="row">
           <button type="submit"

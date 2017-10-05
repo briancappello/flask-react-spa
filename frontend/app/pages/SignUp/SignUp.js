@@ -24,9 +24,15 @@ const SignUp = (props) => {
           <h1>Sign Up!</h1>
           {error && <DangerAlert>{error}</DangerAlert>}
           <form onSubmit={handleSubmit(signUp)}>
-            <TextField name="username"
+            <TextField name="firstName"
                        className="full-width"
                        autoFocus
+            />
+            <TextField name="lastName"
+                       className="full-width"
+            />
+            <TextField name="username"
+                       className="full-width"
             />
             <EmailField name="email"
                         className="full-width"

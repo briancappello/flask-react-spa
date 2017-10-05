@@ -17,6 +17,8 @@ from .user_role import UserRole
 class User(Model, UserMixin):
     username = Column(String(50), unique=True, index=True)
     email = Column(String(50), unique=True, index=True)
+    first_name = Column(String(32))
+    last_name = Column(String(64))
     password = Column(String, nullable=True)
     active = Column(Boolean(name='active'), default=False)
     confirmed_at = Column(DateTime(), nullable=True)
