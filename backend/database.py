@@ -1,7 +1,7 @@
 import sqlalchemy
 
 from datetime import datetime
-from flask_sqlalchemy import camel_to_snake_case
+from flask_sqlalchemy.model import camel_to_snake_case
 from functools import partial
 from sqlalchemy import event
 

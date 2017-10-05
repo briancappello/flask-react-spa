@@ -22,7 +22,7 @@ Flask-Principal==0.4.0
 Flask-RESTful==0.3.6
 Flask-Security==3.0.0
 Flask-Session==0.3.1
-Flask-SQLAlchemy==2.2
+Flask-SQLAlchemy==2.3.1
 Flask-WTF==0.14.2
 itsdangerous==0.24
 Jinja2==2.9.6

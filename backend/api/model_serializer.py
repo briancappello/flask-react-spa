@@ -1,4 +1,4 @@
-from flask_sqlalchemy import camel_to_snake_case
+from flask_sqlalchemy.model import camel_to_snake_case
 from backend.extensions.marshmallow import ma
 
 

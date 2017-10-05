@@ -2,7 +2,7 @@ from flask import current_app, make_response
 from flask.json import dumps, JSONEncoder as BaseJSONEncoder
 from flask.views import MethodViewType
 from flask_restful import Api as BaseApi
-from flask_sqlalchemy import camel_to_snake_case, Model
+from flask_sqlalchemy.model import camel_to_snake_case, Model
 from marshmallow import MarshalResult
 from werkzeug.wrappers import Response
 
@@ -267,7 +267,7 @@ class Api(BaseApi):
         if isinstance(data, (list, tuple)) and len(data) and isinstance(data[0], Model):
             model_name = data[0].__class__.__name__
             if model_name in self.serializers_many:
-                data = self.serializers_many[model_name].dump(data)
+                data = self.serializers_many[model_name].dump(data).data
 
         # we got the result of serializer.dump(obj)
         if isinstance(data, MarshalResult):

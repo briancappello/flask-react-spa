@@ -2,7 +2,7 @@ from functools import wraps
 from http import HTTPStatus
 
 from flask import abort, request
-from flask_sqlalchemy import camel_to_snake_case
+from flask_sqlalchemy.model import camel_to_snake_case
 
 from backend.utils import was_decorated_without_parenthesis
 
