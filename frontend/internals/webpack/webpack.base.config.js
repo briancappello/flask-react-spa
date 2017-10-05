@@ -46,6 +46,9 @@ module.exports = (options) => ({
             options: {
               sourceMap: true,
               includePaths: [STYLES_ROOT],
+              // automatically import variables into every scss file
+              data: `@import "${__dirname}/../../app/styles/_variables.scss";
+                    `,
             },
           },
         ],
