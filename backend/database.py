@@ -214,6 +214,14 @@ class BaseModel(db.Model):
         return instance
 
     @classmethod
+    def join(cls, *props, **kwargs):
+        return cls.query.join(*props, **kwargs)
+
+    @classmethod
+    def filter(cls, *args, **kwargs):
+        return cls.query.filter(*args, **kwargs)
+
+    @classmethod
     def filter_by(cls, **kwargs):
         """Find models by keyword arguments.
 
