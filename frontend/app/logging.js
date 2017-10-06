@@ -1,6 +1,6 @@
 import { LOGGING_ENABLED, LOG_LEVEL } from 'config'
 
-import { CRITICAL, ERROR, WARNING, INFO, DEBUG } from 'constants'
+import { CRITICAL, ERROR, WARNING, INFO, DEBUG } from 'constants.js'
 
 
 const LOG_LEVELS = {

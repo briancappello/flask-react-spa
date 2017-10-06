@@ -12,7 +12,7 @@ import {
   WARNING,
   INFO,
   DEBUG,
-} from 'constants'
+} from 'constants.js'
 
 // FIXME: setting process.env.PORT with webpack.DefinePlugin errors in dev mode
 // (it sets server.PORT fine, so we use that as a workaround)
