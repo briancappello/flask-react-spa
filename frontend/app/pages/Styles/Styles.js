@@ -26,7 +26,7 @@ export default class Styles extends React.Component {
   <header>
     <nav>
       <a class="brand">
-        superskeleton<span class="tld">com</span>
+        superskeleton.<span class="tld">com</span>
       </a>
       <div class="menu">
         <!-- top-level menu links -->

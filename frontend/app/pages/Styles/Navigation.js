@@ -8,7 +8,7 @@ export default class Navigation extends DocComponent {
   html = `\
 <nav class="padded">  <!-- .padded adds left & right padding -->
   <a href="#" class="brand">
-    Company<span class="tld">com</span>  <!-- the dot gets added by css -->
+    Company.<span class="tld">com</span>
   </a>
   <div class="menu">
     <a href="#" class="active">About</a>

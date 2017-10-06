@@ -7,6 +7,10 @@ import { ROUTINE_PROMISE } from 'actions'
 export function createRoutineSaga(routine, successGenerator, failureGenerator) {
   if (!failureGenerator) {
     failureGenerator = function *(e) {
+      if (!e.response) {
+        // something unexpected went wrong, probably in the successGenerator fn
+        throw e
+      }
       yield put(routine.failure(e.response))
     }
   }

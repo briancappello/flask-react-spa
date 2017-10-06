@@ -14,7 +14,7 @@ const hasWindowObject = typeof window === 'object'
 const sagaMiddleware = createSagaMiddleware()
 
 export default function configureStore(initialState, history) {
-  let middlewares = [
+  const middlewares = [
     sagaMiddleware,
     routerMiddleware(history),
     loadingBarMiddleware({ promiseTypeSuffixes: ['REQUEST', 'FULFILL'] }),

@@ -28,7 +28,7 @@ class NavBar extends React.Component {
       <nav className={classnames({ 'menu-open': menuOpen })}>
         <div className="container navbar-top">
           <NavLink exact to={ROUTES.Home} className="brand">
-            FlaskReact<span className="tld">SPA</span>
+            FlaskReact.<span className="tld">SPA</span>
           </NavLink>
           <a href="javascript:void(0);"
              className="burger"
