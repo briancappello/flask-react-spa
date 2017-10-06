@@ -1,0 +1,22 @@
+<svg
+  version="1.1"
+  aria-labelledby="python-logo-title"
+  role="img"
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="a" x1="13.79" y1="38.21" x2="75.87" y2="-15.2" gradientTransform="matrix(0.56, 0, 0, -0.57, -8.96, 23.53)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5c9fd3"/>
+      <stop offset="1" stop-color="#316a99"/>
+    </linearGradient>
+    <linearGradient id="b" x1="99.87" y1="-47.53" x2="77.7" y2="-16.16" gradientTransform="matrix(0.56, 0, 0, -0.57, -8.96, 23.53)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffd43d"/>
+      <stop offset="1" stop-color="#fee875"/>
+    </linearGradient>
+  </defs>
+  <title id="python-logo-title">Python logo</title>
+  <g>
+    <path d="M31.62,0a43.6,43.6,0,0,0-7.3.62c-6.46,1.14-7.63,3.53-7.63,7.94v5.82H32v1.94H11a9.53,9.53,0,0,0-9.54,7.74,28.54,28.54,0,0,0,0,15.52c1.09,4.52,3.68,7.74,8.11,7.74h5.25v-7a9.7,9.7,0,0,1,9.54-9.48H39.58a7.69,7.69,0,0,0,7.63-7.76V8.56c0-4.14-3.49-7.25-7.63-7.94A47.62,47.62,0,0,0,31.62,0ZM23.37,4.68A2.91,2.91,0,1,1,20.5,7.6,2.9,2.9,0,0,1,23.37,4.68Z" transform="translate(-0.35)" fill="url(#a)"/>
+    <path d="M49.12,16.32V23.1a9.79,9.79,0,0,1-9.54,9.68H24.33a7.79,7.79,0,0,0-7.63,7.76V55.08c0,4.14,3.6,6.57,7.63,7.76a25.55,25.55,0,0,0,15.25,0c3.84-1.11,7.63-3.35,7.63-7.76V49.26H32V47.32H54.85c4.44,0,6.09-3.1,7.63-7.74s1.53-9.38,0-15.52c-1.1-4.42-3.19-7.74-7.63-7.74H49.12ZM40.54,53.14A2.91,2.91,0,1,1,37.67,56,2.88,2.88,0,0,1,40.54,53.14Z" transform="translate(-0.35)" fill="url(#b)"/>
+  </g>
+</svg>

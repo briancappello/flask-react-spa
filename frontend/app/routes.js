@@ -4,7 +4,6 @@ import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
 
 import {
-  About,
   Contact,
   ForgotPassword,
   Home,
@@ -28,7 +27,6 @@ import { AnonymousRoute, ProtectedRoute } from 'utils/route'
  * Both keys and values are component class names
  */
 export const ROUTES = {
-  About: 'About',
   Contact: 'Contact',
   ForgotPassword: 'ForgotPassword',
   Home: 'Home',
@@ -54,14 +52,9 @@ export const ROUTES = {
  */
 const routes = [
   {
-    key: ROUTES.About,
-    path: '/about',
-    component: About,
-  },
-  {
     key: ROUTES.Contact,
     path: '/contact',
-    component: About,
+    component: Contact,
   },
   {
     key: ROUTES.ForgotPassword,

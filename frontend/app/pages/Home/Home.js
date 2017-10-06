@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { PageContent } from 'components/Content'
 import { flashSuccess } from 'actions/flash'
+import About from 'components/About'
 
 
 class Home extends React.Component {
@@ -16,7 +17,7 @@ class Home extends React.Component {
   render() {
     return (
       <PageContent>
-        <h1>Home!</h1>
+        <About />
       </PageContent>
     )
   }

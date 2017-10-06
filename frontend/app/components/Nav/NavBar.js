@@ -37,7 +37,6 @@ class NavBar extends React.Component {
             Menu&nbsp;&nbsp;&#9776;
           </a>
           <div className="menu left">
-            <NavLink to={ROUTES.About} />
             <NavLink to={ROUTES.Styles} />
             <NavLink to={ROUTES.Contact} />
           </div>
