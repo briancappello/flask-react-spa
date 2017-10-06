@@ -1,54 +1,10 @@
-
-$font-size-1rem: 16px;
-
-$font-size-godzilla: 5rem;
-$font-size-monster: 4rem;
-$font-size-large: 3rem;
-$font-size-medium-large: 2.5rem;
-$font-size-medium: 2rem;
-$font-size-medium-small: 1.5rem;
-$font-size-normal: $font-size-1rem;
-$font-size-small: .75rem;
-
 //––––––––––––––––––––––––––––––––––––––––––––––––––
 // SKELETON VARIABLES
 // https://github.com/WhatsNewSaes/Skeleton-Sass/blob/master/scss/base/_variables.scss
-//––––––––––––––––––––––––––––––––––––––––––––––––––
-// TYPOGRAPHY
-// $font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-// COLORS
-// $font-color: #222;
-// $link-color: #1eaedb;
-// $primary-color: #33c3f0;
-// $light-grey: #e1e1e1;
-// $dark-grey: #333;
-// $secondary-color: lighten($dark-grey, 13.5%);
-// $border-color: #bbb;
-
-// BREAKPOINTS
-// $bp-larger-than-mobile    : "min-width: 400px";
-// $bp-larger-than-phablet   : "min-width: 550px";
-// $bp-larger-than-tablet    : "min-width: 750px";
-// $bp-larger-than-desktop   : "min-width: 1000px";
-// $bp-larger-than-desktophd : "min-width: 1200px";
-
-// GRID
-// $container-width: 960px;
-// $container-width-larger-than-mobile: 85%;
-// $container-width-larger-than-phablet: 80%;
-// $total-columns: 12;
-// $column-width: 100 / $total-columns;
-// $column-margin: 4%;     // space between columns
-// $global-radius: 4px;    // standard border-radius
-
-//––––––––––––––––––––––––––––––––––––––––––––––––––
-// Application variables
+// https://github.com/briancappello/super-skeleton/blob/master/scss/base/_variables.scss
 //––––––––––––––––––––––––––––––––––––––––––––––––––
 
-/*
-// CONTENT
-$font-family: 'Lato', 'Helvetica', 'Arial', sans-serif;
+// FONTS
 $font-size-1rem: 16px;
 $line-height: 1.5;
 
@@ -62,57 +18,7 @@ $font-size-normal: $font-size-1rem;
 $font-size-small: .75rem;
 
 
-// LAYOUT & BREAKPOINTS
-$layout-width: 1024px;
-$l-margin: 2rem;
-
-$__bp-margin: $font-size-1rem * 2;
-$__bp-step: 196px;
-
-$bp-1: $layout-width + $__bp-margin;
-$bp-2: $bp-1 - $__bp-step;
-$bp-3: $bp-1 - ($__bp-step * 2);
-$bp-4: $bp-1 - ($__bp-step * 3);
-
-$layout-width-bp-1: $layout-width - $__bp-step;
-$layout-width-bp-2: $layout-width - ($__bp-step * 2);
-$layout-width-bp-3: $layout-width - ($__bp-step * 3);
-$layout-width-bp-4: $layout-width - ($__bp-step * 3.5);
-
-
-// NAVBAR HEIGHT
-// |---------------------------------|
-// | company.tld                menu |
-// |---------------------------------|
-$navbar-height: 4.5rem;
-$navbar-height-bp-1: 3rem;
-$navbar-height-bp-2: 2.25rem;
-// |------------------|
-// | company.tld      |
-// | menu             |
-// |------------------|
-$navbar-height-bp-3: 4.5rem;
-
-
 // COLORS
-$bg-color: #fff;
-$primary-color: #222;
-
-$grey-dark: #444;
-$grey-medium: #666;
-$grey: #888;
-$grey-light: #aaa;
-$off-white-dark: #ccc;
-$off-white: #eee;
-$off-white-light: #f6f6f6;
-
-$link-color: #e81c4f;
-
-$blue: #69c;
-$blue-light: #ecf2f9;
-
-*/
-
 $off-white: #eee;
 
 // green
