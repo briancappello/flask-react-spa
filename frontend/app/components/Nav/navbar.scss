@@ -1,0 +1,65 @@
+.navbar-top {
+  a.burger {
+    display: none;
+  }
+}
+
+@media screen and (max-width: $navbar-breakpoint) {
+  nav {
+    .navbar-top {
+      .menu a {
+        display: none;
+      }
+      a.burger {
+        text-transform: uppercase;
+        color: black;
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0 20px;
+      }
+    }
+
+    &.menu-open {
+      overflow: visible;
+      height: 100%;
+      background-color: white;
+
+      .navbar-top.container {
+        padding: 0;
+
+        a {
+          padding: 0 20px;
+        }
+        a.brand {
+          width: 100%;
+          background-color: $navbar-bg-color;
+        }
+        a.burger {
+          color: $navbar-menu-link-hover-color;
+          background: $navbar-menu-link-hover-bg-color;
+        }
+
+        .menu {
+          &.left {
+            float: none;
+            width: 100%;
+          }
+          &.right {
+            float: none;
+            width: 100%;
+          }
+          a {
+            display: block;
+            width: 100%;
+            border-top: 1px solid black;
+          }
+          a:last-of-type {
+            border-bottom: 1px solid black;
+          }
+        }
+      }
+    }
+  }
+}

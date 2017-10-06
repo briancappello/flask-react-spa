@@ -1,20 +1,41 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import classnames from 'classnames'
 
 import { ROUTES } from 'routes'
 import NavLink from './NavLink'
 
+import './navbar.scss'
+
 
 class NavBar extends React.Component {
-  // FIXME: mostly works, except for responsive menu behavior
+  constructor(props) {
+    super(props)
+    this.state = {
+      menuOpen: false,
+    }
+  }
+
+  componentWillReceiveProps() {
+    this.setState({ menuOpen: false })
+  }
+
   render() {
     const { isAuthenticated } = this.props
+    const { menuOpen } = this.state
+
     return (
-      <nav>
-        <div className="container">
+      <nav className={classnames({ 'menu-open': menuOpen })}>
+        <div className="container navbar-top">
           <NavLink exact to={ROUTES.Home} className="brand">
             FlaskReact<span className="tld">SPA</span>
           </NavLink>
+          <a href="javascript:void(0);"
+             className="burger"
+             onClick={this.toggleResponsiveMenu}
+          >
+            Menu&nbsp;&nbsp;&#9776;
+          </a>
           <div className="menu left">
             <NavLink to={ROUTES.About} />
             <NavLink to={ROUTES.Styles} />
@@ -29,6 +50,10 @@ class NavBar extends React.Component {
         </div>
       </nav>
     )
+  }
+
+  toggleResponsiveMenu = () => {
+    this.setState({ menuOpen: !this.state.menuOpen })
   }
 
   renderAuthenticatedMenu() {
