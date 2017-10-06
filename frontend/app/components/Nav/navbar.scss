@@ -18,6 +18,12 @@
         top: 0;
         right: 0;
         padding: 0 20px;
+
+        &:hover {
+          color: $navbar-menu-link-hover-color;
+          background: $navbar-menu-link-hover-bg-color;
+          transition: .5s;
+        }
       }
     }
 
@@ -42,10 +48,7 @@
         }
 
         .menu {
-          &.left {
-            float: none;
-            width: 100%;
-          }
+          &.left,
           &.right {
             float: none;
             width: 100%;
