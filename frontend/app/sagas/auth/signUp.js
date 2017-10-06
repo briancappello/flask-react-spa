@@ -3,6 +3,7 @@ import { push } from 'react-router-redux'
 
 import { signUp } from 'actions/auth'
 import AuthApi from 'api/auth'
+import { ROUTES, ROUTE_MAP } from 'routes'
 import { createRoutineFormSaga } from 'sagas'
 
 
@@ -14,9 +15,12 @@ export const signUpSaga = createRoutineFormSaga(
     const { token, user } = yield call(AuthApi.signUp, payload)
     yield put(signUp.success({ token, user }))
     if (token) {
-      yield put(push('/?welcome'))
+      yield put(push({
+        pathname: ROUTE_MAP[ROUTES.Home].path,
+        search: '?welcome',
+      }))
     } else {
-      yield put(push('/sign-up/pending-confirm-email'))
+      yield put(push(ROUTE_MAP[ROUTES.PendingConfirmation].path))
     }
   },
 )

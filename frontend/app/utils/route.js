@@ -5,6 +5,7 @@ import { push } from 'react-router-redux'
 import { Route, Redirect } from 'react-router-dom'
 
 import { flashInfo } from 'actions/flash'
+import { ROUTES, ROUTE_MAP } from 'routes'
 
 
 const UnconnectedProtectedRoute = (props) => {
@@ -18,7 +19,10 @@ const UnconnectedProtectedRoute = (props) => {
   return <Route {...routeProps} render={(props) => (
     isAuthenticated
       ? <Component {...props} />
-      : <Redirect to={{ pathname: '/login', search: `?next=${location.pathname}`}} />
+      : <Redirect to={{
+          pathname: ROUTE_MAP[ROUTES.Login].path,
+          search: `?next=${location.pathname}`,
+        }} />
   )} />
 }
 
@@ -31,7 +35,7 @@ class UnconnectedAnonymousRoute extends React.Component {
   componentWillMount() {
     const { isAuthenticated, push, flashInfo } = this.props
     if (isAuthenticated) {
-      push('/')
+      push(ROUTE_MAP[ROUTES.Home].path)
       flashInfo('You are already logged in.')
     }
   }

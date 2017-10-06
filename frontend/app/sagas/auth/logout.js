@@ -4,6 +4,7 @@ import { push } from 'react-router-redux'
 import { flashSuccess } from 'actions/flash'
 import { logout } from 'actions/auth'
 import AuthApi from 'api/auth'
+import { ROUTES, ROUTE_MAP } from 'routes'
 import { createRoutineSaga } from 'sagas'
 
 
@@ -14,7 +15,7 @@ export const logoutSaga = createRoutineSaga(
   function *successGenerator() {
     yield call(AuthApi.logout)
     yield put(logout.success())
-    yield put(push('/'))
+    yield put(push(ROUTE_MAP[ROUTES.Home].path))
     yield put(flashSuccess('You have been successfully logged out.'))
   },
 )
