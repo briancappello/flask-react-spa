@@ -1,0 +1,28 @@
+$sidebar-width: 146px;
+
+.styles-grid {
+  padding-left: $sidebar-width;
+
+  aside.menu-col {
+    position: fixed;
+    width: $sidebar-width;
+    margin-left: -$sidebar-width;
+
+    // shorten the distance between item bullets and their labels
+    ul {
+      li {
+        padding-left: 2px;
+        & > span {
+          margin-left: -7px;
+        }
+      }
+    }
+  }
+
+  .content-col {
+    float: right;
+    width: 100%;
+    margin-left: $sidebar-width;
+    padding-left: 10px;
+  }
+}

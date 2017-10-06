@@ -13,6 +13,8 @@ import Navigation from './Navigation'
 import Tables from './Tables'
 import Typography from './Typography'
 
+import './styles-layout.scss'
+
 
 export default class Styles extends React.Component {
   html = `\
@@ -45,34 +47,34 @@ export default class Styles extends React.Component {
 
   render() {
     return (
-      <PageContent className="row">
+      <PageContent className="row styles-grid">
         <Helmet>
           <title>Styles</title>
         </Helmet>
-        <aside className="two cols fixed">
+        <aside className="menu-col">
           <h4>Styles</h4>
           <ul>
-            <li><HashLink to="#site-template">Site Template</HashLink></li>
-            <li><HashLink to="#navigation">Navigation</HashLink></li>
-            <li><HashLink to="#block-quotes">Block Quotes</HashLink></li>
+            <li><span><HashLink to="#site-template">Site Template</HashLink></span></li>
+            <li><span><HashLink to="#navigation">Navigation</HashLink></span></li>
+            <li><span><HashLink to="#block-quotes">Block Quotes</HashLink></span></li>
             <li>
               <HashLink to="#grid">Grid</HashLink>
               <ul>
-                <li><HashLink to="#columns">Columns</HashLink></li>
-                <li><HashLink to="#fractions">Fractions</HashLink></li>
-                <li><HashLink to="#column-offsets">Column Offsets</HashLink></li>
-                <li><HashLink to="#fraction-offsets">Fraction Offsets</HashLink></li>
+                <li><span><HashLink to="#columns">Columns</HashLink></span></li>
+                <li><span><HashLink to="#fractions">Fractions</HashLink></span></li>
+                <li><span><HashLink to="#column-offsets">Column Offsets</HashLink></span></li>
+                <li><span><HashLink to="#fraction-offsets">Fraction Offsets</HashLink></span></li>
               </ul>
             </li>
-            <li><HashLink to="#typography">Typography</HashLink></li>
-            <li><HashLink to="#buttons">Buttons</HashLink></li>
-            <li><HashLink to="#forms">Forms</HashLink></li>
-            <li><HashLink to="#lists">Lists</HashLink></li>
-            <li><HashLink to="#code">Code</HashLink></li>
-            <li><HashLink to="#tables">Tables</HashLink></li>
+            <li><span><HashLink to="#typography">Typography</HashLink></span></li>
+            <li><span><HashLink to="#buttons">Buttons</HashLink></span></li>
+            <li><span><HashLink to="#forms">Forms</HashLink></span></li>
+            <li><span><HashLink to="#lists">Lists</HashLink></span></li>
+            <li><span><HashLink to="#code">Code</HashLink></span></li>
+            <li><span><HashLink to="#tables">Tables</HashLink></span></li>
           </ul>
         </aside>
-        <div className="ten cols offset-by-two">
+        <div className="content-col">
           <h1 id="styles">Styles!</h1>
           <p>
             The included styles are a fork of{' '}
