@@ -42,7 +42,7 @@
     "react-router-redux": "^5.0.0-alpha.6",
     "react-svg": "^2.1.22",
     "redux": "^3.7.2",
-    "redux-form": "^7.0.4",
+    "redux-form": "^7.1.0",
     "redux-saga": "^0.15.6",
     "skeleton-scss": "^2.0.4"
   },
