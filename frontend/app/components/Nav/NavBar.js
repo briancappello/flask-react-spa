@@ -57,7 +57,7 @@ class NavBar extends React.Component {
 
   renderAuthenticatedMenu() {
     return (
-      <div>
+      <div key="authenticated">
         <NavLink to={ROUTES.Profile} />
         <NavLink to={ROUTES.Logout} />
       </div>
@@ -66,7 +66,7 @@ class NavBar extends React.Component {
 
   renderUnauthenticatedMenu() {
     return (
-      <div>
+      <div key="unauthenticated">
         <NavLink to={ROUTES.SignUp} />
         <NavLink to={ROUTES.Login} />
       </div>
