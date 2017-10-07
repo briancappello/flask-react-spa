@@ -14,7 +14,7 @@ const logger = {
   },
 
   // Called when express.js app starts on given port w/o errors
-  appStarted: (host, frontendPort, backendPort, tunnelStarted) => {
+  appStarted: (host, frontendPort, backendHost, backendPort, tunnelStarted) => {
     console.log(`Server started ! ${chalk.green('✓')}`)
 
     // If the tunnel started, log that and the URL it's available at
@@ -35,7 +35,7 @@ Localhost: ${chalk.yellow(`http://${host}:${frontendPort}`)}
     console.log(`${chalk.bold('Backend URLs:')}`)
     console.log(divider)
     console.log(`\
-API proxy: ${chalk.yellow(`http://${host}:${backendPort}`)}`)
+API proxy: ${chalk.yellow(`http://${backendHost}:${backendPort}`)}`)
     console.log(divider)
 console.log(`${chalk.blue(`Press ${chalk.italic('CTRL-C')} to stop`)}\n`)
   },
