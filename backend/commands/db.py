@@ -1,9 +1,10 @@
 import click
 
-from dateutil.parser import parse as parse_date
 from flask import current_app
 from flask.cli import with_appcontext
 from flask_migrate.cli import db as db_cli
+
+from backend.utils.date import parse_datetime
 
 
 # FIXME: document json file format, relationships
@@ -41,7 +42,7 @@ def fixtures(file, reset):
                 # create a date when it wasn't supposed to?) maybe better to
                 # somehow declare explicit date fields in the fixtures file
                 try:
-                    d[k] = parse_date(v)
+                    d[k] = parse_datetime(v)
                 except:
                     d[k] = v
             model.create(**d)
