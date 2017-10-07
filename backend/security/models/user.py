@@ -28,6 +28,8 @@ class User(Model, UserMixin):
     roles = association_proxy('user_roles', 'role',
                               creator=lambda role: UserRole(role=role))
 
+    articles = relationship('Article', back_populates='author')
+
     __repr_props__ = ('id', 'username', 'email')
 
     def __init__(self, username, email, hash_password=True, **kwargs):
