@@ -45,7 +45,7 @@
     "redux": "^3.7.2",
     "redux-form": "^7.1.0",
     "redux-saga": "^0.15.6",
-    "skeleton-scss": "^2.0.4"
+    "super-skeleton": "briancappello/super-skeleton"
   },
   "devDependencies": {
     "add-asset-html-webpack-plugin": "^2.1.1",
