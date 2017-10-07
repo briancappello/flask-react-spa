@@ -9,6 +9,16 @@ STATIC_FOLDER = os.environ.get('FLASK_STATIC_FOLDER',
                                os.path.join(PROJECT_ROOT, 'static'))
 STATIC_URL_PATH = '/static'  # serve asset files in static/ at /static/
 
+# blog articles configuration
+ARTICLES_FOLDER = os.path.join(PROJECT_ROOT, 'articles')
+ARTICLE_PREVIEW_LENGTH = 400
+FRONTMATTER_LIST_DELIMETER = ','
+MARKDOWN_EXTENSIONS = ['extra']
+DEFAULT_ARTICLE_AUTHOR_EMAIL = 'a@a.com'
+SERIES_FILENAME = 'series.md'
+ARTICLE_FILENAME = 'article.md'
+ARTICLE_STYLESHEET_FILENAME = 'styles.css'
+
 # list of bundle modules to register with the app, in dot notation
 BUNDLES = [
     'backend.blog',
