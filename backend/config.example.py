@@ -11,8 +11,9 @@ STATIC_URL_PATH = '/static'  # serve asset files in static/ at /static/
 
 # list of bundle modules to register with the app, in dot notation
 BUNDLES = [
-    'backend.site',
+    'backend.blog',
     'backend.security',
+    'backend.site',
 ]
 
 # ordered list of extensions to register before the bundles
