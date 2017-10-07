@@ -60,6 +60,7 @@ Tags should only be used after a full provision and deploy has been performed. (
 - flask.run_migrations (runs flask migrations)
 - flask.run_fixtures (runs flask fixtures)
 - flask.static_files (updates static files from local dir)
+- flask.import_articles (updates articles from local dir)
 
 Tags are specified by passing the `-t` argument to `ansible-playbook`. For example:
 

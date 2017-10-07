@@ -10,7 +10,16 @@
       - "--exclude=*.pyc"
       - "--exclude=__pycache__"
       - "--exclude=ansible"
-  tags: flask
+      - "--exclude=docs"
+      - "--exclude=node_modules"
+      - "--exclude={{ static_dir_name }}"
+      - "--exclude=tests"
+      - "--exclude=*.sqlite"
+      - "--exclude=celerybeat.pid"
+      - "--exclude=celerybeat-schedule"
+  tags:
+    - flask
+    - flask.import_articles
 
 - name: create uwsgi.ini file
   template:
@@ -31,17 +40,31 @@
     owner: '{{ nginx_user }}'
     group: '{{ nginx_user }}'
     state: directory
-  tags: flask.static_files
+  tags:
+    - flask.static_files
+    - flask.import_articles
 
 - name: copy static files
   synchronize:
-    src: '{{ local_project_dir }}/static/'
+    src: '{{ local_project_dir }}/{{ static_dir_name}}/'
     dest: '{{ FLASK_STATIC_FOLDER }}'
     recursive: yes
     delete: yes
     rsync_opts:
       - "--exclude=*.stats"
   tags: flask.static_files
+
+- name: copy articles static files
+  synchronize:
+    src: '{{ local_project_dir }}/{{ articles_dir_name }}/'
+    dest: '{{ FLASK_STATIC_FOLDER }}/{{ articles_dir_name }}'
+    recursive: yes
+    delete: yes
+    rsync_opts:
+      - "--exclude=*.md"
+  tags:
+    - flask.static_files
+    - flask.import_articles
 
 - name: set ownership of static files to {{ nginx_user }}
   file:
@@ -50,7 +73,9 @@
     group: '{{ nginx_user }}'
     state: directory
     recurse: yes
-  tags: flask.static_files
+  tags:
+    - flask.static_files
+    - flask.import_articles
 
 - name: install packages from requirements.txt
   pip: virtualenv={{ project_virtualenv_dir }} requirements={{ requirements_path }}
@@ -68,3 +93,10 @@
   args:
     chdir: '{{ project_dir }}'
   tags: flask.run_fixtures
+
+- name: import articles
+  when: import_articles is defined and import_articles
+  command: "{{ project_virtualenv_dir }}/bin/{{ python3 }} manage.py --env=prod --no-warn site import_articles"
+  args:
+    chdir: '{{ project_dir }}'
+  tags: flask.import_articles

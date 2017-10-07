@@ -11,6 +11,8 @@ dependencies:
 project_virtualenv_dir: '{{ virtualenv_dir }}/{{ project_name }}'
 project_dir: '{{ project_virtualenv_dir }}/{{ project_name }}'
 requirements_path: '{{ project_dir }}/requirements.txt'
+static_dir_name: 'static'
+articles_dir_name: 'articles'
 
 __all_the_env_vars__:
   FLASK_ENV: '{{ FLASK_ENV | default(omit) }}'
@@ -39,6 +41,7 @@ flask_environment: '{{ __all_the_env_vars__ | filter_omitted }}'
 
 run_migrations: yes
 run_fixtures: no
+import_articles: yes
 
 supervisor_virtualenv_dir: '{{ virtualenv_dir }}/supervisor'
 supervisord: '{{ supervisor_virtualenv_dir }}/bin/supervisord'
