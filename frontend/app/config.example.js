@@ -5,23 +5,44 @@
 // 2. adjust settings as necessary
 //-------------------------------------
 
-import {
+const {
   // debug levels in vertical order from least verbose to most
   CRITICAL,
   ERROR,
   WARNING,
   INFO,
   DEBUG,
-} from 'constants.js'
+} = require('constants')
 
-// set LOGGING_ENABLED to true in dev, false in prod
-export const LOGGING_ENABLED = process.env.NODE_ENV != 'production'
-export const LOG_LEVEL = DEBUG
+const isProd = process.env.NODE_ENV === 'production'
+const isTest = process.env.NODE_ENV === 'test'
+const isDev = !(isProd || isTest)
 
-export const PORT = process.env.PORT || 8888
-export const SERVER_URL = process.env.NODE_ENV == 'production'
-    ? ''  // FIXME
-    : `http://localhost:${PORT}`
+const LOGGING_ENABLED = isDev
+const LOG_LEVEL = DEBUG
 
-export const SITE_NAME = 'Flask React SPA'
-export const COPYRIGHT = 'Company Name'
+const PORT = process.env.PORT || 8888
+const SERVER_URL = isProd
+  ? '' // FIXME
+  : `http://localhost:${PORT}`
+
+const SITE_NAME = 'Flask React SPA'
+const COPYRIGHT = 'Company Name'
+
+const HIGHLIGHT_LANGUAGES = [
+  'javascript',
+  'json',
+  'python',
+  'scss',
+  'yaml',
+]
+
+module.exports = {
+  LOGGING_ENABLED,
+  LOG_LEVEL,
+  PORT,
+  SERVER_URL,
+  SITE_NAME,
+  COPYRIGHT,
+  HIGHLIGHT_LANGUAGES,
+}

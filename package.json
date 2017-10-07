@@ -35,6 +35,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-helmet": "^5.2.0",
+    "react-highlight": "briancappello/react-highlight#react-v16-compiled",
     "react-loadable": "^4.0.5",
     "react-redux": "^5.0.6",
     "react-redux-loading-bar": "^2.9.2",

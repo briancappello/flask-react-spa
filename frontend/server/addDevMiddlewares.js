@@ -15,6 +15,7 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
 
   app.use(middleware)
   app.use(webpackHotMiddleware(compiler))
+  app.use('/static/articles', express.static(path.join(process.cwd(), 'articles')))
 
   // Since webpackDevMiddleware uses memory-fs internally to store build
   // artifacts, we use it instead

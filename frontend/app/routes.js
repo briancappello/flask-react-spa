@@ -4,6 +4,14 @@ import startCase from 'lodash/startCase'
 import { compile } from 'path-to-regexp'
 
 import {
+  ArticleDetail,
+  Articles,
+  CategoryDetail,
+  Series,
+  SeriesDetail,
+  TagDetail,
+} from 'blog/pages'
+import {
   Contact,
   ForgotPassword,
   Home,
@@ -27,6 +35,9 @@ import { AnonymousRoute, ProtectedRoute } from 'utils/route'
  * Both keys and values are component class names
  */
 export const ROUTES = {
+  ArticleDetail: 'ArticleDetail',
+  Articles: 'Articles',
+  CategoryDetail: 'CategoryDetail',
   Contact: 'Contact',
   ForgotPassword: 'ForgotPassword',
   Home: 'Home',
@@ -36,8 +47,11 @@ export const ROUTES = {
   Profile: 'Profile',
   ResendConfirmation: 'ResendConfirmation',
   ResetPassword: 'ResetPassword',
+  Series: 'Series',
+  SeriesDetail: 'SeriesDetail',
   SignUp: 'SignUp',
   Styles: 'Styles',
+  TagDetail: 'TagDetail',
 }
 
 /**
@@ -51,6 +65,21 @@ export const ROUTES = {
  *  - label: optional, label to use for links (default: startCase(key))
  */
 const routes = [
+  {
+    key: ROUTES.ArticleDetail,
+    path: '/articles/:slug',
+    component: ArticleDetail,
+  },
+  {
+    key: ROUTES.Articles,
+    path: '/articles',
+    component: Articles,
+  },
+  {
+    key: ROUTES.CategoryDetail,
+    path: '/articles/categories/:slug',
+    component: CategoryDetail,
+  },
   {
     key: ROUTES.Contact,
     path: '/contact',
@@ -110,6 +139,17 @@ const routes = [
     label: 'Reset Password',
   },
   {
+    key: ROUTES.Series,
+    path: '/series',
+    component: Series,
+    label: 'Article Series',
+  },
+  {
+    key: ROUTES.SeriesDetail,
+    path: '/series/:slug',
+    component: SeriesDetail,
+  },
+  {
     key: ROUTES.SignUp,
     path: '/sign-up',
     component: SignUp,
@@ -120,6 +160,11 @@ const routes = [
     key: ROUTES.Styles,
     path: '/styles',
     component: Styles,
+  },
+  {
+    key: ROUTES.TagDetail,
+    path: '/articles/tags/:slug',
+    component: TagDetail,
   },
 ]
 

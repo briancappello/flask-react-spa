@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 
 const APP_ROOT = path.join(process.cwd(), 'frontend', 'app')
+const appConfig = require(path.join(APP_ROOT, 'config'))
 const STYLES_ROOT = path.join(APP_ROOT, 'styles')
 
 process.traceDeprecation = true
@@ -96,6 +97,10 @@ module.exports = (options) => ({
         PORT,
       },
     }),
+    new webpack.ContextReplacementPlugin(
+      /highlight\.js\/lib\/languages$/,
+      new RegExp(appConfig.HIGHLIGHT_LANGUAGES.join('|'))
+    ),
     new webpack.NamedModulesPlugin(),
   ]),
 })

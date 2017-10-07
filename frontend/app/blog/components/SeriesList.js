@@ -1,0 +1,61 @@
+import React from 'react'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+
+import { bindRoutineCreators } from 'actions'
+import { HashLink } from 'components'
+import { injectReducer, injectSagas } from 'utils/async'
+
+import { listSeries } from 'blog/actions'
+import { selectSeriesList } from 'blog/reducers/series'
+
+import SeriesPreview from './SeriesPreview'
+
+
+class SeriesList extends React.Component {
+  componentWillMount() {
+    const { series, listSeries } = this.props
+    if (!(series && series.length)) {
+      listSeries.maybeTrigger()
+    }
+  }
+
+  render() {
+    const { series: allSeries } = this.props
+    return (
+      <div>
+        <ul>
+          {allSeries.map((series, i) =>
+            <li key={i}>
+              <HashLink to={`#${series.slug}`}>
+                {series.title}
+              </HashLink>
+            </li>
+          )}
+        </ul>
+        <hr />
+        {allSeries.map((series, i) => {
+          const preview = <SeriesPreview series={series} key={i} />
+          return i < allSeries.length - 1
+            ? [preview, <hr key={`hr${i}`} />]
+            : preview
+        })}
+      </div>
+    )
+  }
+}
+
+const withReducer = injectReducer(require('blog/reducers/series'))
+
+const withSagas = injectSagas(require('blog/sagas/series'))
+
+const withConnect = connect(
+  (state, props) => ({ series: props.series || selectSeriesList(state) }),
+  (dispatch) => bindRoutineCreators({ listSeries }, dispatch),
+)
+
+export default compose(
+  withReducer,
+  withSagas,
+  withConnect,
+)(SeriesList)

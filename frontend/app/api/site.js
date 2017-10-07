@@ -1,5 +1,5 @@
 import { post } from 'utils/request'
-import { v1 } from './versions'
+import { v1 } from 'api'
 
 
 export default class Site {

@@ -1,0 +1,34 @@
+$sidebar-width: 146px;
+
+.articles-grid {
+  padding-right: $sidebar-width;
+
+  .content-col {
+    float: left;
+    width: 100%;
+    padding-right: 20px;
+  }
+
+  .categorization-col-container {
+    width: $sidebar-width;
+    margin-right: -$sidebar-width;
+    float: right;
+
+    #categorization-col {
+      // shorten the distance between item bullets and their labels
+      ul {
+        li {
+          padding-left: 2px;
+          & > span {
+            margin-left: -7px;
+          }
+        }
+      }
+
+      &.sticky {
+        position: fixed;
+        top: 70px;
+      }
+    }
+  }
+}

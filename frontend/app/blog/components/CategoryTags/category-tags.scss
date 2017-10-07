@@ -1,0 +1,18 @@
+.category-tags {
+  .category a,
+  .tags a {
+    font-weight: bold;
+    letter-spacing: 0.75px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 6px;
+  }
+  .category a {
+    background-color: $rebecca;
+    color: white;
+  }
+  .tags a {
+    background-color: $oracle;
+    color: white;
+  }
+}
