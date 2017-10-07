@@ -19,6 +19,10 @@ export default class LoadableNavLink extends React.Component {
     this.route = ROUTE_MAP[props.to]
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.route = ROUTE_MAP[nextProps.to]
+  }
+
   maybePreloadComponent = () => {
     if (!this.route) {
       return
