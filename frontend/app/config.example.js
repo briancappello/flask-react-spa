@@ -14,12 +14,6 @@ import {
   DEBUG,
 } from 'constants.js'
 
-// FIXME: setting process.env.PORT with webpack.DefinePlugin errors in dev mode
-// (it sets server.PORT fine, so we use that as a workaround)
-if (process.env.NODE_ENV != 'production') {
-  process.env.PORT = server.PORT
-}
-
 // set LOGGING_ENABLED to true in dev, false in prod
 export const LOGGING_ENABLED = process.env.NODE_ENV != 'production'
 export const LOG_LEVEL = DEBUG
