@@ -7,8 +7,6 @@ const STYLES_ROOT = path.join(APP_ROOT, 'styles')
 
 process.traceDeprecation = true
 
-const PORT = process.env.PORT || 8888
-
 module.exports = (options) => ({
   devtool: options.devtool,
   target: 'web',
@@ -94,7 +92,6 @@ module.exports = (options) => ({
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        PORT,
       },
     }),
     new webpack.ContextReplacementPlugin(
