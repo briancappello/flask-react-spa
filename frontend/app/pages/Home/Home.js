@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { PageContent } from 'components/Content'
+import { PageContent } from 'components'
+
 import { flashSuccess } from 'actions/flash'
 import About from 'components/About'
 

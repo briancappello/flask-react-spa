@@ -1,8 +1,6 @@
 import React from 'react'
 import ReactSVG from 'react-svg'
 
-import { PageContent } from 'components'
-
 import es6Logo from './es6.png'
 import reactLogo from './react.svg'
 import reactRouterLogo from './react-router.png'
@@ -58,7 +56,7 @@ const PngLogo = ({ logo, label, maxWidth='110px', style }) => (
 
 
 export default (props) => (
-  <PageContent>
+  <div>
     <h1>Welcome to Flask React SPA!</h1>
     <p>A <strong>production-ready</strong> boilerplate built with <strong>Python 3</strong>, <strong>Flask</strong> and <strong>ES6 React/Redux</strong>.</p>
     <div className="row">
@@ -149,5 +147,5 @@ export default (props) => (
       <h2>License</h2>
       <p>MIT</p>
     </div>
-  </PageContent>
+  </div>
 )
