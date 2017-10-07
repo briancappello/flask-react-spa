@@ -1,4 +1,5 @@
 import os
+import redis
 
 from appdirs import AppDirs
 from datetime import timedelta
@@ -90,6 +91,10 @@ class BaseConfig(object):
     # session/cookies                                                        #
     ##########################################################################
     SESSION_TYPE = 'redis'
+    SESSION_REDIS = redis.Redis(
+        host=os.getenv('FLASK_REDIS_HOST', '127.0.0.1'),
+        port=int(os.getenv('FLASK_REDIS_PORT', 6379)),
+    )
     SESSION_PROTECTION = 'strong'
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SECURE = True
@@ -108,8 +113,11 @@ class BaseConfig(object):
     ##########################################################################
     # celery                                                                 #
     ##########################################################################
-    CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
-    CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+    CELERY_BROKER_URL = 'redis://{host}:{port}/0'.format(
+        host=os.getenv('FLASK_REDIS_HOST', '127.0.0.1'),
+        port=os.getenv('FLASK_REDIS_PORT', 6379),
+    )
+    CELERY_RESULT_BACKEND = CELERY_BROKER_URL
     CELERY_ACCEPT_CONTENT = ('json', 'pickle')
 
     ##########################################################################
