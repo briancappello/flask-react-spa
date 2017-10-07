@@ -207,8 +207,13 @@ class DevConfig(BaseConfig):
     ##########################################################################
     # database                                                               #
     ##########################################################################
-    DB_NAME = 'dev.sqlite'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///%s' % os.path.join(PROJECT_ROOT, DB_NAME)
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{user}:{password}@{host}:{port}/{db_name}'.format(
+        user=os.environ.get('FLASK_DATABASE_USER', 'flask_api'),
+        password=os.environ.get('FLASK_DATABASE_PASSWORD', 'flask_api'),
+        host=os.environ.get('FLASK_DATABASE_HOST', '127.0.0.1'),
+        port=os.environ.get('FLASK_DATABASE_PORT', 5432),
+        db_name=os.environ.get('FLASK_DATABASE_NAME', 'flask_api'),
+    )
     # SQLALCHEMY_ECHO = True
 
     ##########################################################################
