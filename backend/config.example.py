@@ -1,9 +1,14 @@
 import os
+
+from appdirs import AppDirs
 from datetime import timedelta
 
-APP_DIR = os.path.abspath(os.path.dirname(__file__))
-PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
+APP_NAME = 'flask-react-spa'
+app_dirs = AppDirs(APP_NAME)
+APP_CACHE_FOLDER = app_dirs.user_cache_dir
+APP_DATA_FOLDER = app_dirs.user_data_dir
 
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 TEMPLATE_FOLDER = os.path.join(PROJECT_ROOT, 'backend', 'templates')
 STATIC_FOLDER = os.environ.get('FLASK_STATIC_FOLDER',
                                os.path.join(PROJECT_ROOT, 'static'))
