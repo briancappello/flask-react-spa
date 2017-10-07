@@ -16,8 +16,8 @@
     "postinstall": "npm run build:dll",
     "postsetup": "npm run build:dll",
     "start": "node frontend/server",
-    "tests": "NODE_ENV=test jest",
-    "tests:watch": "NODE_ENV=test jest --watchAll"
+    "test": "NODE_ENV=test jest",
+    "test:watch": "NODE_ENV=test jest --watchAll"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
