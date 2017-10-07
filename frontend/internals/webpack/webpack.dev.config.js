@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 const pkg = require(path.resolve(process.cwd(), 'package.json'))
 const dllPlugin = pkg.dllPlugin
+const logger = require('../../server/logger')
 
 const plugins = [
   new webpack.HotModuleReplacementPlugin(),
