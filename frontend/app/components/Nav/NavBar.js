@@ -1,5 +1,7 @@
 import React from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import classnames from 'classnames'
 
 import { ROUTES } from 'routes'
@@ -76,9 +78,11 @@ class NavBar extends React.Component {
   }
 }
 
-export default connect(
-  (state) => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    routing: state.routing, // required for <NavLink> components to work correctly
-  }),
+const withConnect = connect(
+  (state) => ({ isAuthenticated: state.auth.isAuthenticated }),
+)
+
+export default compose(
+  withRouter,  // required for NavLinks to determine whether they're active or not
+  withConnect,
 )(NavBar)
