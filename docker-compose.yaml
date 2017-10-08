@@ -1,0 +1,101 @@
+---
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./docker/frontend/Dockerfile
+    ports:
+      - 8888:8888  # access the app at localhost:8888
+      - 5555:5555  # access webpack bundle analyzer at localhost:5555
+    links:
+      - backend
+    environment:
+      - API_HOST=backend
+      - API_PORT=5000
+    entrypoint:
+      - /frontend-entrypoint.sh
+    volumes:
+      - ./articles:/flask/articles
+      - ./frontend:/flask/frontend
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.0
+    ports:
+      - 8025:8025  # access mailhog's webmail interface at localhost:8025
+    expose:
+      - 1025
+
+  postgres:
+    image: postgres:9.6.5
+    ports:
+      - 5442:5432  # access the dev db at localhost:5442
+    volumes:
+      - ./docker/postgres/data:/var/lib/postgresql
+      - ./docker/postgres/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
+
+  sphinx_docs:
+    build:
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    environment:
+     - SPHINX_DOCS_HOST=0.0.0.0
+     - SPHINX_DOCS_PORT=5500
+    ports:
+      - 5500:5500  # access the app documentation at localhost:5500
+    entrypoint:
+      - /docs-entrypoint.sh
+    volumes:
+      - .:/flask/src
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    links:
+      - postgres
+      - redis
+    environment:
+      - FLASK_DATABASE_HOST=postgres
+      - FLASK_REDIS_HOST=redis
+    entrypoint:
+      - /flask-entrypoint.sh
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/flask/src
+
+  redis:
+    image: redis:3.2-alpine
+    command: redis-server
+    volumes:
+      - ./docker/redis/data:/data
+    expose:
+      - 6379
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    links:
+      - mailhog
+    environment:
+      - FLASK_REDIS_HOST=redis
+      - FLASK_MAIL_HOST=mailhog
+      - FLASK_MAIL_PORT=1025
+    entrypoint:
+      - /celery-worker-entrypoint.sh
+    volumes:
+      - .:/flask/src
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    environment:
+      - FLASK_REDIS_HOST=redis
+    entrypoint:
+      - /celery-beat-entrypoint.sh
+    volumes:
+      - .:/flask/src

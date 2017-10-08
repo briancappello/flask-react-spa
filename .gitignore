@@ -7,12 +7,14 @@ frontend/app/config.js
 *.py[cod]
 *.sqlite
 backend/config.py
-flask_sessions/
 celerybeat-schedule
 celerybeat.pid
 
 ansible/.password
 ansible/secrets.yaml
+
+docker/postgres/data
+docker/redis/data
 
 # C extensions
 *.so
