@@ -18,6 +18,11 @@ class LatestArticles extends React.Component {
 
   render() {
     const { articles } = this.props
+
+    if (articles.length === 0) {
+      return <p>No articles have been published yet.</p>
+    }
+
     return (
       <div>
         {articles.map((article, i) =>

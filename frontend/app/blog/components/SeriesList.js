@@ -20,20 +20,35 @@ class SeriesList extends React.Component {
     }
   }
 
+  renderContents(allSeries) {
+    if (allSeries.length < 3) {
+      return null
+    }
+
+    return [
+      <ul key="contents">
+        {allSeries.map((series, i) =>
+          <li key={i}>
+            <HashLink to={`#${series.slug}`}>
+              {series.title}
+            </HashLink>
+          </li>
+        )}
+      </ul>,
+      <hr />
+    ]
+  }
+
   render() {
     const { series: allSeries } = this.props
+
+    if (allSeries.length === 0) {
+      return <p>No article series have been published yet.</p>
+    }
+
     return (
       <div>
-        <ul>
-          {allSeries.map((series, i) =>
-            <li key={i}>
-              <HashLink to={`#${series.slug}`}>
-                {series.title}
-              </HashLink>
-            </li>
-          )}
-        </ul>
-        <hr />
+        {this.renderContents(allSeries)}
         {allSeries.map((series, i) => {
           const preview = <SeriesPreview series={series} key={i} />
           return i < allSeries.length - 1
