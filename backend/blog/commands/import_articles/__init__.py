@@ -25,11 +25,13 @@ ARTICLES_METADATA_PATH = os.path.join(APP_CACHE_FOLDER, '.articles-metadata.json
 @blog.command()
 @with_appcontext
 def import_articles():
+    click.echo('Importing new/updated blog articles.')
     last_updated, default_author = load_metadata()
     new_articles = load_article_datas(ARTICLES_FOLDER,
                                       default_author,
                                       last_updated)
-    process_article_datas(new_articles, None)
+    count = 0
+    count += process_article_datas(new_articles, None)
 
     for series_data in load_series_datas(ARTICLES_FOLDER,
                                          default_author,
@@ -37,19 +39,25 @@ def import_articles():
         series, is_create = series_data.create_or_update_series()
         should_save = is_create or series_data.last_updated.timestamp() > last_updated
         if should_save:
+            count += 1
             series.save()
         click.echo('{}Series: {}'.format(
             should_save and (is_create and 'Created ' or 'Updated ') or '',
             series.title,
         ))
-        process_article_datas(series_data.articles, series)
+        count += process_article_datas(series_data.articles, series)
 
-    db.session.commit()
-    save_metadata()
+    if count:
+        db.session.commit()
+        save_metadata()
+        click.echo('Done.')
+    else:
+        click.echo('No new articles found. Exiting.')
 
 
 def process_article_datas(article_datas, series):
-    for article_data in article_datas:
+    count = -1
+    for count, article_data in enumerate(article_datas):
         article, is_create = article_data.create_or_update_article()
         article.save()
         if series and article_data.part:
@@ -62,6 +70,7 @@ def process_article_datas(article_datas, series):
         click.echo('{}{} Article: {}'.format(series and ' - ' or '',
                                              is_create and 'Created' or 'Updated',
                                              article.title))
+    return count + 1
 
 
 def load_metadata():
@@ -85,8 +94,7 @@ def load_metadata():
 
 
 def save_metadata():
-    if not os.path.exists(os.path.dirname(ARTICLES_METADATA_PATH)):
-        os.mkdir(os.path.dirname(ARTICLES_METADATA_PATH))
+    os.makedirs(os.path.dirname(ARTICLES_METADATA_PATH), exist_ok=True)
 
     data = json.dumps({'last_updated': datetime.now().timestamp()}, indent=4)
     with open(ARTICLES_METADATA_PATH, 'w') as f:
