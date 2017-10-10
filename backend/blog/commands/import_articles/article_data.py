@@ -39,10 +39,10 @@ class ArticleData(FileData):
             article = Article.create(author=self.author)
             is_create = True
 
-        # article.author = author
         article.title = self.title
         article.publish_date = self.publish_date
-        article.last_updated = self.last_updated
+        if not is_create:
+            article.last_updated = self.last_updated
         article.file_path = self.file_path
         article.header_image = self.header_image
         article.html = self.html
