@@ -4,6 +4,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 
 import { bindRoutineCreators } from 'actions'
+import { PageContent } from 'components'
 import { injectReducer, injectSagas } from 'utils/async'
 
 import { loadTagDetail } from 'blog/actions'
@@ -36,24 +37,26 @@ class TagDetail extends React.Component {
     const hasArticles = !!(articles && articles.length)
 
     return (
-      <ArticlesLayout tag={tag}>
-        <Helmet>
-          <title>Tag: {name}</title>
-        </Helmet>
-        <h1>Tag: {name}</h1>
+      <PageContent>
+        <ArticlesLayout tag={tag}>
+          <Helmet>
+            <title>Tag: {name}</title>
+          </Helmet>
+          <h1>Tag: {name}</h1>
 
-        {hasSeries && <h2>Article Series tagged {name}</h2>}
-        {series.map((series, i) =>
-          <SeriesPreview series={series} key={i} />
-        )}
+          {hasSeries && <h2>Article Series tagged {name}</h2>}
+          {series.map((series, i) =>
+            <SeriesPreview series={series} key={i} />
+          )}
 
-        {hasSeries && hasArticles && <hr />}
+          {hasSeries && hasArticles && <hr />}
 
-        {hasArticles && <h2>Articles tagged {name}</h2>}
-        {tag.articles.map((article, i) =>
-          <ArticlePreview article={article} key={i} />
-        )}
-      </ArticlesLayout>
+          {hasArticles && <h2>Articles tagged {name}</h2>}
+          {tag.articles.map((article, i) =>
+            <ArticlePreview article={article} key={i} />
+          )}
+        </ArticlesLayout>
+      </PageContent>
     )
   }
 }

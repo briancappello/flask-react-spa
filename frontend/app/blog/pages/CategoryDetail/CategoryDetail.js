@@ -4,6 +4,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 
 import { bindRoutineCreators } from 'actions'
+import { PageContent } from 'components'
 import { injectReducer, injectSagas } from 'utils/async'
 
 import { loadCategoryDetail } from 'blog/actions'
@@ -36,24 +37,26 @@ class CategoryDetail extends React.Component {
     const hasArticles = !!(articles && articles.length)
 
     return (
-      <ArticlesLayout category={category}>
-        <Helmet>
-          <title>Category: {name}</title>
-        </Helmet>
-        <h1>Category: {name}</h1>
+      <PageContent>
+        <ArticlesLayout category={category}>
+          <Helmet>
+            <title>Category: {name}</title>
+          </Helmet>
+          <h1>Category: {name}</h1>
 
-        {hasSeries && <h2>Article Series on {name}</h2>}
-        {series.map((series, i) =>
-          <SeriesPreview series={series} key={i} />
-        )}
+          {hasSeries && <h2>Article Series on {name}</h2>}
+          {series.map((series, i) =>
+            <SeriesPreview series={series} key={i} />
+          )}
 
-        {hasSeries && hasArticles && <hr />}
+          {hasSeries && hasArticles && <hr />}
 
-        {hasArticles && <h2>Articles on {name}</h2>}
-        {articles.map((article, i) =>
-          <ArticlePreview article={article} key={i} />
-        )}
-      </ArticlesLayout>
+          {hasArticles && <h2>Articles on {name}</h2>}
+          {articles.map((article, i) =>
+            <ArticlePreview article={article} key={i} />
+          )}
+        </ArticlesLayout>
+      </PageContent>
     )
   }
 }

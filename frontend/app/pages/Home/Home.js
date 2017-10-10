@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { PageContent } from 'components'
 
 import { flashSuccess } from 'actions/flash'
-import { LatestArticles } from 'blog/components'
+import { ArticlesLayout, LatestArticles } from 'blog/components'
 import About from 'components/About'
 
 
@@ -20,8 +20,10 @@ class Home extends React.Component {
     return (
       <PageContent>
         <About />
-        <h2>Latest Articles!</h2>
-        <LatestArticles />
+        <ArticlesLayout>
+          <h2>Latest Articles!</h2>
+          <LatestArticles />
+        </ArticlesLayout>
       </PageContent>
     )
   }

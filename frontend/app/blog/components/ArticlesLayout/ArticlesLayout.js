@@ -47,7 +47,7 @@ export default class ArticlesLayout extends React.Component {
     const { children, category, tag } = this.props
     const { sticky } = this.state
     return (
-      <PageContent>
+      <div>
         <div className="articles-grid">
           <div className="content-col">
             {children}
@@ -61,7 +61,7 @@ export default class ArticlesLayout extends React.Component {
             </div>
           </div>
         </div>
-      </PageContent>
+      </div>
     )
   }
 }
