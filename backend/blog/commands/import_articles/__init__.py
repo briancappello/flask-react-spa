@@ -23,10 +23,11 @@ ARTICLES_METADATA_PATH = os.path.join(APP_CACHE_FOLDER, '.articles-metadata.json
 
 
 @blog.command()
+@click.option('--reset', is_flag=True, default=False, expose_value=True)
 @with_appcontext
-def import_articles():
+def import_articles(reset):
     click.echo('Importing new/updated blog articles.')
-    last_updated, default_author = load_metadata()
+    last_updated, default_author = load_metadata(reset)
     new_articles = load_article_datas(ARTICLES_FOLDER,
                                       default_author,
                                       last_updated)
@@ -73,7 +74,7 @@ def process_article_datas(article_datas, series):
     return count + 1
 
 
-def load_metadata():
+def load_metadata(reset=False):
     if not os.path.exists(ARTICLES_FOLDER):
         click.secho('Could not find directory ARTICLES_FOLDER'
                     '={}'.format(ARTICLES_FOLDER), fg='red')
@@ -85,7 +86,7 @@ def load_metadata():
                     '={}'.format(DEFAULT_ARTICLE_AUTHOR_EMAIL), fg='red')
         sys.exit(1)
 
-    if not os.path.exists(ARTICLES_METADATA_PATH):
+    if reset or not os.path.exists(ARTICLES_METADATA_PATH):
         return 0, default_author
 
     with open(ARTICLES_METADATA_PATH) as f:
