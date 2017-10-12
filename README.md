@@ -15,7 +15,7 @@ The frontend is heavily inspired by [react boilerplate](https://github.com/react
 
 ## [Flask](http://flask.pocoo.org/) Backend
 
-- [SQLAlchemy](http://docs.sqlalchemy.org/en/rel_1_1/) ORM with [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.2/) and migrations provided by [Alembic](http://alembic.zzzcomputing.com/en/latest/) via [Flask-Migrate](http://flask-migrate.readthedocs.io/en/latest/)
+- [SQLAlchemy](http://docs.sqlalchemy.org/en/rel_1_1/) ORM with [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.2/) and migrations provided by [Flask-Alembic](https://flask-alembic.readthedocs.io/en/stable/)
 - RESTful APIs provided by a customized integration between [Flask-RESTful](http://flask-restful.readthedocs.io/en/latest/) and [Flask-Marshmallow](http://flask-marshmallow.readthedocs.io/en/latest/)
 - [Flask-Security](https://flask-security.readthedocs.io/en/latest/) provides authentication, authorization, registration and change/forgot password functionality
    - User session management via [Flask-Login](https://flask-login.readthedocs.io/en/latest/)

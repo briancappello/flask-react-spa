@@ -38,7 +38,7 @@ EXTENSIONS = [
     'backend.extensions:session',               # should be first
     'backend.extensions:csrf',                  # should be second
     'backend.extensions:db',
-    'backend.extensions:migrate',               # must come after db
+    'backend.extensions:alembic',               # must come after db
     'backend.extensions.celery:celery',
     'backend.extensions.mail:mail',
     'backend.extensions.marshmallow:ma',        # must come after db
@@ -109,6 +109,15 @@ class BaseConfig(object):
     # database                                                               #
     ##########################################################################
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    ALEMBIC = {
+        'script_location': os.path.join(PROJECT_ROOT, 'migrations'),
+        'version_locations': [
+            (bundle.rsplit('.')[1], os.path.join(PROJECT_ROOT,
+                                                 bundle.replace('.', os.sep),
+                                                 'migrations'))
+            for bundle in BUNDLES],
+    }
 
     ##########################################################################
     # celery                                                                 #

@@ -16,11 +16,11 @@ click==6.7
 decorator==4.1.2
 entrypoints==0.2.3
 Flask==0.12.2
+Flask-Alembic==2.0.1
 Flask-BabelEx==0.9.3
 Flask-Login==0.4.0
 Flask-Mail==0.9.1
 flask-marshmallow==0.8.0
-Flask-Migrate==2.1.1
 Flask-Principal==0.4.0
 Flask-RESTful==0.3.6
 Flask-Security==3.0.0

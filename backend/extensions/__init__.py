@@ -1,5 +1,5 @@
 from backend.api import Api
-from flask_migrate import Migrate
+from flask_alembic import Alembic
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
@@ -17,7 +17,7 @@ db = SQLAlchemy(metadata=MetaData(naming_convention={
     'fk': 'fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s',
     'pk': 'pk_%(table_name)s',
 }))
-migrate = Migrate(db=db, render_as_batch=True)
+alembic = Alembic()
 
 # Flask-Restful must be initialized _AFTER_ the SQLAlchemy extension has
 # been initialized, AND after all views, models, and serializers have

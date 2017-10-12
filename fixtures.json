@@ -8,7 +8,7 @@
       "last_name": "Admin",
       "password": "password",
       "active": true,
-      "confirmed_at": "2017-08-30 00:00:00"
+      "confirmed_at": "2017-08-30 00:00:00 UTC"
     },
     {
       "id": 2,
@@ -18,7 +18,7 @@
       "last_name": "User",
       "password": "password",
       "active": true,
-      "confirmed_at": "2017-08-30 00:00:00"
+      "confirmed_at": "2017-08-30 00:00:00 UTC"
     }
   ]},
   { "model": "Role", "items": [

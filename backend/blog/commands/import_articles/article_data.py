@@ -1,6 +1,7 @@
 import functools
 import markdown
 import os
+import pytz
 import re
 
 from bs4 import BeautifulSoup
@@ -74,7 +75,9 @@ class ArticleData(FileData):
             match = re.match(DATE_RE,
                              self.is_dir and self.dir_name or self.file_name)
             datestamp = match and match.group('date') or None
-        return datestamp and parse_datetime(datestamp) or utcnow()
+        if datestamp:
+            datestamp = parse_datetime(datestamp)
+        return datestamp and datestamp.astimezone(pytz.UTC) or utcnow()
 
     @property
     def header_image(self):

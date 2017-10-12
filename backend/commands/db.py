@@ -2,7 +2,7 @@ import click
 
 from flask import current_app
 from flask.cli import with_appcontext
-from flask_migrate.cli import db as db_cli
+from flask_alembic.cli.click import cli as db_cli
 
 from backend.utils.date import parse_datetime
 
@@ -96,10 +96,9 @@ def reset(reset):
 
 
 def _reset_db():
-    from backend.extensions import migrate
-    from alembic import command as alembic
+    from backend.extensions import alembic
 
     _drop_db()
     click.echo('Running DB migrations.')
-    alembic.upgrade(migrate.get_config(None), 'head')
+    alembic.upgrade()
 
