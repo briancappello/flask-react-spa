@@ -4,7 +4,7 @@ import os
 import pytz
 import re
 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag as SoupTag
 
 from backend.config import (
     ARTICLE_FILENAME,
@@ -99,7 +99,9 @@ class ArticleData(FileData):
             img.attrs['src'] = self._get_static_url(img.attrs['src'])
 
         # strip html and body tags
-        body = ''.join(map(str, soup.find('body').contents))
+        body = soup.find('body') or ''
+        if isinstance(body, SoupTag):
+            body = ''.join(map(str, body.contents))
 
         # add stylesheet if necessary
         if self.is_dir and os.path.exists(os.path.join(self.dir_path,
@@ -115,7 +117,7 @@ class ArticleData(FileData):
         soup = BeautifulSoup(self.html, 'lxml')
         p = soup.find('p')
         if not p:
-            return None
+            return ''
 
         preview = ''
         preview_len = 0
