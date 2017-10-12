@@ -14,10 +14,10 @@ class TagResource(ModelResource):
             'name': tag.name,
             'slug': tag.slug,
             'series': Series.join(SeriesTag)
-                            .filter(Tag.id.in_([tag.id]))
+                            .filter(SeriesTag.tag_id == tag.id)
                             .all(),
             'articles': Article.filter_by(series=None)
                                .join(ArticleTag)
-                               .filter(Tag.id.in_([tag.id]))
+                               .filter(ArticleTag.tag_id == tag.id)
                                .all(),
         })
