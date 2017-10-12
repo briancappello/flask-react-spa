@@ -112,11 +112,6 @@ class BaseConfig(object):
 
     ALEMBIC = {
         'script_location': os.path.join(PROJECT_ROOT, 'migrations'),
-        'version_locations': [
-            (bundle.rsplit('.')[1], os.path.join(PROJECT_ROOT,
-                                                 bundle.replace('.', os.sep),
-                                                 'migrations'))
-            for bundle in BUNDLES],
     }
 
     ##########################################################################

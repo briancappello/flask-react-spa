@@ -59,7 +59,7 @@ class Api(BaseApi):
             deferred(app)
 
         # instantiate serializers
-        for model_name, serializer_class in self.serializers.items():
+        for model_name, serializer_class in app.serializers.items():
             self.serializers[model_name] = serializer_class()
             self.serializers_many[model_name] = serializer_class(many=True)
 
@@ -80,7 +80,7 @@ class Api(BaseApi):
             resource.serializer_create = self.serializers[model_name].__class__()
             resource.serializer_create.context['is_create'] = True
 
-        self._register_serializers(app, self.serializers)
+        self._register_json_encoder(app, self.serializers)
 
     def resource(self, *urls, **kwargs):
         """Wraps a :class:`~flask_restful.Resource` class, adding it to the
@@ -241,7 +241,7 @@ class Api(BaseApi):
             endpoint = view_func.__name__
         return '{}.{}'.format(self.name, endpoint)
 
-    def _register_serializers(self, app, serializers):
+    def _register_json_encoder(self, app, serializers):
         BaseEncoderClass = app.json_encoder or BaseJSONEncoder
 
         class JSONEncoder(BaseEncoderClass):
@@ -258,7 +258,7 @@ class Api(BaseApi):
         """Overridden to support returning already-formed Responses unmodified,
         as well as automatic serialization of lists of sqlalchemy models
         (serialization of individual models is handled by a custom JSONEncoder
-         class configured in the self._register_serializers method)
+         class configured in the self._register_json_encoder method)
         """
         # we've already got a response, eg, from jsonify
         if isinstance(data, Response):

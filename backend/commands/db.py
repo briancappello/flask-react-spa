@@ -17,8 +17,6 @@ def fixtures(file, reset):
     """Load database fixtures from JSON."""
     import json
     from backend.extensions import db
-    from backend.magic import get_bundle_models
-    models = dict(get_bundle_models())
 
     if reset:
         _reset_db()
@@ -34,7 +32,7 @@ def fixtures(file, reset):
 
     click.echo('Loading fixtures.')
     for fixture in json.load(file):
-        model = models[fixture['model']]
+        model = current_app.models[fixture['model']]
         for model_kwargs in fixture['items']:
             d = {}
             for k, v in model_kwargs.items():

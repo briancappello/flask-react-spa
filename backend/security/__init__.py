@@ -1,3 +1,5 @@
+from backend.magic import Bundle
+
 from .datastore import SQLAlchemyUserDatastore
 from .decorators import (
     anonymous_user_required,
@@ -7,3 +9,5 @@ from .decorators import (
     roles_accepted,
 )
 from .extension import Security
+
+security_bundle = Bundle(__name__, commands=None)
