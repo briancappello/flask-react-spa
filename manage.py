@@ -45,7 +45,7 @@ def cli(ctx, env, warn):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument('--env', default='dev')
     args, _ = parser.parse_known_args()
 
