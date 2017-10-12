@@ -61,13 +61,14 @@ def process_article_datas(article_datas, series):
     for count, article_data in enumerate(article_datas):
         article, is_create = article_data.create_or_update_article()
         article.save()
-        if not is_create:
-            if series and article_data.part:
+        if series and is_create:
+            if article_data.part:
                 series.series_articles.append(SeriesArticle(series=series,
                                                             article=article,
                                                             part=article_data.part))
-            elif series:
+            else:
                 series.articles.append(article)
+            series.save()
 
         click.echo('{}{} Article: {}'.format(series and ' - ' or '',
                                              is_create and 'Created' or 'Updated',
