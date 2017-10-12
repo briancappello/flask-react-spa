@@ -3,21 +3,21 @@ import 'babel-polyfill'
 import { AppContainer as HotReloadContainer } from 'react-hot-loader'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import createHistory from 'history/createBrowserHistory'
+import createBrowserHistory from 'history/createBrowserHistory'
 
 import configureStore from 'configureStore'
 import App from 'components/App'
 
-import { login } from 'actions/auth'
-import { flashInfo } from 'actions/flash'
-import AuthApi from 'api/auth'
+import { login } from 'security/actions'
+import { flashInfo } from 'site/actions'
+import SecurityApi from 'security/api'
 import { storage } from 'utils'
 
 
 const APP_MOUNT_POINT = document.getElementById('app')
 
 const initialState = {}
-const history = createHistory()
+const history = createBrowserHistory()
 const store = configureStore(initialState, history)
 
 const renderRootComponent = (Component) => {
@@ -31,7 +31,7 @@ const renderRootComponent = (Component) => {
 
 const token = storage.getToken()
 store.dispatch(login.request())
-AuthApi.checkAuthToken(token)
+SecurityApi.checkAuthToken(token)
   .then(({ user }) => {
     store.dispatch(login.success({ token, user }))
   })
@@ -41,7 +41,7 @@ AuthApi.checkAuthToken(token)
   .then(() => {
     store.dispatch(login.fulfill())
     renderRootComponent(App)
-    const isAuthenticated = store.getState().auth.isAuthenticated
+    const isAuthenticated = store.getState().security.isAuthenticated
     const alreadyHasFlash = store.getState().flash.visible
     if (isAuthenticated && !alreadyHasFlash) {
       store.dispatch(flashInfo('Welcome back!'))

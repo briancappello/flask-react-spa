@@ -11,20 +11,25 @@ import {
   SeriesDetail,
   TagDetail,
 } from 'blog/pages'
+
 import {
-  Contact,
   ForgotPassword,
-  Home,
   Login,
   Logout,
-  NotFound,
   PendingConfirmation,
   Profile,
   SignUp,
   ResendConfirmation,
   ResetPassword,
+} from 'security/pages'
+
+import {
+  Contact,
+  Home,
+  NotFound,
   Styles,
-} from 'pages'
+} from 'site/pages'
+
 import { AnonymousRoute, ProtectedRoute } from 'utils/route'
 
 

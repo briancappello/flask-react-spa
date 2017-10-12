@@ -21,7 +21,7 @@ class CategoryDetail extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { loadCategoryDetail, slug } = nextProps
     if (slug != this.props.slug) {
-      loadCategoryDetail.maybeTrigger({slug})
+      loadCategoryDetail.maybeTrigger({ slug })
     }
   }
 

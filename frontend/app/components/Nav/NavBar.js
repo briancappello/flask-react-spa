@@ -79,7 +79,7 @@ class NavBar extends React.Component {
 }
 
 const withConnect = connect(
-  (state) => ({ isAuthenticated: state.auth.isAuthenticated }),
+  (state) => ({ isAuthenticated: state.security.isAuthenticated }),
 )
 
 export default compose(

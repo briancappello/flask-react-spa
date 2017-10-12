@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux'
 import { Route, Redirect } from 'react-router-dom'
 
-import { flashInfo } from 'actions/flash'
+import { flashInfo } from 'site/actions'
 import { ROUTES, ROUTE_MAP } from 'routes'
 
 
@@ -27,7 +27,7 @@ const UnconnectedProtectedRoute = (props) => {
 }
 
 export const ProtectedRoute = connect(
-  (state) => ({ isAuthenticated: state.auth.isAuthenticated }),
+  (state) => ({ isAuthenticated: state.security.isAuthenticated }),
 )(UnconnectedProtectedRoute)
 
 
@@ -54,6 +54,6 @@ class UnconnectedAnonymousRoute extends React.Component {
 }
 
 export const AnonymousRoute = connect(
-  (state) => ({ isAuthenticated: state.auth.isAuthenticated }),
+  (state) => ({ isAuthenticated: state.security.isAuthenticated }),
   (dispatch) => bindActionCreators({ flashInfo, push }, dispatch),
 )(UnconnectedAnonymousRoute)
