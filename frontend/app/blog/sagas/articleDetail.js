@@ -20,10 +20,14 @@ export const maybeLoadArticleDetailSaga = function *(article) {
 
 export const loadArticleDetailSaga = createRoutineSaga(
   loadArticleDetail,
-  function *successGenerator({ payload: article }) {
-    article = yield call(BlogApi.loadArticleDetail, article)
+  function *successGenerator({ payload: payloadArticle }) {
+    const { article, prev, next } = yield call(BlogApi.loadArticleDetail, payloadArticle)
     yield put(loadArticleDetail.success({
-      article: convertDates(['lastUpdated', 'publishDate'])(article),
+      article: {
+        ...convertDates(['lastUpdated', 'publishDate'])(article),
+        prev,
+        next,
+      },
     }))
   }
 )

@@ -53,16 +53,42 @@ class Article(Model):
             .order_by(cls.publish_date.desc(), cls.last_updated.desc())\
             .all()
 
-    @classmethod
-    def get_prev_next_by_slug(cls, slug):
+    def get_series_prev_next(self):
+        if self.series:
+            series_articles = self.series.series_articles
+
+            prev = None
+            prev_i = self.part - 2
+            if prev_i >= 0:
+                prev = series_articles[prev_i]
+                prev = {'slug': prev.article.slug, 'title': prev.article.title}
+
+            next = None
+            next_i = self.part
+            if next_i < len(series_articles):
+                next = series_articles[next_i]
+                next = {'slug': next.article.slug, 'title': next.article.title}
+
+            if prev and next:
+                return prev, next
+            elif prev:
+                return prev, None
+            elif next:
+                return None, next
+        return None, None
+
+    def get_prev_next(self):
+        if self.series:
+            return self.get_series_prev_next()
+
         result = db.session.execute('''
           WITH articles AS (
             SELECT
               slug,
               title,
-              ROW_NUMBER() OVER (ORDER BY publish_date DESC, last_updated DESC) AS row_number
-            FROM %(tablename)s
-            WHERE publish_date <= :now
+              ROW_NUMBER() OVER (ORDER BY publish_date ASC, last_updated ASC) AS row_number
+            FROM {article_table}
+            WHERE publish_date <= :now AND article_series_id IS NULL
           )
           SELECT
             slug,
@@ -75,7 +101,17 @@ class Article(Model):
             CROSS JOIN (SELECT -1 AS i UNION ALL SELECT 0 UNION ALL SELECT 1) n
             WHERE slug = :slug
           )
-        ''' % {'tablename': Article.__tablename__}, {'now': utcnow(),
-                                                     'slug': slug})
-        for row in result.fetchall():
-            print(row)
+        '''.format(article_table=Article.__tablename__), {'now': utcnow(),
+                                                          'slug': self.slug})
+
+        rows = [{'slug': row[0], 'title': row[1]}
+                for row in result.fetchall()]
+
+        if len(rows) == 1:
+            return None, None
+        elif len(rows) == 3:
+            return rows[0], rows[2]
+        elif rows[0]['slug'] == self.slug:
+            return None, rows[1]
+        elif rows[1]['slug'] == self.slug:
+            return rows[0], None

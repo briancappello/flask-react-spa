@@ -11,8 +11,10 @@ class ArticleResource(ModelResource):
     include_decorators = (GET,)
 
     def get(self, article):
-        # Article.get_prev_next_by_slug(article.slug)
-        return article
+        prev, next = article.get_prev_next()
+        return {'article': article,
+                'prev': prev,
+                'next': next}
 
     def list(self):
         return Article.get_published()

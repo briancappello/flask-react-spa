@@ -14,17 +14,27 @@ import { injectReducer, injectSagas } from 'utils/async'
 import { loadArticleDetail } from 'blog/actions'
 import {
   ArticleByLine,
+  ArticleLink,
   ArticleTitle,
   CategoryTags,
   SeriesNotice,
 } from 'blog/components'
 import { selectArticleDetailBySlug } from 'blog/reducers/articleDetail'
 
+import './article-detail.scss'
+
 
 class ArticleDetail extends React.Component {
   componentWillMount() {
     const { loadArticleDetail, slug } = this.props
     loadArticleDetail.maybeTrigger({ slug })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { loadArticleDetail, slug } = nextProps
+    if (slug != this.props.slug) {
+      loadArticleDetail.maybeTrigger({ slug })
+    }
   }
 
   renderTitle({ series, title }) {
@@ -42,6 +52,32 @@ class ArticleDetail extends React.Component {
     this.e = e
   }
 
+  renderPrevNext({ series, prev, next }) {
+    if (!(prev || next)) {
+      return null
+    }
+
+    let prev_title, next_title
+    if (series) {
+      prev_title = prev && `Part ${series.part - 1}: ${prev.title}`
+      next_title = next && `Part ${series.part + 1}: ${next.title}`
+    } else {
+      prev_title = prev && prev.title
+      next_title = next && next.title
+    }
+
+    return (
+      <div className="row prev-next-links">
+        {prev && <div className="prev">
+          <ArticleLink article={prev}>&laquo;{` Previous - ${prev_title}`}</ArticleLink>
+        </div>}
+        {next && <div className="next">
+          <ArticleLink article={next}>{`Next - ${next_title} `}&raquo;</ArticleLink>
+        </div>}
+      </div>
+    )
+  }
+
   render() {
     const { isLoaded, article } = this.props
     if (!isLoaded) {
@@ -52,7 +88,7 @@ class ArticleDetail extends React.Component {
 
     return [
       headerImage && <PageHeader image={headerImage} key="header" />,
-      <PageContent key="content">
+      <PageContent className="article-detail" key="content">
         <Helmet>
           <title>
             {series
@@ -68,6 +104,7 @@ class ArticleDetail extends React.Component {
         <Highlight innerHTML languages={HIGHLIGHT_LANGUAGES}>
           {html}
         </Highlight>
+        {this.renderPrevNext(article)}
       </PageContent>
     ]
   }
