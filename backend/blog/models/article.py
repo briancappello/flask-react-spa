@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from backend.database import (
     Column,
     DateTime,
@@ -12,6 +10,7 @@ from backend.database import (
     relationship,
     slugify,
 )
+from backend.utils.date import utcnow
 
 from .series_article import SeriesArticle
 from .article_tag import ArticleTag
@@ -50,7 +49,7 @@ class Article(Model):
     @classmethod
     def get_published(cls):
         return cls.query\
-            .filter(cls.publish_date <= datetime.utcnow())\
+            .filter(cls.publish_date <= utcnow())\
             .order_by(cls.publish_date.desc(), cls.last_updated.desc())\
             .all()
 
@@ -76,7 +75,7 @@ class Article(Model):
             CROSS JOIN (SELECT -1 AS i UNION ALL SELECT 0 UNION ALL SELECT 1) n
             WHERE slug = :slug
           )
-        ''' % {'tablename': Article.__tablename__}, {'now': datetime.utcnow(),
+        ''' % {'tablename': Article.__tablename__}, {'now': utcnow(),
                                                      'slug': slug})
         for row in result.fetchall():
             print(row)
