@@ -18,6 +18,8 @@ import { Link } from 'react-router-dom'
 import isObject from 'lodash/isObject'
 import isString from 'lodash/isString'
 
+import { CONTENT_TOP } from 'constants.js'
+
 
 // file-level "global" variables, necessitated by MutationObserver's Api :(
 let hashFragment = ''
@@ -37,7 +39,7 @@ function getElAndScroll() {
   const element = document.getElementById(hashFragment)
   if (element !== null) {
     element.scrollIntoView()
-    window.scrollBy(0, -70) // offset to account for fixed navbar height
+    window.scrollBy(0, -CONTENT_TOP) // offset to account for fixed navbar height
     reset()
     return true
   }
