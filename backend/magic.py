@@ -57,19 +57,31 @@ def is_blueprint(obj):
     return isinstance(obj, flask.Blueprint)
 
 
-def is_click_command_or_group(obj):
-    return isinstance(obj, click.Command) or is_click_group(obj)
+def is_click_command(obj):
+    return isinstance(obj, click.Command) and not isinstance(obj, click.Group)
 
 
 def is_click_group(obj):
     return isinstance(obj, click.Group)
 
 
+def is_click_command_or_group(obj):
+    return is_click_command(obj) or is_click_group(obj)
+
+
 def get_commands():
     """An iterable of (command_name, command_fn) tuples"""
     from backend import commands
-    for name, command in inspect.getmembers(commands, is_click_command_or_group):
-        yield (name, command)
+    existing_group_commands = {}
+    for name, group in inspect.getmembers(commands, is_click_group):
+        existing_group_commands.update(group.commands)
+        if name not in commands.EXISTING_EXTENSION_GROUPS:
+            yield (name, group)
+
+    def _is_click_command(name, obj):
+        return is_click_command(obj) and name not in existing_group_commands
+
+    yield from get_members(commands, _is_click_command)
 
 
 def is_model(name, obj):
