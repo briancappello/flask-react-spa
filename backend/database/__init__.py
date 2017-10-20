@@ -20,6 +20,7 @@ from .types import (
     Boolean,
     Date,
     DateTime,
+    Enum,
     Float,
     ForeignKey,
     Integer,
