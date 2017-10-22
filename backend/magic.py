@@ -104,7 +104,7 @@ class Bundle(object):
     _name = None
 
     _views = 'views'
-    _blueprint_name = None
+    _blueprint_names = sentinel
     _commands = 'commands'
     _models = 'models'
     _serializers = 'serializers'
@@ -115,7 +115,7 @@ class Bundle(object):
                  models=sentinel,
                  serializers=sentinel,
                  views=sentinel,
-                 blueprint_name=None,
+                 blueprint_names=sentinel,
                  ):
         self.module_name = module_name
         self._name = name
@@ -132,7 +132,7 @@ class Bundle(object):
 
         if views != sentinel:
             self._views = views
-        self._blueprint_name = blueprint_name
+        self._blueprint_names = blueprint_names
 
 
     @property
@@ -148,27 +148,30 @@ class Bundle(object):
         self._views = self._normalize_module_name(views_module_name)
 
     @property
-    def blueprint_name(self):
-        return self._blueprint_name or self.name
+    def blueprint_names(self):
+        if self._blueprint_names == sentinel:
+            return [self.name]
+        return self._blueprint_names
 
-    @blueprint_name.setter
-    def blueprint_name(self, blueprint_name):
-        self._blueprint_name = blueprint_name
+    @blueprint_names.setter
+    def blueprint_names(self, blueprint_names):
+        self._blueprint_names = blueprint_names
 
     @property
-    def has_blueprint(self):
-        if not self.views_module_name:
+    def has_blueprints(self):
+        if not self.views_module_name or not self.blueprint_names:
             return False
         return bool(safe_import_module(self.views_module_name))
 
     @property
-    def blueprint(self):
-        if not self.has_blueprint:
-            return None
+    def blueprints(self):
+        if not self.has_blueprints:
+            yield StopIteration
+
         module = safe_import_module(self.views_module_name)
-        for name, blueprint in inspect.getmembers(module, is_blueprint):
-            if name == self.blueprint_name:
-                return blueprint
+        blueprints = dict(inspect.getmembers(module, is_blueprint))
+        for name in self.blueprint_names:
+            yield blueprints[name]
 
     @property
     def commands_module_name(self):

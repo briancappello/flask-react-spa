@@ -10,4 +10,7 @@ from .decorators import (
 )
 from .extension import Security
 
-security_bundle = Bundle(__name__, commands=None)
+security_bundle = Bundle(__name__,
+                         commands=None,
+                         blueprint_names=('security', 'frontend'),
+                         )
