@@ -86,6 +86,13 @@ def get_commands():
     yield from get_members(commands, _is_click_command)
 
 
+def is_model_admin(name, obj):
+    from backend.admin import ModelAdmin
+    _is_model_admin = inspect.isclass(obj) and issubclass(obj, ModelAdmin)
+    base_classes = ('ModelAdmin',)
+    return _is_model_admin and name not in base_classes
+
+
 def is_model(name, obj):
     is_model_class = inspect.isclass(obj) and issubclass(obj, Model)
     base_classes = ('Model',)
@@ -105,6 +112,8 @@ class Bundle(object):
     module_name = None
     _label = None
 
+    _admin = 'admin'
+    admin_icon_class = None
     _views = 'views'
     _blueprint_names = sentinel
     _commands = 'commands'
@@ -112,6 +121,8 @@ class Bundle(object):
     _serializers = 'serializers'
 
     def __init__(self, module_name, label=None,
+                 admin=sentinel,
+                 admin_icon_class=None,
                  commands=sentinel,
                  command_group_name=None,
                  models=sentinel,
@@ -121,6 +132,10 @@ class Bundle(object):
                  ):
         self.module_name = module_name
         self._label = label
+
+        if admin != sentinel:
+            self._admin = admin
+        self.admin_icon_class = admin_icon_class
 
         if commands != sentinel:
             self._commands = commands
@@ -144,6 +159,28 @@ class Bundle(object):
     def label(self):
         return self._label or title_case(self._name)
 
+    @property
+    def admin_module_name(self):
+        return self._get_full_module_name(self._admin)
+
+    @admin_module_name.setter
+    def admin_module_name(self, admin_module_name):
+        self._admin = admin_module_name
+
+    @property
+    def has_admin(self):
+        if not self.admin_module_name:
+            return False
+        return bool(safe_import_module(self.admin_module_name))
+
+    @property
+    def model_admins(self):
+        if not self.has_admin:
+            raise StopIteration
+
+        admin_module = safe_import_module(self.admin_module_name)
+        for name, obj in get_members(admin_module, is_model_admin):
+            yield obj
 
     @property
     def views_module_name(self):

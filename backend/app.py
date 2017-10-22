@@ -92,6 +92,7 @@ def _create_app(config_object: BaseConfig, **kwargs):
     register_blueprints(app)
     register_models(app)
     register_serializers(app)
+    register_admins(app)
 
     deferred_extensions = dict(get_extensions(DEFERRED_EXTENSIONS))
     extensions.update(deferred_extensions)
@@ -161,6 +162,29 @@ def register_models(app):
         for model_name, model_class in bundle.models:
             models[model_name] = model_class
     app.models = models
+
+
+def register_admins(app):
+    from backend.extensions import db
+    from backend.extensions.admin import admin
+
+    for bundle in app.iterbundles():
+        if bundle.admin_icon_class:
+            admin.category_icon_classes[bundle.label] = bundle.admin_icon_class
+
+        for ModelAdmin in bundle.model_admins:
+            model_admin = ModelAdmin(ModelAdmin.model,
+                                     db.session,
+                                     category=bundle.label,
+                                     name=ModelAdmin.model.__plural_label__)
+
+            # workaround upstream bug where certain values set as
+            # class attributes get overridden by the constructor
+            model_admin.menu_icon_value = getattr(ModelAdmin, 'menu_icon_value')
+            if model_admin.menu_icon_value:
+                model_admin.menu_icon_type = getattr(ModelAdmin, 'menu_icon_type')
+
+            admin.add_view(model_admin)
 
 
 def register_serializers(app):
