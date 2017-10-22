@@ -4,7 +4,7 @@
 
 ## [React v16](https://facebook.github.io/react/) Frontend
 
-The frontend is heavily inspired by [react boilerplate](https://github.com/react-boilerplate/react-boilerplate), and indeed borrows a good chunk of boilerplate from it (no pun intended).
+The frontend is heavily inspired by [react boilerplate](https://github.com/react-boilerplate/react-boilerplate), and indeed borrows a good chunk of boilerplate from it.
 
 - [React Router v4](https://reacttraining.com/react-router/web)
 - [Redux](http://redux.js.org/), [Redux-Saga](https://redux-saga.js.org/) and [Redux-Form](https://redux-form.com) for handling state and side effects
@@ -22,6 +22,7 @@ The frontend is heavily inspired by [react boilerplate](https://github.com/react
    - User permissions and roles via [Flask-Principal](https://pythonhosted.org/Flask-Principal/)
    - Secrets encryption via [passlib](https://passlib.readthedocs.io/en/stable/) and [itsdangerous](https://pythonhosted.org/itsdangerous/)
    - CSRF protection via [Flask-WTF](https://flask-wtf.readthedocs.io/en/stable/)
+- [Flask-Admin](https://flask-admin.readthedocs.io/en/latest/) integrated for painless model CRUD administration
 - [Flask-Session](http://pythonhosted.org/Flask-Session/) for server-side sessions
 - [Celery](http://www.celeryproject.org/) for asynchronous tasks, such as sending emails via [Flask-Mail](https://pythonhosted.org/Flask-Mail/)
 
