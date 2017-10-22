@@ -15,6 +15,10 @@ h1 {
     margin: 0 -15px;
 }
 
+.admin-form .form-group label.control-label {
+    white-space: nowrap;
+}
+
 /* improve formatting of checkbox in model forms */
 .admin-form .form-group input[type="checkbox"] {
     height: 20px;
