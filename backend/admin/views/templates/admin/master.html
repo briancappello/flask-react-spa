@@ -1,5 +1,7 @@
 {% extends admin_base_template %}
 
+{% import 'admin/column_formatters.html' as column_formatters with context %}
+
 {% block head_tail %}
   {{ super() }}
   <link href="{{ url_for('_admin.static', filename='admin.css') }}" rel="stylesheet">

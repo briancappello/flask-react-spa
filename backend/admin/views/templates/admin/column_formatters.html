@@ -1,0 +1,52 @@
+{% macro date(model, column) %}
+  {% set value = model[column] %}
+  {% set id = model.__class__.__name__ ~ '_' ~ model.id ~ '_' ~ column %}
+  <span id="{{ id }}"></span>
+  <script type="text/javascript">
+    var {{ id }} = new Date("{{  value }}")
+    var el = document.getElementById("{{ id }}")
+    el.innerText = [
+      {{ id }}.getMonth() + 1,
+      {{ id }}.getDate(),
+      {{ id }}.getFullYear(),
+    ].join('/')
+  </script>
+{% endmacro %}
+
+{% macro datetime(model, column) %}
+  {% set value = model[column] %}
+  {% set id = model.__class__.__name__ ~ '_' ~ model.id ~ '_' ~ column %}
+  <span id="{{ id }}"></span>
+  <script type="text/javascript">
+    var {{ id }} = new Date("{{  value }}")
+    var el = document.getElementById("{{ id }}")
+    var date = [
+      {{ id }}.getMonth() + 1,
+      {{ id }}.getDate(),
+      {{ id }}.getFullYear(),
+    ].join('/')
+
+    var hours = {{ id }}.getHours(),
+        meridian = 'AM'
+
+    if (hours === 0) {
+        hours = 12
+    } else if (hours == 12) {
+        meridian = 'PM'
+    } else if (hours > 12) {
+        hours = hours - 12
+        meridian = 'PM'
+    }
+
+    var minutes = '' + {{ id }}.getMinutes()
+    if (minutes.length === 1) {
+        minutes = '0' + minutes
+    }
+
+    el.innerText = [
+      date,
+      hours + ':' + minutes,
+      meridian,
+    ].join(' ')
+  </script>
+{% endmacro %}
