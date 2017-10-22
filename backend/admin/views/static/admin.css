@@ -15,6 +15,11 @@ h1 {
     margin: 0 -15px;
 }
 
+/* fix layout of Remember me? checkbox label on the login page */
+form[name="login_user_form"] .checkbox label[for="remember"] {
+    padding-left: 0;
+}
+
 table.dashboard td {
     width: 33%;
 }
