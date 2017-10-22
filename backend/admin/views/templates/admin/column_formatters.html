@@ -50,3 +50,18 @@
     ].join(' ')
   </script>
 {% endmacro %}
+
+{% macro email(model, column) %}
+  {% set address = model[column] %}
+  <a href="mailto:{{ address }}">{{ address }}</a>
+{% endmacro %}
+
+{% macro safe(model, column) %}
+  {% set value = model[column] %}
+  {{ value | safe }}
+{% endmacro %}
+
+{% macro striptags(model, column) %}
+  {% set value = model[column] %}
+  {{ value | striptags }}
+{% endmacro %}
