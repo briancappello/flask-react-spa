@@ -45,11 +45,11 @@
   {% elif csrf_token %}
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
   {% endif %}
-  <a href="javascript:void(0)"
-     onclick="return safeConfirm('{{ _gettext('Are you sure you want to delete this record?') }}');"
-     title="Delete Record"
+  <button class="btn-link"
+          onclick="return safeConfirm('{{ _gettext('Are you sure you want to delete this record?') }}');"
+          title="Delete Record"
   >
     <span class="fa fa-trash glyphicon glyphicon-trash"></span> Delete
-  </a>
+  </button>
 </form>
 {% endmacro %}

@@ -75,6 +75,7 @@
 {# configure jQuery to automatically send the CSRF token on AJAX requests #}
 {# (necessary for e.g. list-editable forms and related-model popup forms) #}
 {% block tail %}
+  {{ super() }}
   <script type="text/javascript">
     var csrf_token = "{{ csrf_token() }}";
 
