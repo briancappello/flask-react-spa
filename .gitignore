@@ -1,6 +1,6 @@
 #### FRONTEND ####
 node_modules/
-static/
+/static/
 frontend/app/config.js
 
 #### BACKEND ####
