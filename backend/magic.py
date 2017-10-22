@@ -100,7 +100,7 @@ sentinel = object()
 
 
 class Bundle(object):
-    _module_name = None
+    module_name = None
     _name = None
 
     _views = 'views'
@@ -117,7 +117,7 @@ class Bundle(object):
                  views=sentinel,
                  blueprint_name=None,
                  ):
-        self._module_name = module_name
+        self.module_name = module_name
         self._name = name
 
         if commands != sentinel:
@@ -134,9 +134,6 @@ class Bundle(object):
             self._views = views
         self._blueprint_name = blueprint_name
 
-    @property
-    def module_name(self):
-        return self._module_name
 
     @property
     def name(self):
