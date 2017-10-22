@@ -1,4 +1,7 @@
+from sqlalchemy.ext.declarative import declared_attr
+
 from backend.extensions import db
+from backend.utils import pluralize, title_case
 
 
 class BaseModel(db.Model):
@@ -21,6 +24,18 @@ class BaseModel(db.Model):
         user = User(id=1, email='foo@bar.com')
         print(user)  # prints <User id=1 email="foo@bar.com">
     """
+
+    @declared_attr
+    def __plural__(self):
+        return pluralize(self.__name__)
+
+    @declared_attr
+    def __label__(self):
+        return title_case(self.__name__)
+
+    @declared_attr
+    def __plural_label__(self):
+        return pluralize(self.__label__)
 
     @classmethod
     def all(cls):

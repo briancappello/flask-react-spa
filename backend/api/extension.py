@@ -236,7 +236,7 @@ class Api(BaseApi):
         elif isinstance(view_func, MethodViewType):
             endpoint = camel_to_snake_case(view_func.__name__)
             if hasattr(view_func, 'model') and plural:
-                endpoint = '{}s_resource'.format(camel_to_snake_case(view_func.model.__name__))
+                endpoint = '{}_resource'.format(camel_to_snake_case(view_func.model.__plural__))
         else:
             endpoint = view_func.__name__
         return '{}.{}'.format(self.name, endpoint)

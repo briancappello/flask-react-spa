@@ -1,5 +1,7 @@
 from marshmallow import pre_load, post_dump
 
+from backend.utils import pluralize
+
 from .model_serializer import ModelSerializer
 
 
@@ -53,10 +55,12 @@ class WrappedSerializer(ModelSerializer):
         elif many and many_key:
             return many_key
 
-        key = self.Meta.model.__name__
+        name = self.Meta.model.__name__
         # JS tends to use camelCase, so that's what we use here by default
-        key = key[0].lower() + key[1:]
-        return key + 's' if many else key
+        key = name[0].lower() + name[1:]
+        if many:
+            return pluralize(key)
+        return key
 
     @pre_load(pass_many=True)
     def unwrap_envelope(self, data, many):
