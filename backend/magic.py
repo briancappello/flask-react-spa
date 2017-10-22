@@ -6,6 +6,8 @@ from flask_marshmallow.sqla import ModelSchema
 from flask_sqlalchemy import Model
 from importlib import import_module
 
+from backend.utils import title_case
+
 
 def safe_import_module(module_name):
     """Like importlib's import_module, except it does not raise ImportError
@@ -101,7 +103,7 @@ sentinel = object()
 
 class Bundle(object):
     module_name = None
-    _name = None
+    _label = None
 
     _views = 'views'
     _blueprint_names = sentinel
@@ -109,7 +111,7 @@ class Bundle(object):
     _models = 'models'
     _serializers = 'serializers'
 
-    def __init__(self, module_name, name=None,
+    def __init__(self, module_name, label=None,
                  commands=sentinel,
                  command_group_name=None,
                  models=sentinel,
@@ -118,7 +120,7 @@ class Bundle(object):
                  blueprint_names=sentinel,
                  ):
         self.module_name = module_name
-        self._name = name
+        self._label = label
 
         if commands != sentinel:
             self._commands = commands
@@ -134,10 +136,14 @@ class Bundle(object):
             self._views = views
         self._blueprint_names = blueprint_names
 
+    @property
+    def _name(self):
+        return self.module_name.rsplit('.')[1]
 
     @property
-    def name(self):
-        return self._name or self.module_name.rsplit('.')[1]
+    def label(self):
+        return self._label or title_case(self._name)
+
 
     @property
     def views_module_name(self):
@@ -150,7 +156,7 @@ class Bundle(object):
     @property
     def blueprint_names(self):
         if self._blueprint_names == sentinel:
-            return [self.name]
+            return [self._name]
         return self._blueprint_names
 
     @blueprint_names.setter
@@ -183,7 +189,7 @@ class Bundle(object):
 
     @property
     def command_group_name(self):
-        return self._command_group_name or self.name
+        return self._command_group_name or self._name
 
     @command_group_name.setter
     def command_group_name(self, command_group_name):

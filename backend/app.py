@@ -112,9 +112,9 @@ def configure_app(app, config_object):
     """
     # automatically configure a migrations folder for each bundle
     config_object.ALEMBIC['version_locations'] = [
-        (bundle.name, os.path.join(PROJECT_ROOT,
-                                   bundle.module_name.replace('.', os.sep),
-                                   'migrations'))
+        (bundle._name, os.path.join(PROJECT_ROOT,
+                                    bundle.module_name.replace('.', os.sep),
+                                    'migrations'))
         for bundle in app.iterbundles()
     ]
     app.config.from_object(config_object)
