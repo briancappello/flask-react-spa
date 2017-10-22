@@ -49,6 +49,7 @@ EXTENSIONS = [
 # syntax is import.name.in.dot.module.notation:extension_instance_name
 DEFERRED_EXTENSIONS = [
     'backend.extensions:api',
+    'backend.extensions.admin:admin',
 ]
 
 # Declare role inheritances

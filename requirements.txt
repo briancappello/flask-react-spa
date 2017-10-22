@@ -16,6 +16,7 @@ click==6.7
 decorator==4.1.2
 entrypoints==0.2.3
 Flask==0.12.2
+Flask-Admin==1.5.0
 Flask-Alembic==2.0.1
 Flask-BabelEx==0.9.3
 Flask-Login==0.4.0
