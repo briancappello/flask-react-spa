@@ -1,0 +1,71 @@
+{% extends admin_base_template %}
+
+{% block head_tail %}
+  {{ super() }}
+  <link href="{{ url_for('_admin.static', filename='admin.css') }}" rel="stylesheet">
+{% endblock %}
+
+{# this block is the same as upstream, except div.container is moved inside of nav.navbar #}
+{% block page_body %}
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#admin-navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        {% block brand %}
+          <a class="navbar-brand" href="{{ admin_view.admin.url }}">{{ admin_view.admin.name }}</a>
+        {% endblock %}
+      </div>
+      <!-- navbar content -->
+      <div class="collapse navbar-collapse" id="admin-navbar-collapse">
+        {% block main_menu %}
+          <ul class="nav navbar-nav">
+            {{ layout.menu() }}
+          </ul>
+        {% endblock %}
+
+        {% block menu_links %}
+          <ul class="nav navbar-nav navbar-right">
+            {{ layout.menu_links() }}
+          </ul>
+        {% endblock %}
+        {% block access_control %}
+          {% if current_user.is_authenticated %}
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                  <i class="glyphicon glyphicon-user"></i>
+                  {% if current_user.username -%}
+                    {{ current_user.username }}
+                  {% else -%}
+                    {{ current_user.email }}
+                  {%- endif %}
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="{{ url_for('security.logout') }}">Log out</a></li>
+                </ul>
+              </li>
+            </ul>
+          {% endif %}
+        {% endblock %}
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    {% block messages %}
+      {{ layout.messages() }}
+    {% endblock %}
+
+    {# store the jinja2 context for form_rules rendering logic #}
+    {% set render_ctx = h.resolve_ctx() %}
+
+    {% block body %}{% endblock %}
+  </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+body {
+    padding-top: 0; /* override a silly style added by flask-admin */
+}
+
+h1 {
+    margin-bottom: 30px;
+}
+
+/* improve navbar-top appearance */
+.navbar-default {
+    border-radius: 0;
+}
+.navbar-collapse.collapsing .nav.navbar-nav,
+.navbar-collapse.collapse.in .nav.navbar-nav {
+    margin: 0 -15px;
+}

@@ -27,6 +27,7 @@ ARTICLE_STYLESHEET_FILENAME = 'styles.css'
 
 # list of bundle modules to register with the app, in dot notation
 BUNDLES = [
+    'backend.admin',
     'backend.blog',
     'backend.security',
     'backend.site',
