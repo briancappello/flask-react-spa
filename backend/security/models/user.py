@@ -32,9 +32,7 @@ class User(Model, UserMixin):
 
     __repr_props__ = ('id', 'username', 'email')
 
-    def __init__(self, username, email, hash_password=True, **kwargs):
+    def __init__(self, hash_password=True, **kwargs):
         super(User, self).__init__(**kwargs)
-        self.username = username
-        self.email = email
         if 'password' in kwargs and hash_password:
             self.password = security_hash_password(kwargs['password'])

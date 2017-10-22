@@ -180,9 +180,9 @@ def register_admins(app):
 
             # workaround upstream bug where certain values set as
             # class attributes get overridden by the constructor
-            model_admin.menu_icon_value = getattr(ModelAdmin, 'menu_icon_value')
+            model_admin.menu_icon_value = getattr(ModelAdmin, 'menu_icon_value', None)
             if model_admin.menu_icon_value:
-                model_admin.menu_icon_type = getattr(ModelAdmin, 'menu_icon_type')
+                model_admin.menu_icon_type = getattr(ModelAdmin, 'menu_icon_type', None)
 
             admin.add_view(model_admin)
 

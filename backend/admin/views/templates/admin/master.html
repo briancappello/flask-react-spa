@@ -71,3 +71,19 @@
     {% block body %}{% endblock %}
   </div>
 {% endblock %}
+
+{# configure jQuery to automatically send the CSRF token on AJAX requests #}
+{# (necessary for e.g. list-editable forms and related-model popup forms) #}
+{% block tail %}
+  <script type="text/javascript">
+    var csrf_token = "{{ csrf_token() }}";
+
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrf_token);
+        }
+      }
+    });
+  </script>
+{% endblock %}

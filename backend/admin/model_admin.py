@@ -3,6 +3,7 @@ from datetime import date, datetime
 from flask_admin.contrib.sqla import ModelView as BaseModelView
 from flask_admin.consts import ICON_TYPE_GLYPH
 
+from .form import ReorderableForm
 from .macro import macro
 from .security import AdminSecurityMixin
 
@@ -36,6 +37,8 @@ class ModelAdmin(AdminSecurityMixin, BaseModelView):
         'created_at': macro('column_formatters.datetime'),
         'updated_at': macro('column_formatters.datetime'),
     }
+
+    form_base_class = ReorderableForm
 
     def __getattribute__(self, item):
         """Allow class attribute names in EXTEND_BASE_CLASS_ATTRIBUTES that are

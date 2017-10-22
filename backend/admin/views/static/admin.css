@@ -15,6 +15,13 @@ h1 {
     margin: 0 -15px;
 }
 
+/* improve formatting of checkbox in model forms */
+.admin-form .form-group input[type="checkbox"] {
+    height: 20px;
+    width: 20px;
+    margin-top: 6px;
+}
+
 /* fix layout of Remember me? checkbox label on the login page */
 form[name="login_user_form"] .checkbox label[for="remember"] {
     padding-left: 0;

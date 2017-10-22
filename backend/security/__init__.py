@@ -12,5 +12,6 @@ from .extension import Security
 
 security_bundle = Bundle(__name__,
                          commands=None,
+                         admin_icon_class='glyphicon glyphicon-lock',
                          blueprint_names=('security', 'frontend'),
                          )
