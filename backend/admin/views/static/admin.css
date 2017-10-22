@@ -14,3 +14,7 @@ h1 {
 .navbar-collapse.collapse.in .nav.navbar-nav {
     margin: 0 -15px;
 }
+
+table.dashboard td {
+    width: 33%;
+}

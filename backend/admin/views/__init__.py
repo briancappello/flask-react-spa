@@ -1,5 +1,7 @@
 from flask import Blueprint
 
+from .dashboard import AdminDashboardView
+
 
 # create a blueprint so we can place templates and static files outside of
 # the main app folders. unfortunately we can't just name it "admin", because

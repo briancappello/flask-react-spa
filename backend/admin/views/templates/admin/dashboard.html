@@ -1,0 +1,53 @@
+{% extends "admin/master.html" %}
+
+{% import 'admin/layout.html' as layout with context %}
+
+{% block body %}
+  <h1>Dashboard</h1>
+  {%- for item in admin_view.admin.menu() %}
+    {% if not item.is_category() %}
+      {%- if item.is_accessible() and item.is_visible() and item.name != 'Home' -%}
+        {{ dashboard_table(item) }}
+      {% endif %}
+    {% else %}
+      {%- if item.get_children() %}
+        <h2>{% if item.class_name %}<span class="{{ item.class_name }}"></span> {% endif %}{{ item.name }}</h2>
+        {{ dashboard_table(item) }}
+      {% endif -%}
+    {% endif %}
+  {% endfor -%}
+{% endblock %}
+
+{% macro dashboard_table(item) %}
+  <table class="dashboard table table-bordered table-condensed">
+    <tbody>
+      {% if not item.is_category() %}
+        {{ dashboard_item(item) }}
+      {% else %}
+        {% for child in item.get_children() %}
+          {{ dashboard_item(child) }}
+        {% endfor %}
+      {% endif %}
+    </tbody>
+  </table>
+{% endmacro %}
+
+{% macro dashboard_item(item) %}
+  {% set view = item._view %}
+  <tr>
+    <th>{{ layout.menu_icon(item) }} {{ item.name }}</th>
+    <td>
+      <a href="{{ item.get_url() }}" title="{{ 'List ' ~ item.name }}">
+        <i class="glyphicon glyphicon-list"></i> List {{ item.name }}
+      </a>
+    </td>
+    <td>
+      {% if view.can_create %}
+        {% set create_url = get_url(view.endpoint ~ '.create_view', url=return_url) %}
+        <a href="{{ create_url }}" title="{{ 'Create New ' ~ view.model.__label__ }}">
+          <i class="glyphicon glyphicon-plus"></i> Create {{ view.model.__label__ }}
+        </a>
+      {% endif %}
+    </td>
+  </tr>
+{% endmacro %}
