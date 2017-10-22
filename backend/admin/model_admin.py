@@ -9,3 +9,8 @@ class ModelAdmin(AdminSecurityMixin, BaseModelView):
 
     menu_icon_type = ICON_TYPE_GLYPH
     menu_icon_value = None
+
+    create_template = 'admin/model/base_create.html'
+    details_template = 'admin/model/base_details.html'
+    edit_template = 'admin/model/base_edit.html'
+    list_template = 'admin/model/base_list.html'
