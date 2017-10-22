@@ -115,7 +115,7 @@ def configure_app(app, config_object):
         (bundle._name, os.path.join(PROJECT_ROOT,
                                     bundle.module_name.replace('.', os.sep),
                                     'migrations'))
-        for bundle in app.iterbundles()
+        for bundle in app.iterbundles() if bundle.has_models
     ]
     app.config.from_object(config_object)
 
