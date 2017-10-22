@@ -4,3 +4,88 @@
   <h1>{{ admin_view.name }}</h1>
   {{ super() }}
 {% endblock %}
+
+{# block overridden to make Actions the last column instead of first #}
+{% block list_header scoped %}
+
+  {% if actions %}
+    <th class="list-checkbox-column">
+      <input type="checkbox" name="rowtoggle" class="action-rowtoggle" title="{{ _gettext('Select all records') }}"/>
+    </th>
+  {% endif %}
+
+  {% for c, name in list_columns %}
+    {% set column = loop.index0 %}
+    <th class="column-header col-{{ c }}">
+      {% if admin_view.is_sortable(c) %}
+        {% if sort_column == column %}
+          <a href="{{ sort_url(column, True) }}" title="{{ _gettext('Sort by %(name)s', name=name) }}">
+            {{ name }}
+            {% if sort_desc %}
+              <span class="fa fa-chevron-up glyphicon glyphicon-chevron-up"></span>
+            {% else %}
+              <span class="fa fa-chevron-down glyphicon glyphicon-chevron-down"></span>
+            {% endif %}
+          </a>
+        {% else %}
+          <a href="{{ sort_url(column) }}" title="{{ _gettext('Sort by %(name)s', name=name) }}">{{ name }}</a>
+        {% endif %}
+      {% else %}
+        {{ name }}
+      {% endif %}
+
+      {% if admin_view.column_descriptions.get(c) %}
+        <a class="fa fa-question-circle glyphicon glyphicon-question-sign"
+           title="{{ admin_view.column_descriptions[c] }}"
+           href="javascript:void(0)" data-role="tooltip"
+        ></a>
+      {% endif %}
+    </th>
+  {% endfor %}
+
+  {% block list_row_actions_header %}
+    {% if admin_view.column_display_actions %}
+      <th class="col-md-1">Actions</th>
+    {% endif %}
+  {% endblock %}
+
+{% endblock %}
+
+{# block overridden to make Actions the last column instead of first #}
+{% block list_row scoped %}
+
+  {% if actions %}
+    <td>
+      <input type="checkbox" name="rowid" class="action-checkbox" value="{{ get_pk_value(row) }}"
+             title="{{ _gettext('Select record') }}"/>
+    </td>
+  {% endif %}
+
+  {% for c, name in list_columns %}
+    <td class="col-{{ c }}">
+      {% if admin_view.is_editable(c) %}
+        {% set form = list_forms[get_pk_value(row)] %}
+        {% if form.csrf_token %}
+          {{ form[c](pk=get_pk_value(row), display_value=get_value(row, c), csrf=form.csrf_token._value()) }}
+        {% else %}
+          {{ form[c](pk=get_pk_value(row), display_value=get_value(row, c)) }}
+        {% endif %}
+      {% else %}
+        {{ get_value(row, c) }}
+      {% endif %}
+    </td>
+  {% endfor %}
+
+  {% block list_row_actions_column scoped %}
+    {%- if admin_view.column_display_actions -%}
+      <td class="list-buttons-column">
+        {% block list_row_actions scoped %}
+          {%- for action in list_row_actions -%}
+            {{ action.render_ctx(get_pk_value(row), row) }}{% if not loop.last %}&nbsp;{% endif %}
+          {%- endfor -%}
+        {% endblock %}
+      </td>
+    {%- endif -%}
+  {% endblock %}
+
+{% endblock %}
