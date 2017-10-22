@@ -14,3 +14,6 @@ class ModelAdmin(AdminSecurityMixin, BaseModelView):
     details_template = 'admin/model/base_details.html'
     edit_template = 'admin/model/base_edit.html'
     list_template = 'admin/model/base_list.html'
+
+    column_exclude_list = ('created_at', 'updated_at')
+    form_excluded_columns = ('created_at', 'updated_at')
