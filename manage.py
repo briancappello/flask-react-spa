@@ -7,7 +7,7 @@ FLASK_APP=wsgi.py FLASK_DEBUG=true flask
 FLASK_DEBUG is set to false, no or 0)
 
 USAGE:
-python manage.py COMMAND [OPTIONS] [ARGS] [--env=prod]
+python manage.py [--env=prod] [--no-warn] COMMAND [OPTIONS] [ARGS]
 """
 import argparse
 import os
