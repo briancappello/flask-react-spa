@@ -21,6 +21,7 @@
   template:
     src: flask_app.nginx.j2
     dest: '{{ nginx_sites_available_dir }}/{{ project_name }}'
+  tags: flask.deploy
   notify: reload nginx
 
 - name: enable nginx uwsgi site

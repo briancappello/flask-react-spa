@@ -4,7 +4,7 @@
 
 {% block head_tail %}
   {{ super() }}
-  <link href="{{ url_for('_admin.static', filename='admin.css') }}" rel="stylesheet">
+  <link href="{{ url_for('admin_.static', filename='admin.css') }}" rel="stylesheet">
 {% endblock %}
 
 {# this block is the same as upstream, except div.container is moved inside of nav.navbar #}

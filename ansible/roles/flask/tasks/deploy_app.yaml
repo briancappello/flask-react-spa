@@ -12,7 +12,6 @@
       - "--exclude=ansible"
       - "--exclude=docs"
       - "--exclude=node_modules"
-      - "--exclude={{ static_dir_name }}"
       - "--exclude=tests"
       - "--exclude=*.sqlite"
       - "--exclude=celerybeat.pid"

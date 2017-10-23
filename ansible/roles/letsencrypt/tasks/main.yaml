@@ -32,6 +32,7 @@
   template:
     src: flask_app_https.nginx.j2
     dest: '{{ nginx_sites_available_dir }}/{{ project_name }}'
+  tags: flask.deploy
   notify: reload nginx
 
 - include: fix_renewal_file.yaml

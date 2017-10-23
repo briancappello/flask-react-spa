@@ -24,7 +24,7 @@ server {
     alias {{ FLASK_STATIC_FOLDER }}/;
   }
 
-  location ~ ^/(api|auth)/ {
+  location ~ ^/(api/|auth/|admin/?) {
     uwsgi_pass flask;
     include uwsgi_params;
 
