@@ -96,7 +96,7 @@
 
 - name: import articles
   when: import_articles is defined and import_articles
-  command: "{{ project_virtualenv_dir }}/bin/{{ python3 }} manage.py --env=prod --no-warn site import_articles"
+  command: "{{ project_virtualenv_dir }}/bin/{{ python3 }} manage.py --env=prod --no-warn blog import_articles"
   args:
     chdir: '{{ project_dir }}'
   tags: flask.import_articles
