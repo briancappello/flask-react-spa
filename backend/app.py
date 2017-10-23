@@ -169,8 +169,8 @@ def register_serializers(app):
     """Register and initialize serializers."""
     serializers = {}
     for bundle in app.bundles:
-        for _, serializer_class in bundle.serializers:
-            serializers[serializer_class.Meta.model.__name__] = serializer_class
+        for name, serializer_class in bundle.serializers:
+            serializers[name] = serializer_class
     app.serializers = serializers
 
 

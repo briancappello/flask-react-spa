@@ -59,7 +59,8 @@ class Api(BaseApi):
             deferred(app)
 
         # instantiate serializers
-        for model_name, serializer_class in app.serializers.items():
+        for serializer_class in app.serializers.values():
+            model_name = serializer_class.Meta.model.__name__
             self.serializers[model_name] = serializer_class()
             self.serializers_many[model_name] = serializer_class(many=True)
 
