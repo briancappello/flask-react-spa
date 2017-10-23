@@ -25,14 +25,18 @@
   template:
     src: uwsgi.ini.j2
     dest: '{{ project_dir }}/uwsgi.ini'
-  tags: flask
 
 - name: clear .pyc files
   command: find . -name '*.pyc' -delete
   args:
     chdir: '{{ project_dir }}'
   changed_when: False
-  tags: flask
+
+- name: clear __pycache__ folders
+  command: find . -name __pycache__ -type d -exec rm -fr {} +
+  args:
+    chdir: '{{ project_dir }}'
+  changed_when: False
 
 - name: make sure static files dir exists
   file:
@@ -77,8 +81,13 @@
     - flask.static_files
     - flask.import_articles
 
+- name: install pip-tools
+  pip: virtualenv={{ project_virtualenv_dir }} name=pip-tools
+
 - name: install packages from requirements.txt
-  pip: virtualenv={{ project_virtualenv_dir }} requirements={{ requirements_path }}
+  command: "{{ project_virtualenv_dir }}/bin/pip-sync {{ requirements_path }}"
+  args:
+    chdir: '{{ project_dir }}'
 
 - name: run database migrations
   when: run_migrations is defined and run_migrations

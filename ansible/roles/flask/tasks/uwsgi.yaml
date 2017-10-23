@@ -1,7 +1,4 @@
 ---
-- name: install uWSGI
-  pip: virtualenv={{ project_virtualenv_dir }} name=uwsgi
-
 - name: create uwsgi startup script
   template: src=uwsgi_start.sh.j2
             dest={{ project_virtualenv_dir }}/bin/uwsgi_start
