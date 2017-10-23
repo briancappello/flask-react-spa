@@ -179,8 +179,7 @@ def register_cli_commands(app):
     each bundle's commands.py"""
     commands = list(get_commands())
     for bundle in app.bundles:
-        if bundle.has_command_group:
-            commands.append((bundle.command_group_name, bundle.command_group))
+        commands += list(bundle.command_groups)
     for name, command in commands:
         if name in app.cli.commands:
             logger.error('Command name conflict: "%s" is taken.' % name)

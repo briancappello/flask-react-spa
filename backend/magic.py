@@ -178,7 +178,7 @@ class Bundle(object):
     :param str admin_icon_class: Icon class to use for the bundle in the admin
     :param str admins_module_name: Folder or module name of the admins in the bundle
     :param str commands_module_name: Folder or module name of the commands in the bundle
-    :param str command_group_name: Name of the bundle's command group (defaults to the bundle's folder name)
+    :param Iterable[str] command_group_names: List of the bundle's command group names. Defaults to [<bundle_folder_name>]
     :param str models_module_name: Folder or module name of the models in the bundle
     :param str serializers_module_name: Folder or module name of the serializers in the bundle
     :param str views_module_name: Folder or module name of the views in the bundle
@@ -189,7 +189,7 @@ class Bundle(object):
     admin_icon_class = None
     _admins_module_name = 'admins'
     _commands_module_name = 'commands'
-    _command_group_name = None
+    _command_group_names = sentinel
     _models_module_name = 'models'
     _serializers_module_name = 'serializers'
     _views_module_name = 'views'
@@ -200,7 +200,7 @@ class Bundle(object):
                  admin_icon_class=None,
                  admins_module_name=sentinel,
                  commands_module_name=sentinel,
-                 command_group_name=None,
+                 command_group_names=sentinel,
                  models_module_name=sentinel,
                  serializers_module_name=sentinel,
                  views_module_name=sentinel,
@@ -218,7 +218,7 @@ class Bundle(object):
         if commands_module_name != sentinel:
             self._commands_module_name = self._normalize_module_name(commands_module_name)
 
-        self._command_group_name = command_group_name
+        self._command_group_names = command_group_names
 
         if models_module_name != sentinel:
             self._models_module_name = self._normalize_module_name(models_module_name)
@@ -264,9 +264,9 @@ class Bundle(object):
 
     @property
     def blueprint_names(self):
-        if self._blueprint_names == sentinel:
-            return [self._name]
-        return self._blueprint_names
+        if self._blueprint_names != sentinel:
+            return self._blueprint_names
+        return [self._name]
 
     @property
     def has_blueprints(self):
@@ -277,7 +277,7 @@ class Bundle(object):
     @property
     def blueprints(self):
         if not self.has_blueprints:
-            yield StopIteration
+            raise StopIteration
 
         module = safe_import_module(self.views_module_name)
         blueprints = dict(inspect.getmembers(module, is_blueprint))
@@ -289,23 +289,26 @@ class Bundle(object):
         return self._get_full_module_name(self._commands_module_name)
 
     @property
-    def command_group_name(self):
-        return self._command_group_name or self._name
+    def command_group_names(self):
+        if self._command_group_names != sentinel:
+            return self._command_group_names
+        return [self._name]
 
     @property
-    def has_command_group(self):
-        if not self.commands_module_name:
+    def has_command_groups(self):
+        if not self.commands_module_name or not self.command_group_names:
             return False
         return bool(safe_import_module(self.commands_module_name))
 
     @property
-    def command_group(self):
-        if not self.has_command_group:
-            return None
+    def command_groups(self):
+        if not self.has_command_groups:
+            raise StopIteration
+
         module = safe_import_module(self.commands_module_name)
-        for name, command_group in inspect.getmembers(module, is_click_group):
-            if name == self.command_group_name:
-                return command_group
+        command_groups = dict(inspect.getmembers(module, is_click_group))
+        for name in self.command_group_names:
+            yield name, command_groups[name]
 
     @property
     def models_module_name(self):
@@ -320,7 +323,7 @@ class Bundle(object):
     @property
     def models(self):
         if not self.has_models:
-            yield StopIteration
+            raise StopIteration
 
         module = safe_import_module(self.models_module_name)
         yield from get_members(module, is_model)
@@ -338,7 +341,7 @@ class Bundle(object):
     @property
     def serializers(self):
         if not self.has_serializers:
-            yield StopIteration
+            raise StopIteration
 
         module = safe_import_module(self.serializers_module_name)
         yield from get_members(module, is_serializer)
