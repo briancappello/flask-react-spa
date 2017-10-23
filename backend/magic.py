@@ -112,7 +112,7 @@ class Bundle(object):
     module_name = None
     _label = None
 
-    _admin = 'admin'
+    _admins = 'admins'
     admin_icon_class = None
     _views = 'views'
     _blueprint_names = sentinel
@@ -121,7 +121,7 @@ class Bundle(object):
     _serializers = 'serializers'
 
     def __init__(self, module_name, label=None,
-                 admin=sentinel,
+                 admins=sentinel,
                  admin_icon_class=None,
                  commands=sentinel,
                  command_group_name=None,
@@ -133,8 +133,8 @@ class Bundle(object):
         self.module_name = module_name
         self._label = label
 
-        if admin != sentinel:
-            self._admin = admin
+        if admins != sentinel:
+            self._admins = admins
         self.admin_icon_class = admin_icon_class
 
         if commands != sentinel:
@@ -160,26 +160,26 @@ class Bundle(object):
         return self._label or title_case(self._name)
 
     @property
-    def admin_module_name(self):
-        return self._get_full_module_name(self._admin)
+    def admins_module_name(self):
+        return self._get_full_module_name(self._admins)
 
-    @admin_module_name.setter
-    def admin_module_name(self, admin_module_name):
-        self._admin = admin_module_name
+    @admins_module_name.setter
+    def admins_module_name(self, admins_module_name):
+        self._admins = admins_module_name
 
     @property
-    def has_admin(self):
-        if not self.admin_module_name:
+    def has_admins(self):
+        if not self.admins_module_name:
             return False
-        return bool(safe_import_module(self.admin_module_name))
+        return bool(safe_import_module(self.admins_module_name))
 
     @property
     def model_admins(self):
-        if not self.has_admin:
+        if not self.has_admins:
             raise StopIteration
 
-        admin_module = safe_import_module(self.admin_module_name)
-        for name, obj in get_members(admin_module, is_model_admin):
+        admins_module = safe_import_module(self.admins_module_name)
+        for name, obj in get_members(admins_module, is_model_admin):
             yield obj
 
     @property
