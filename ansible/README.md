@@ -2,7 +2,7 @@
 
 Ansible on the local machine should be at version 2.2+. The stack is pretty basic:
 
-- CentOS 7.3
+- CentOS 7.4
 - Python 3.6
 - uWSGI + NGINX
 - PostgreSQL 9.6
