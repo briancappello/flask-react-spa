@@ -3,8 +3,8 @@
 QuickStart
 ==========
 
-Install:
---------
+Install
+-------
 
 .. code:: bash
 
@@ -14,8 +14,8 @@ Install:
    pip install -r requirements.txt
    npm install
 
-Configure:
-----------
+Configure
+---------
 
 * edit :file:`backend/config.example.py` and save it as :file:`backend/config.py`
 * edit :file:`frontend/app/config.example.js` and save it as :file:`frontend/app/config.js`
@@ -28,8 +28,8 @@ Configure:
    # load db fixtures (optional)
    python manage.py db fixtures fixtures.json
 
-Run:
-----
+Run
+---
 
 .. code:: bash
 

@@ -26,6 +26,12 @@ Configuration options for running in the production environment.
 Configuration options for running in the test environment.
 
 
+Bundle
+------
+
+.. autoclass:: backend.magic.Bundle
+
+
 App Factory
 -----------
 

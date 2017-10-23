@@ -1,26 +1,6 @@
-""" Flask Application Factory Pattern
+"""
+Flask Application Factory Pattern
 http://flask.pocoo.org/docs/0.12/patterns/appfactories/
-
-Conventions to follow for magic to ensue:
-
-VIEWS, MODELS, SERIALIZERS and COMMANDS ("bundles")
------------------------------
-All views/models should be contained in bundle folders.
-Views should be in a file named `views.py` containing the flask.Blueprint instance.
-Models should be in a file named `models.py` and should extend database.Model
-Serializers should be in a file named `serializers.py` and should extend
- flask_marshmallow.sqla.ModelSchema or backend.api.ModelSerializer
-Commands should be in a file named `commands.py` containing a click.Group instance.
-Finally, each bundle folder must be registered in `config.py`
-
-CLI COMMANDS
------------------------------
-Decorate custom CLI commands in `commands.py` using @cli.command()
-
-FLASK SHELL CONTEXT
------------------------------
-Database models, serializers and app extensions will automatically be added to
-the shell context, presuming the above conventions have been followed.
 """
 import os
 import sys
@@ -49,13 +29,9 @@ from .magic import (
 
 
 class Flask(BaseFlask):
-    bundles = {}
+    bundles = []
     models = {}
     serializers = {}
-
-    def iterbundles(self):
-        for bundle in self.bundles.values():
-            yield bundle
 
 
 def create_app():
@@ -83,7 +59,7 @@ def _create_app(config_object: BaseConfig, **kwargs):
     # WARNING: HERE BE DRAGONS!!!
     # DO NOT FUCK WITH THE ORDER OF THESE CALLS or nightmares will ensue
     app = Flask(__name__, **kwargs)
-    app.bundles = dict(get_bundles())
+    app.bundles = list(get_bundles())
     configure_app(app, config_object)
 
     extensions = dict(get_extensions(EXTENSIONS))
@@ -116,7 +92,7 @@ def configure_app(app, config_object):
         (bundle._name, os.path.join(PROJECT_ROOT,
                                     bundle.module_name.replace('.', os.sep),
                                     'migrations'))
-        for bundle in app.iterbundles() if bundle.has_models
+        for bundle in app.bundles if bundle.has_models
     ]
     app.config.from_object(config_object)
 
@@ -147,7 +123,7 @@ def register_blueprints(app):
         app.url_map.strict_slashes = False
 
     # register blueprints
-    for bundle in app.iterbundles():
+    for bundle in app.bundles:
         for blueprint in bundle.blueprints:
             # rstrip '/' off url_prefix because views should be declaring their
             # routes beginning with '/', and if url_prefix ends with '/', routes
@@ -157,25 +133,27 @@ def register_blueprints(app):
 
 
 def register_models(app):
+    """Register bundle models."""
     models = {}
-    for bundle in app.iterbundles():
+    for bundle in app.bundles:
         for model_name, model_class in bundle.models:
             models[model_name] = model_class
     app.models = models
 
 
 def register_admins(app):
+    """Register bundle admins."""
     from backend.extensions import db
     from backend.extensions.admin import admin
 
-    for bundle in app.iterbundles():
+    for bundle in app.bundles:
         if bundle.admin_icon_class:
-            admin.category_icon_classes[bundle.label] = bundle.admin_icon_class
+            admin.category_icon_classes[bundle.admin_category_name] = bundle.admin_icon_class
 
         for ModelAdmin in bundle.model_admins:
             model_admin = ModelAdmin(ModelAdmin.model,
                                      db.session,
-                                     category=bundle.label,
+                                     category=bundle.admin_category_name,
                                      name=ModelAdmin.model.__plural_label__)
 
             # workaround upstream bug where certain values set as
@@ -190,7 +168,7 @@ def register_admins(app):
 def register_serializers(app):
     """Register and initialize serializers."""
     serializers = {}
-    for bundle in app.iterbundles():
+    for bundle in app.bundles:
         for _, serializer_class in bundle.serializers:
             serializers[serializer_class.Meta.model.__name__] = serializer_class
     app.serializers = serializers
@@ -200,7 +178,7 @@ def register_cli_commands(app):
     """Register all the Click commands declared in commands.py and
     each bundle's commands.py"""
     commands = list(get_commands())
-    for bundle in app.iterbundles():
+    for bundle in app.bundles:
         if bundle.has_command_group:
             commands.append((bundle.command_group_name, bundle.command_group))
     for name, command in commands:

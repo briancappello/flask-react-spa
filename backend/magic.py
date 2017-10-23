@@ -109,46 +109,126 @@ sentinel = object()
 
 
 class Bundle(object):
+    """
+    A helper class for auto-registering a group of commands, views, models,
+    serializers and admins with the app.
+
+    Bundles are organized just as standard Python modules. If you want to
+    customize any of the default names, you can do so in the constructor.
+
+    Each bundle's modules are auto-detected if they exist, and will be
+    registered if so. All are optional.
+
+    Simple bundle example::
+
+        $ tree
+        backend/
+        └── simple/
+            ├── __init__.py
+            ├── admins.py
+            ├── commands.py
+            ├── models.py
+            ├── serializers.py
+            └── views.py
+
+    Big bundle example::
+
+        $ tree
+        backend/
+        └── big/
+            ├── __init__.py
+            ├── admins
+            │   ├── __init__.py  # must import all ModelAdmin(s)
+            │   ├── one_admin.py
+            │   └── two_admin.py
+            ├── commands
+            │   ├── __init__.py  # must import the click group from .group and
+            │   │                # all commands
+            │   ├── group.py     # the group should have the same name as the
+            │   │                # bundle's folder, or to change it, pass
+            │   │                # the command_group_name kwarg to Bundle
+            │   ├── one.py
+            │   └── two.py
+            ├── models
+            │   ├── __init__.py  # must import all Model(s)
+            │   ├── one.py
+            │   └── two.py
+            ├── serializers
+            │   ├── __init__.py  # must import all ModelSerializer(s)
+            │   ├── one_serializer.py
+            │   └── two_serializer.py
+            └── views
+                ├── __init__.py  # must import the Blueprint(s) from .blueprint
+                │                # and all ModelResource(s)
+                ├── blueprint.py # the blueprint should have the same name as the
+                │                # bundle's folder, or to change it, pass the
+                │                # blueprint_names kwarg to Bundle
+                ├── one_resource.py
+                └── two_resource.py
+
+    In both cases, :file:`backend/<bundle_folder_name>/__init__.py` is the same::
+
+        $ cat backend/<bundle_folder_name>/__init__.py
+        from backend.magic import Bundle
+
+        bundle = Bundle(__name__)
+
+    :param str module_name: Top-level module name of the bundle (dot notation)
+    :param str admin_category_name: Label to use for the bundle in the admin
+    :param str admin_icon_class: Icon class to use for the bundle in the admin
+    :param str admins_module_name: Folder or module name of the admins in the bundle
+    :param str commands_module_name: Folder or module name of the commands in the bundle
+    :param str command_group_name: Name of the bundle's command group (defaults to the bundle's folder name)
+    :param str models_module_name: Folder or module name of the models in the bundle
+    :param str serializers_module_name: Folder or module name of the serializers in the bundle
+    :param str views_module_name: Folder or module name of the views in the bundle
+    :param Iterable[str] blueprint_names: List of Blueprint name(s) to register. Defaults to [<bundle_folder_name>] (**NOTE**: names of the *instance variables*, not the Blueprints' endpoint names.)
+    """
     module_name = None
-    _label = None
-
-    _admins = 'admins'
+    _admin_category_name = None
     admin_icon_class = None
-    _views = 'views'
+    _admins_module_name = 'admins'
+    _commands_module_name = 'commands'
+    _command_group_name = None
+    _models_module_name = 'models'
+    _serializers_module_name = 'serializers'
+    _views_module_name = 'views'
     _blueprint_names = sentinel
-    _commands = 'commands'
-    _models = 'models'
-    _serializers = 'serializers'
 
-    def __init__(self, module_name, label=None,
-                 admins=sentinel,
+    def __init__(self, module_name,
+                 admin_category_name=None,
                  admin_icon_class=None,
-                 commands=sentinel,
+                 admins_module_name=sentinel,
+                 commands_module_name=sentinel,
                  command_group_name=None,
-                 models=sentinel,
-                 serializers=sentinel,
-                 views=sentinel,
+                 models_module_name=sentinel,
+                 serializers_module_name=sentinel,
+                 views_module_name=sentinel,
                  blueprint_names=sentinel,
                  ):
         self.module_name = module_name
-        self._label = label
 
-        if admins != sentinel:
-            self._admins = admins
+        self._admin_category_name = admin_category_name
+
         self.admin_icon_class = admin_icon_class
 
-        if commands != sentinel:
-            self._commands = commands
+        if admins_module_name != sentinel:
+            self._admins_module_name = self._normalize_module_name(admins_module_name)
+
+        if commands_module_name != sentinel:
+            self._commands_module_name = self._normalize_module_name(commands_module_name)
+
         self._command_group_name = command_group_name
 
-        if models != sentinel:
-            self._models = models
+        if models_module_name != sentinel:
+            self._models_module_name = self._normalize_module_name(models_module_name)
 
-        if serializers != sentinel:
-            self._serializers = serializers
+        if serializers_module_name != sentinel:
+            self._serializers_module_name = self._normalize_module_name(serializers_module_name)
 
-        if views != sentinel:
-            self._views = views
+        if views_module_name != sentinel:
+            self._views_module_name = self._normalize_module_name(views_module_name)
+
         self._blueprint_names = blueprint_names
 
     @property
@@ -156,16 +236,12 @@ class Bundle(object):
         return self.module_name.rsplit('.')[1]
 
     @property
-    def label(self):
-        return self._label or title_case(self._name)
+    def admin_category_name(self):
+        return self._admin_category_name or title_case(self._name)
 
     @property
     def admins_module_name(self):
-        return self._get_full_module_name(self._admins)
-
-    @admins_module_name.setter
-    def admins_module_name(self, admins_module_name):
-        self._admins = admins_module_name
+        return self._get_full_module_name(self._admins_module_name)
 
     @property
     def has_admins(self):
@@ -184,21 +260,13 @@ class Bundle(object):
 
     @property
     def views_module_name(self):
-        return self._get_full_module_name(self._views)
-
-    @views_module_name.setter
-    def views_module_name(self, views_module_name):
-        self._views = self._normalize_module_name(views_module_name)
+        return self._get_full_module_name(self._views_module_name)
 
     @property
     def blueprint_names(self):
         if self._blueprint_names == sentinel:
             return [self._name]
         return self._blueprint_names
-
-    @blueprint_names.setter
-    def blueprint_names(self, blueprint_names):
-        self._blueprint_names = blueprint_names
 
     @property
     def has_blueprints(self):
@@ -218,19 +286,11 @@ class Bundle(object):
 
     @property
     def commands_module_name(self):
-        return self._get_full_module_name(self._commands)
-
-    @commands_module_name.setter
-    def commands_module_name(self, commands_module_name):
-        self._commands = self._normalize_module_name(commands_module_name)
+        return self._get_full_module_name(self._commands_module_name)
 
     @property
     def command_group_name(self):
         return self._command_group_name or self._name
-
-    @command_group_name.setter
-    def command_group_name(self, command_group_name):
-        self._command_group_name = command_group_name
 
     @property
     def has_command_group(self):
@@ -249,11 +309,7 @@ class Bundle(object):
 
     @property
     def models_module_name(self):
-        return self._get_full_module_name(self._models)
-
-    @models_module_name.setter
-    def models_module_name(self, models_module_name):
-        self._models = self._normalize_module_name(models_module_name)
+        return self._get_full_module_name(self._models_module_name)
 
     @property
     def has_models(self):
@@ -263,17 +319,15 @@ class Bundle(object):
 
     @property
     def models(self):
-        if self.has_models:
-            module = safe_import_module(self.models_module_name)
-            yield from get_members(module, is_model)
+        if not self.has_models:
+            yield StopIteration
+
+        module = safe_import_module(self.models_module_name)
+        yield from get_members(module, is_model)
 
     @property
     def serializers_module_name(self):
-        return self._get_full_module_name(self._serializers)
-
-    @serializers_module_name.setter
-    def serializers_module_name(self, serializers_module_name):
-        self._serializers = self._normalize_module_name(serializers_module_name)
+        return self._get_full_module_name(self._serializers_module_name)
 
     @property
     def has_serializers(self):
@@ -283,9 +337,11 @@ class Bundle(object):
 
     @property
     def serializers(self):
-        if self.has_serializers:
-            module = safe_import_module(self.serializers_module_name)
-            yield from get_members(module, is_serializer)
+        if not self.has_serializers:
+            yield StopIteration
+
+        module = safe_import_module(self.serializers_module_name)
+        yield from get_members(module, is_serializer)
 
     def _get_full_module_name(self, module_name):
         if not module_name:
@@ -307,13 +363,13 @@ def get_bundles():
 
     for bundle_or_module_name in BUNDLES:
         if isinstance(bundle_or_module_name, Bundle):
-            yield bundle_or_module_name.name, bundle_or_module_name
+            yield bundle_or_module_name
         else:
             bundle_found = False
             module = safe_import_module(bundle_or_module_name)
             for name, bundle in inspect.getmembers(module, is_bundle):
                 bundle_found = True
-                yield name, bundle
+                yield bundle
             if not bundle_found:
                 from warnings import warn
                 warn('Unable to find a Bundle instance for the {module_name} '
