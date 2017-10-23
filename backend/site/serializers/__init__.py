@@ -1,1 +1,1 @@
-from .contact_submission import ContactSubmissionSerializer
+from .contact_submission_serializer import ContactSubmissionSerializer

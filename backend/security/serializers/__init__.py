@@ -1,2 +1,2 @@
-from .role import RoleSerializer
-from .user import UserSerializer
+from .role_serializer import RoleSerializer
+from .user_serializer import UserSerializer
