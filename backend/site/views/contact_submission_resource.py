@@ -1,14 +1,14 @@
 from flask import current_app
 
 from backend.api import ModelResource, CREATE
-from backend.extensions import api
+from backend.extensions.api import api
 from backend.utils import send_mail
 
 from .blueprint import site
 from ..models import ContactSubmission
 
 
-@api.bp_model_resource(site, ContactSubmission, '/contact-submissions')
+@api.model_resource(site, ContactSubmission, '/contact-submissions')
 class ContactSubmissionResource(ModelResource):
     include_methods = (CREATE,)
 

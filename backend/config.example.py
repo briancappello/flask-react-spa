@@ -49,7 +49,7 @@ EXTENSIONS = [
 # list of extensions to register after the bundles
 # syntax is import.name.in.dot.module.notation:extension_instance_name
 DEFERRED_EXTENSIONS = [
-    'backend.extensions:api',
+    'backend.extensions.api:api',
     'backend.extensions.admin:admin',
 ]
 

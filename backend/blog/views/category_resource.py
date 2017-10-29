@@ -1,11 +1,11 @@
 from backend.api import ModelResource, GET, LIST
-from backend.extensions import api
+from backend.extensions.api import api
 
 from .blueprint import blog
 from ..models import Article, Category, Series
 
 
-@api.bp_model_resource(blog, Category, '/categories', '/categories/<slug>')
+@api.model_resource(blog, Category, '/categories', '/categories/<slug>')
 class CategoryResource(ModelResource):
     include_methods = (GET, LIST)
 

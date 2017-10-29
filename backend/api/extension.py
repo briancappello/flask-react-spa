@@ -1,4 +1,4 @@
-from flask import current_app, make_response
+from flask import Blueprint, current_app, make_response
 from flask.json import dumps, JSONEncoder as BaseJSONEncoder
 from flask.views import MethodViewType
 from flask_restful import Api as BaseApi
@@ -6,11 +6,27 @@ from flask_sqlalchemy.model import camel_to_snake_case, Model
 from marshmallow import MarshalResult
 from werkzeug.wrappers import Response
 
+from backend.extensions import db
 from backend.utils import was_decorated_without_parenthesis
 
 from .constants import CREATE, DELETE, GET, LIST, PATCH, PUT
 from .model_resource import ModelResource
 from .utils import get_last_param_name
+
+
+def _get_model_resource_args(args):
+    bp, model, urls = None, args[0], args[1:]
+    if isinstance(args[0], Blueprint):
+        bp, model, urls = args[0], args[1], args[2:]
+    if not issubclass(model, db.Model):
+        raise NotImplementedError('The {} argument to Api.model_resource '
+                                  'must be a database model class'.format(
+                                      'second' if bp else 'first'
+                                  ))
+    if not urls:
+        raise NotImplementedError('Api.model_resource requires at least '
+                                  'one url argument.')
+    return bp, model, urls
 
 
 class Api(BaseApi):
@@ -88,8 +104,9 @@ class Api(BaseApi):
         api. Parameters are the same as :meth:`~flask_restful.Api.add_resource`.
 
         Example::
+
             app = Flask(__name__)
-            api = Api(app)
+            api = Api('api', app)
 
             @api.resource('/foo')
             class FooResource(Resource):
@@ -98,24 +115,25 @@ class Api(BaseApi):
 
         Overridden to customize the endpoint name
         """
+        if urls and isinstance(urls[0], Blueprint):
+            bp = urls[0]
+            urls = ('{}{}'.format(bp.url_prefix or '', url) for url in urls[1:])
+
         def decorator(cls):
             endpoint = self._get_endpoint(cls, kwargs.pop('endpoint', None))
             self.add_resource(cls, *urls, endpoint=endpoint, **kwargs)
             return cls
         return decorator
 
-    def bp_resource(self, bp, *urls, **kwargs):
-        urls = ('{}{}'.format(bp.url_prefix or '', url) for url in urls)
-        return self.resource(*urls, **kwargs)
-
-    def model_resource(self, model, *urls, **kwargs):
+    def model_resource(self, *args, **kwargs):
         """Wraps a :class:`ModelResource` class, adding it to the api.
-        The model parameter is required, but otherwise parameters are
-        the same as :meth:`add_resource`.
+        There are two supported method signatures:
+        Api.model_resource(model, *urls, **kwargs) and
+        Api.model_resource(blueprint, model, *urls, *kwargs)
 
-        Example::
+        Example without blueprint::
 
-            from backend.extensions import api
+            from backend.extensions.api import api
             from models import User
 
             @api.model_resource(User, '/users', '/users/<int:id>')
@@ -125,27 +143,14 @@ class Api(BaseApi):
 
                 def list(self, users):
                     return users
-        """
-        def decorator(cls):
-            cls.model = model
-            endpoint = self._get_endpoint(cls, kwargs.pop('endpoint', None))
-            self.add_resource(cls, *urls, endpoint=endpoint, **kwargs)
-            return cls
-        return decorator
 
-    def bp_model_resource(self, bp, model, *urls, **kwargs):
-        """Wraps a :class:`ModelResource` class, adding it to the api.
-        The bp and model parameters are required, but otherwise parameters are
-        the same as :meth:`add_resource`.
+        Example with blueprint::
 
-        Example::
-
-            from backend.extensions import api
+            from backend.extensions.api import api
             from models import User
+            from views import bp
 
-            security = Blueprint('security', url_prefix='/security')
-
-            @api.bp_model_resource(security, User, '/users', '/users/<int:id>')
+            @api.model_resource(bp, User, '/users', '/users/<int:id>')
             class UserResource(Resource):
                 def get(self, user):
                     return user
@@ -153,8 +158,16 @@ class Api(BaseApi):
                 def list(self, users):
                     return users
         """
-        urls = ('{}{}'.format(bp.url_prefix or '', url) for url in urls)
-        return self.model_resource(model, *urls, **kwargs)
+        bp, model, urls = _get_model_resource_args(args)
+        if bp:
+            urls = ('{}{}'.format(bp.url_prefix or '', url) for url in urls)
+
+        def decorator(cls):
+            cls.model = model
+            endpoint = self._get_endpoint(cls, kwargs.pop('endpoint', None))
+            self.add_resource(cls, *urls, endpoint=endpoint, **kwargs)
+            return cls
+        return decorator
 
     def serializer(self, *args, many=False):
         """Wraps a :class:`~backend.api.ModelSerializer`
@@ -163,7 +176,7 @@ class Api(BaseApi):
 
          Example::
 
-            from backend.extensions import api
+            from backend.extensions.api import api
             from backend.api import ModelSerializer
             from models import Foo
 

@@ -5,14 +5,14 @@ from flask_security.utils import config_value, login_user, send_mail
 from flask_security.views import _commit, _security
 
 from backend.api import ModelResource, CREATE, GET, PATCH
-from backend.extensions import api
+from backend.extensions.api import api
 
 from .blueprint import security
 from ..decorators import anonymous_user_required, auth_required_same_user
 from ..models import User
 
 
-@api.bp_model_resource(security, User, '/users', '/users/<int:id>')
+@api.model_resource(security, User, '/users', '/users/<int:id>')
 class UserResource(ModelResource):
     include_methods = [CREATE, GET, PATCH]
     method_decorators = {

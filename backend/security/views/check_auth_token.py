@@ -1,7 +1,7 @@
 from flask import jsonify
 from flask_login import current_user
 
-from backend.extensions import api
+from backend.extensions.api import api
 
 from .blueprint import security
 from ..decorators import auth_required

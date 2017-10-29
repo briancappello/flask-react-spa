@@ -1,4 +1,3 @@
-from backend.api import Api
 from flask_alembic import Alembic
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
@@ -18,10 +17,3 @@ db = SQLAlchemy(metadata=MetaData(naming_convention={
     'pk': 'pk_%(table_name)s',
 }))
 alembic = Alembic()
-
-# Flask-Restful must be initialized _AFTER_ the SQLAlchemy extension has
-# been initialized, AND after all views, models, and serializers have
-# been imported. This is because the @api decorators create deferred
-# registrations that depend upon said dependencies having all been
-# completed before Api('api').init_app() gets called
-api = Api('api', prefix='/api/v1')

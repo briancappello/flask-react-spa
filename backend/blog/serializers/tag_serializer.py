@@ -1,5 +1,5 @@
 from backend.api import ModelSerializer, fields
-from backend.extensions import api
+from backend.extensions.api import api
 
 from ..models import Tag
 

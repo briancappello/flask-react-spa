@@ -3,7 +3,7 @@ from flask_login import current_user
 from flask_security.utils import logout_user
 from http import HTTPStatus
 
-from backend.extensions import api
+from backend.extensions.api import api
 
 from .blueprint import security
 
