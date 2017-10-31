@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED 1
 RUN apk add --no-cache shadow
 RUN useradd --user-group --create-home --home-dir /flask --shell /bin/false flask
 
-RUN apk add --no-cache make gcc musl-dev libxml2-dev libxslt-dev libffi-dev postgresql-dev
+RUN apk add --no-cache linux-headers make gcc musl-dev libxml2-dev libxslt-dev libffi-dev postgresql-dev
 
 WORKDIR /flask/src
 
