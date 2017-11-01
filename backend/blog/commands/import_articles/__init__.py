@@ -23,7 +23,8 @@ ARTICLES_METADATA_PATH = os.path.join(APP_CACHE_FOLDER, '.articles-metadata.json
 
 
 @blog.command()
-@click.option('--reset', is_flag=True, default=False, expose_value=True)
+@click.option('--reset', is_flag=True, default=False, expose_value=True,
+              help='Ignore previously updated at timestamps.')
 @with_appcontext
 def import_articles(reset):
     click.echo('Importing new/updated blog articles.')

@@ -30,10 +30,11 @@ def _get_model_resource_args(args):
 
 
 class Api(BaseApi):
-    """Overridden to support integration with Flask-Marshmallow serializers,
-    along with a few other minor enhancements:
+    """Extends :class:`flask_restful.Api` to support integration with
+    Flask-Marshmallow serializers, along with a few other minor enhancements:
+
     - can register individual view functions ala blueprints, via @api.route()
-    - supports using flask.jsonify() in resources
+    - supports using flask.jsonify() in resource methods
     """
     def __init__(self, name, app=None, prefix='',
                  default_mediatype='application/json',
@@ -100,8 +101,9 @@ class Api(BaseApi):
         self._register_json_encoder(app, self.serializers)
 
     def resource(self, *urls, **kwargs):
-        """Wraps a :class:`~flask_restful.Resource` class, adding it to the
-        api. Parameters are the same as :meth:`~flask_restful.Api.add_resource`.
+        """Decorator to wrap a :class:`~flask_restful.Resource` class, adding
+        it to the api. Parameters are the same as
+        :meth:`~flask_restful.Api.add_resource`.
 
         Example::
 
@@ -126,10 +128,14 @@ class Api(BaseApi):
         return decorator
 
     def model_resource(self, *args, **kwargs):
-        """Wraps a :class:`ModelResource` class, adding it to the api.
-        There are two supported method signatures:
-        Api.model_resource(model, *urls, **kwargs) and
-        Api.model_resource(blueprint, model, *urls, *kwargs)
+        """Decorator to wrap a :class:`backend.api.ModelResource` class, adding
+        it to the api. There are two supported method signatures:
+
+        `Api.model_resource(model, *urls, **kwargs)`
+
+        and
+
+        `Api.model_resource(blueprint, model, *urls, *kwargs)`
 
         Example without blueprint::
 
@@ -170,11 +176,11 @@ class Api(BaseApi):
         return decorator
 
     def serializer(self, *args, many=False):
-        """Wraps a :class:`~backend.api.ModelSerializer`
-         class, registering the wrapped serializer as the specific one to use
-         for the serializer's model. Does not take any arguments.
+        """Decorator to wrap a :class:`~backend.api.ModelSerializer` class,
+        registering the wrapped serializer as the specific one to use for the
+        serializer's model.
 
-         Example::
+         For example::
 
             from backend.extensions.api import api
             from backend.api import ModelSerializer
@@ -198,36 +204,36 @@ class Api(BaseApi):
             return decorator(args[0])
         return decorator
 
-    def route(self, rule, **kwargs):
+    def route(self, *args, **kwargs):
         """Decorator for registering individual view functions.
 
-        Usage::
+        Usage without blueprint::
 
             api = Api('api', prefix='/api/v1')
 
             @api.route('/foo')  # resulting url: /api/v1/foo
             def get_foo():
                 # do stuff
-        """
-        def decorator(fn):
-            endpoint = self._get_endpoint(fn, kwargs.pop('endpoint', None))
-            self.add_url_rule(rule, endpoint, fn, **kwargs)
-            return fn
-        return decorator
 
-    def bp_route(self, bp, rule, **kwargs):
-        """Decorator for registering individual view functions.
-
-        Usage::
+        Usage with blueprint::
 
             api = Api('api', prefix='/api/v1')
             team = Blueprint('team', url_prefix='/team')
 
-            @api.bp_route(team, '/users')  # resulting url: /api/v1/team/users
+            @api.route(team, '/users')  # resulting url: /api/v1/team/users
             def users():
                 # do stuff
         """
-        return self.route('{}{}'.format(bp.url_prefix or '', rule), **kwargs)
+        bp, url = None, args[0]
+        if isinstance(args[0], Blueprint):
+            bp, url = args[0], args[1]
+            url = '{}{}'.format(bp.url_prefix or '', url)
+
+        def decorator(fn):
+            endpoint = self._get_endpoint(fn, kwargs.pop('endpoint', None))
+            self.add_url_rule(url, endpoint, fn, **kwargs)
+            return fn
+        return decorator
 
     def add_url_rule(self, rule, endpoint=None, view_func=None, **kwargs):
         if not rule.startswith('/'):

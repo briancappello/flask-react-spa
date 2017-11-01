@@ -8,7 +8,7 @@ from ..decorators import auth_required
 
 
 # FIXME implement remember me functionality
-@api.bp_route(security, '/check-auth-token')
+@api.route(security, '/check-auth-token')
 @auth_required
 def check_auth_token():
     return jsonify({'user': current_user._get_current_object()})

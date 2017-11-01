@@ -2,7 +2,7 @@ build:
 	npm run build
 
 html:
-	cd docs; make html; cd ..
+	cd docs; make clean; make html; cd ..
 
 doc_styles: html
 	cd docs; cp -a _static/* _build/html/_static/; cd ..

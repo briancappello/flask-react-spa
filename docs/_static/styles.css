@@ -26,6 +26,15 @@ h1 {
     display: block;
 }
 
+/* add basic styling for citations */
+cite {
+    font-family: monospace;
+    font-size: 15px;
+    background-color: #eee;
+    padding: 4px;
+    border-radius: 2px;
+}
+
 /* table of contents customizations */
 .sidebar-block h2 a {
     color: #222;

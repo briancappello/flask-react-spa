@@ -5,8 +5,11 @@ Table of Contents
    :maxdepth: 2
 
    quickstart
+   commands
+   app
+   db_models
+   restful
    deployment
-   api
 
 License
 -------

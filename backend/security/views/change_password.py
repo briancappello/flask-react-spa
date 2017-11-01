@@ -11,7 +11,7 @@ from .blueprint import security
 from ..decorators import auth_required
 
 
-@api.bp_route(security, '/change-password', methods=['POST'])
+@api.route(security, '/change-password', methods=['POST'])
 @auth_required
 def change_password():
     user = current_user._get_current_object()

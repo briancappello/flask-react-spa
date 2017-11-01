@@ -15,7 +15,7 @@ from .blueprint import frontend, security
 
 
 @frontend.route('/login')
-@api.bp_route(security, '/login', methods=['POST'])
+@api.route(security, '/login', methods=['POST'])
 @security.route('/login', methods=['GET', 'POST'])
 def login():
     if request.is_json:

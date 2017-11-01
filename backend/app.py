@@ -84,8 +84,8 @@ def configure_app(app, config_object):
     """General application configuration:
 
     - register the app's config
-    - register jinja extensions
-    - register request/response cycle functions
+    - register Jinja extensions
+    - register functions to run on before/after request
     """
     # automatically configure a migrations folder for each bundle
     config_object.ALEMBIC['version_locations'] = [
@@ -166,7 +166,7 @@ def register_admins(app):
 
 
 def register_serializers(app):
-    """Register and initialize serializers."""
+    """Register bundle serializers."""
     serializers = {}
     for bundle in app.bundles:
         for name, serializer_class in bundle.serializers:
@@ -175,8 +175,8 @@ def register_serializers(app):
 
 
 def register_cli_commands(app):
-    """Register all the Click commands declared in commands.py and
-    each bundle's commands.py"""
+    """Register all the Click commands declared in :file:`backend/commands` and
+    each bundle's commands"""
     commands = list(get_commands())
     for bundle in app.bundles:
         commands += list(bundle.command_groups)
@@ -188,7 +188,7 @@ def register_cli_commands(app):
 
 
 def register_shell_context(app, extensions):
-    """Register variables to automatically import when running `flask shell`."""
+    """Register variables to automatically import when running `python manage.py shell`."""
     def shell_context():
         ctx = {}
         ctx.update(extensions)

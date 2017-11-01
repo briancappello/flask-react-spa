@@ -35,7 +35,7 @@ def url(url, method):
 @click.option('--order', default='rule',
               help='Property on Rule to order by (default: rule)')
 def urls(order):
-    """Show details for all URLs registered with the app."""
+    """List all URLs registered with the app."""
     rules = sorted(
         current_app.url_map.iter_rules(),
         key=lambda rule: getattr(rule, order)

@@ -1,6 +1,6 @@
-.. _api:
+.. _app:
 
-API Docs
+App Docs
 ========
 
 Configuration
@@ -26,12 +26,6 @@ Configuration options for running in the production environment.
 Configuration options for running in the test environment.
 
 
-Bundle
-------
-
-.. autoclass:: backend.magic.Bundle
-
-
 App Factory
 -----------
 
@@ -47,6 +41,8 @@ The following methods are all automatically called by :meth:`backend.app._create
 
 .. autofunction:: backend.app.register_blueprints
 
+.. autofunction:: backend.app.register_models
+
 .. autofunction:: backend.app.register_serializers
 
 .. autofunction:: backend.app.register_cli_commands
@@ -54,18 +50,7 @@ The following methods are all automatically called by :meth:`backend.app._create
 .. autofunction:: backend.app.register_shell_context
 
 
-Database
---------
+Bundles
+-------
 
-.. autoclass:: backend.database.BaseModel
-   :members: __repr_props__, get, get_by, filter_by, create, update, save, delete
-   :undoc-members: __repr_props__
-   :special-members: __repr_props__
-
-.. autoclass:: backend.database.Model
-
-.. autofunction:: backend.database.foreign_key
-
-.. autofunction:: backend.database.attach_events
-.. autofunction:: backend.database.on
-.. autofunction:: backend.database.slugify
+.. autoclass:: backend.magic.Bundle

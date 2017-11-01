@@ -10,30 +10,31 @@ from backend.utils import was_decorated_without_parenthesis
 def param_converter(*args, **param_models):
     """
     Call with url parameter names for keyword arguments, their values
-     being the model to convert to.
+    being the model to convert to.
 
-    Models will be looked up by the parameter names. If a parameter
+    Models will be looked up by the parameter names. If a parameter name
     is prefixed with the snake-cased model name, it will be stripped.
 
     If a model isn't found, abort with a 404.
 
     The action's argument names must match the snake-cased model names.
 
-    # for example:
-    @bp.route('/users/<int:user_id>/posts/<int:id>')
-    @param_converter(user_id=User, id=Post)
-    def show_post(user, post):
-        # the param converter does the database lookups:
-        # user = User.query.filter_by(id=user_id).first()
-        # post = Post.query.filter_by(id=id).first()
-        # and calls the decorated action: show_post(user, post)
+    For example::
 
-    # or to customize the argument names passed to the action:
-    @bp.route('/users/<int:user_id>/posts/<int:post_id>')
-    @param_converter(user_id={'user_arg_name': User},
-                     post_id={'post_arg_name': Post})
-    def show_post(user_arg_name, post_arg_name):
-        # do stuff ...
+        @bp.route('/users/<int:user_id>/posts/<int:id>')
+        @param_converter(user_id=User, id=Post)
+        def show_post(user, post):
+            # the param converter does the database lookups:
+            # user = User.query.filter_by(id=user_id).first()
+            # post = Post.query.filter_by(id=id).first()
+            # and calls the decorated action: show_post(user, post)
+
+        # or to customize the argument names passed to the action:
+        @bp.route('/users/<int:user_id>/posts/<int:post_id>')
+        @param_converter(user_id={'user_arg_name': User},
+                         post_id={'post_arg_name': Post})
+        def show_post(user_arg_name, post_arg_name):
+            # do stuff ...
     """
     def wrapped(fn):
         @wraps(fn)
@@ -62,6 +63,11 @@ def param_converter(*args, **param_models):
 
 
 def list_loader(*args, model):
+    """
+    Decorator to automatically query the database for all records of a model.
+
+    :param model: The model class to query
+    """
     def wrapped(fn):
         @wraps(fn)
         def decorated(*args, **kwargs):
@@ -74,6 +80,12 @@ def list_loader(*args, model):
 
 
 def patch_loader(*args, serializer):
+    """
+    Decorator to automatically load and (partially) update a model from json
+    request data
+
+    :param serializer: The ModelSerializer to use to load data from the request
+    """
     def wrapped(fn):
         @wraps(fn)
         def decorated(*args, **kwargs):
@@ -89,6 +101,11 @@ def patch_loader(*args, serializer):
 
 
 def put_loader(*args, serializer):
+    """
+    Decorator to automatically load and update a model from json request data
+
+    :param serializer: The ModelSerializer to use to load data from the request
+    """
     def wrapped(fn):
         @wraps(fn)
         def decorated(*args, **kwargs):
@@ -104,6 +121,11 @@ def put_loader(*args, serializer):
 
 
 def post_loader(*args, serializer):
+    """
+    Decorator to automatically instantiate a model from json request data
+
+    :param serializer: The ModelSerializer to use to load data from the request
+    """
     def wrapped(fn):
         @wraps(fn)
         def decorated(*args, **kwargs):

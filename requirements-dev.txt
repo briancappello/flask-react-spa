@@ -6,10 +6,12 @@ guzzle-sphinx-theme==0.7.11
 idna==2.6
 imagesize==0.7.1
 livereload==2.5.1
+pbr==3.1.1
 Pygments==2.2.0
 requests==2.18.4
 snowballstemmer==1.2.1
 Sphinx==1.6.3
 sphinxcontrib-websupport==1.0.1
+sphinx-click==1.0.3
 tornado==4.5.2
 urllib3==1.22

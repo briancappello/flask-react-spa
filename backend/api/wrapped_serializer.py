@@ -7,37 +7,37 @@ from .model_serializer import ModelSerializer
 
 class WrappedSerializer(ModelSerializer):
     """
-    A version of ModelSchema that automatically wraps serialized results with
-    the model name, and automatically unwraps during deserialization.
+    Extends :class:`backend.api.ModelSchema` to automatically wrap serialized
+    results with the model name, and automatically unwrap it when loading.
 
     NOTE: this might not behave as you'd expect if your serializer uses
-    nested fields (if a nested object's serializer is also a WrappedSchema,
-    then even the nested objects will end up wrapped, which probably isn't
+    nested fields (if a nested object's serializer is also a WrappedSerializer,
+    then the nested objects will also end up wrapped, which probably isn't
     what you want...)
 
-    Example usage:
+    Example usage::
 
-    class Foo(db.Model):
-        id = PrimaryKey
-        name = String
+        class Foo(PrimaryKeyMixin, BaseModel):
+            name = Column(String)
 
-    class FooSerializer(WrappedSerializer):
-        class Meta:
-            model = Foo
-    foo_serializer = FooSerializer()
+        class FooSerializer(WrappedSerializer):
+            class Meta:
+                model = Foo
 
-    foo = Foo(id=1, name='Foo')
-    foo_json = foo_serializer.dump(foo).data # returns:
-    foo_json == {
-       "foo": {  // <-- added by self.wrap_with_envelope on @post_dump
-          "id": 1,
-          "name": "Foo"
-       }
-    }
+        foo_serializer = FooSerializer()
+        foo = Foo(id=1, name='FooBar')
+        foo_json = foo_serializer.dump(foo).data
+        # results in:
+        foo_json == {
+           "foo": {  # <- added by self.wrap_with_envelope on @post_dump
+              "id": 1,
+              "name": "FooBar"
+           }
+        }
 
-    # and on deserialization, self.unwrap_envelope loads it correctly:
-    foo = foo_serializer.load(foo_json).data
-    isinstance(foo, Foo) == True
+        # and on deserialization, self.unwrap_envelope loads it correctly:
+        foo = foo_serializer.load(foo_json).data
+        isinstance(foo, Foo) == True
     """
 
     # define this on your serializers to set the envelope name(s),

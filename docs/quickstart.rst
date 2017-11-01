@@ -3,42 +3,48 @@
 QuickStart
 ==========
 
-Install
--------
+Clone & Configure
+-----------------
 
 .. code:: bash
 
-   git clone git@github.com:briancappello/flask-react-spa.git
-   cd flask-react-spa
-   mkvirtualenv -p /path/to/python3 flask_react_spa
-   pip install -r requirements.txt
-   npm install
+   $ git clone git@github.com:briancappello/flask-react-spa.git
+   $ cd flask-react-spa
 
-Configure
----------
+* edit :file:`backend/config.example.py` and save as :file:`backend/config.py`
+* edit :file:`frontend/app/config.example.js` and save as :file:`frontend/app/config.js`
 
-* edit :file:`backend/config.example.py` and save it as :file:`backend/config.py`
-* edit :file:`frontend/app/config.example.js` and save it as :file:`frontend/app/config.js`
+Running with Docker
+-------------------
 
 .. code:: bash
+
+   $ docker-compose up --build
+
+
+Running Locally
+---------------
+
+This assumes you're on a reasonably standard \*nix system. Windows *might* work if you know what you're doing, but you're on your own there.
+
+.. code:: bash
+
+   # install dependencies into a virtual environment
+   $ mkvirtualenv -p /path/to/python3 flask_react_spa
+   $ pip install -r requirements.txt
 
    # run db migrations
-   python manage.py db upgrade
+   $ python manage.py db upgrade
 
    # load db fixtures (optional)
-   python manage.py db fixtures fixtures.json
+   $ python manage.py db fixtures fixtures.json
 
-Run
----
+   # start frontend dev server:
+   $ npm install
+   $ npm run start
 
-.. code:: bash
+   # start backend dev server:
+   $ python manage.py run
 
-   # frontend dev server:
-   npm start  # short for: npm run start
-
-   # backend dev server:
-   python manage.py run
-
-   # backend celery workers:
-   python manage.py celery worker
-   python manage.py celery beat
+   # start backend celery worker (currently only required for sending emails):
+   $ python manage.py celery worker

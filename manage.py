@@ -35,8 +35,10 @@ def production_warning(env, args):
              help="""\
 A utility script for the Flask React SPA application.
 """)
-@click.option('--env', type=click.Choice(['dev', 'prod']), default='dev')
-@click.option('--warn/--no-warn', default=True)
+@click.option('--env', type=click.Choice(['dev', 'prod']), default='dev',
+              help='Whether to use DevConfig or ProdConfig (dev by default).')
+@click.option('--warn/--no-warn', default=True,
+              help='Whether or not to warn if running in production.')
 @click.pass_context
 def cli(ctx, env, warn):
     ctx.obj.data['env'] = env

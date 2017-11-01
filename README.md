@@ -13,6 +13,8 @@ The frontend is heavily inspired by [react boilerplate](https://github.com/react
    - Tree Shaking
    - Code Splitting (asynchronous components via [react-loadable](https://github.com/thejameskyle/react-loadable))
 
+Entry point is at `frontend/app/index.js`.
+
 ## [Flask](http://flask.pocoo.org/) Backend
 
 - [SQLAlchemy](http://docs.sqlalchemy.org/en/rel_1_1/) ORM with [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.2/) and migrations provided by [Flask-Alembic](https://flask-alembic.readthedocs.io/en/stable/)
@@ -25,6 +27,8 @@ The frontend is heavily inspired by [react boilerplate](https://github.com/react
 - [Flask-Admin](https://flask-admin.readthedocs.io/en/latest/) integrated for painless model CRUD administration
 - [Flask-Session](http://pythonhosted.org/Flask-Session/) for server-side sessions
 - [Celery](http://www.celeryproject.org/) for asynchronous tasks, such as sending emails via [Flask-Mail](https://pythonhosted.org/Flask-Mail/)
+
+The backend is structured using the [Application Factory Pattern](http://flask.pocoo.org/docs/0.12/patterns/appfactories/), in conjunction with a little bit of declarative configuration in `backend/config.py` (for ordered registration of extensions, and auto-detection of views, models, serializers, model admins and cli commands). The entry point is the `create_app()` method in `backend/app.py` (`wsgi.py` in production).
 
 ## Ansible Production Deployment
 
@@ -66,13 +70,15 @@ Once it's done building and everything has booted up:
 - The API (eg for testing with CURL): [http://localhost:5000](http://localhost:5000)
 - And last but not least, the database is exposed on port 5442
 
-### Running locally (on Linux, *BSD, and probably OSX)
+### Running locally
+
+This assumes you're on a reasonably standard \*nix system. Windows *might* work if you know what you're doing, but you're on your own there.
 
 Dependencies:
 
 - Python 3.5+
 - Your virtualenv tool of choice (strongly recommended)
-- PostgreSQL
+- PostgreSQL or MariaDB (MySQL)
 - Redis (used for sessions persistence and the Celery tasks queue)
 - node.js & npm (v6 or later recommended, only required for development)
 - MailHog (not required, but it's awesome for testing email related tasks)

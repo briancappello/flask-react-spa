@@ -8,7 +8,7 @@ from backend.extensions.api import api
 from .blueprint import security
 
 
-@api.bp_route(security, '/logout')
+@api.route(security, '/logout')
 @security.route('/logout')
 def logout():
     if current_user.is_authenticated:

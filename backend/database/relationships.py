@@ -25,8 +25,8 @@ backref = db.backref            # type: __relationship_type_hinter__
 relationship = db.relationship  # type: __relationship_type_hinter__
 
 
-def foreign_key(model_or_table_name, **kwargs):
-    """Use to add a foreign key Column to a model.
+def foreign_key(model_or_table_name, fk_col=None, primary_key=False, **kwargs):
+    """Helper method to add a foreign key Column to a model.
 
     For example::
 
@@ -37,7 +37,7 @@ def foreign_key(model_or_table_name, **kwargs):
     Is equivalent to::
 
         class Post(Model):
-            category_id = Column(Integer, ForeignKey('category.id'), nullable=False)
+            category_id = Column(BigInteger, ForeignKey('category.id'), nullable=False)
             category = relationship('Category', back_populates='posts')
 
     :param model_or_table_name: the model or table name to link to
@@ -51,11 +51,17 @@ def foreign_key(model_or_table_name, **kwargs):
         If given an instance of :class:`flask_sqlalchemy.Model`, use its
         :attr:`__tablename__` attribute.
 
+    :param str fk_col: column name of the primary key (defaults to "id")
+    :param bool primary_key: Whether or not this Column is a primary key
     :param dict kwargs: any other kwargs to pass the Column constructor
     """
     table_name = model_or_table_name
+    fk_col = fk_col or 'id'
     if isinstance(model_or_table_name, db.Model):
         table_name = model_or_table_name.__tablename__
     elif table_name != model_or_table_name.lower():
         table_name = camel_to_snake_case(model_or_table_name)
-    return Column(db.BigInteger, db.ForeignKey('{}.id'.format(table_name)), **kwargs)
+    return Column(db.BigInteger,
+                  db.ForeignKey('{}.{}'.format(table_name, fk_col)),
+                  primary_key=primary_key,
+                  **kwargs)

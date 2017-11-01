@@ -146,7 +146,7 @@ class Bundle(object):
             │   │                # all commands
             │   ├── group.py     # the group should have the same name as the
             │   │                # bundle's folder, or to change it, pass
-            │   │                # the command_group_name kwarg to Bundle
+            │   │                # the command_group_names kwarg to Bundle
             │   ├── one.py
             │   └── two.py
             ├── models
@@ -172,6 +172,13 @@ class Bundle(object):
         from backend.magic import Bundle
 
         bundle = Bundle(__name__)
+
+    Finally, the bundle modules must be registered in :file:`backend/config.py`::
+
+        BUNDLES = [
+            'backend.simple',
+            'backend.big',
+        ]
 
     :param str module_name: Top-level module name of the bundle (dot notation)
     :param str admin_category_name: Label to use for the bundle in the admin

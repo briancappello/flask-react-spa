@@ -9,7 +9,7 @@ from backend.extensions.api import api
 from .blueprint import security
 
 
-@api.bp_route(security, '/resend-confirmation-email', methods=['POST'])
+@api.route(security, '/resend-confirmation-email', methods=['POST'])
 def resend_confirmation_email():
     """View function which sends confirmation instructions."""
     form = _security.send_confirmation_form(MultiDict(request.get_json()))
