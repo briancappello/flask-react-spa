@@ -48,10 +48,6 @@ class ArticleDetail extends React.Component {
     ]
   }
 
-  foobar = (e) => {
-    this.e = e
-  }
-
   renderPrevNext({ series, prev, next }) {
     if (!(prev || next)) {
       return null
