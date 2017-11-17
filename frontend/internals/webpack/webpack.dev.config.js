@@ -17,7 +17,8 @@ const plugins = [
     template: 'frontend/index.html',
   }),
   new BundleAnalyzerPlugin({
-    analyzerPort: 5555,
+    analyzerHost: process.env.ANALYZER_HOST || '127.0.0.1',
+    analyzerPort: process.env.ANALYZER_PORT || 5555,
     openAnalyzer: false,
   }),
 ]
