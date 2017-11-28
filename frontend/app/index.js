@@ -1,5 +1,8 @@
 import 'babel-polyfill'
 
+// this must come before everything else otherwise style cascading doesn't work as expected
+import 'main.scss'
+
 import { AppContainer as HotReloadContainer } from 'react-hot-loader'
 import React from 'react'
 import ReactDOM from 'react-dom'

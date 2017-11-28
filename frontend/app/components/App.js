@@ -7,7 +7,6 @@ import { NavBar, ProgressBar } from 'components'
 import { SITE_NAME, COPYRIGHT } from 'config'
 import Routes from 'routes'
 
-import 'main.scss'
 
 const AppLayout = () => (
   <div className="fixed-nav-top">
