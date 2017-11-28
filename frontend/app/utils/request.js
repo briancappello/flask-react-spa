@@ -18,6 +18,7 @@ export function get(url, kwargs = {}) {
     credentials: 'include',
     headers: Object.assign({
       'Accept': 'application/json',
+      'Content-Type': 'application/json',
     }, token ? { 'Authentication-Token': token } : {}),
     method: 'GET',
   }
