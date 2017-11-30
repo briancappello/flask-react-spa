@@ -13,3 +13,9 @@
             group={{ nginx_user }}
             mode=0640
             backup=yes
+
+- name: create virtualenv exec script
+  template:
+    src: venv_exec.sh.j2
+    dest: '{{ venv_exec }}'
+    mode: 0755

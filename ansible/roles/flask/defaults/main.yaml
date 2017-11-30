@@ -9,6 +9,7 @@ dependencies:
   - openssl-devel
 
 project_virtualenv_dir: '{{ virtualenv_dir }}/{{ project_name }}'
+venv_exec: '{{ project_virtualenv_dir }}/bin/venv_exec'
 project_dir: '{{ project_virtualenv_dir }}/{{ project_name }}'
 requirements_path: '{{ project_dir }}/requirements.txt'
 static_dir_name: 'static'

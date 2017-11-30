@@ -90,35 +90,35 @@
 
 - name: run database migrations
   when: run_migrations is defined and run_migrations
-  command: "{{ project_virtualenv_dir }}/bin/{{ python3 }} manage.py --env=prod --no-warn db upgrade"
+  command: "{{ venv_exec }} {{ python3 }} manage.py --env=prod --no-warn db upgrade"
   args:
     chdir: '{{ project_dir }}'
   tags: flask.run_migrations
 
 - name: run database fixtures [dev]
   when: run_fixtures is defined and run_fixtures and app_env == 'dev'
-  command: "{{ project_virtualenv_dir }}/bin/{{ python3 }} manage.py --env=prod --no-warn db fixtures fixtures.json --reset"
+  command: "{{ venv_exec }} {{ python3 }} manage.py --env=prod --no-warn db fixtures fixtures.json --reset"
   args:
     chdir: '{{ project_dir }}'
   tags: flask.run_fixtures
 
 - name: run database fixtures [prod]
   when: run_fixtures is defined and run_fixtures and app_env == 'prod'
-  command: "{{ project_virtualenv_dir }}/bin/{{ python3 }} manage.py --env=prod --no-warn db fixtures fixtures.json"
+  command: "{{ venv_exec }} {{ python3 }} manage.py --env=prod --no-warn db fixtures fixtures.json"
   args:
     chdir: '{{ project_dir }}'
   tags: flask.run_fixtures
 
 - name: import articles [dev]
   when: import_articles is defined and import_articles and app_env == 'dev'
-  command: "{{ project_virtualenv_dir }}/bin/{{ python3 }} manage.py --env=prod --no-warn blog import_articles --reset"
+  command: "{{ venv_exec }} {{ python3 }} manage.py --env=prod --no-warn blog import_articles --reset"
   args:
     chdir: '{{ project_dir }}'
   tags: flask.import_articles
 
 - name: import articles [prod]
   when: import_articles is defined and import_articles and app_env == 'prod'
-  command: "{{ project_virtualenv_dir }}/bin/{{ python3 }} manage.py --env=prod --no-warn blog import_articles"
+  command: "{{ venv_exec }} {{ python3 }} manage.py --env=prod --no-warn blog import_articles"
   args:
     chdir: '{{ project_dir }}'
   tags: flask.import_articles

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+source {{ project_virtualenv_dir }}/bin/activate
+source {{ project_virtualenv_dir }}/bin/postactivate
+
+$@
