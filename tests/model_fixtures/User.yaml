@@ -1,0 +1,30 @@
+---
+user:
+  username: user
+  email: user@example.com
+  password: password
+  first_name: The
+  last_name: User
+  active: yes
+  confirmed_at: now
+  roles: ['Role(ROLE_USER, ROLE_USER1)']
+
+admin:
+  username: admin
+  email: admin@example.com
+  password: password
+  first_name: The
+  last_name: Admin
+  active: True
+  confirmed_at: utcnow
+  roles: ['Role(ROLE_ADMIN)']
+
+{% for i in range(0, 5) %}
+user{{ i }}:
+  username: {{ faker.user_name() }}
+  email: {{ faker.email() }}
+  password: password
+  first_name: {{ faker.first_name() }}
+  last_name: {{ faker.last_name() }}
+  roles: ['Role(ROLE_USER)']
+{% endfor %}

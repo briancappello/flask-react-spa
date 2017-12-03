@@ -93,6 +93,16 @@ def outbox():
         yield messages
 
 
+@pytest.fixture()
+def user(model_factory):
+    yield model_factory.create('User', 'user')
+
+
+@pytest.fixture()
+def admin(model_factory):
+    yield model_factory.create('User', 'admin')
+
+
 @pytest.fixture(autouse=True)
 def models(request, model_factory):
     mark = request.keywords.get('models')
