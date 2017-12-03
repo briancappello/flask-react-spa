@@ -88,6 +88,7 @@ class BaseConfig(object):
     DEBUG = get_boolean_env('FLASK_DEBUG', False)
     SECRET_KEY = os.environ.get('FLASK_SECRET_KEY', 'not-secret-key')  # FIXME
     STRICT_SLASHES = False
+    BUNDLES = BUNDLES
 
     ##########################################################################
     # session/cookies                                                        #

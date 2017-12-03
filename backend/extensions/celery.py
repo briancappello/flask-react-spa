@@ -1,8 +1,6 @@
 import flask
 from celery import Celery
 
-from backend.config import BUNDLES
-
 
 class FlaskCelery(Celery):
     def __init__(self, *args, **kwargs):
@@ -33,7 +31,7 @@ class FlaskCelery(Celery):
         self.__autoset('broker_url', app.config.get('CELERY_BROKER_URL'))
         self.__autoset('result_backend', app.config.get('CELERY_RESULT_BACKEND'))
         self.config_from_object(app.config)
-        self.autodiscover_tasks(lambda: ['backend'] + BUNDLES)
+        self.autodiscover_tasks(lambda: ['backend'] + app.config.BUNDLES)
 
     def __autoset(self, key, value):
         if value:

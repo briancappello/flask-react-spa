@@ -1,7 +1,5 @@
 """Flask React SPA"""
 
-from . import database
-
 VERSION = (0, 0, 1)
 
 __author__ = 'Brian Cappello'
