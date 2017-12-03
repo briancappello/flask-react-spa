@@ -4,6 +4,11 @@ import pytest
 from collections import namedtuple
 
 from flask import template_rendered
+from flask_security.signals import (
+    reset_password_instructions_sent,
+    user_confirmed,
+    user_registered,
+)
 
 from backend.app import _create_app
 from backend.config import TestConfig
@@ -91,6 +96,48 @@ def templates(app):
 def outbox():
     with mail.record_messages() as messages:
         yield messages
+
+
+@pytest.fixture()
+def registrations(app):
+    records = []
+
+    def record(sender, *args, **kwargs):
+        records.append(kwargs)
+    user_registered.connect(record, app)
+
+    try:
+        yield records
+    finally:
+        user_registered.disconnect(record, app)
+
+
+@pytest.fixture()
+def confirmations(app):
+    records = []
+
+    def record(sender, *args, **kwargs):
+        records.append(kwargs['user'])
+    user_confirmed.connect(record, app)
+
+    try:
+        yield records
+    finally:
+        user_confirmed.disconnect(record, app)
+
+
+@pytest.fixture()
+def password_resets(app):
+    records = []
+
+    def record(sender, *args, **kwargs):
+        records.append(kwargs)
+    reset_password_instructions_sent.connect(record, app)
+
+    try:
+        yield records
+    finally:
+        reset_password_instructions_sent.disconnect(record, app)
 
 
 @pytest.fixture()

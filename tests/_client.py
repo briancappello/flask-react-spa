@@ -1,13 +1,38 @@
 import json
 
-from flask import Response
+from flask import Response, url_for
 from flask.testing import FlaskClient
 from urllib.parse import urlparse
 from werkzeug.utils import cached_property
 
 
 class HtmlTestClient(FlaskClient):
-    pass
+    token = None
+
+    def login_user(self):
+        return self.login_with_creds('user@example.com', 'password')
+
+    def login_admin(self):
+        return self.login_with_creds('admin@example.com', 'password')
+
+    def login_as(self, user):
+        self.token = user.get_auth_token()
+        return self.open(url_for('api.check_auth_token'), method='GET')
+
+    def login_with_creds(self, email, password):
+        return super().open(url_for('security.login'),
+                            method='POST',
+                            data=dict(email=email, password=password))
+
+    def logout(self):
+        self.token = None
+        self.get(url_for('security.logout'))
+
+    def open(self, *args, **kwargs):
+        kwargs.setdefault('headers', {})
+        if self.token:
+            kwargs['headers']['Authentication-Token'] = self.token
+        return super().open(*args, **kwargs)
 
 
 class ApiTestClient(HtmlTestClient):

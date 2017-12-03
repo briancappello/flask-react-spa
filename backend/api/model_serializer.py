@@ -1,5 +1,8 @@
 from flask_sqlalchemy.model import camel_to_snake_case
+from marshmallow.exceptions import ValidationError
+
 from backend.extensions.marshmallow import ma
+from .constants import READ_ONLY_FIELDS
 
 
 def to_camel_case(s):
@@ -72,5 +75,20 @@ class ModelSerializer(ma.ModelSchema):
                 field.dump_to = camel_cased_name
                 field.load_from = camel_cased_name
             new_fields[name] = field
+
+        # validate id
+        if 'id' in new_fields:
+            new_fields['id'].validators = [self.validate_id]
+
+        # set read-only fields
+        for name in READ_ONLY_FIELDS:
+            if name in new_fields:
+                new_fields[name].dump_only = True
+
         self.fields = new_fields
         return new_fields
+
+    def validate_id(self, id):
+        if self.is_create() or int(id) == int(self.instance.id):
+            return
+        raise ValidationError('ids do not match')

@@ -1,5 +1,4 @@
 import re
-from flask_login import current_user
 
 from backend.api import ModelSerializer, fields, validates, ValidationError
 
@@ -21,7 +20,7 @@ class UserSerializer(ModelSerializer):
     @validates('email')
     def validate_email(self, email):
         existing = User.get_by(email=email)
-        if existing and (self.is_create() or existing != current_user):
+        if existing and (self.is_create() or existing != self.instance):
             raise ValidationError('Sorry, that email is already taken.')
 
     @validates('username')
@@ -30,7 +29,7 @@ class UserSerializer(ModelSerializer):
             raise ValidationError('Username should only contain letters, numbers and/or the underscore character.')
 
         existing = User.get_by(username=username)
-        if existing and (self.is_create() or existing != current_user):
+        if existing and (self.is_create() or existing != self.instance):
             raise ValidationError('Sorry, that username is already taken.')
 
     @validates('password')

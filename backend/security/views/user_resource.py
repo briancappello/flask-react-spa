@@ -16,11 +16,11 @@ from ..models import User
 class UserResource(ModelResource):
     include_methods = [CREATE, GET, PATCH]
     method_decorators = {
+        CREATE: [anonymous_user_required],
         GET: [auth_required_same_user],
         PATCH: [auth_required_same_user],
     }
 
-    @anonymous_user_required
     def create(self, user, errors):
         if errors:
             return self.errors(errors)
@@ -32,7 +32,7 @@ class UserResource(ModelResource):
                 'token': user.get_auth_token(),
                 'user': user,
             }, save=False)
-        return self.created(user, save=False)
+        return self.created({'user': user}, save=False)
 
 
 def register_user(user):

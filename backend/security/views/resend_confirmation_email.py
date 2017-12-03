@@ -6,9 +6,10 @@ from werkzeug.datastructures import MultiDict
 
 from backend.extensions.api import api
 
-from .blueprint import security
+from .blueprint import frontend, security
 
 
+@frontend.route('/sign-up/resend-confirmation-email')
 @api.route(security, '/resend-confirmation-email', methods=['POST'])
 def resend_confirmation_email():
     """View function which sends confirmation instructions."""

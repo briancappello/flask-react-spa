@@ -8,21 +8,27 @@ from flask_security.decorators import auth_required as flask_security_auth_requi
 from backend.utils import was_decorated_without_parenthesis
 
 
-def anonymous_user_required(fn):
+def anonymous_user_required(*args, **kwargs):
     """Decorator requiring no user be logged in
 
     Aborts with HTTP 403: Forbidden if there is an authenticated user
     """
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        if current_user.is_authenticated:
-            abort(HTTPStatus.FORBIDDEN)
-        return fn(*args, **kwargs)
+    def wrapper(fn):
+        @wraps(fn)
+        def decorated(*args, **kwargs):
+            if current_user.is_authenticated:
+                abort(HTTPStatus.FORBIDDEN)
+            return fn(*args, **kwargs)
+        return decorated
+
+    if was_decorated_without_parenthesis(args):
+        return wrapper(args[0])
+
     return wrapper
 
 
 def auth_required(*args, **kwargs):
-    """Decorator for requiring an authenticated user, optionally with specific roles
+    """Decorator for requiring an authenticated user, optionally with roles
 
     Roles are passed as keyword arguments, like so:
     @auth_required(role='REQUIRE_THIS_ONE_ROLE')
@@ -34,7 +40,7 @@ def auth_required(*args, **kwargs):
     # equivalent, but more clearly describing the resultant behavior:
     @auth_required(role='REQUIRED', and_one_of=['THIS', 'OR_THIS'])
 
-    Aborts with HTTP 401: Unauthenticated if no user is logged in, or
+    Aborts with HTTP 401: Unauthorized if no user is logged in, or
     HTTP 403: Forbidden if any of the specified role checks fail
     """
     required_roles = []
@@ -99,7 +105,7 @@ def auth_required_same_user(*args, **kwargs):
                 user_id = request.view_args[user_id_parameter_name]
             except KeyError:
                 raise KeyError('Unable to find user lookup parameter %s'
-                               ' in kwargs' % user_id_parameter_name)
+                               ' in url args' % user_id_parameter_name)
             if not Permission(UserNeed(user_id)).can():
                 abort(HTTPStatus.FORBIDDEN)
             return fn(*args, **kwargs)

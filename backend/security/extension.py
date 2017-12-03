@@ -58,6 +58,14 @@ class Security(BaseSecurity):
         if not self._kwargs['register_blueprint']:
             app.context_processor(_context_processor)
 
+        app.extensions['security'] = self
+
+    def __getattr__(self, name):
+        state_value = getattr(self._state, name, None)
+        if name in ('i18n_domain',):
+            return state_value
+        return self.app.config.get(('security_' + name).upper(), state_value)
+
 
 def unauthorized_handler():
     abort(HTTPStatus.UNAUTHORIZED)

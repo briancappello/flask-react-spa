@@ -1,4 +1,4 @@
-from flask import after_this_request, jsonify, redirect, request
+from flask import after_this_request, jsonify, redirect, request, url_for
 from flask_security.recoverable import (
     reset_password_token_status,
     send_reset_password_instructions,
@@ -8,10 +8,11 @@ from flask_security.utils import login_user
 from flask_security.views import _security, _commit
 from http import HTTPStatus
 
-from .blueprint import security
+from .blueprint import frontend, security
 from ..decorators import anonymous_user_required
 
 
+@frontend.route('/login/reset-password/<token>')
 @security.route('/reset/<token>', methods=['GET', 'POST'])
 @anonymous_user_required
 def reset_password(token):
@@ -19,14 +20,13 @@ def reset_password(token):
 
     expired, invalid, user = reset_password_token_status(token)
 
-    # NOTE: these redirect URLs are for the _frontend_ router!
     if invalid:
-        return redirect('/login/forgot-password?invalid')
+        return redirect(url_for('frontend.forgot_password') + '?invalid')
     elif expired:
         send_reset_password_instructions(user)
-        return redirect('/login/forgot-password?expired')
+        return redirect(url_for('frontend.forgot_password') + '?expired')
     elif request.method == 'GET':
-        return redirect('/login/reset-password/%s' % token)
+        return redirect(url_for('frontend.reset_password', token=token))
 
     form = _security.reset_password_form()
 

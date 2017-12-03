@@ -328,11 +328,14 @@ class ModelResource(Resource):
         if method_name in self.exclude_decorators or method_name not in self.include_decorators:
             return reversed(decorators)
 
-        if method_name == GET or method_name == DELETE:
-            decorators.append(partial(param_converter, **{param_name: self.model}))
-        elif method_name == LIST:
+        if method_name == LIST:
             decorators.append(partial(list_loader, model=self.model))
-        elif method_name == PATCH:
+        elif method_name != CREATE:
+            kw_name = param_name if method_name in (GET, DELETE) else 'instance'
+            decorators.append(partial(param_converter,
+                                      **{param_name: {kw_name: self.model}}))
+
+        if method_name == PATCH:
             decorators.append(partial(patch_loader, serializer=self.serializer))
         elif method_name == CREATE:
             decorators.append(partial(post_loader, serializer=self.serializer_create))
