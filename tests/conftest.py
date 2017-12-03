@@ -1,5 +1,9 @@
 import pytest
 
+from collections import namedtuple
+
+from flask import template_rendered
+
 from backend.app import _create_app
 from backend.config import TestConfig
 from backend.extensions import db as db_ext
@@ -45,11 +49,40 @@ def db():
     db_ext.drop_all()
 
 
+@pytest.fixture()
+def db_session(db):
+    connection = db.engine.connect()
+    transaction = connection.begin()
+
+    session = db.create_scoped_session(options=dict(bind=connection))
+    db.session = session
+    yield session
+
+    transaction.rollback()
+    connection.close()
+    session.remove()
+
+
 @pytest.fixture(scope='session')
 def celery_config():
     return {'broker_url': 'redis://localhost:6379/1',
             'result_backend': 'redis://localhost:6379/1',
             'accept_content': ('json', 'pickle')}
+
+
+@pytest.fixture()
+def templates(app):
+    records = []
+    RenderedTemplate = namedtuple('RenderedTemplate', 'template context')
+
+    def record(sender, template, context, **extra):
+        records.append(RenderedTemplate(template, context))
+    template_rendered.connect(record, app)
+
+    try:
+        yield records
+    finally:
+        template_rendered.disconnect(record, app)
 
 
 @pytest.fixture()

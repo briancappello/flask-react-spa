@@ -14,6 +14,8 @@ class ContactSubmissionSerializer(ModelSerializer):
 
     @pre_load
     def message_to_html(self, data):
+        if not data.get('message'):
+            return None
         message = html.escape(data['message'])
         message = re.sub(r'\n\n+', '\n\n', '\n'.join(map(
             str.strip,
