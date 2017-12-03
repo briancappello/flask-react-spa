@@ -1,3 +1,4 @@
+import os
 import pytest
 
 from collections import namedtuple
@@ -15,6 +16,7 @@ from ._client import (
     HtmlTestClient,
     HtmlTestResponse,
 )
+from ._model_factory import ModelFactory
 
 
 @pytest.fixture(autouse=True, scope='session')
@@ -89,3 +91,17 @@ def templates(app):
 def outbox():
     with mail.record_messages() as messages:
         yield messages
+
+
+@pytest.fixture(autouse=True)
+def models(request, model_factory):
+    mark = request.keywords.get('models')
+    if mark:
+        return model_factory.get_models(mark.args or mark.kwargs)
+
+
+@pytest.fixture()
+def model_factory(app, db_session):
+    fixtures_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                'model_fixtures')
+    yield ModelFactory(db_session, app.models, fixtures_dir)
