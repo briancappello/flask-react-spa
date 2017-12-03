@@ -46,7 +46,7 @@ setup(
     install_requires=install_requires,
     extras_require={'test': dev_requires, 'docs': dev_requires},
     include_package_data=True,
-    zip_safe=True,
+    zip_safe=False,
     entry_points='''
         [console_scripts]
         flask=manage:main

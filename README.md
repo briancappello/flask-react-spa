@@ -1,5 +1,8 @@
 # Flask React SPA
 
+### Status
+[![Build Status](https://travis-ci.org/briancappello/flask-react-spa.svg?branch=master)](https://travis-ci.org/briancappello/flask-react-spa)
+
 ![screenshot](./screenshot.png)
 
 ## [React v16](https://facebook.github.io/react/) Frontend
