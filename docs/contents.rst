@@ -9,6 +9,7 @@ Table of Contents
    app
    db_models
    restful
+   testing
    deployment
 
 License

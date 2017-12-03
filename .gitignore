@@ -41,6 +41,7 @@ pip-log.txt
 .tox
 nosetests.xml
 __snapshots__/
+.cache/
 
 # si
 *.mo

@@ -2,12 +2,13 @@ import pytz
 import sqlalchemy
 
 from sqlalchemy import types
+from sqlalchemy.dialects import sqlite
 
 from backend.extensions import db
 
 
 # alias common names
-BigInteger = db.BigInteger      # type: sqlalchemy.types.BigInteger
+BigInteger = db.BigInteger().with_variant(sqlite.INTEGER(), 'sqlite')  # type: sqlalchemy.types.BigInteger
 Boolean = db.Boolean            # type: sqlalchemy.types.Boolean
 Date = db.Date                  # type: sqlalchemy.types.Date
 Enum = db.Enum                  # type: sqlalchemy.types.Enum

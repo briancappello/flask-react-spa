@@ -1,3 +1,7 @@
+# config file used to generate requirements.txt
+#
+# pip-compile requirements.in --output-file requirements.txt
+
 flask
 flask-admin
 flask-alembic
@@ -12,6 +16,7 @@ appdirs
 bcrypt
 beautifulsoup4
 celery
+jinja2
 jinja2-time
 lxml
 markdown

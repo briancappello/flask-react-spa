@@ -89,7 +89,7 @@ $ git clone git@github.com:briancappello/flask-react-spa.git
 $ cd flask-react-spa
 $ mkvirtualenv -p /path/to/python3 flask_react_spa
 $ pip install -r requirements.txt
-$ pip install -r requirements-dev.txt  # for the sphinx documentation
+$ pip install -r requirements-dev.txt  # for tests and sphinx docs
 $ npm install
 
 # configure

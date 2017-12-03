@@ -1,0 +1,8 @@
+include Makefile LICENSE requirements.txt requirements-dev.txt tox.ini
+
+graft tests
+graft docs
+
+global-exclude *.py[co]
+
+prune docs/_build

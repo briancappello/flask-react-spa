@@ -26,7 +26,6 @@ Run `python manage.py`:
      roles   Role commands.
      run     Runs a development server.
      shell   Runs a shell in the app context.
-     test    Run tests.
      url     Show details for a specific URL.
      urls    List all URLs registered with the app.
      users   User commands.
@@ -51,9 +50,6 @@ Run `python manage.py`:
 
 .. click:: backend.commands:shell
    :prog: python manage.py shell
-
-.. click:: backend.commands:test
-   :prog: python manage.py test
 
 .. click:: backend.commands:url
    :prog: python manage.py url

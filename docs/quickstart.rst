@@ -32,6 +32,7 @@ This assumes you're on a reasonably standard \*nix system. Windows *might* work 
    # install dependencies into a virtual environment
    $ mkvirtualenv -p /path/to/python3 flask_react_spa
    $ pip install -r requirements.txt
+   $ pip install -r requirements-dev.txt
 
    # run db migrations
    $ python manage.py db upgrade

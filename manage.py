@@ -46,7 +46,7 @@ def cli(ctx, env, warn):
         production_warning(env, sys.argv[2:])
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument('--env', default='dev')
     args, _ = parser.parse_known_args()
@@ -56,3 +56,7 @@ if __name__ == '__main__':
 
     cli.add_command(run_command)
     cli.main(args=sys.argv[1:])
+
+
+if __name__ == '__main__':
+    main()

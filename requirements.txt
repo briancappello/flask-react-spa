@@ -32,7 +32,7 @@ flask-wtf==0.14.2         # via flask-security
 flask==0.12.2
 itsdangerous==0.24        # via flask, flask-security
 jinja2-time==0.2.0
-jinja2==2.9.6             # via flask, flask-babelex, jinja2-time
+jinja2==2.10
 kombu==4.1.0              # via celery
 lxml==3.8.0
 mako==1.0.7               # via alembic
