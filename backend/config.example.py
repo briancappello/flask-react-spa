@@ -4,6 +4,8 @@ import redis
 from appdirs import AppDirs
 from datetime import timedelta
 
+from backend.utils.date import utcnow
+
 APP_NAME = 'flask-react-spa'
 app_dirs = AppDirs(APP_NAME)
 APP_CACHE_FOLDER = app_dirs.user_cache_dir
@@ -146,6 +148,8 @@ class BaseConfig(object):
     ##########################################################################
     # security                                                               #
     ##########################################################################
+    SECURITY_DATETIME_FACTORY = utcnow
+
     # specify which user field attributes can be used for login
     SECURITY_USER_IDENTITY_ATTRIBUTES = ['email', 'username']
 
