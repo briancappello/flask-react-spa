@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import current_app, render_template
 from flask_mail import Message
 
 from backend.tasks import send_mail_async_task
@@ -11,4 +11,7 @@ def send_mail(subject, recipients, template, sender=None, **ctx):
     msg = Message(subject=subject, recipients=recipients, sender=sender)
     msg.html = render_template(template, **ctx)
 
-    send_mail_async_task.delay(msg)
+    if current_app and current_app.config.get('TESTING'):
+        return send_mail_async_task.apply([msg])
+
+    return send_mail_async_task.delay(msg)

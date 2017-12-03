@@ -3,6 +3,7 @@ import pytest
 from backend.app import _create_app
 from backend.config import TestConfig
 from backend.extensions import db as db_ext
+from backend.extensions.mail import mail
 
 from ._client import (
     ApiTestClient,
@@ -42,3 +43,16 @@ def db():
     db_ext.create_all()
     yield db_ext
     db_ext.drop_all()
+
+
+@pytest.fixture(scope='session')
+def celery_config():
+    return {'broker_url': 'redis://localhost:6379/1',
+            'result_backend': 'redis://localhost:6379/1',
+            'accept_content': ('json', 'pickle')}
+
+
+@pytest.fixture()
+def outbox():
+    with mail.record_messages() as messages:
+        yield messages
