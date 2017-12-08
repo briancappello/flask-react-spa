@@ -5,12 +5,12 @@ python:
   - 3.6
 install:
   - cp backend/config.example.py backend/config.py
-#  - pip install tox-travis
-  - pip install travis-sphinx guzzle-sphinx-theme sphinx-click redis appdirs
+  - pip install tox-travis
+  - pip install travis-sphinx guzzle-sphinx-theme sphinx-click
 script:
-#  - tox
+  - tox
   - travis-sphinx build --source=docs
-#services:
-#  - redis-server
+services:
+  - redis-server
 after_success:
   - travis-sphinx deploy
