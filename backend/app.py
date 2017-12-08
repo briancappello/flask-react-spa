@@ -182,7 +182,7 @@ def register_cli_commands(app):
         commands += list(bundle.command_groups)
     for name, command in commands:
         if name in app.cli.commands:
-            logger.error('Command name conflict: "%s" is taken.' % name)
+            logger.error(f'Command name conflict: "{name}" is taken.')
             sys.exit(1)
         app.cli.add_command(command)
 

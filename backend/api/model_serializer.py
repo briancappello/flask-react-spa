@@ -53,11 +53,13 @@ class ModelSerializer(ma.ModelSchema):
         dynamically generated field names. This is definitely a little hacky
         (it mutates state, uses hardcoded strings), but unsure how better to do it
         """
+        required_messages = ('Missing data for required field.',
+                             'Field may not be null.')
         for field_name in error.field_names:
             for i, msg in enumerate(error.messages[field_name]):
-                if msg == 'Missing data for required field.' or msg == 'Field may not be null.':
-                    field_label = camel_to_snake_case(field_name).replace('_', ' ').title()
-                    error.messages[field_name][i] = '%s is required.' % field_label
+                if msg in required_messages:
+                    label = camel_to_snake_case(field_name).replace('_', ' ').title()
+                    error.messages[field_name][i] = f'{label} is required.'
 
     def _update_fields(self, obj=None, many=False):
         """Overridden to automatically convert snake-cased field names to

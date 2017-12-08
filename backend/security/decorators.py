@@ -104,8 +104,8 @@ def auth_required_same_user(*args, **kwargs):
             try:
                 user_id = request.view_args[user_id_parameter_name]
             except KeyError:
-                raise KeyError('Unable to find user lookup parameter %s'
-                               ' in url args' % user_id_parameter_name)
+                raise KeyError('Unable to find the user lookup parameter '
+                               f'{user_id_parameter_name} in the url args')
             if not Permission(UserNeed(user_id)).can():
                 abort(HTTPStatus.FORBIDDEN)
             return fn(*args, **kwargs)

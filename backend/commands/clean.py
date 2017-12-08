@@ -13,5 +13,5 @@ def clean():
         for filename in filenames:
             if filename.endswith('.pyc') or filename.endswith('.pyo'):
                 filepath = os.path.join(dirpath, filename)
-                click.echo('Removing %s' % filepath)
+                click.echo(f'Removing {filepath}')
                 os.remove(filepath)

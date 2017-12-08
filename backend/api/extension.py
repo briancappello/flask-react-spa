@@ -92,7 +92,8 @@ class Api(BaseApi):
         for resource, _, _ in self.resources:
             model_name = resource.model.__name__
             if model_name not in self.serializers:
-                raise KeyError('Could not find a serializer for the %s model!' % model_name)
+                raise KeyError(
+                    f'Could not find a serializer for the {model_name} model!')
             resource.serializer = self.serializers[model_name]
             resource.serializer_create = self.serializers[model_name].__class__()
             resource.serializer_create.context['is_create'] = True

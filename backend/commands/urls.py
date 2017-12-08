@@ -111,7 +111,7 @@ def _format_dict(d):
     ret = ''
     for key, value in sorted(d.items(), key=lambda item: item[0]):
         if value is True:
-            ret += '%s; ' % key
+            ret += f'{key}; '
         else:
-            ret += '%s: %s; ' % (key, value)
+            ret += f'{key}: {value}; '
     return ret.rstrip('; ')

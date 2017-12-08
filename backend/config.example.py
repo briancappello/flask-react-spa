@@ -142,7 +142,7 @@ class BaseConfig(object):
     MAIL_DEFAULT_SENDER = (
         os.environ.get('FLASK_MAIL_DEFAULT_SENDER_NAME', 'Flask React SPA'),
         os.environ.get('FLASK_MAIL_DEFAULT_SENDER_EMAIL',
-                       'noreply@%s' % os.environ.get('FLASK_DOMAIN', 'localhost'))
+                       f"noreply@{os.environ.get('FLASK_DOMAIN', 'localhost')}")
     )
 
     ##########################################################################

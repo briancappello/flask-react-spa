@@ -19,13 +19,11 @@ def shell():
 def _make_shell_ctx():
     from flask.globals import _app_ctx_stack
     app = _app_ctx_stack.top.app
-    banner = 'Python %s on %s\nApp: %s%s\nInstance: %s' % (
-        sys.version,
-        sys.platform,
-        app.import_name,
-        app.debug and ' [debug]' or '',
-        app.instance_path,
-    )
+    banner = f'''
+Python {sys.version} on {sys.platform}
+App: {app.import_name}{app.debug and ' [debug]' or ''}
+Instance: {app.instance_path}
+'''.strip()
     ctx = {}
 
     # Support the regular Python interpreter startup script if someone

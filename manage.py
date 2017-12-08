@@ -25,7 +25,7 @@ def production_warning(env, args):
         cmd = ' '.join(args)
         # allow some time to cancel commands
         for i in [4, 3, 2, 1]:
-            click.echo('!! %s !!: Running "%s" in %d seconds' % (env, cmd, i))
+            click.echo(f'!! {env} !!: Running "{cmd}" in {i} seconds')
             time.sleep(1)
 
 

@@ -46,14 +46,14 @@ def fixtures(file, reset):
             model.create(**d)
 
         count = len(fixture['items'])
-        click.echo('Adding %d %s record%s.' % (count, fixture['model'],
-                                               's' if count > 1 else ''))
+        suffix = 's' if count > 1 else ''
+        click.echo(f"Adding {count} {fixture['model']} record{suffix}.")
 
         if is_postgres:
-            seq_name = '%s_id_seq' % model.__tablename__
+            seq_name = f'{model.__tablename__}_id_seq'
             if seq_name in sequences:
                 db.session.execute(
-                    'ALTER SEQUENCE %s RESTART WITH :count' % seq_name,
+                    f'ALTER SEQUENCE {seq_name} RESTART WITH :count',
                     {'count': count + 1}
                 )
 

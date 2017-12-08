@@ -28,7 +28,7 @@ def lint(fix_imports):
 
     def execute_tool(desc, *args):
         command = list(args) + files_and_dirs
-        click.echo('%s: %s' % (desc, ' '.join(command)))
+        click.echo(f"{desc}: {' '.join(command)}")
         ret = call(command)
         if ret != 0:
             exit(ret)

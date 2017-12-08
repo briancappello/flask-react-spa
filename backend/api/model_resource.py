@@ -301,9 +301,8 @@ class ModelResource(Resource):
         if method is None:
             if not ModelResource.has_method(self, method_name):
                 raise AttributeError(
-                    'Unimplemented HTTP method %r (expected ModelResource method'
-                    ' %s to be defined)' % (request.method, method_name)
-                )
+                    f'Unimplemented HTTP method {request.method} (expected'
+                    f' ModelResource method {method_name} to be defined)')
 
             if method_name == CREATE:
                 method = self._create
