@@ -37,9 +37,7 @@ setup(
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
-        'Topic :: Internet :: WWW/HTTP :: WSGI',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
     packages=find_packages(exclude=['ansible', 'tests']),

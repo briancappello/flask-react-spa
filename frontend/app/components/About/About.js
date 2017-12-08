@@ -92,7 +92,7 @@ export default (props) => (
     <div className="row">
       <h2>Backend Stack</h2>
       <a href="https://www.python.org/" target="_blank">
-        <SvgLogo logo={pythonLogo} label="Python 3.5+" />
+        <SvgLogo logo={pythonLogo} label="Python 3.6+" />
       </a>
       <a href="http://flask.pocoo.org/" target="_blank">
         <SvgLogo logo={flaskLogo} label="Flask" />

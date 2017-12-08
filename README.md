@@ -79,7 +79,7 @@ This assumes you're on a reasonably standard \*nix system. Windows *might* work 
 
 Dependencies:
 
-- Python 3.5+
+- Python 3.6+
 - Your virtualenv tool of choice (strongly recommended)
 - PostgreSQL or MariaDB (MySQL)
 - Redis (used for sessions persistence and the Celery tasks queue)
