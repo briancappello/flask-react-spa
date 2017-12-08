@@ -22,7 +22,7 @@ class ContactSubmissionSerializer(ModelSerializer):
             message.splitlines()
         )))
         data['message'] = '\n'.join(map(
-            lambda p: '<p>{!s}</p>'.format(p),
+            lambda p: f'<p>{p!s}</p>',
             message.splitlines()
         ))
         return data

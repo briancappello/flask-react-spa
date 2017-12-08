@@ -90,7 +90,7 @@ def _get_role_hierarchy(role_name, parent=None):
         yield role_name
     else:
         for action in ['CREATE', 'VIEW', 'EDIT', 'DELETE']:
-            yield '{}_{}'.format(parent, action)
+            yield f'{parent}_{action}'
 
     if role_name in ROLE_HIERARCHY:
         for child_role_name in ROLE_HIERARCHY[role_name]:

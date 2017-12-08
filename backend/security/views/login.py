@@ -44,7 +44,7 @@ def login():
     elif form.errors:
         username_fields = config_value('USER_IDENTITY_ATTRIBUTES')
         return jsonify({
-            'error': 'Invalid {} and/or password.'.format(', '.join(username_fields))
+            'error': f"Invalid {', '.join(username_fields)} and/or password."
         }), HTTPStatus.UNAUTHORIZED
 
     return jsonify({

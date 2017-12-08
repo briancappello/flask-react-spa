@@ -155,7 +155,7 @@ def _group_by_class_name(identifiers):
             for identifier in _convert_str(v):
                 ret[identifier.class_name].append(identifier.id)
         else:
-            raise Exception('Unexpected value {}'.format(type(v)))
+            raise Exception(f'Unexpected value {type(v)}')
     return ret
 
 

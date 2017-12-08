@@ -103,14 +103,14 @@ class ArticleData(FileData):
         if isinstance(body, SoupTag):
             body = ''.join(map(str, body.contents))
 
-        # add stylesheet if necessary
-        if self.is_dir and os.path.exists(os.path.join(self.dir_path,
-                                                       ARTICLE_STYLESHEET_FILENAME)):
-            stylesheet = '<link rel="stylesheet" type="text/css" href="{}">'.format(
-                self._get_static_url(ARTICLE_STYLESHEET_FILENAME))
-            body = stylesheet + body
+        # prefix stylesheet if necessary
+        stylesheet_filepath = os.path.join(self.dir_path,
+                                           ARTICLE_STYLESHEET_FILENAME)
+        if not self.is_dir or not os.path.exists(stylesheet_filepath):
+            return body
 
-        return body
+        href = self._get_static_url(ARTICLE_STYLESHEET_FILENAME)
+        return f'<link rel="stylesheet" type="text/css" href="{href}">' + body
 
     @property
     def preview(self):

@@ -22,5 +22,5 @@ def pluralize(name):
         # right replace 'y' with 'ies'
         return 'ies'.join(name.rsplit('y', 1))
     elif name.endswith('s'):
-        return '{}es'.format(name)
-    return '{}s'.format(name)
+        return f'{name}es'
+    return f'{name}s'

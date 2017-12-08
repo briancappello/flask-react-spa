@@ -19,13 +19,12 @@ def _get_model_resource_args(args):
     if isinstance(args[0], Blueprint):
         bp, model, urls = args[0], args[1], args[2:]
     if not issubclass(model, db.Model):
-        raise NotImplementedError('The {} argument to Api.model_resource '
-                                  'must be a database model class'.format(
-                                      'second' if bp else 'first'
-                                  ))
+        raise NotImplementedError(
+            f"The {'second' if bp else 'first'} argument to Api.model_resource"
+            ' must be a database model class')
     if not urls:
-        raise NotImplementedError('Api.model_resource requires at least '
-                                  'one url argument.')
+        raise NotImplementedError(
+            'Api.model_resource requires at least one url argument.')
     return bp, model, urls
 
 
@@ -119,7 +118,7 @@ class Api(BaseApi):
         """
         if urls and isinstance(urls[0], Blueprint):
             bp = urls[0]
-            urls = ('{}{}'.format(bp.url_prefix or '', url) for url in urls[1:])
+            urls = (f"{bp.url_prefix or ''}{url}" for url in urls[1:])
 
         def decorator(cls):
             endpoint = self._get_endpoint(cls, kwargs.pop('endpoint', None))
@@ -166,7 +165,7 @@ class Api(BaseApi):
         """
         bp, model, urls = _get_model_resource_args(args)
         if bp:
-            urls = ('{}{}'.format(bp.url_prefix or '', url) for url in urls)
+            urls = (f"{bp.url_prefix or ''}{url}" for url in urls)
 
         def decorator(cls):
             cls.model = model
@@ -227,7 +226,7 @@ class Api(BaseApi):
         bp, url = None, args[0]
         if isinstance(args[0], Blueprint):
             bp, url = args[0], args[1]
-            url = '{}{}'.format(bp.url_prefix or '', url)
+            url = f"{bp.url_prefix or ''}{url}"
 
         def decorator(fn):
             endpoint = self._get_endpoint(fn, kwargs.pop('endpoint', None))
@@ -256,10 +255,11 @@ class Api(BaseApi):
         elif isinstance(view_func, MethodViewType):
             endpoint = camel_to_snake_case(view_func.__name__)
             if hasattr(view_func, 'model') and plural:
-                endpoint = '{}_resource'.format(camel_to_snake_case(view_func.model.__plural__))
+                plural_model = camel_to_snake_case(view_func.model.__plural__)
+                endpoint = f'{plural_model}_resource'
         else:
             endpoint = view_func.__name__
-        return '{}.{}'.format(self.name, endpoint)
+        return f'{self.name}.{endpoint}'
 
     def _register_json_encoder(self, app, serializers):
         BaseEncoderClass = app.json_encoder or BaseJSONEncoder

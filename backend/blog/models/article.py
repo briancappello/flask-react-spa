@@ -81,13 +81,13 @@ class Article(Model):
         if self.series:
             return self.get_series_prev_next()
 
-        result = db.session.execute('''
+        result = db.session.execute(f'''
           WITH articles AS (
             SELECT
               slug,
               title,
               ROW_NUMBER() OVER (ORDER BY publish_date ASC, last_updated ASC) AS row_number
-            FROM {article_table}
+            FROM {Article.__tablename__}
             WHERE publish_date <= :now AND article_series_id IS NULL
           )
           SELECT
@@ -101,8 +101,7 @@ class Article(Model):
             CROSS JOIN (SELECT -1 AS i UNION ALL SELECT 0 UNION ALL SELECT 1) n
             WHERE slug = :slug
           )
-        '''.format(article_table=Article.__tablename__), {'now': utcnow(),
-                                                          'slug': self.slug})
+        ''', {'now': utcnow(), 'slug': self.slug})
 
         rows = [{'slug': row[0], 'title': row[1]}
                 for row in result.fetchall()]

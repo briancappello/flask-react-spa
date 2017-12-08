@@ -125,6 +125,6 @@ class BaseModel(db.Model):
         return commit and db.session.commit()
 
     def __repr__(self):
-        properties = ['{!s}={!r}'.format(prop, getattr(self, prop))
+        properties = [f'{prop}={getattr(self, prop)!r}'
                       for prop in self.__repr_props__ if hasattr(self, prop)]
-        return '<{} {}>'.format(self.__class__.__name__, ' '.join(properties))
+        return f"<{self.__class__.__name__} {' '.join(properties)}>"

@@ -43,10 +43,12 @@ def import_articles(reset):
         if should_save:
             count += 1
             series.save()
-        click.echo('{}Series: {}'.format(
-            should_save and (is_create and 'Created ' or 'Updated ') or '',
-            series.title,
-        ))
+
+        msg_prefix = ''
+        if should_save:
+            msg_prefix = 'Created ' if is_create else 'Updated '
+        click.echo(f'{msg_prefix}Series: {series.title}')
+
         count += process_article_datas(series_data.articles, series)
 
     if count:
@@ -71,22 +73,23 @@ def process_article_datas(article_datas, series):
                 series.articles.append(article)
             series.save()
 
-        click.echo('{}{} Article: {}'.format(series and ' - ' or '',
-                                             is_create and 'Created' or 'Updated',
-                                             article.title))
+        msg_prefix = ' - ' if series else ''
+        msg_prefix += 'Created' if is_create else 'Updated'
+        click.echo(f'{msg_prefix} Article: {article.title}')
+
     return count + 1
 
 
 def load_metadata(reset=False):
     if not os.path.exists(ARTICLES_FOLDER):
         click.secho('Could not find directory ARTICLES_FOLDER'
-                    '={}'.format(ARTICLES_FOLDER), fg='red')
+                    f'={ARTICLES_FOLDER}', fg='red')
         sys.exit(1)
 
     default_author = User.get_by(email=DEFAULT_ARTICLE_AUTHOR_EMAIL)
     if not default_author:
         click.secho('Could not find a User with DEFAULT_ARTICLE_AUTHOR_EMAIL'
-                    '={}'.format(DEFAULT_ARTICLE_AUTHOR_EMAIL), fg='red')
+                    f'={DEFAULT_ARTICLE_AUTHOR_EMAIL}', fg='red')
         sys.exit(1)
 
     if reset or not os.path.exists(ARTICLES_METADATA_PATH):

@@ -62,6 +62,6 @@ def foreign_key(model_or_table_name, fk_col=None, primary_key=False, **kwargs):
     elif table_name != model_or_table_name.lower():
         table_name = camel_to_snake_case(model_or_table_name)
     return Column(db.BigInteger,
-                  db.ForeignKey('{}.{}'.format(table_name, fk_col)),
+                  db.ForeignKey(f'{table_name}.{fk_col}'),
                   primary_key=primary_key,
                   **kwargs)

@@ -49,10 +49,8 @@ def get_extensions(import_names):
             yield extension_name, extension_module[extension_name]
         else:
             from warnings import warn
-            warn('Could not find the {extension_name} extension in the '
-                 '{module_name} module (did you forget to instantiate it?)'
-                 ''.format(extension_name=extension_name,
-                           module_name=module_name))
+            warn(f'Could not find the {extension_name} extension in the '
+                 f'{module_name} module (did you forget to instantiate it?)')
 
 
 def is_blueprint(obj):
@@ -356,7 +354,7 @@ class Bundle(object):
     def _get_full_module_name(self, module_name):
         if not module_name:
             return None
-        return '{}.{}'.format(self.module_name, module_name)
+        return f'{self.module_name}.{module_name}'
 
     def _normalize_module_name(self, module_name):
         if not module_name:
@@ -382,6 +380,6 @@ def get_bundles():
                 yield bundle
             if not bundle_found:
                 from warnings import warn
-                warn('Unable to find a Bundle instance for the {module_name} '
-                     'module! Please create one in its __init__.py file.'
-                     ''.format(module_name=bundle_or_module_name))
+                warn('Unable to find a Bundle instance for the '
+                     f'{bundle_or_module_name} module! '
+                     'Please create one in its __init__.py file.')

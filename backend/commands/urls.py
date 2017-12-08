@@ -28,7 +28,7 @@ def url(url, method):
               )]
         )
     except (NotFound, MethodNotAllowed) as e:
-        _print_url_rules(('Rule',), [('<{}>'.format(e),)])
+        _print_url_rules(('Rule',), [(f'<{e}>',)])
 
 
 @cli.command()
@@ -82,7 +82,7 @@ def _get_rule_view(rule):
     view_fn_name = view_fn.__name__
     if 'View.as_view' in view_fn.__qualname__:
         view_fn_name = view_fn.__dict__['view_class'].__name__
-    return '{}:{}'.format(view_module.__name__, view_fn_name)
+    return f'{view_module.__name__}:{view_fn_name}'
 
 
 def _format_rule_options(url_rule):
