@@ -16,7 +16,7 @@ class SeriesTag(BaseModel):
     __repr_props__ = ('series_id', 'tag_id')
 
     def __init__(self, series=None, tag=None, **kwargs):
-        super(SeriesTag, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         if series:
             self.series = series
         if tag:

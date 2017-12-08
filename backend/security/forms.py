@@ -28,7 +28,7 @@ class ChangePasswordFormMixin(object):
 
 class ChangePasswordForm(Form, PasswordFormMixin, ChangePasswordFormMixin):
     def validate(self):
-        if not super(ChangePasswordForm, self).validate():
+        if not super().validate():
             return False
 
         if not verify_and_update_password(self.password.data, current_user):

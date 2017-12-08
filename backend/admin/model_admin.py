@@ -47,7 +47,7 @@ class ModelAdmin(AdminSecurityMixin, BaseModelView):
 
         (a bit of an ugly hack, but hey, it's only the admin)
         """
-        value = super(ModelAdmin, self).__getattribute__(item)
+        value = super().__getattribute__(item)
         if item in EXTEND_BASE_CLASS_ATTRIBUTES and value is not None:
             base_value = getattr(ModelAdmin, item)
             base_value.update(value)

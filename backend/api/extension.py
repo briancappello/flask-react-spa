@@ -41,14 +41,14 @@ class Api(BaseApi):
                  decorators=None, catch_all_404s=False,
                  serve_challenge_on_401=False,
                  url_part_order='bae', errors=None):
-        super(Api, self).__init__(app,
-                                  prefix=prefix,
-                                  default_mediatype=default_mediatype,
-                                  decorators=decorators,
-                                  catch_all_404s=catch_all_404s,
-                                  serve_challenge_on_401=serve_challenge_on_401,
-                                  url_part_order=url_part_order,
-                                  errors=errors)
+        super().__init__(app,
+                         prefix=prefix,
+                         default_mediatype=default_mediatype,
+                         decorators=decorators,
+                         catch_all_404s=catch_all_404s,
+                         serve_challenge_on_401=serve_challenge_on_401,
+                         url_part_order=url_part_order,
+                         errors=errors)
         # name prefix for endpoints
         self.name = name
 
@@ -68,7 +68,7 @@ class Api(BaseApi):
         self.serializers_many = {}
 
     def _init_app(self, app):
-        super(Api, self)._init_app(app)
+        super()._init_app(app)
         self._got_registered_once = True
 
         # register individual view functions with the app
@@ -270,7 +270,7 @@ class Api(BaseApi):
                     model_name = o.__class__.__name__
                     if model_name in serializers:
                         return serializers[model_name].dump(o).data
-                return super(JSONEncoder, self).default(o)
+                return super().default(o)
 
         app.json_encoder = JSONEncoder
 
@@ -294,13 +294,13 @@ class Api(BaseApi):
             data = data.data
 
         # we got plain python data types that need to be serialized
-        return super(Api, self).make_response(data, *args, **kwargs)
+        return super().make_response(data, *args, **kwargs)
 
     def _register_view(self, app, resource, *urls, **kwargs):
         """Overridden to handle custom method names on ModelResources
         """
         if not issubclass(resource, ModelResource) or 'methods' in kwargs:
-            return super(Api, self)._register_view(app, resource, *urls, **kwargs)
+            return super()._register_view(app, resource, *urls, **kwargs)
 
         for url in urls:
             endpoint = self._get_endpoint(resource)
@@ -323,7 +323,8 @@ class Api(BaseApi):
                     http_methods += ['POST']
 
             kwargs['endpoint'] = endpoint
-            super(Api, self)._register_view(app, resource, url, **kwargs, methods=http_methods)
+            super()._register_view(app, resource, url, **kwargs,
+                                   methods=http_methods)
 
 
 def output_json(data, code, headers=None):

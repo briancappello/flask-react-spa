@@ -28,7 +28,7 @@ class DateTime(types.TypeDecorator):
 
     def __init__(self, *args, **kwargs):
         kwargs['timezone'] = True
-        super(DateTime, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def process_bind_param(self, value, dialect):
         if value is not None:

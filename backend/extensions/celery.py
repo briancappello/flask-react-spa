@@ -4,7 +4,7 @@ from celery import Celery
 
 class FlaskCelery(Celery):
     def __init__(self, *args, **kwargs):
-        super(FlaskCelery, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.override_task_class()
 
         if 'app' in kwargs:

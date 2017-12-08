@@ -12,7 +12,7 @@ from .file_data import FileData
 
 class SeriesData(FileData):
     def __init__(self, dir_entry, default_author, last_updated):
-        super(SeriesData, self).__init__(dir_entry)
+        super().__init__(dir_entry)
         self.articles = load_article_datas(self.dir_path,
                                            default_author,
                                            last_updated,

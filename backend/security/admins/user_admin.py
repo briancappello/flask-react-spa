@@ -13,7 +13,7 @@ from ..models import User
 
 class BaseUserForm(ReorderableForm):
     def populate_obj(self, user):
-        super(BaseUserForm, self).populate_obj(user)
+        super().populate_obj(user)
         if user.active and not user.confirmed_at:
             user.confirmed_at = utcnow()
 
@@ -47,7 +47,7 @@ class UserAdmin(ModelAdmin):
                      roles={'get_label': lambda role: role.name})
 
     def get_create_form(self):
-        CreateForm = super(UserAdmin, self).get_create_form()
+        CreateForm = super().get_create_form()
 
         CreateForm.email = html5.EmailField(
             'Email',

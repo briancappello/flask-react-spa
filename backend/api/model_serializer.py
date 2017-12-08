@@ -64,7 +64,7 @@ class ModelSerializer(ma.ModelSchema):
         camel-cased (when dumping) and to load camel-cased field names back
         to their snake-cased counterparts
         """
-        fields = super(ModelSerializer, self)._update_fields(obj, many)
+        fields = super()._update_fields(obj, many)
         new_fields = self.dict_class()
         for name, field in fields.items():
             if '_' in name and field.dump_to is None:

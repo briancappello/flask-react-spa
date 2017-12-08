@@ -20,7 +20,7 @@ class SeriesArticle(Model):
     __repr_props__ = ('id', 'series_id', 'part')
 
     def __init__(self, article=None, series=None, part=None, **kwargs):
-        super(SeriesArticle, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         if article:
             self.article = article
         if series:

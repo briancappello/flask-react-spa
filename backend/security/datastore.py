@@ -8,8 +8,7 @@ class SQLAlchemyUserDatastore(BaseSQLAlchemyUserDatastore):
     it. The primary concern is that we don't want to double-hash passwords.
     """
     def create_user(self, hash_password=False, **kwargs):
-        super(SQLAlchemyUserDatastore, self).create_user(
-            **kwargs, hash_password=hash_password)
+        super().create_user(**kwargs, hash_password=hash_password)
 
     def _prepare_create_user_args(self, **kwargs):
         """Overridden to not set default kwargs.

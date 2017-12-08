@@ -27,5 +27,5 @@ class Tag(Model):
     __repr_props__ = ('id', 'name')
 
     def __init__(self, name, **kwargs):
-        super(Tag, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.name = name

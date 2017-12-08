@@ -27,7 +27,7 @@ PART_RE = re.compile(r'^(\d{4}-\d{2}-\d{2}-)?(part-)?(?P<part>\d+)', re.IGNORECA
 
 class ArticleData(FileData):
     def __init__(self, dir_entry, default_author, series_data=None):
-        super(ArticleData, self).__init__(dir_entry)
+        super().__init__(dir_entry)
         self.default_author = default_author
         if series_data:
             print(self.title, series_data.dir_name)

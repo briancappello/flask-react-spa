@@ -18,7 +18,7 @@ class ArticleTag(BaseModel):
     __repr_props__ = ('article_id', 'tag_id')
 
     def __init__(self, article=None, tag=None, **kwargs):
-        super(ArticleTag, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         if article:
             self.article = article
         if tag:

@@ -37,10 +37,10 @@ class Security(BaseSecurity):
             'reset_password_form': ResetPasswordForm,
         }
         self._kwargs.update(kwargs)
-        super(Security, self).__init__(app, datastore, **self._kwargs)
+        super().__init__(app, datastore, **self._kwargs)
 
     def init_app(self, app):
-        self._state = super(Security, self).init_app(app, self.datastore, **self._kwargs)
+        self._state = super().init_app(app, self.datastore, **self._kwargs)
 
         # override the unauthorized action to use abort(401) instead of returning HTML
         self._state.unauthorized_handler(unauthorized_handler)
