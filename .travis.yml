@@ -6,7 +6,7 @@ python:
 install:
   - cp backend/config.example.py backend/config.py
 #  - pip install tox-travis
-  - pip install travis-sphinx guzzle-sphinx-theme sphinx-click
+  - pip install travis-sphinx guzzle-sphinx-theme sphinx-click redis appdirs
 script:
 #  - tox
   - travis-sphinx build --source=docs
