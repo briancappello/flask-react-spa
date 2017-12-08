@@ -2,12 +2,9 @@ from flask_sqlalchemy.model import camel_to_snake_case
 from marshmallow.exceptions import ValidationError
 
 from backend.extensions.marshmallow import ma
+
 from .constants import READ_ONLY_FIELDS
-
-
-def to_camel_case(s):
-    parts = s.split('_')
-    return parts[0] + ''.join(x.title() for x in parts[1:])
+from .utils import to_camel_case
 
 
 class ModelSerializer(ma.ModelSchema):
