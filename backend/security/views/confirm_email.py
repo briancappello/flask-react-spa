@@ -29,7 +29,7 @@ def confirm_email(token):
     if expired and not already_confirmed:
         send_confirmation_instructions(user)
 
-    if invalid or expired and not already_confirmed:
+    if invalid or (expired and not already_confirmed):
         return redirect(get_url(_security.confirm_error_view))
 
     if confirm_user(user):
