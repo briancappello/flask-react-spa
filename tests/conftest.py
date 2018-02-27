@@ -2,7 +2,6 @@ import os
 import pytest
 
 from collections import namedtuple
-
 from flask import template_rendered
 from flask_security.signals import (
     reset_password_instructions_sent,
@@ -49,25 +48,27 @@ def api_client(app):
         yield client
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(autouse=True, scope='session')
 def db():
     db_ext.create_all()
     yield db_ext
     db_ext.drop_all()
 
 
-@pytest.fixture()
+@pytest.fixture(autouse=True)
 def db_session(db):
     connection = db.engine.connect()
     transaction = connection.begin()
 
-    session = db.create_scoped_session(options=dict(bind=connection))
+    session = db.create_scoped_session(options=dict(bind=connection, binds={}))
     db.session = session
-    yield session
 
-    transaction.rollback()
-    connection.close()
-    session.remove()
+    try:
+        yield session
+    finally:
+        transaction.rollback()
+        connection.close()
+        session.remove()
 
 
 @pytest.fixture(scope='session')
