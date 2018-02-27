@@ -9,10 +9,11 @@ attrs==17.4.0             # via pytest
 babel==2.5.3              # via sphinx
 certifi==2018.1.18        # via requests
 chardet==3.0.4            # via requests
-click==6.7                # via flask
+click==6.7                # via flask, travis-sphinx
 docutils==0.14            # via sphinx
 faker==0.8.11
 flask==0.12.2             # via pytest-flask
+ghp-import==0.5.5         # via travis-sphinx
 guzzle-sphinx-theme==0.7.11
 idna==2.6                 # via requests
 imagesize==1.0.0          # via sphinx
@@ -22,8 +23,8 @@ livereload==2.5.1
 markupsafe==1.0           # via jinja2
 packaging==16.8           # via sphinx
 pbr==3.1.1                # via sphinx-click
-pluggy==0.6.0             # via pytest
-py==1.5.2                 # via pytest
+pluggy==0.6.0             # via pytest, tox
+py==1.5.2                 # via pytest, tox
 pygments==2.2.0           # via sphinx
 pyparsing==2.2.0          # via packaging
 pytest-flask==0.10.0
@@ -32,12 +33,15 @@ python-dateutil==2.6.1    # via faker
 pytz==2018.3              # via babel
 pyyaml==3.12
 requests==2.18.4          # via sphinx
-six==1.11.0               # via faker, livereload, packaging, pytest, python-dateutil, sphinx
+six==1.11.0               # via faker, livereload, packaging, pytest, python-dateutil, sphinx, tox
 snowballstemmer==1.2.1    # via sphinx
 sphinx-click==1.0.4
-sphinx==1.7.1
+sphinx<1.7
 sphinxcontrib-websupport==1.0.1
 text-unidecode==1.2       # via faker
 tornado==4.5.3            # via livereload
+tox==2.9.1
+travis-sphinx==2.1.0
 urllib3==1.22             # via requests
+virtualenv==15.1.0        # via tox
 werkzeug==0.14.1          # via flask, pytest-flask

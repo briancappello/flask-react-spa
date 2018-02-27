@@ -5,7 +5,7 @@ python:
   - 3.6
 install:
   - cp backend/config.example.py backend/config.py
-  - pip install tox-travis travis-sphinx
+  - pip install tox-travis
   - pip install -r requirements.txt
   - pip install -r requirements-dev.txt  # required for building the docs
 script:
