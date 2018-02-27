@@ -1,3 +1,5 @@
+import inspect
+
 from flask_sqlalchemy.model import camel_to_snake_case
 
 from backend.extensions import db
@@ -55,12 +57,13 @@ def foreign_key(model_or_table_name, fk_col=None, primary_key=False, **kwargs):
     :param bool primary_key: Whether or not this Column is a primary key
     :param dict kwargs: any other kwargs to pass the Column constructor
     """
+    model = model_or_table_name
     table_name = model_or_table_name
     fk_col = fk_col or 'id'
-    if isinstance(model_or_table_name, db.Model):
+    if inspect.isclass(model) and issubclass(model, db.Model):
         table_name = model_or_table_name.__tablename__
-    elif table_name != model_or_table_name.lower():
-        table_name = camel_to_snake_case(model_or_table_name)
+    elif table_name != table_name.lower():
+        table_name = camel_to_snake_case(table_name)
     return Column(db.BigInteger,
                   db.ForeignKey(f'{table_name}.{fk_col}'),
                   primary_key=primary_key,
