@@ -7,7 +7,11 @@ upstream flask {
 server {
   listen 80;
   listen [::]:80;
+{% if app_env == 'prod' %}
+  server_name {{ app_domain }} {{ full_app_domain }};
+{% else %}
   server_name {{ app_domain }};
+{% endif %}
   charset utf-8;
 
   access_log {{ nginx_access_log_file }};
@@ -16,7 +20,7 @@ server {
   root {{ nginx_sites_dir }};
 
   # allow letsencrypt challenges over http
-  location /.well-known/acme-challenge/ {
+  location /.well-known/ {
     try_files $uri $uri/ =404;
   }
 
