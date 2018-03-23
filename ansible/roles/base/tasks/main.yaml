@@ -35,3 +35,14 @@
 
 - name: start NTP daemon
   service: name={{ ntp_svc }} state=started enabled=yes
+
+- name: check if / needs selinux relabeling
+  shell: "ls -Zd / | grep unlabeled_t"
+  register: unlabeled_root
+  changed_when: false
+  failed_when: false
+  when: redhat_family
+
+- name: run restorecon /
+  command: "restorecon /"
+  when: redhat_family and unlabeled_root.stdout != ""
