@@ -1,9 +1,4 @@
 ---
-- name: install pip
-  easy_install:
-    name: pip
-    state: latest
-
 - name: create virtualenv for supervisor
   command: virtualenv -p /usr/bin/python {{ supervisor_virtualenv_dir }}
            creates={{ supervisor_virtualenv_dir }}/bin/activate
