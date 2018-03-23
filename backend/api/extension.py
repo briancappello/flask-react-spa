@@ -1,3 +1,5 @@
+import enum
+
 from flask import Blueprint, current_app, make_response
 from flask.json import dumps, JSONEncoder as BaseJSONEncoder
 from flask.views import MethodViewType
@@ -267,6 +269,9 @@ class Api(BaseApi):
 
         class JSONEncoder(BaseEncoderClass):
             def default(self, o):
+                if isinstance(o, enum.Enum):
+                    return o.name
+
                 if isinstance(o, Model):
                     model_name = o.__class__.__name__
                     if model_name in serializers:

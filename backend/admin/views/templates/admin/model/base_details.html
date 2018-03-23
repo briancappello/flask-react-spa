@@ -4,3 +4,18 @@
   <h1>{{ admin_view.model.__label__ }} Details</h1>
   {{ super() }}
 {% endblock %}
+
+{% block details_table %}
+  <table class="table table-hover table-bordered searchable">
+  {% for c, name in details_columns %}
+    <tr>
+      <td>
+        <b>{{ name }}</b>
+      </td>
+      <td>
+      {{ get_value(model, c) | safe }}
+      </td>
+    </tr>
+  {% endfor %}
+  </table>
+{% endblock %}
