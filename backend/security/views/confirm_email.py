@@ -25,11 +25,12 @@ def confirm_email(token):
         invalid = True
 
     already_confirmed = user is not None and user.confirmed_at is not None
+    expired_and_not_confirmed = expired and not already_confirmed
 
-    if expired and not already_confirmed:
+    if expired_and_not_confirmed:
         send_confirmation_instructions(user)
 
-    if invalid or (expired and not already_confirmed):
+    if invalid or expired_and_not_confirmed:
         return redirect(get_url(_security.confirm_error_view))
 
     if confirm_user(user):
