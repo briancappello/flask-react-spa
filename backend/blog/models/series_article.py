@@ -10,7 +10,7 @@ from backend.database import (
 class SeriesArticle(Model):
     """Join table between Series and Article"""
     article = relationship('Article', back_populates='article_series',
-                           uselist=False, cascade='all')
+                           uselist=False, cascade='all, delete-orphan')
 
     part = Column(Integer)
 

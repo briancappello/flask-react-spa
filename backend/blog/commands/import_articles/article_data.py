@@ -29,8 +29,6 @@ class ArticleData(FileData):
     def __init__(self, dir_entry, default_author, series_data=None):
         super().__init__(dir_entry)
         self.default_author = default_author
-        if series_data:
-            print(self.title, series_data.dir_name)
         self.series_data = series_data
 
     def create_or_update_article(self):

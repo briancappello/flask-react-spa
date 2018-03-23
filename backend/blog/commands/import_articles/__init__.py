@@ -28,6 +28,13 @@ ARTICLES_METADATA_PATH = os.path.join(APP_CACHE_FOLDER, '.articles-metadata.json
 @with_appcontext
 def import_articles(reset):
     click.echo('Importing new/updated blog articles.')
+    if _import_articles(reset):
+        click.echo('Done.')
+    else:
+        click.echo('No new articles found. Exiting.')
+
+
+def _import_articles(reset):
     last_updated, default_author = load_metadata(reset)
     new_articles = load_article_datas(ARTICLES_FOLDER,
                                       default_author,
@@ -44,9 +51,8 @@ def import_articles(reset):
             count += 1
             series.save()
 
-        msg_prefix = ''
-        if should_save:
-            msg_prefix = 'Created ' if is_create else 'Updated '
+        msg_prefix = ('' if not should_save
+                      else ('Created' if is_create else 'Updated '))
         click.echo(f'{msg_prefix}Series: {series.title}')
 
         count += process_article_datas(series_data.articles, series)
@@ -54,9 +60,7 @@ def import_articles(reset):
     if count:
         db.session.commit()
         save_metadata()
-        click.echo('Done.')
-    else:
-        click.echo('No new articles found. Exiting.')
+    return count
 
 
 def process_article_datas(article_datas, series):
@@ -64,14 +68,13 @@ def process_article_datas(article_datas, series):
     for count, article_data in enumerate(article_datas):
         article, is_create = article_data.create_or_update_article()
         article.save()
-        if series and is_create:
+        if series and not article.article_series:
             if article_data.part:
                 series.series_articles.append(SeriesArticle(series=series,
                                                             article=article,
                                                             part=article_data.part))
             else:
                 series.articles.append(article)
-            series.save()
 
         msg_prefix = ' - ' if series else ''
         msg_prefix += 'Created' if is_create else 'Updated'

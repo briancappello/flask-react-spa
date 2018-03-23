@@ -31,7 +31,8 @@ class Article(Model):
     author = relationship('User', back_populates='articles')
 
     article_series_id = foreign_key('SeriesArticle', nullable=True)
-    article_series = relationship('SeriesArticle', back_populates='article')
+    article_series = relationship('SeriesArticle', back_populates='article',
+                                  cascade='all, delete-orphan', single_parent=True)
     series = association_proxy('article_series', 'series',
                                creator=lambda series: SeriesArticle(series=series))
     part = association_proxy('article_series', 'part')

@@ -57,4 +57,3 @@ def load_series_datas(dir_path, default_author, last_updated):
 
         if dir_entry.name == SERIES_FILENAME:
             yield SeriesData(dir_entry, default_author, last_updated)
-            continue
