@@ -27,11 +27,10 @@ class FlaskCelery(Celery):
         self.Task = ContextTask
 
     def init_app(self, app):
-        self.app = app
         self.__autoset('broker_url', app.config.get('CELERY_BROKER_URL'))
         self.__autoset('result_backend', app.config.get('CELERY_RESULT_BACKEND'))
         self.config_from_object(app.config)
-        self.autodiscover_tasks(lambda: ['backend'] + app.config.BUNDLES)
+        self.autodiscover_tasks(lambda: ['backend'] + app.config.get('BUNDLES'))
 
     def __autoset(self, key, value):
         if value:
