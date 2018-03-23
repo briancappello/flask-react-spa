@@ -10,7 +10,7 @@ upstream flask {
 server {
   listen 443 ssl http2;
   listen [::]:443 ssl http2;
-  server_name {{ full_app_domain }};
+  server_name {{ app_domain }};
   charset utf-8;
 
   ssl_certificate {{ le_fullchain_path }};
@@ -64,11 +64,11 @@ server {
 }
 
 {% if app_env == 'prod' %}
-# redirect non-www to www
+# redirect www to non-www
 server {
   listen 443 ssl http2;
   listen [::]:443 ssl http2;
-  server_name {{ app_domain }};
+  server_name {{ full_app_domain }};
 
   ssl_certificate {{ le_fullchain_path }};
   ssl_certificate_key {{ le_privkey_path }};
@@ -97,7 +97,7 @@ server {
   # resolver 8.8.8.8 8.8.4.4;  # Google DNS servers
 
   location / {
-    return 301 https://{{ full_app_domain }}$request_uri;
+    return 302 https://{{ app_domain }}$request_uri;
   }
 }
 {% endif %}
