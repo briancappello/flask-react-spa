@@ -22,7 +22,12 @@
     src: default.nginx.j2
     dest: '{{ nginx_sites_available_dir }}/default'
 
-- include: disable_site.yaml name=default
+- name: disable default site
+  file:
+    src: '{{ nginx_sites_available_dir }}/default'
+    dest: '{{ nginx_sites_enabled_dir }}/default'
+    state: absent
+  notify: reload nginx
 
 - name: make sure nginx is started and enabled at boot
   service: name={{ nginx_svc }} state=started enabled=True
