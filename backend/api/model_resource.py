@@ -329,10 +329,11 @@ class ModelResource(Resource):
 
         if method_name == LIST:
             decorators.append(partial(list_loader, model=self.model))
-        elif method_name != CREATE:
-            kw_name = param_name if method_name in (GET, DELETE) else 'instance'
+        elif method_name in {GET, DELETE}:
+            decorators.append(partial(param_converter, **{param_name: self.model}))
+        elif method_name in {PATCH, PUT}:
             decorators.append(partial(param_converter,
-                                      **{param_name: {kw_name: self.model}}))
+                                      **{param_name: {'instance': self.model}}))
 
         if method_name == PATCH:
             decorators.append(partial(patch_loader, serializer=self.serializer))
