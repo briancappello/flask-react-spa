@@ -42,6 +42,7 @@ pip-log.txt
 nosetests.xml
 __snapshots__/
 .cache/
+.pytest_cache/
 
 # si
 *.mo
