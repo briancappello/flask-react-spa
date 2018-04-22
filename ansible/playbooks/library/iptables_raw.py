@@ -6,9 +6,12 @@
 #
 # https://github.com/Nordeus/ansible_iptables_raw
 #
-# this file is at hash 11243949, last updated Apr 6, 2017
-#
+# this file is at commit hash fe5722cf57bcbbf3ceef7645867dcaf1fbf445cf
+# last updated Dec 25, 2017
 
+
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
 
 """
 (c) 2016, Strahinja Kustudic <strahinjak@nordeus.com>
@@ -30,15 +33,17 @@ You should have received a copy of the GNU General Public License
 along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-ANSIBLE_METADATA = {'status': ['preview'],
-                    'supported_by': 'community',
-                    'metadata_version': '1.0'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
 module: iptables_raw
 short_description: Manage iptables rules
-version_added: "2.4"
+version_added: "2.5"
 description:
   - Add/remove iptables rules while keeping state.
 options:
@@ -70,7 +75,7 @@ options:
   name:
     description:
       - Name that will be used as an identifier for these rules. It can contain
-        alphanumeric characters, underscore, hyphen, or a space; has to be
+        alphanumeric characters, underscore, hyphen, dot, or a space; has to be
         UNIQUE for a specified C(table). You can also pass C(name=*) with
         C(state=absent) to flush all rules in the selected table, or even all
         tables with C(table=*).
@@ -288,10 +293,10 @@ class Iptables:
     # Key used for unmanaged rules
     UNMANAGED_RULES_KEY_NAME = '$unmanaged_rules$'
 
-    # Only allow alphanumeric characters, underscore, hyphen, or a space for
+    # Only allow alphanumeric characters, underscore, hyphen, dots, or a space for
     # now. We don't want to have problems while parsing comments using regular
     # expressions.
-    RULE_NAME_ALLOWED_CHARS = 'a-zA-Z0-9_ -'
+    RULE_NAME_ALLOWED_CHARS = 'a-zA-Z0-9_ .-'
 
     module = None
 
@@ -352,14 +357,17 @@ class Iptables:
     # Supports Debian/Ubuntu/Mint,  '/etc/iptables/' location.
     def _get_system_save_path(self, ipversion):
         # distro detection, path setting should be added
-        if ipversion == '4':
-            if self._is_debian():
+        if self._is_debian():
+            # Check if iptables-persistent packages is installed
+            if not os.path.isdir('/etc/iptables'):
+                Iptables.module.fail_json(msg="This module requires 'iptables-persistent' package!")
+            if ipversion == '4':
                 return '/etc/iptables/rules.v4'
             else:
-                return '/etc/sysconfig/iptables'
-        else:
-            if self._is_debian():
                 return '/etc/iptables/rules.v6'
+        else:
+            if ipversion == '4':
+                return '/etc/sysconfig/iptables'
             else:
                 return '/etc/sysconfig/ip6tables'
 
@@ -390,8 +398,14 @@ class Iptables:
     def _read_state_file(self):
         json_str = '{}'
         if os.path.isfile(self.state_save_path):
-            json_str = open(self.state_save_path, 'r').read()
-        read_dict = defaultdict(lambda: dict(dump='', rules_dict={}), json.loads(json_str))
+            try:
+                json_str = open(self.state_save_path, 'r').read()
+            except:
+                Iptables.module.fail_json(msg="Could not read the state file '%s'!" % self.state_save_path)
+        try:
+            read_dict = defaultdict(lambda: dict(dump='', rules_dict={}), json.loads(json_str))
+        except:
+            Iptables.module.fail_json(msg="Could not parse the state file '%s'! Please manually delete it to continue." % self.state_save_path)
         return read_dict
 
     # Checks if a table exists in the state_dict.
@@ -650,7 +664,7 @@ class Iptables:
                             # Fetch the comment
                             comment = tokens[comment_index]
                             # Skip the rule if the comment starts with 'ansible[name]'
-                            if not re.match('ansible\[[' + Iptables.RULE_NAME_ALLOWED_CHARS + ']+\]', comment):
+                            if not re.match(r'ansible\[[' + Iptables.RULE_NAME_ALLOWED_CHARS + r']+\]', comment):
                                 filtered_rules.append(line)
                         else:
                             # Fail if there is no comment after the --comment parameter
