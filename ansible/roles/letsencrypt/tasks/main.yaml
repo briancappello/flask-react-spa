@@ -46,4 +46,4 @@
     day: '{{ letsencrypt_renewal_frequency.day }}'
     hour: '{{ letsencrypt_renewal_frequency.hour }}'
     minute: '{{ letsencrypt_renewal_frequency.minute }}'
-    job: '{{ letsencrypt_venv }}/bin/letsencrypt renew --quiet {{ letsencrypt_renewal_command_args }} >> /var/log/letsencrypt/auto-renew.log 2>&1'
+    job: '{{ letsencrypt_venv }}/bin/certbot renew --quiet {{ letsencrypt_renewal_command_args }} >> /var/log/letsencrypt/auto-renew.log 2>&1'
