@@ -10,6 +10,4 @@ RUN npm install
 
 COPY ./frontend /flask/frontend
 
-RUN npm run build:dll
-
 COPY ./docker/frontend/frontend-entrypoint.sh /frontend-entrypoint.sh

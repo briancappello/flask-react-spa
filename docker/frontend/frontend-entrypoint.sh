@@ -5,4 +5,5 @@ test -e frontend/app/config.js || (
    cp frontend/app/config.example.js frontend/app/config.js
 )
 
+npm run build:dll
 ANALYZER_HOST="0.0.0.0" npm run start
