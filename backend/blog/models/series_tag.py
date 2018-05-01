@@ -1,17 +1,16 @@
-from backend.database import (
-    BaseModel,
-    foreign_key,
-    relationship,
-)
+from flask_sqlalchemy_bundle import db
 
 
-class SeriesTag(BaseModel):
+class SeriesTag(db.Model):
     """Join table between Series and Tag"""
-    series_id = foreign_key('Series', primary_key=True)
-    series = relationship('Series', back_populates='series_tags')
+    class Meta:
+        pk = None
 
-    tag_id = foreign_key('Tag', primary_key=True)
-    tag = relationship('Tag', back_populates='tag_series')
+    series_id = db.foreign_key('Series', primary_key=True)
+    series = db.relationship('Series', back_populates='series_tags')
+
+    tag_id = db.foreign_key('Tag', primary_key=True)
+    tag = db.relationship('Tag', back_populates='tag_series')
 
     __repr_props__ = ('series_id', 'tag_id')
 

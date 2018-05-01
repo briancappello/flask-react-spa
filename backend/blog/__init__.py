@@ -1,3 +1,5 @@
-from backend.magic import Bundle
+from flask_unchained import Bundle
 
-blog_bundle = Bundle(__name__)
+
+class BlogBundle(Bundle):
+    command_group_names = ['blog']

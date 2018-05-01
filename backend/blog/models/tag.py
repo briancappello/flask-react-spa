@@ -1,28 +1,21 @@
-from backend.database import (
-    Column,
-    Model,
-    String,
-    association_proxy,
-    relationship,
-    slugify,
-)
+from flask_sqlalchemy_bundle import db
 
 from .article_tag import ArticleTag
 from .series_tag import SeriesTag
 
 
-@slugify('name')
-class Tag(Model):
-    name = Column(String(32))
-    slug = Column(String(32))
+@db.slugify('name')
+class Tag(db.Model):
+    name = db.Column(db.String(32))
+    slug = db.Column(db.String(32))
 
-    tag_articles = relationship('ArticleTag', back_populates='tag')
-    articles = association_proxy('tag_articles', 'article',
-                                 creator=lambda article: ArticleTag(article=article))
+    tag_articles = db.relationship('ArticleTag', back_populates='tag')
+    articles = db.association_proxy('tag_articles', 'article',
+                                    creator=lambda article: ArticleTag(article=article))
 
-    tag_series = relationship('SeriesTag', back_populates='tag')
-    series = association_proxy('tag_series', 'series',
-                               creator=lambda series: SeriesTag(series=series))
+    tag_series = db.relationship('SeriesTag', back_populates='tag')
+    series = db.association_proxy('tag_series', 'series',
+                                  creator=lambda series: SeriesTag(series=series))
 
     __repr_props__ = ('id', 'name')
 

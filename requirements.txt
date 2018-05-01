@@ -4,54 +4,66 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-alembic==0.9.8            # via flask-alembic
+alembic==0.9.8            # via flask-migrate
 amqp==2.2.2               # via kombu
-aniso8601==2.0.1          # via flask-restful
 appdirs==1.4.3
 arrow==0.12.1             # via jinja2-time
 babel==2.5.3              # via flask-babelex
 bcrypt==3.1.4
 beautifulsoup4==4.6.0
 billiard==3.5.0.3         # via celery
-blinker==1.4              # via flask-mail, flask-principal
+blinker==1.4              # via flask-mail, flask-mail-bundle, flask-principal
 celery==4.1.0
 cffi==1.11.4              # via bcrypt
 click==6.7                # via flask
-flask-admin==1.5.0
-flask-alembic==2.0.1
+decorator==4.3.0          # via networkx
+faker==0.8.13             # via py-yaml-fixtures
+flask-admin-bundle==0.1.0
+flask-admin==1.5.0        # via flask-admin-bundle
+flask-api-bundle==0.1.0
 flask-babelex==0.9.3      # via flask-security
+flask-celery-bundle==0.2.0
+flask-controller-bundle==0.2.1
 flask-login==0.4.1        # via flask-security
-flask-mail==0.9.1
-flask-marshmallow==0.8.0
+flask-mail-bundle==0.2.0
+flask-mail==0.9.1         # via flask-security
+flask-marshmallow==0.8.0  # via flask-api-bundle
+flask-migrate==2.1.1      # via flask-sqlalchemy-bundle
 flask-principal==0.4.0    # via flask-security
-flask-restful==0.3.6
-flask-security==3.0.0
-flask-session==0.3.1
-flask-sqlalchemy==2.3.2
+flask-security-bundle==0.1.0
+flask-security==3.0.0     # via flask-security-bundle
+flask-session-bundle==0.2.0
+flask-session==0.3.1      # via flask-session-bundle
+flask-sqlalchemy-bundle==0.2.1
+flask-sqlalchemy==2.3.2   # via flask-migrate, flask-sqlalchemy-bundle
+flask-unchained==0.2.2    # via flask-admin-bundle, flask-api-bundle, flask-celery-bundle, flask-controller-bundle, flask-mail-bundle, flask-security-bundle, flask-session-bundle, flask-sqlalchemy-bundle
 flask-wtf==0.14.2         # via flask-security
 flask==0.12.2
 itsdangerous==0.24        # via flask, flask-security
 jinja2-time==0.2.0
 jinja2==2.10
 kombu==4.1.0              # via celery
-lxml==4.1.1
+lxml==4.2.1
 mako==1.0.7               # via alembic
 markdown==2.6.11
 markupsafe==1.0           # via jinja2, mako
 marshmallow-sqlalchemy==0.13.2
-marshmallow==2.15.0       # via flask-marshmallow, marshmallow-sqlalchemy
+marshmallow==2.15.0       # via flask-api-bundle, flask-marshmallow, marshmallow-sqlalchemy
+networkx==2.1             # via flask-unchained
 passlib==1.7.1            # via flask-security
 psycopg2==2.7.4
+py-yaml-fixtures==0.1.1   # via flask-sqlalchemy-bundle
 pycparser==2.18           # via cffi
 python-dateutil==2.6.1
 python-editor==1.0.3      # via alembic
 python-frontmatter==0.4.2
 pytz==2018.3
-pyyaml==3.12              # via python-frontmatter
+pyyaml==3.12              # via py-yaml-fixtures, python-frontmatter
 redis==2.10.6
-six==1.11.0               # via bcrypt, flask-marshmallow, flask-restful, python-dateutil, python-frontmatter
+six==1.11.0               # via bcrypt, faker, flask-marshmallow, python-dateutil, python-frontmatter
 speaklater==1.3           # via flask-babelex
-sqlalchemy==1.2.4         # via alembic, flask-alembic, flask-sqlalchemy, marshmallow-sqlalchemy
+sqlalchemy==1.2.4         # via alembic, flask-sqlalchemy, marshmallow-sqlalchemy
+text-unidecode==1.2       # via faker
 tzlocal==1.5.1
 uwsgi==2.0.17
 vine==1.1.4               # via amqp

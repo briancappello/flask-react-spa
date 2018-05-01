@@ -1,23 +1,24 @@
-from backend.api import ModelResource, GET, LIST
-from backend.extensions.api import api
+from flask_api_bundle import ModelResource
+from flask_unchained import injectable
 
-from .blueprint import blog
-from ..models import Article, ArticleTag, Series, SeriesTag, Tag
+from ..services import ArticleManager, SeriesManager
 
 
-@api.model_resource(blog, Tag, '/tags', '/tags/<slug>')
 class TagResource(ModelResource):
-    include_methods = (GET, LIST)
+    model = 'Tag'
+    include_methods = ('get', 'list')
+
+    def __init__(self,
+                 article_manager: ArticleManager = injectable,
+                 series_manager: SeriesManager = injectable):
+        super().__init__()
+        self.article_manager = article_manager
+        self.series_manager = series_manager
 
     def get(self, tag):
         return self.serializer.dump({
             'name': tag.name,
             'slug': tag.slug,
-            'series': Series.join(SeriesTag)
-                            .filter(SeriesTag.tag_id == tag.id)
-                            .all(),
-            'articles': Article.filter_by(series=None)
-                               .join(ArticleTag)
-                               .filter(ArticleTag.tag_id == tag.id)
-                               .all(),
+            'series': self.series_manager.find_by_tag(tag),
+            'articles': self.article_manager.find_by_tag(tag),
         })

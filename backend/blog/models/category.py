@@ -1,19 +1,13 @@
-from backend.database import (
-    Column,
-    Model,
-    String,
-    relationship,
-    slugify,
-)
+from flask_sqlalchemy_bundle import db
 
 
-@slugify('name')
-class Category(Model):
-    name = Column(String(32))
-    slug = Column(String(32))
+@db.slugify('name')
+class Category(db.Model):
+    name = db.Column(db.String(32))
+    slug = db.Column(db.String(32))
 
-    articles = relationship('Article', back_populates='category')
-    series = relationship('Series', back_populates='category')
+    articles = db.relationship('Article', back_populates='category')
+    series = db.relationship('Series', back_populates='category')
 
     __repr_props__ = ('id', 'name')
 

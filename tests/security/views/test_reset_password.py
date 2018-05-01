@@ -2,34 +2,37 @@ import pytest
 
 from flask import url_for
 from flask_security import current_user, AnonymousUser
-from flask_security.recoverable import send_reset_password_instructions
+from flask_security_bundle import SecurityService
 
 
 @pytest.mark.usefixtures('user')
 class TestResetPassword:
-    def test_anonymous_user_required(self, user, client, password_resets):
-        send_reset_password_instructions(user)
+    def test_anonymous_user_required(self, user, api_client, password_resets,
+                                     security_service: SecurityService):
+        security_service.send_reset_password_instructions(user)
         token = password_resets[0]['token']
-        client.login_user()
-        r = client.get(url_for('security.reset_password', token=token))
+        api_client.login_user()
+        r = api_client.get('security.reset_password', token=token)
         assert r.status_code == 403
 
-    def test_http_get_redirects_to_frontend_form(self, user, client, password_resets):
-        send_reset_password_instructions(user)
+    def test_http_get_redirects_to_frontend_form(self, user, client, password_resets,
+                                                 security_service: SecurityService):
+        security_service.send_reset_password_instructions(user)
         assert len(password_resets) == 1
         token = password_resets[0]['token']
 
-        r = client.get(url_for('security.reset_password', token=token))
+        r = client.get('security.reset_password', token=token)
         assert r.status_code == 302
         assert r.path == url_for('frontend.reset_password', token=token)
 
     @pytest.mark.options(SECURITY_RESET_PASSWORD_WITHIN='-1 seconds')
-    def test_token_expired(self, user, client, password_resets, outbox, templates):
-        send_reset_password_instructions(user)
+    def test_token_expired(self, user, client, password_resets, outbox, templates,
+                           security_service: SecurityService):
+        security_service.send_reset_password_instructions(user)
         assert len(password_resets) == 1
         token = password_resets[0]['token']
 
-        r = client.get(url_for('security.reset_password', token=token))
+        r = client.get('security.reset_password', token=token)
         assert r.status_code == 302
         assert r.path == url_for('frontend.forgot_password')
         assert r.query == 'expired'
@@ -44,41 +47,43 @@ class TestResetPassword:
         assert templates[0].context.get('reset_link') != templates[1].context.get('reset_link')
 
     def test_token_invalid(self, client):
-        r = client.get(url_for('security.reset_password', token='fail'))
+        r = client.get('security.reset_password', token='fail')
         assert r.status_code == 302
         assert r.path == url_for('frontend.forgot_password')
         assert r.query == 'invalid'
 
-    def test_submit_errors(self, user, api_client, password_resets):
-        send_reset_password_instructions(user)
+    def test_submit_errors(self, user, api_client, password_resets,
+                           security_service: SecurityService):
+        security_service.send_reset_password_instructions(user)
         token = password_resets[0]['token']
 
-        r = api_client.post(url_for('security.reset_password', token=token))
+        r = api_client.post('security.post_reset_password', token=token)
         assert r.status_code == 400
-        assert 'newPassword' in r.errors
-        assert 'confirmNewPassword' in r.errors
+        assert 'password' in r.errors
+        assert 'password_confirm' in r.errors
 
-        r = api_client.post(url_for('security.reset_password', token=token),
-                            data=dict(newPassword='short',
-                                      confirmNewPassword='short'))
+        r = api_client.post('security.post_reset_password', token=token,
+                            data=dict(password='short',
+                                      password_confirm='short'))
         assert r.status_code == 400
-        assert 'newPassword' in r.errors
-        assert 'Password must be at least 8 characters long.' in r.errors['newPassword']
+        assert 'password' in r.errors
+        assert 'Password must be at least 8 characters long.' in r.errors['password']
 
-        r = api_client.post(url_for('security.reset_password', token=token),
-                            data=dict(newPassword='long enough',
-                                      confirmNewPassword='but not the same'))
+        r = api_client.post('security.post_reset_password', token=token,
+                            data=dict(password='long enough',
+                                      password_confirm='but not the same'))
         assert r.status_code == 400
-        assert 'confirmNewPassword' in r.errors
-        assert 'Passwords do not match' in r.errors['confirmNewPassword']
+        assert 'password_confirm' in r.errors
+        assert 'Passwords do not match' in r.errors['password_confirm']
 
-    def test_valid_submit(self, user, api_client, password_resets, outbox, templates):
-        send_reset_password_instructions(user)
+    def test_valid_submit(self, user, api_client, password_resets, outbox, templates,
+                          security_service: SecurityService):
+        security_service.send_reset_password_instructions(user)
         token = password_resets[0]['token']
 
-        r = api_client.post(url_for('security.reset_password', token=token),
-                            data=dict(newPassword='new password',
-                                      confirmNewPassword='new password'))
+        r = api_client.post('security.post_reset_password', token=token,
+                            data=dict(password='new password',
+                                      password_confirm='new password'))
         assert r.status_code == 200
         # user should be logged in
         assert 'user' in r.json

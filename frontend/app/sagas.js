@@ -27,16 +27,18 @@ export function createRoutineSaga(routine, successGenerator, failureGenerator) {
 }
 
 
-export function createRoutineFormSaga(routine, successGenerator) {
+export function createRoutineFormSaga(routine, successGenerator, renames) {
   return createRoutineSaga(routine, successGenerator, function *onError(e) {
     if (!e.response) {
       // something unexpected went wrong, probably in the successGenerator fn
       throw e
     }
+
     const error = new SubmissionError(Object.assign(
       { _error: e.response.error || null },
-      e.response.errors || {},
+      renameKeys(e.response.errors, renames) || {},
     ))
+
     yield put(routine.failure(error))
   })
 }
@@ -57,6 +59,18 @@ export function *routineWatcherSaga({ payload }) {
   } else {
     yield call(reject, failure && failure.payload || failure)
   }
+}
+
+
+function renameKeys(obj, renames) {
+  if (!renames || !obj) {
+    return obj
+  }
+
+  return Object.keys(obj).reduce((newObj, key) => {
+    newObj[renames[key] || key] = obj[key]
+    return newObj
+  }, {})
 }
 
 

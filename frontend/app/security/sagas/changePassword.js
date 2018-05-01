@@ -16,6 +16,10 @@ export const changePasswordSaga = createRoutineFormSaga(
     yield put(changePassword.success({ token }))
     yield put(flashSuccess('Your password has been successfully changed.'))
   },
+  {
+    new_password: 'newPassword',
+    new_password_confirm: 'newPasswordConfirm',
+  }
 )
 
 export default () => [

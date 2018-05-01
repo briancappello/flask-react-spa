@@ -1,0 +1,29 @@
+a:
+  email: a@a.com
+  username: a
+  password: password
+  first_name: first
+  last_name: last
+  active: True
+  confirmed_at: utcnow
+  roles: ['Role(ROLE_USER)']
+
+admin:
+  email: admin@example.com
+  username: admin
+  password: password
+  first_name: the
+  last_name: admin
+  active: True
+  confirmed_at: utcnow
+  roles: ['Role(ROLE_ADMIN, ROLE_USER)']
+
+user:
+  email: user@example.com
+  username: user
+  password: password
+  first_name: the
+  last_name: user
+  active: True
+  confirmed_at: utcnow
+  roles: ['Role(ROLE_USER)']

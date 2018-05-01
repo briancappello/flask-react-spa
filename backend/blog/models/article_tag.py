@@ -1,19 +1,16 @@
-from backend.database import (
-    BaseModel,
-    foreign_key,
-    relationship,
-)
+from flask_sqlalchemy_bundle import db
 
 
-class ArticleTag(BaseModel):
+class ArticleTag(db.Model):
     """Join table between Article and Tag"""
-    # __tablename__ = 'article_tag'
+    class Meta:
+        pk = None
 
-    article_id = foreign_key('Article', primary_key=True)
-    article = relationship('Article', back_populates='article_tags')
+    article_id = db.foreign_key('Article', primary_key=True)
+    article = db.relationship('Article', back_populates='article_tags')
 
-    tag_id = foreign_key('Tag', primary_key=True)
-    tag = relationship('Tag', back_populates='tag_articles')
+    tag_id = db.foreign_key('Tag', primary_key=True)
+    tag = db.relationship('Tag', back_populates='tag_articles')
 
     __repr_props__ = ('article_id', 'tag_id')
 

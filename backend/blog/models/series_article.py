@@ -1,21 +1,15 @@
-from backend.database import (
-    Column,
-    Integer,
-    Model,
-    foreign_key,
-    relationship,
-)
+from flask_sqlalchemy_bundle import db
 
 
-class SeriesArticle(Model):
+class SeriesArticle(db.Model):
     """Join table between Series and Article"""
-    article = relationship('Article', back_populates='article_series',
-                           uselist=False, cascade='all, delete-orphan')
+    article = db.relationship('Article', back_populates='article_series',
+                              uselist=False, cascade='all, delete-orphan')
 
-    part = Column(Integer)
+    part = db.Column(db.Integer)
 
-    series_id = foreign_key('Series')
-    series = relationship('Series', back_populates='series_articles')
+    series_id = db.foreign_key('Series')
+    series = db.relationship('Series', back_populates='series_articles')
 
     __repr_props__ = ('id', 'series_id', 'part')
 

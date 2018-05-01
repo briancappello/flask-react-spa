@@ -2,28 +2,28 @@ import markdown
 import os
 
 from bs4 import BeautifulSoup
+from flask_unchained import unchained, injectable
 
-from backend.config import MARKDOWN_EXTENSIONS, SERIES_FILENAME
-from ...models import Series
+from ...config import Config
+from ...services import SeriesManager
 
 from .article_data import load_article_datas
 from .file_data import FileData
 
 
+@unchained.inject('series_manager')
 class SeriesData(FileData):
-    def __init__(self, dir_entry, default_author, last_updated):
+    def __init__(self, dir_entry, default_author, last_updated,
+                 series_manager: SeriesManager = injectable):
         super().__init__(dir_entry)
         self.articles = load_article_datas(self.dir_path,
                                            default_author,
                                            last_updated,
                                            self)
+        self.series_manager = series_manager
 
     def create_or_update_series(self):
-        is_create = False
-        series = Series.get_by(file_path=self.file_path)
-        if not series:
-            series = Series.create()
-            is_create = True
+        series, is_create = self.series_manager.get_by(file_path=self.file_path)
 
         series.title = self.title
         series.file_path = self.file_path
@@ -36,7 +36,7 @@ class SeriesData(FileData):
     @property
     def summary(self):
         html = markdown.markdown(self.markdown,
-                                 MARKDOWN_EXTENSIONS,
+                                 Config.MARKDOWN_EXTENSIONS,
                                  output_format='html5')
 
         # strip html and body tags
@@ -48,12 +48,12 @@ def load_series_datas(dir_path, default_author, last_updated):
     for dir_entry in os.scandir(dir_path):  # type: os.DirEntry
         is_dir = dir_entry.is_dir()
         if is_dir and os.path.exists(os.path.join(dir_entry.path,
-                                                  SERIES_FILENAME)):
+                                                  Config.SERIES_FILENAME)):
             is_updated = dir_entry.stat().st_mtime > last_updated
             if is_updated:
                 yield from load_series_datas(dir_entry.path,
                                              default_author,
                                              last_updated)
 
-        if dir_entry.name == SERIES_FILENAME:
+        if dir_entry.name == Config.SERIES_FILENAME:
             yield SeriesData(dir_entry, default_author, last_updated)

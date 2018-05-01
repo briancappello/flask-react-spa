@@ -1,0 +1,8 @@
+{% extends 'email/layout.html' %}
+
+{% block body %}
+  <p>A new contact submission from {{ contact_submission.name }}</p>
+  <p>Reply to: <a href="mailto:{{ contact_submission.email }}">{{ contact_submission.email }}</a></p>
+
+  {{ contact_submission.message | safe }}
+{% endblock %}

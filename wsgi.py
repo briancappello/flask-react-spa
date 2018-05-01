@@ -1,6 +1,6 @@
-from backend.app import create_app
+import os
 
-# we import this here so celery can access it for its startup
-from backend.extensions.celery import celery
+from flask_unchained import AppFactory, PROD
 
-app = create_app()
+
+app = AppFactory.create_app(os.getenv('FLASK_ENV', PROD))

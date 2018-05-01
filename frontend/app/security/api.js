@@ -24,7 +24,11 @@ export default class Auth {
    * @param {string} confirmNewPassword
    */
   static changePassword({ password, newPassword, confirmNewPassword }) {
-    return post(authV1('/change-password'), { password, newPassword, confirmNewPassword })
+    return post(authV1('/change-password'), {
+      password,
+      new_password: newPassword,
+      new_password_confirm: confirmNewPassword,
+    })
   }
 
   /**
@@ -66,7 +70,10 @@ export default class Auth {
    * @param {string} confirmNewPassword
    */
   static resetPassword(token, { newPassword, confirmNewPassword }) {
-    return post(authUrl(`/reset/${token}`), { newPassword, confirmNewPassword })
+    return post(authUrl(`/reset/${token}`), {
+      password: newPassword,
+      password_confirm: confirmNewPassword,
+    })
   }
 
   /**
@@ -78,7 +85,7 @@ export default class Auth {
    * @param {string} payload.password
    */
   static signUp(payload) {
-    return post(authV1('/users'), payload)
+    return post(v1('/users'), payload)
   }
 
   /**
@@ -86,6 +93,6 @@ export default class Auth {
    * @param {object} payload Any modified fields to be updated
    */
   static updateProfile(user, payload) {
-    return patch(authV1(`/users/${user.id}`), payload)
+    return patch(v1(`/users/${user.id}`), payload)
   }
 }

@@ -1,4 +1,4 @@
-from backend.site.serializers import ContactSubmissionSerializer
+from backend.serializers import ContactSubmissionSerializer
 
 
 def test_contact_submission_serializer():

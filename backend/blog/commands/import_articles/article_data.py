@@ -5,38 +5,33 @@ import pytz
 import re
 
 from bs4 import BeautifulSoup, Tag as SoupTag
+from flask_unchained import unchained, injectable
 
-from backend.config import (
-    ARTICLE_FILENAME,
-    ARTICLE_PREVIEW_LENGTH,
-    ARTICLE_STYLESHEET_FILENAME,
-    ARTICLES_FOLDER,
-    MARKDOWN_EXTENSIONS,
-    SERIES_FILENAME,
-    STATIC_URL_PATH,
-)
-from backend.security.models import User
-from ...models import Article, Tag
-from backend.utils.date import parse_datetime, utcnow
+from backend.security.services import UserManager
+from backend.utils import parse_datetime, utcnow
 
+from ...config import Config
+from ...services import ArticleManager
 from .file_data import FileData
 
 DATE_RE = re.compile(r'^(?P<date>\d{4}-\d{2}-\d{2})')
 PART_RE = re.compile(r'^(\d{4}-\d{2}-\d{2}-)?(part-)?(?P<part>\d+)', re.IGNORECASE)
 
 
+@unchained.inject('article_manager', 'user_manager')
 class ArticleData(FileData):
-    def __init__(self, dir_entry, default_author, series_data=None):
+    def __init__(self, dir_entry, default_author, series_data=None,
+                 article_manager: ArticleManager = injectable,
+                 user_manager: UserManager = injectable):
         super().__init__(dir_entry)
         self.default_author = default_author
         self.series_data = series_data
+        self.article_manager = article_manager
+        self.user_manager = user_manager
 
     def create_or_update_article(self):
-        is_create = False
-        article = Article.get_by(file_path=self.file_path)
-        if not article:
-            article = Article.create(author=self.author)
-            is_create = True
+        article, is_create = self.article_manager.get_or_create(
+            author=self.author, file_path=self.file_path)
 
         article.title = self.title
         article.publish_date = self.publish_date
@@ -55,9 +50,9 @@ class ArticleData(FileData):
     def author(self):
         author = self.frontmatter.get('by', self.frontmatter.get('author'))
         if author and '@' in author:
-            return User.get_by(email=author)
+            return self.user_manager.get_by(email=author)
         elif author:
-            return User.get_by(username=author)
+            return self.user_manager.get_by(username=author)
         return self.default_author
 
     @property
@@ -88,7 +83,7 @@ class ArticleData(FileData):
     @functools.lru_cache()
     def html(self):
         html = markdown.markdown(self.markdown,
-                                 MARKDOWN_EXTENSIONS,
+                                 Config.MARKDOWN_EXTENSIONS,
                                  output_format='html5')
 
         # fix image links
@@ -102,12 +97,14 @@ class ArticleData(FileData):
             body = ''.join(map(str, body.contents))
 
         # prefix stylesheet if necessary
+        if not self.is_dir:
+            return body
         stylesheet_filepath = os.path.join(self.dir_path,
-                                           ARTICLE_STYLESHEET_FILENAME)
-        if not self.is_dir or not os.path.exists(stylesheet_filepath):
+                                           Config.ARTICLE_STYLESHEET_FILENAME)
+        if not os.path.exists(stylesheet_filepath):
             return body
 
-        href = self._get_static_url(ARTICLE_STYLESHEET_FILENAME)
+        href = self._get_static_url(Config.ARTICLE_STYLESHEET_FILENAME)
         return f'<link rel="stylesheet" type="text/css" href="{href}">' + body
 
     @property
@@ -120,20 +117,21 @@ class ArticleData(FileData):
         preview = ''
         preview_len = 0
         for el in p.contents:
-            is_tag = isinstance(el, Tag)
+            is_tag = isinstance(el, SoupTag)
             el_text = el.text if is_tag else str(el)
             preview_len += len(el_text)
-            if preview_len > ARTICLE_PREVIEW_LENGTH:
+            if preview_len > Config.ARTICLE_PREVIEW_LENGTH:
                 if not is_tag:
-                    max_el_text_len = len(el_text) - (preview_len - ARTICLE_PREVIEW_LENGTH)
+                    max_el_text_len = len(el_text) - (
+                            preview_len - Config.ARTICLE_PREVIEW_LENGTH)
                     preview += el_text[:el_text.rfind(' ', 0, max_el_text_len)]
                 break
             preview += str(el)
         return preview.strip()
 
     def _get_static_url(self, resource):
-        path_parts = [STATIC_URL_PATH,
-                      os.path.basename(ARTICLES_FOLDER),
+        path_parts = [Config.STATIC_URL_PATH,
+                      os.path.basename(Config.ARTICLES_FOLDER),
                       self.series_data.dir_name if self.series_data else None,
                       self.dir_name,
                       resource]
@@ -144,11 +142,12 @@ def load_article_datas(dir_path, default_author, last_updated, series_data=None)
     for dir_entry in os.scandir(dir_path):  # type: os.DirEntry
         is_dir = dir_entry.is_dir()
         if is_dir and os.path.exists(os.path.join(dir_entry.path,
-                                                  ARTICLE_FILENAME)):
-            yield from load_article_datas(dir_entry.path, default_author, last_updated, series_data)
+                                                  Config.ARTICLE_FILENAME)):
+            yield from load_article_datas(
+                dir_entry.path, default_author, last_updated, series_data)
             continue
 
         is_markdown = dir_entry.is_file() and dir_entry.name.endswith('.md')
         is_updated = dir_entry.stat().st_mtime > last_updated
-        if is_updated and is_markdown and dir_entry.name != SERIES_FILENAME:
+        if is_updated and is_markdown and dir_entry.name != Config.SERIES_FILENAME:
             yield ArticleData(dir_entry, default_author, series_data)

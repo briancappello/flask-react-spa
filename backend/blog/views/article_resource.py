@@ -1,20 +1,22 @@
-from backend.api import ModelResource, GET, LIST
-from backend.extensions.api import api
+from flask_api_bundle import ModelResource
+from flask_unchained import injectable
 
-from .blueprint import blog
-from ..models import Article
+from ..services import ArticleManager
 
 
-@api.model_resource(blog, Article, '/articles', '/articles/<slug>')
 class ArticleResource(ModelResource):
-    include_methods = (GET, LIST)
-    include_decorators = (GET,)
+    model = 'Article'
+    include_methods = ('get', 'list')
+    include_decorators = ('get',)
+    member_param = '<string:slug>'
+
+    def __init__(self, article_manager: ArticleManager = injectable):
+        super().__init__()
+        self.article_manager = article_manager
 
     def get(self, article):
-        prev, next = article.get_prev_next()
-        return {'article': article,
-                'prev': prev,
-                'next': next}
+        prev, next = self.article_manager.get_prev_next(article)
+        return {'article': article, 'prev': prev, 'next': next}
 
     def list(self):
-        return Article.get_published()
+        return self.article_manager.find_published()

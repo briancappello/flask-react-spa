@@ -3,14 +3,14 @@
 # pip-compile requirements.in --output-file requirements.txt
 
 flask
-flask-admin
-flask-alembic
-flask-mail
-flask-marshmallow
-flask-restful
-flask-security
-flask-session
-flask-sqlalchemy
+flask-admin-bundle
+flask-api-bundle
+flask-celery-bundle
+flask-controller-bundle
+flask-mail-bundle
+flask-security-bundle
+flask-session-bundle
+flask-sqlalchemy-bundle
 
 appdirs
 bcrypt

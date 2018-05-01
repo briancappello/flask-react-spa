@@ -1,0 +1,5 @@
+ROLE_USER:
+  name: ROLE_USER
+
+ROLE_ADMIN:
+  name: ROLE_ADMIN

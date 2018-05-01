@@ -1,33 +1,34 @@
 import pytest
 
-from flask import url_for
+from flask_controller_bundle import url_for
+from flask_security_bundle import UserManager, SecurityService
 
 
 @pytest.mark.usefixtures('user')
 class TestResendConfirmation:
     def test_email_required(self, api_client):
-        r = api_client.post(url_for('api.resend_confirmation_email'))
+        r = api_client.post('security.send_confirmation')
         assert r.status_code == 400
         assert 'email' in r.errors
 
     def test_cannot_reconfirm(self, user, api_client):
-        r = api_client.post(url_for('api.resend_confirmation_email'),
+        r = api_client.post('security.send_confirmation',
                             data=dict(email=user.email))
         assert r.status_code == 400
         assert 'Your email has already been confirmed.' in r.errors['email']
 
     @pytest.mark.options(SECURITY_CONFIRMABLE=True)
-    def test_instructions_resent(self, api_client, outbox, templates):
-        from backend.security.models import User
-        from backend.security.views.user_resource import register_user
-        user = User(username='test',
-                    email='test@example.com',
-                    password='password',
-                    first_name='the',
-                    last_name='user')
-        register_user(user)
+    def test_instructions_resent(self, api_client, outbox, templates,
+                                 user_manager: UserManager,
+                                 security_service: SecurityService):
+        user = user_manager.create(username='test',
+                                   email='test@example.com',
+                                   password='password',
+                                   first_name='the',
+                                   last_name='user')
+        security_service.register_user(user)
 
-        r = api_client.post(url_for('api.resend_confirmation_email'),
+        r = api_client.post('security.send_confirmation',
                             data=dict(email=user.email))
         assert r.status_code == 204
         assert len(outbox) == len(templates) == 2

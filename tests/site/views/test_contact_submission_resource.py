@@ -2,7 +2,7 @@ from flask import url_for
 
 
 def test_create_contact_submission(api_client, outbox, templates):
-    r = api_client.post(url_for('api.contact_submissions_resource'),
+    r = api_client.post('contact_submission_resource.create',
                         data=dict(name='foobar',
                                   email='foobar@example.com',
                                   message='hello world'))
@@ -10,11 +10,11 @@ def test_create_contact_submission(api_client, outbox, templates):
     assert r.json['id']
     assert r.json['name'] == 'foobar'
     assert len(outbox) == len(templates) == 1
-    assert templates[0].template.name == 'email/contact_submission.html'
+    assert templates[0].template.name == 'email/new_contact_submission.html'
 
 
 def test_contact_submission_validation(api_client):
-    r = api_client.post(url_for('api.contact_submissions_resource'),
+    r = api_client.post('contact_submission_resource.create',
                         data=dict(name=None, email=None, message=None))
     assert r.status_code == 400
     assert 'name' in r.json['errors'], 'name should be required'

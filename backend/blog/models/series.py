@@ -1,47 +1,36 @@
-from backend.database import (
-    Column,
-    Model,
-    String,
-    Text,
-    association_proxy,
-    attach_events,
-    foreign_key,
-    on,
-    relationship,
-    slugify,
-)
+from flask_sqlalchemy_bundle import db
 
 from .series_article import SeriesArticle
 from .series_tag import SeriesTag
 
 
-@slugify('title')
-@attach_events
-class Series(Model):
-    title = Column(String(100))
-    slug = Column(String(100))
-    file_path = Column(String(255), nullable=True)
-    header_image = Column(String(255), nullable=True)
-    summary = Column(Text)
+@db.slugify('title')
+@db.attach_events
+class Series(db.Model):
+    title = db.Column(db.String(100))
+    slug = db.Column(db.String(100))
+    file_path = db.Column(db.String(255), nullable=True)
+    header_image = db.Column(db.String(255), nullable=True)
+    summary = db.Column(db.Text)
 
-    series_articles = relationship('SeriesArticle', back_populates='series',
-                                   lazy='joined', innerjoin=True,
-                                   order_by='SeriesArticle.part',
-                                   cascade='all, delete-orphan')
-    articles = association_proxy('series_articles', 'article',
-                                 creator=lambda article: SeriesArticle(article=article))
+    series_articles = db.relationship('SeriesArticle', back_populates='series',
+                                      lazy='joined', innerjoin=True,
+                                      order_by='SeriesArticle.part',
+                                      cascade='all, delete-orphan')
+    articles = db.association_proxy('series_articles', 'article',
+                                    creator=lambda article: SeriesArticle(article=article))
 
-    category_id = foreign_key('Category', nullable=True)
-    category = relationship('Category', back_populates='series')
+    category_id = db.foreign_key('Category', nullable=True)
+    category = db.relationship('Category', back_populates='series')
 
-    series_tags = relationship('SeriesTag', back_populates='series',
-                               cascade='all, delete-orphan')
-    tags = association_proxy('series_tags', 'tag',
-                             creator=lambda tag: SeriesTag(tag=tag))
+    series_tags = db.relationship('SeriesTag', back_populates='series',
+                                  cascade='all, delete-orphan')
+    tags = db.association_proxy('series_tags', 'tag',
+                                creator=lambda tag: SeriesTag(tag=tag))
 
     __repr_props__ = ('id', 'title', 'articles')
 
-    @on('series_articles', 'append')
+    @db.on('series_articles', 'append')
     def on_append_series_article(self, series_article, *_):
         # auto increment series article part number if necessary
         if series_article.part is None:

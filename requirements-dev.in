@@ -11,8 +11,10 @@ sphinxcontrib-websupport
 travis-sphinx
 
 # testing
+factory_boy
 faker
 pytest
 pytest-flask
+pytest-watch
 PyYAML
 tox

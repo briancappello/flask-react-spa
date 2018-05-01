@@ -2,13 +2,12 @@ from wtforms import fields, validators
 from wtforms.fields import html5
 
 from flask_security.forms import EqualTo, unique_user_email
+from flask_security_bundle.forms import password_length
 
-from backend.admin import ModelAdmin, macro
-from backend.admin.form import ReorderableForm
-from backend.security.forms import password_length
-from backend.utils.date import utcnow
+from flask_admin_bundle import ModelAdmin, macro
+from flask_admin_bundle.forms import ReorderableForm
 
-from ..models import User
+from backend.utils import utcnow
 
 
 class BaseUserForm(ReorderableForm):
@@ -19,8 +18,10 @@ class BaseUserForm(ReorderableForm):
 
 
 class UserAdmin(ModelAdmin):
-    model = User
+    model = 'User'
 
+    name = 'Users'
+    category_name = 'Security'
     menu_icon_value = 'glyphicon-user'
 
     column_list = ('username', 'email', 'first_name', 'last_name', 'active')
