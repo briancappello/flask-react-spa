@@ -7,7 +7,7 @@ from flask_sqlalchemy_bundle.pytest import ModelFactory
 # FIXME: seems this is needed so pytest-in-tox will resolve the correct fixture order
 from flask_security_bundle.pytest import client, api_client
 
-from backend.security.models import User, Role, UserRole
+from bundles.security.models import User, Role, UserRole
 
 
 class UserFactory(ModelFactory):

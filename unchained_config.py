@@ -23,7 +23,7 @@ BUNDLES = [
     'flask_session_bundle',
     'flask_sqlalchemy_bundle',
 
-    'backend.blog',
-    'backend.security',
+    'bundles.blog',
+    'bundles.security',
     'backend',
 ]

@@ -3,7 +3,7 @@ from flask_controller_bundle import (
 from flask_security_bundle import SecurityController, UserResource
 
 from backend.views import ContactSubmissionResource
-from backend.blog.views import (
+from bundles.blog.views import (
     ArticleResource, CategoryResource, SeriesResource, TagResource)
 
 

@@ -30,7 +30,7 @@ Run `python manage.py`:
      urls    List all URLs registered with the app.
      users   User commands.
 
-.. click:: backend.blog.commands:blog
+.. click:: bundles.blog.commands:blog
    :prog: python manage.py blog
    :show-nested:
 

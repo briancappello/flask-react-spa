@@ -7,7 +7,7 @@ import re
 from bs4 import BeautifulSoup, Tag as SoupTag
 from flask_unchained import unchained, injectable
 
-from backend.security.services import UserManager
+from bundles.security.services import UserManager
 from backend.utils import parse_datetime, utcnow
 
 from ...config import Config
