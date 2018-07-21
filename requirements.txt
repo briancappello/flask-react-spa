@@ -19,7 +19,7 @@ click==6.7                # via flask
 decorator==4.3.0          # via networkx
 dill==0.2.8.2             # via flask-celery-bundle
 faker==0.8.17             # via py-yaml-fixtures
-flask-admin-bundle==0.2.2
+flask-admin-bundle==0.2.3
 flask-admin==1.5.1        # via flask-admin-bundle
 flask-api-bundle==0.2.2
 flask-babelex==0.9.3      # via flask-security, flask-unchained
@@ -35,7 +35,7 @@ flask-security==3.0.0     # via flask-security-bundle
 flask-session==0.3.1
 flask-sqlalchemy-bundle==0.3.1
 flask-sqlalchemy==2.3.2   # via flask-migrate, flask-sqlalchemy-bundle
-flask-unchained==0.4.0
+flask-unchained==0.4.2
 flask-wtf==0.14.2         # via flask-security
 flask==1.0.2
 itsdangerous==0.24        # via flask, flask-security
