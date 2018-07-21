@@ -1,11 +1,11 @@
 """Flask React SPA"""
 
 from flask import Flask, session
-from flask_unchained import AppBundle as BaseAppBundle
+from flask_unchained import AppBundle
 from flask_wtf.csrf import generate_csrf
 
 
-class AppBundle(BaseAppBundle):
+class BackendBundle(AppBundle):
     @classmethod
     def before_init_app(cls, app: Flask):
         app.url_map.strict_slashes = False
