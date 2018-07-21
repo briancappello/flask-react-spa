@@ -1,4 +1,4 @@
-from flask_controller_bundle import (
+from flask_unchained import (
     controller, func, get, include, patch, post, prefix, put, resource, rule)
 from flask_security_bundle import SecurityController, UserResource
 

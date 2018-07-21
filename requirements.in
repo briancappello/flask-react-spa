@@ -6,11 +6,11 @@ flask
 flask-admin-bundle
 flask-api-bundle
 flask-celery-bundle
-flask-controller-bundle
 flask-mail-bundle
 flask-security-bundle
-flask-session-bundle
+flask_session
 flask-sqlalchemy-bundle
+flask-unchained
 
 appdirs
 bcrypt

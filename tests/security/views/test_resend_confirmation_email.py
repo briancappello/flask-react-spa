@@ -1,6 +1,6 @@
 import pytest
 
-from flask_controller_bundle import url_for
+from flask_unchained import url_for
 from flask_security_bundle import UserManager, SecurityService
 
 
