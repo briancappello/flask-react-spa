@@ -34,7 +34,7 @@ class TestChangePassword:
                                       new_password='long enough',
                                       new_password_confirm='but no match'))
         assert 'new_password_confirm' in r.errors
-        assert 'Passwords do not match' in r.errors['new_password_confirm']
+        assert 'Passwords do not match.' in r.errors['new_password_confirm']
 
     def test_new_same_as_the_old(self, api_client):
         api_client.login_user()

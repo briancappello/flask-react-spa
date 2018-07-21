@@ -16,8 +16,7 @@ class TestLogin:
         r = client.post('admin.login',
                         data=dict(email=None, password=None))
         assert templates[0].template.name == 'admin/login.html'
-        assert b'Email not provided' in r.data
-        assert b'Password not provided' in r.data
+        assert 'Invalid email and/or password.' in r.html, r.html
 
     def test_html_login_with_email(self, client, user):
         r = client.post('admin.login',

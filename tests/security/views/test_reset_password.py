@@ -74,7 +74,7 @@ class TestResetPassword:
                                       password_confirm='but not the same'))
         assert r.status_code == 400
         assert 'password_confirm' in r.errors
-        assert 'Passwords do not match' in r.errors['password_confirm']
+        assert 'Passwords do not match.' in r.errors['password_confirm']
 
     def test_valid_submit(self, user, api_client, password_resets, outbox, templates,
                           security_service: SecurityService):

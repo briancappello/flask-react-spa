@@ -1,13 +1,15 @@
 from wtforms import fields, validators
 from wtforms.fields import html5
 
-from flask_security.forms import EqualTo, unique_user_email
-from flask_security_bundle.forms import password_length
+from flask_security.forms import EqualTo, Length, unique_user_email
 
 from flask_admin_bundle import ModelAdmin, macro
 from flask_admin_bundle.forms import ReorderableForm
 
 from backend.utils import utcnow
+
+
+password_length = Length(8, message='Password must be at least 8 characters long.')
 
 
 class BaseUserForm(ReorderableForm):
