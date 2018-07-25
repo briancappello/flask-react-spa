@@ -77,7 +77,7 @@ class Config(AppConfig):
 
     ADMIN_LOGIN_ENDPOINT = 'admin.login'
     ADMIN_LOGOUT_ENDPOINT = 'admin.logout'
-    SECURITY_POST_LOGIN_VIEW = 'admin.index'
+    SECURITY_POST_LOGIN_REDIRECT_ENDPOINT = 'admin.index'
     ADMIN_POST_LOGOUT_ENDPOINT = LocalProxy(
         lambda: url_for('frontend.index', _external=True))
 
@@ -87,9 +87,9 @@ class Config(AppConfig):
         lambda: url_for('frontend.forgot_password', _external=True) + '?invalid')
     SECURITY_EXPIRED_RESET_TOKEN_REDIRECT = LocalProxy(
         lambda: url_for('frontend.forgot_password', _external=True) + '?expired')
-    SECURITY_POST_CONFIRM_VIEW = LocalProxy(
+    SECURITY_POST_CONFIRM_REDIRECT_ENDPOINT = LocalProxy(
         lambda: url_for('frontend.index', _external=True) + '?welcome')
-    SECURITY_CONFIRM_ERROR_VIEW = LocalProxy(
+    SECURITY_CONFIRM_ERROR_REDIRECT_ENDPOINT = LocalProxy(
         lambda: url_for('frontend.resend_confirmation_email', _external=True))
 
     ##########################################################################

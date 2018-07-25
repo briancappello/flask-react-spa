@@ -1,4 +1,4 @@
-from flask_api_bundle import ma
+from flask_unchained.bundles.api import ma
 
 from ..models import Series
 

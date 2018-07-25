@@ -3,25 +3,14 @@
 # pip-compile requirements.in --output-file requirements.txt
 
 flask
-flask-admin-bundle
-flask-api-bundle
-flask-celery-bundle
-flask-mail-bundle
 flask-security-bundle
-flask_session
-flask-sqlalchemy-bundle
-flask-unchained
+flask-unchained[api,admin,celery,mail,session,sqlalchemy]
 
 appdirs
 bcrypt
-beautifulsoup4
-celery
 jinja2
 jinja2-time
-lxml
 markdown
-marshmallow-sqlalchemy
-redis
 psycopg2
 python-dateutil
 python-frontmatter

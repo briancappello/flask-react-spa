@@ -1,4 +1,4 @@
-from flask_sqlalchemy_bundle import db
+from flask_unchained.bundles.sqlalchemy import db
 
 from .article_tag import ArticleTag
 from .series_tag import SeriesTag

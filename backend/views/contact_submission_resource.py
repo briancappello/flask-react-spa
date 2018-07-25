@@ -1,8 +1,8 @@
 from flask import current_app
 
-from flask_api_bundle import ModelResource
-from flask_mail_bundle import Mail
+from flask_unchained.bundles.api import ModelResource
 from flask_unchained import injectable
+from flask_unchained.bundles.mail import Mail
 
 
 class ContactSubmissionResource(ModelResource):

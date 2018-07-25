@@ -1,4 +1,4 @@
-from flask_api_bundle import ModelResource
+from flask_unchained.bundles.api import ModelResource
 
 
 class SeriesResource(ModelResource):

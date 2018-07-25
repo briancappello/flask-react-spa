@@ -5,7 +5,7 @@ import sys
 
 from datetime import datetime
 from flask.cli import with_appcontext
-from flask_sqlalchemy_bundle import ModelManager
+from flask_unchained.bundles.sqlalchemy import ModelManager
 from flask_unchained import unchained, injectable
 
 from ....security.services import UserManager

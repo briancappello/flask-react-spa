@@ -1,4 +1,4 @@
-from flask_admin_bundle import ModelAdmin, macro
+from flask_unchained.bundles.admin import ModelAdmin, macro
 
 
 class ContactSubmissionAdmin(ModelAdmin):

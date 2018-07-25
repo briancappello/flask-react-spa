@@ -1,4 +1,4 @@
-from flask_api_bundle import ModelResource
+from flask_unchained.bundles.api import ModelResource
 from flask_unchained import injectable
 
 from ..services import ArticleManager

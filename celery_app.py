@@ -1,7 +1,7 @@
 import os
 
 # we import this here so celery can access it for its startup
-from flask_celery_bundle import celery
+from flask_unchained.bundles.celery import celery
 from flask_unchained import AppFactory, PROD
 
 

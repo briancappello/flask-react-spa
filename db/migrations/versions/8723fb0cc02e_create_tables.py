@@ -7,7 +7,7 @@ Create Date: 2018-04-23 10:21:06.996560
 """
 from alembic import op
 import sqlalchemy as sa
-import flask_sqlalchemy_bundle
+import flask_unchained.bundles.sqlalchemy as flask_sqlalchemy_bundle
 
 # revision identifiers, used by Alembic.
 revision = '8723fb0cc02e'

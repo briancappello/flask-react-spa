@@ -1,8 +1,8 @@
 import pytest
 
-from flask import url_for
 from flask_security import current_user, AnonymousUser
 from flask_security_bundle import SecurityService, UserManager
+from flask_unchained import url_for
 
 
 @pytest.mark.options(SECURITY_CONFIRMABLE=True)

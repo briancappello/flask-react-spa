@@ -1,4 +1,4 @@
-from flask_admin_bundle import ModelAdmin
+from flask_unchained.bundles.admin import ModelAdmin
 
 
 class RoleAdmin(ModelAdmin):

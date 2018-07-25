@@ -1,7 +1,7 @@
 import html
 import re
 
-from flask_api_bundle import ma
+from flask_unchained.bundles.api import ma
 from backend.models import ContactSubmission
 
 

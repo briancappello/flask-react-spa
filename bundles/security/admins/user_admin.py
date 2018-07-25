@@ -3,8 +3,8 @@ from wtforms.fields import html5
 
 from flask_security.forms import EqualTo, Length, unique_user_email
 
-from flask_admin_bundle import ModelAdmin, macro
-from flask_admin_bundle.forms import ReorderableForm
+from flask_unchained.bundles.admin import ModelAdmin, macro
+from flask_unchained.bundles.admin.forms import ReorderableForm
 
 from backend.utils import utcnow
 

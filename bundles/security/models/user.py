@@ -1,5 +1,5 @@
 from flask_security_bundle.models import User as BaseUser
-from flask_sqlalchemy_bundle import db
+from flask_unchained.bundles.sqlalchemy import db
 
 
 class User(BaseUser):

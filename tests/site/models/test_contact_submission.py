@@ -1,6 +1,6 @@
 import pytest
 
-from flask_sqlalchemy_bundle import ValidationErrors
+from flask_unchained.bundles.sqlalchemy import ValidationErrors
 
 CONTACT_DATA = {'name': 'foo',
                 'email': 'a@b.com',

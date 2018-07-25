@@ -1,4 +1,4 @@
-from flask_sqlalchemy_bundle import ModelManager
+from flask_unchained.bundles.sqlalchemy import ModelManager
 
 from ..models import Category, Series, SeriesTag, Tag
 

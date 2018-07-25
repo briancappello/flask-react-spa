@@ -1,7 +1,7 @@
 import pytest
 
-from flask import url_for
 from flask_login import current_user
+# from flask_security_bundle.pytest import api_client
 
 
 @pytest.mark.usefixtures('user')

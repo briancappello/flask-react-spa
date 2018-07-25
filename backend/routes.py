@@ -8,7 +8,7 @@ from bundles.blog.views import (
 
 
 routes = [
-    include('flask_admin_bundle.routes'),
+    include('flask_unchained.bundles.admin.routes'),
     controller('/auth', SecurityController, rules=[
         get('/confirm/<token>', SecurityController.confirm_email),
         get('/reset-password/<token>', SecurityController.reset_password),
