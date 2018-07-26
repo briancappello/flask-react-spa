@@ -30,7 +30,7 @@ flask-security-bundle==0.3.0
 flask-security==3.0.0     # via flask-security-bundle
 flask-session==0.3.1      # via flask-unchained
 flask-sqlalchemy==2.3.2   # via flask-migrate, flask-unchained
-flask-unchained[admin,api,celery,mail,session,sqlalchemy]==0.5.0
+flask-unchained[admin,api,celery,mail,session,sqlalchemy]==0.5.1
 flask-wtf==0.14.2         # via flask-security
 flask==1.0.2
 itsdangerous==0.24        # via flask, flask-security
