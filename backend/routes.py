@@ -7,7 +7,7 @@ from bundles.blog.views import (
     ArticleResource, CategoryResource, SeriesResource, TagResource)
 
 
-routes = [
+routes = lambda: [
     include('flask_unchained.bundles.admin.routes'),
     controller('/auth', SecurityController, rules=[
         get('/confirm/<token>', SecurityController.confirm_email),
