@@ -1,0 +1,572 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>RESTful APIs &#8212; Flask React SPA 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Testing" href="testing.html" />
+    <link rel="prev" title="Database Models" href="db_models.html" />
+  
+  
+   
+
+  <link href="/_static/styles.css" rel="stylesheet">
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="testing.html" title="Testing"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="db_models.html" title="Database Models"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar"><a href="
+    index.html" class="text-logo">Flask React SPA</a><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <p>A <strong>production-ready</strong> boilerplate built with <strong>Python 3</strong>, <strong>Flask</strong> and <strong>ES6 React</strong>.</p>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2 class="toc"><a href="/">Table Of Contents</a></h2>
+  </div>
+  <div class="sidebar-toc">
+    
+    
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">QuickStart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app.html">App Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="db_models.html">Database Models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">RESTful APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#api-extension">API Extension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modelresource">ModelResource</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modelserializer">ModelSerializer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wrappedserializer">WrappedSerializer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
+</ul>
+
+    
+  </div>
+</div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Fork me on GitHub</h2>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=star&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=fork&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="index.html">Docs</a></li>
+              
+              <li>RESTful APIs</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <div class="section" id="restful-apis">
+<span id="restful"></span><h1>RESTful APIs<a class="headerlink" href="#restful-apis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="api-extension">
+<h2>API Extension<a class="headerlink" href="#api-extension" title="Permalink to this headline">¶</a></h2>
+<p>The extension is instantiated in <code class="file docutils literal notranslate"><span class="pre">backend/extensions/api.py</span></code> and should
+be used in views via <cite>from backend.extensions.api import api</cite>.</p>
+<dl class="class">
+<dt id="backend.api.Api">
+<em class="property">class </em><code class="descclassname">backend.api.</code><code class="descname">Api</code><span class="sig-paren">(</span><em>name</em>, <em>app=None</em>, <em>prefix=''</em>, <em>default_mediatype='application/json'</em>, <em>decorators=None</em>, <em>catch_all_404s=False</em>, <em>serve_challenge_on_401=False</em>, <em>url_part_order='bae'</em>, <em>errors=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/api/extension.html#Api"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.api.Api" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extends <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful.Api</span></code> to support integration with
+Flask-Marshmallow serializers, along with a few other minor enhancements:</p>
+<ul class="simple">
+<li>can register individual view functions ala blueprints, via &#64;api.route()</li>
+<li>supports using flask.jsonify() in resource methods</li>
+</ul>
+<dl class="method">
+<dt id="backend.api.Api.model_resource">
+<code class="descname">model_resource</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/api/extension.html#Api.model_resource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.api.Api.model_resource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator to wrap a <a class="reference internal" href="#backend.api.ModelResource" title="backend.api.ModelResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">backend.api.ModelResource</span></code></a> class, adding
+it to the api. There are two supported method signatures:</p>
+<p><cite>Api.model_resource(model, *urls, **kwargs)</cite></p>
+<p>and</p>
+<p><cite>Api.model_resource(blueprint, model, *urls, *kwargs)</cite></p>
+<p>Example without blueprint:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">backend.extensions.api</span> <span class="k">import</span> <span class="n">api</span>
+<span class="kn">from</span> <span class="nn">models</span> <span class="k">import</span> <span class="n">User</span>
+
+<span class="nd">@api</span><span class="o">.</span><span class="n">model_resource</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="s1">&#39;/users&#39;</span><span class="p">,</span> <span class="s1">&#39;/users/&lt;int:id&gt;&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">UserResource</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">user</span>
+
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">users</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">users</span>
+</pre></div>
+</div>
+<p>Example with blueprint:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">backend.extensions.api</span> <span class="k">import</span> <span class="n">api</span>
+<span class="kn">from</span> <span class="nn">models</span> <span class="k">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">views</span> <span class="k">import</span> <span class="n">bp</span>
+
+<span class="nd">@api</span><span class="o">.</span><span class="n">model_resource</span><span class="p">(</span><span class="n">bp</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="s1">&#39;/users&#39;</span><span class="p">,</span> <span class="s1">&#39;/users/&lt;int:id&gt;&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">UserResource</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">user</span>
+
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">users</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">users</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="backend.api.Api.serializer">
+<code class="descname">serializer</code><span class="sig-paren">(</span><em>*args</em>, <em>many=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/api/extension.html#Api.serializer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.api.Api.serializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator to wrap a <a class="reference internal" href="#backend.api.ModelSerializer" title="backend.api.ModelSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></a> class,
+registering the wrapped serializer as the specific one to use for the
+serializer’s model.</p>
+<blockquote>
+<div><p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">backend.extensions.api</span> <span class="k">import</span> <span class="n">api</span>
+<span class="kn">from</span> <span class="nn">backend.api</span> <span class="k">import</span> <span class="n">ModelSerializer</span>
+<span class="kn">from</span> <span class="nn">models</span> <span class="k">import</span> <span class="n">Foo</span>
+
+<span class="nd">@api</span><span class="o">.</span><span class="n">serializer</span>  <span class="c1"># @api.serializer() works too</span>
+<span class="k">class</span> <span class="nc">FooSerializer</span><span class="p">(</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Foo</span>
+
+<span class="nd">@api</span><span class="o">.</span><span class="n">serializer</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">FooListSerializer</span><span class="p">(</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Foo</span>
+</pre></div>
+</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="backend.api.Api.route">
+<code class="descname">route</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/api/extension.html#Api.route"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.api.Api.route" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator for registering individual view functions.</p>
+<p>Usage without blueprint:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">api</span> <span class="o">=</span> <span class="n">Api</span><span class="p">(</span><span class="s1">&#39;api&#39;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;/api/v1&#39;</span><span class="p">)</span>
+
+<span class="nd">@api</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/foo&#39;</span><span class="p">)</span>  <span class="c1"># resulting url: /api/v1/foo</span>
+<span class="k">def</span> <span class="nf">get_foo</span><span class="p">():</span>
+    <span class="c1"># do stuff</span>
+</pre></div>
+</div>
+<p>Usage with blueprint:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">api</span> <span class="o">=</span> <span class="n">Api</span><span class="p">(</span><span class="s1">&#39;api&#39;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;/api/v1&#39;</span><span class="p">)</span>
+<span class="n">team</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s1">&#39;team&#39;</span><span class="p">,</span> <span class="n">url_prefix</span><span class="o">=</span><span class="s1">&#39;/team&#39;</span><span class="p">)</span>
+
+<span class="nd">@api</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="n">team</span><span class="p">,</span> <span class="s1">&#39;/users&#39;</span><span class="p">)</span>  <span class="c1"># resulting url: /api/v1/team/users</span>
+<span class="k">def</span> <span class="nf">users</span><span class="p">():</span>
+    <span class="c1"># do stuff</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="modelresource">
+<h2>ModelResource<a class="headerlink" href="#modelresource" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="backend.api.ModelResource">
+<em class="property">class </em><code class="descclassname">backend.api.</code><code class="descname">ModelResource</code><a class="reference internal" href="_modules/backend/api/model_resource.html#ModelResource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.api.ModelResource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for database model resource views. Includes a bit of
+configurable magic to automatically support the basic CRUD endpoints.</p>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">backend.api</span> <span class="k">import</span> <span class="n">ModelResource</span>
+<span class="kn">from</span> <span class="nn">backend.extensions.api</span> <span class="k">import</span> <span class="n">api</span>       <span class="c1"># url_prefix=&#39;/api/v1&#39;</span>
+<span class="kn">from</span> <span class="nn">backend.security.models</span> <span class="k">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">backend.security.views</span> <span class="k">import</span> <span class="n">security</span>  <span class="c1"># url_prefix=&#39;/auth&#39;</span>
+
+<span class="nd">@api</span><span class="o">.</span><span class="n">model_resource</span><span class="p">(</span><span class="n">security</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="s1">&#39;/users&#39;</span><span class="p">,</span> <span class="s1">&#39;/users/&lt;int:id&gt;&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">UserResource</span><span class="p">(</span><span class="n">ModelResource</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>This results in the following URL endpoints:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GET</span>    <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">users</span>       <span class="c1"># list all Users</span>
+<span class="n">POST</span>   <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">users</span>       <span class="c1"># create new User</span>
+<span class="n">GET</span>    <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">users</span><span class="o">/&lt;</span><span class="nb">id</span><span class="o">&gt;</span>  <span class="c1"># get User.id == &lt;id&gt;</span>
+<span class="n">PUT</span>    <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">users</span><span class="o">/&lt;</span><span class="nb">id</span><span class="o">&gt;</span>  <span class="c1"># update User.id == &lt;id&gt;</span>
+<span class="n">PATCH</span>  <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">users</span><span class="o">/&lt;</span><span class="nb">id</span><span class="o">&gt;</span>  <span class="c1"># partial update User.id == &lt;id&gt;</span>
+<span class="n">DELETE</span> <span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">users</span><span class="o">/&lt;</span><span class="nb">id</span><span class="o">&gt;</span>  <span class="c1"># delete User.id == &lt;id&gt;</span>
+</pre></div>
+</div>
+<p>To limit which endpoints are included, override the <cite>include_methods</cite> or
+<cite>exclude_methods</cite> class attributes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">backend.api</span> <span class="k">import</span> <span class="n">CREATE</span><span class="p">,</span> <span class="n">DELETE</span><span class="p">,</span> <span class="n">GET</span><span class="p">,</span> <span class="n">LIST</span><span class="p">,</span> <span class="n">PATCH</span><span class="p">,</span> <span class="n">PUT</span>
+
+<span class="c1"># only support list &amp; create</span>
+<span class="nd">@api</span><span class="o">.</span><span class="n">model_resource</span><span class="p">(</span><span class="n">security</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="s1">&#39;/users&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">UserResource</span><span class="p">(</span><span class="n">ModelResource</span><span class="p">):</span>
+    <span class="n">include_methods</span> <span class="o">=</span> <span class="p">(</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">LIST</span><span class="p">)</span>
+
+<span class="c1"># only support get &amp; update</span>
+<span class="nd">@api</span><span class="o">.</span><span class="n">model_resource</span><span class="p">(</span><span class="n">security</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="s1">&#39;/users/&lt;int:id&gt;&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">UserResource</span><span class="p">(</span><span class="n">ModelResource</span><span class="p">):</span>
+    <span class="n">include_methods</span> <span class="o">=</span> <span class="p">(</span><span class="n">GET</span><span class="p">,</span> <span class="n">PATCH</span><span class="p">,</span> <span class="n">PUT</span><span class="p">)</span>
+
+<span class="c1"># all except delete</span>
+<span class="nd">@api</span><span class="o">.</span><span class="n">model_resource</span><span class="p">(</span><span class="n">security</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="s1">&#39;/users&#39;</span><span class="p">,</span> <span class="s1">&#39;/users/&lt;int:id&gt;&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">UserResource</span><span class="p">(</span><span class="n">ModelResource</span><span class="p">):</span>
+    <span class="n">exclude_methods</span> <span class="o">=</span> <span class="p">(</span><span class="n">DELETE</span><span class="p">,)</span>
+</pre></div>
+</div>
+<p>To customize the implementation of any of the methods, implement the
+lower-cased method name (shown below are the default implementations):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@api</span><span class="o">.</span><span class="n">model_resource</span><span class="p">(</span><span class="n">security</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="s1">&#39;/users&#39;</span><span class="p">,</span> <span class="s1">&#39;/users/&lt;int:id&gt;&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">UserResource</span><span class="p">(</span><span class="n">ModelResource</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">users</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">users</span>
+
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">errors</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">created</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">user</span>
+
+    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">errors</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">errors</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">deleted</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As you can see from above, there’s still a bit more magic happening behind
+the scenes to convert the request parameters/data into models. This happens
+via method decorators (and if applicable, the respective serializer for the
+model assigned to this resource). The default decorators effectively look
+like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">backend.api</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">ALL_METHODS</span><span class="p">,</span>
+    <span class="n">param_converter</span><span class="p">,</span>
+    <span class="n">list_loader</span><span class="p">,</span>
+    <span class="n">patch_loader</span><span class="p">,</span>
+    <span class="n">post_loader</span><span class="p">,</span>
+    <span class="n">put_loader</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nd">@api</span><span class="o">.</span><span class="n">model_resource</span><span class="p">(</span><span class="n">security</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="s1">&#39;/users&#39;</span><span class="p">,</span> <span class="s1">&#39;/users/&lt;int:id&gt;&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">UserResource</span><span class="p">(</span><span class="n">ModelResource</span><span class="p">):</span>
+    <span class="n">exclude_decorators</span> <span class="o">=</span> <span class="n">ALL_METHODS</span>  <span class="c1"># disable the default decorators</span>
+    <span class="n">include_decorators</span> <span class="o">=</span> <span class="p">()</span>  <span class="c1"># alternative way to disable them</span>
+
+    <span class="nd">@list_loader</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">users</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">users</span>
+
+    <span class="nd">@post_loader</span><span class="p">(</span><span class="n">UserResource</span><span class="o">.</span><span class="n">serializer_create</span><span class="p">)</span>  <span class="c1"># &lt;- invalid syntax</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">errors</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">created</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="nd">@param_converter</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">User</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">user</span>
+
+    <span class="nd">@put_loader</span><span class="p">(</span><span class="n">UserResource</span><span class="o">.</span><span class="n">serializer</span><span class="p">)</span>  <span class="c1"># &lt;- invalid syntax</span>
+    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">errors</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="nd">@patch_loader</span><span class="p">(</span><span class="n">UserResource</span><span class="o">.</span><span class="n">serializer</span><span class="p">)</span>  <span class="c1"># &lt;- invalid syntax</span>
+    <span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">errors</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="nd">@param_converter</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">User</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">deleted</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Furthermore, you can add extra decorators to methods using
+<cite>method_decorators</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">backend.security</span> <span class="k">import</span> <span class="n">auth_required_same_user</span>
+
+<span class="nd">@api</span><span class="o">.</span><span class="n">model_resource</span><span class="p">(</span><span class="n">security</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="s1">&#39;/users/&lt;int:id&gt;&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">UserResource</span><span class="p">(</span><span class="n">ModelResource</span><span class="p">):</span>
+    <span class="n">include_methods</span> <span class="o">=</span> <span class="p">(</span><span class="n">PATCH</span><span class="p">,</span> <span class="n">PUT</span><span class="p">)</span>
+    <span class="n">method_decorators</span> <span class="o">=</span> <span class="p">(</span><span class="n">auth_required_same_user</span><span class="p">,)</span>
+</pre></div>
+</div>
+<p>Or on a per-method basis:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">backend.security</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">anonymous_user_required</span><span class="p">,</span>
+    <span class="n">auth_required_same_user</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nd">@api</span><span class="o">.</span><span class="n">model_resource</span><span class="p">(</span><span class="n">security</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="s1">&#39;/users/&lt;int:id&gt;&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">UserResource</span><span class="p">(</span><span class="n">ModelResource</span><span class="p">):</span>
+    <span class="n">include_methods</span> <span class="o">=</span> <span class="p">(</span><span class="n">CREATE</span><span class="p">,</span> <span class="n">PATCH</span><span class="p">,</span> <span class="n">PUT</span><span class="p">)</span>
+    <span class="n">method_decorators</span> <span class="o">=</span> <span class="p">{</span><span class="n">CREATE</span><span class="p">:</span> <span class="p">[</span><span class="n">anonymous_user_required</span><span class="p">],</span>
+                         <span class="n">PATCH</span><span class="p">:</span> <span class="p">[</span><span class="n">auth_required_same_user</span><span class="p">],</span>
+                         <span class="n">PUT</span><span class="p">:</span> <span class="p">[</span><span class="n">auth_required_same_user</span><span class="p">]}</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="backend.api.ModelResource.model">
+<code class="descname">model</code><em class="property"> = None</em><a class="headerlink" href="#backend.api.ModelResource.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>The database model class for a <a class="reference internal" href="#backend.api.ModelResource" title="backend.api.ModelResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelResource</span></code></a>
+(automatically set by the <a class="reference internal" href="#backend.api.Api" title="backend.api.Api"><code class="xref py py-class docutils literal notranslate"><span class="pre">backend.api.Api</span></code></a> extension instance)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="backend.api.ModelResource.serializer">
+<code class="descname">serializer</code><em class="property"> = None</em><a class="headerlink" href="#backend.api.ModelResource.serializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The serializer to be used for serializing single instances of <cite>self.model</cite>
+(automatically set by the <a class="reference internal" href="#backend.api.Api" title="backend.api.Api"><code class="xref py py-class docutils literal notranslate"><span class="pre">backend.api.Api</span></code></a> extension instance)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="backend.api.ModelResource.serializer_create">
+<code class="descname">serializer_create</code><em class="property"> = None</em><a class="headerlink" href="#backend.api.ModelResource.serializer_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>The serializer to be used when creating an instance of <cite>self.model</cite>
+(automatically set by the <a class="reference internal" href="#backend.api.Api" title="backend.api.Api"><code class="xref py py-class docutils literal notranslate"><span class="pre">backend.api.Api</span></code></a> extension instance)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="backend.api.ModelResource.include_methods">
+<code class="descname">include_methods</code><em class="property"> = ('create', 'delete', 'get', 'list', 'patch', 'put')</em><a class="headerlink" href="#backend.api.ModelResource.include_methods" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override to limit methods supported by <a class="reference internal" href="#backend.api.ModelResource" title="backend.api.ModelResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelResource</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="backend.api.ModelResource.exclude_methods">
+<code class="descname">exclude_methods</code><em class="property"> = ()</em><a class="headerlink" href="#backend.api.ModelResource.exclude_methods" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override to exclude methods supported by <a class="reference internal" href="#backend.api.ModelResource" title="backend.api.ModelResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelResource</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="backend.api.ModelResource.include_decorators">
+<code class="descname">include_decorators</code><em class="property"> = ('create', 'delete', 'get', 'list', 'patch', 'put')</em><a class="headerlink" href="#backend.api.ModelResource.include_decorators" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override to limit automatic decorators applied by <a class="reference internal" href="#backend.api.ModelResource" title="backend.api.ModelResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelResource</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="backend.api.ModelResource.exclude_decorators">
+<code class="descname">exclude_decorators</code><em class="property"> = ()</em><a class="headerlink" href="#backend.api.ModelResource.exclude_decorators" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override to exclude automatic decorators applied by <a class="reference internal" href="#backend.api.ModelResource" title="backend.api.ModelResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelResource</span></code></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="backend.api.ModelResource.created">
+<code class="descname">created</code><span class="sig-paren">(</span><em>obj</em>, <em>save=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/api/model_resource.html#ModelResource.created"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.api.ModelResource.created" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method for saving a model (automatically commits it to
+the database and returns the object with an HTTP 201 status code)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="backend.api.ModelResource.deleted">
+<code class="descname">deleted</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/api/model_resource.html#ModelResource.deleted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.api.ModelResource.deleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method for deleting a model (automatically commits the
+delete to the database and returns with an HTTP 204 status code)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="backend.api.ModelResource.errors">
+<code class="descname">errors</code><span class="sig-paren">(</span><em>errors</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/api/model_resource.html#ModelResource.errors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.api.ModelResource.errors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method for returning a dictionary of errors with an
+HTTP 400 status code</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="backend.api.ModelResource.updated">
+<code class="descname">updated</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/api/model_resource.html#ModelResource.updated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.api.ModelResource.updated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method for updating a model (automatically commits it to
+the database and returns the object with with an HTTP 200 status code)</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="modelserializer">
+<h2>ModelSerializer<a class="headerlink" href="#modelserializer" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="backend.api.ModelSerializer">
+<em class="property">class </em><code class="descclassname">backend.api.</code><code class="descname">ModelSerializer</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/api/model_serializer.html#ModelSerializer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.api.ModelSerializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for database model serializers. This is pretty much a stock
+<code class="xref py py-class docutils literal notranslate"><span class="pre">flask_marshmallow.sqla.ModelSchema</span></code>: it will automatically create
+fields from the attached database Model, the only difference being that it
+will automatically dump to (and load from) the camel-cased variants of the
+field names.</p>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">backend.api</span> <span class="k">import</span> <span class="n">ModelSerializer</span>
+<span class="kn">from</span> <span class="nn">backend.security.models</span> <span class="k">import</span> <span class="n">Role</span>
+
+<span class="k">class</span> <span class="nc">RoleSerializer</span><span class="p">(</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Role</span>
+</pre></div>
+</div>
+<p>Is roughly equivalent to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">marshmallow</span> <span class="k">import</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">fields</span>
+
+<span class="k">class</span> <span class="nc">RoleSerializer</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Integer</span><span class="p">()</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">String</span><span class="p">()</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">String</span><span class="p">()</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">DateTime</span><span class="p">(</span><span class="n">dump_to</span><span class="o">=</span><span class="s1">&#39;createdAt&#39;</span><span class="p">,</span>
+                                 <span class="n">load_from</span><span class="o">=</span><span class="s1">&#39;createdAt&#39;</span><span class="p">)</span>
+    <span class="n">updated_at</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">DateTime</span><span class="p">(</span><span class="n">dump_to</span><span class="o">=</span><span class="s1">&#39;updatedAt&#39;</span><span class="p">,</span>
+                                 <span class="n">load_from</span><span class="o">=</span><span class="s1">&#39;updatedAt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Obviously you probably shouldn’t be loading <cite>created_at</cite> or <cite>updated_at</cite>
+from JSON; it’s just an example to show the automatic snake-to-camelcase
+field naming conversion.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wrappedserializer">
+<h2>WrappedSerializer<a class="headerlink" href="#wrappedserializer" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="backend.api.WrappedSerializer">
+<em class="property">class </em><code class="descclassname">backend.api.</code><code class="descname">WrappedSerializer</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/api/wrapped_serializer.html#WrappedSerializer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.api.WrappedSerializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extends <code class="xref py py-class docutils literal notranslate"><span class="pre">backend.api.ModelSchema</span></code> to automatically wrap serialized
+results with the model name, and automatically unwrap it when loading.</p>
+<p>NOTE: this might not behave as you’d expect if your serializer uses
+nested fields (if a nested object’s serializer is also a WrappedSerializer,
+then the nested objects will also end up wrapped, which probably isn’t
+what you want…)</p>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">PrimaryKeyMixin</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">FooSerializer</span><span class="p">(</span><span class="n">WrappedSerializer</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Foo</span>
+
+<span class="n">foo_serializer</span> <span class="o">=</span> <span class="n">FooSerializer</span><span class="p">()</span>
+<span class="n">foo</span> <span class="o">=</span> <span class="n">Foo</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;FooBar&#39;</span><span class="p">)</span>
+<span class="n">foo_json</span> <span class="o">=</span> <span class="n">foo_serializer</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+<span class="c1"># results in:</span>
+<span class="n">foo_json</span> <span class="o">==</span> <span class="p">{</span>
+   <span class="s2">&quot;foo&quot;</span><span class="p">:</span> <span class="p">{</span>  <span class="c1"># &lt;- added by self.wrap_with_envelope on @post_dump</span>
+      <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;FooBar&quot;</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1"># and on deserialization, self.unwrap_envelope loads it correctly:</span>
+<span class="n">foo</span> <span class="o">=</span> <span class="n">foo_serializer</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">foo_json</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="n">Foo</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+  
+  <div class="footer-relations">
+    
+      <div class="pull-left">
+        <a class="btn btn-default" href="db_models.html" title="previous chapter">&laquo; Database Models</a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default" href="testing.html" title="next chapter">Testing &raquo;</a>
+      </div>
+    </div>
+    <div class="clearer"></div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="testing.html" title="Testing"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="db_models.html" title="Database Models"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2017 Brian Cappello. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

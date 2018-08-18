@@ -1,0 +1,371 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>App Docs &#8212; Flask React SPA 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Database Models" href="db_models.html" />
+    <link rel="prev" title="Commands" href="commands.html" />
+  
+  
+   
+
+  <link href="/_static/styles.css" rel="stylesheet">
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="db_models.html" title="Database Models"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="commands.html" title="Commands"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar"><a href="
+    index.html" class="text-logo">Flask React SPA</a><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <p>A <strong>production-ready</strong> boilerplate built with <strong>Python 3</strong>, <strong>Flask</strong> and <strong>ES6 React</strong>.</p>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2 class="toc"><a href="/">Table Of Contents</a></h2>
+  </div>
+  <div class="sidebar-toc">
+    
+    
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">QuickStart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">App Docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#app-factory">App Factory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bundles">Bundles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="db_models.html">Database Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restful.html">RESTful APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
+</ul>
+
+    
+  </div>
+</div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Fork me on GitHub</h2>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=star&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=fork&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="index.html">Docs</a></li>
+              
+              <li>App Docs</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <div class="section" id="app-docs">
+<span id="app"></span><h1>App Docs<a class="headerlink" href="#app-docs" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>These classes can be found in the <code class="file docutils literal notranslate"><span class="pre">backend/config.py</span></code> file, and should
+be customized to your needs.</p>
+<dl class="class">
+<dt id="backend.config.BaseConfig">
+<em class="property">class </em><code class="descclassname">backend.config.</code><code class="descname">BaseConfig</code><a class="reference internal" href="_modules/backend/config.html#BaseConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.config.BaseConfig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Configuration options common to all environments.</p>
+<dl class="class">
+<dt id="backend.config.DevConfig">
+<em class="property">class </em><code class="descclassname">backend.config.</code><code class="descname">DevConfig</code><a class="reference internal" href="_modules/backend/config.html#DevConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.config.DevConfig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Configuration options for running in the development environment.</p>
+<dl class="class">
+<dt id="backend.config.ProdConfig">
+<em class="property">class </em><code class="descclassname">backend.config.</code><code class="descname">ProdConfig</code><a class="reference internal" href="_modules/backend/config.html#ProdConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.config.ProdConfig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Configuration options for running in the production environment.</p>
+<dl class="class">
+<dt id="backend.config.TestConfig">
+<em class="property">class </em><code class="descclassname">backend.config.</code><code class="descname">TestConfig</code><a class="reference internal" href="_modules/backend/config.html#TestConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.config.TestConfig" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Configuration options for running in the test environment.</p>
+</div>
+<div class="section" id="app-factory">
+<h2>App Factory<a class="headerlink" href="#app-factory" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="backend.app.create_app">
+<code class="descclassname">backend.app.</code><code class="descname">create_app</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/app.html#create_app"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.app.create_app" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a pre-configured Flask application.</p>
+<p>Defaults to using <a class="reference internal" href="#backend.config.ProdConfig" title="backend.config.ProdConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">backend.config.ProdConfig</span></code></a>, unless the
+<span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">FLASK_DEBUG</span></code> environment variable is explicitly set to “true”,
+in which case it uses <a class="reference internal" href="#backend.config.DevConfig" title="backend.config.DevConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">backend.config.DevConfig</span></code></a>. Also configures
+paths for the templates folder and static files.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="backend.app._create_app">
+<code class="descclassname">backend.app.</code><code class="descname">_create_app</code><span class="sig-paren">(</span><em>config_object: backend.config.BaseConfig</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/app.html#_create_app"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.app._create_app" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a Flask application.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>config_object</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><em>object</em></a>) – The config class to use.</li>
+<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Extra kwargs to pass to the Flask constructor.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The following methods are all automatically called by <a class="reference internal" href="#backend.app._create_app" title="backend.app._create_app"><code class="xref py py-meth docutils literal notranslate"><span class="pre">backend.app._create_app()</span></code></a>:</p>
+<dl class="function">
+<dt id="backend.app.configure_app">
+<code class="descclassname">backend.app.</code><code class="descname">configure_app</code><span class="sig-paren">(</span><em>app</em>, <em>config_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/app.html#configure_app"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.app.configure_app" title="Permalink to this definition">¶</a></dt>
+<dd><p>General application configuration:</p>
+<ul class="simple">
+<li>register the app’s config</li>
+<li>register Jinja extensions</li>
+<li>register functions to run on before/after request</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="backend.app.register_extensions">
+<code class="descclassname">backend.app.</code><code class="descname">register_extensions</code><span class="sig-paren">(</span><em>app</em>, <em>extensions</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/app.html#register_extensions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.app.register_extensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register and initialize extensions.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="backend.app.register_blueprints">
+<code class="descclassname">backend.app.</code><code class="descname">register_blueprints</code><span class="sig-paren">(</span><em>app</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/app.html#register_blueprints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.app.register_blueprints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register bundle views.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="backend.app.register_models">
+<code class="descclassname">backend.app.</code><code class="descname">register_models</code><span class="sig-paren">(</span><em>app</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/app.html#register_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.app.register_models" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register bundle models.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="backend.app.register_serializers">
+<code class="descclassname">backend.app.</code><code class="descname">register_serializers</code><span class="sig-paren">(</span><em>app</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/app.html#register_serializers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.app.register_serializers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register bundle serializers.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="backend.app.register_cli_commands">
+<code class="descclassname">backend.app.</code><code class="descname">register_cli_commands</code><span class="sig-paren">(</span><em>app</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/app.html#register_cli_commands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.app.register_cli_commands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register all the Click commands declared in <code class="file docutils literal notranslate"><span class="pre">backend/commands</span></code> and
+each bundle’s commands</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="backend.app.register_shell_context">
+<code class="descclassname">backend.app.</code><code class="descname">register_shell_context</code><span class="sig-paren">(</span><em>app</em>, <em>extensions</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/app.html#register_shell_context"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.app.register_shell_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register variables to automatically import when running <cite>python manage.py shell</cite>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="bundles">
+<h2>Bundles<a class="headerlink" href="#bundles" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="backend.magic.Bundle">
+<em class="property">class </em><code class="descclassname">backend.magic.</code><code class="descname">Bundle</code><span class="sig-paren">(</span><em>module_name</em>, <em>admin_category_name=None</em>, <em>admin_icon_class=None</em>, <em>admins_module_name=&lt;object object&gt;</em>, <em>commands_module_name=&lt;object object&gt;</em>, <em>command_group_names=&lt;object object&gt;</em>, <em>models_module_name=&lt;object object&gt;</em>, <em>serializers_module_name=&lt;object object&gt;</em>, <em>views_module_name=&lt;object object&gt;</em>, <em>blueprint_names=&lt;object object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/magic.html#Bundle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.magic.Bundle" title="Permalink to this definition">¶</a></dt>
+<dd><p>A helper class for auto-registering a group of commands, views, models,
+serializers and admins with the app.</p>
+<p>Bundles are organized just as standard Python modules. If you want to
+customize any of the default names, you can do so in the constructor.</p>
+<p>Each bundle’s modules are auto-detected if they exist, and will be
+registered if so. All are optional.</p>
+<p>Simple bundle example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tree
+backend/
+└── simple/
+    ├── __init__.py
+    ├── admins.py
+    ├── commands.py
+    ├── models.py
+    ├── serializers.py
+    └── views.py
+</pre></div>
+</div>
+<p>Big bundle example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tree
+backend/
+└── big/
+    ├── __init__.py
+    ├── admins
+    │   ├── __init__.py  # must import all ModelAdmin(s)
+    │   ├── one_admin.py
+    │   └── two_admin.py
+    ├── commands
+    │   ├── __init__.py  # must import the click group from .group and
+    │   │                # all commands
+    │   ├── group.py     # the group should have the same name as the
+    │   │                # bundle&#39;s folder, or to change it, pass
+    │   │                # the command_group_names kwarg to Bundle
+    │   ├── one.py
+    │   └── two.py
+    ├── models
+    │   ├── __init__.py  # must import all Model(s)
+    │   ├── one.py
+    │   └── two.py
+    ├── serializers
+    │   ├── __init__.py  # must import all ModelSerializer(s)
+    │   ├── one_serializer.py
+    │   └── two_serializer.py
+    └── views
+        ├── __init__.py  # must import the Blueprint(s) from .blueprint
+        │                # and all ModelResource(s)
+        ├── blueprint.py # the blueprint should have the same name as the
+        │                # bundle&#39;s folder, or to change it, pass the
+        │                # blueprint_names kwarg to Bundle
+        ├── one_resource.py
+        └── two_resource.py
+</pre></div>
+</div>
+<p>In both cases, <code class="file docutils literal notranslate"><span class="pre">backend/&lt;bundle_folder_name&gt;/__init__.py</span></code> is the same:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cat backend/&lt;bundle_folder_name&gt;/__init__.py
+from backend.magic import Bundle
+
+bundle = Bundle(__name__)
+</pre></div>
+</div>
+<p>Finally, the bundle modules must be registered in <code class="file docutils literal notranslate"><span class="pre">backend/config.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">BUNDLES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;backend.simple&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;backend.big&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>module_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Top-level module name of the bundle (dot notation)</li>
+<li><strong>admin_category_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Label to use for the bundle in the admin</li>
+<li><strong>admin_icon_class</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Icon class to use for the bundle in the admin</li>
+<li><strong>admins_module_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Folder or module name of the admins in the bundle</li>
+<li><strong>commands_module_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Folder or module name of the commands in the bundle</li>
+<li><strong>command_group_names</strong> (<em>Iterable</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em>) – List of the bundle’s command group names. Defaults to [&lt;bundle_folder_name&gt;]</li>
+<li><strong>models_module_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Folder or module name of the models in the bundle</li>
+<li><strong>serializers_module_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Folder or module name of the serializers in the bundle</li>
+<li><strong>views_module_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Folder or module name of the views in the bundle</li>
+<li><strong>blueprint_names</strong> (<em>Iterable</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em>) – List of Blueprint name(s) to register. Defaults to [&lt;bundle_folder_name&gt;] (<strong>NOTE</strong>: names of the <em>instance variables</em>, not the Blueprints’ endpoint names.)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+  
+  <div class="footer-relations">
+    
+      <div class="pull-left">
+        <a class="btn btn-default" href="commands.html" title="previous chapter">&laquo; Commands</a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default" href="db_models.html" title="next chapter">Database Models &raquo;</a>
+      </div>
+    </div>
+    <div class="clearer"></div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="db_models.html" title="Database Models"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="commands.html" title="Commands"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2017 Brian Cappello. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

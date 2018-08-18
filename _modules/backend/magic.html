@@ -1,0 +1,523 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>backend.magic &#8212; Flask React SPA 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  
+  
+   
+
+  <link href="/_static/styles.css" rel="stylesheet">
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar"><a href="
+    ../../index.html" class="text-logo">Flask React SPA</a><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <p>A <strong>production-ready</strong> boilerplate built with <strong>Python 3</strong>, <strong>Flask</strong> and <strong>ES6 React</strong>.</p>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2 class="toc"><a href="/">Table Of Contents</a></h2>
+  </div>
+  <div class="sidebar-toc">
+    
+    
+      <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">QuickStart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../commands.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app.html">App Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../db_models.html">Database Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../restful.html">RESTful APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html">Deployment</a></li>
+</ul>
+
+    
+  </div>
+</div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Fork me on GitHub</h2>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=star&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=fork&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../../index.html">Docs</a></li>
+              
+                <li><a href="../index.html">Module code</a></li>
+              
+              <li>backend.magic</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <h1>Source code for backend.magic</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">click</span>
+<span class="kn">import</span> <span class="nn">flask</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+
+<span class="kn">from</span> <span class="nn">flask_marshmallow.sqla</span> <span class="k">import</span> <span class="n">ModelSchema</span>
+<span class="kn">from</span> <span class="nn">flask_sqlalchemy</span> <span class="k">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">importlib</span> <span class="k">import</span> <span class="n">import_module</span>
+
+<span class="kn">from</span> <span class="nn">backend.utils</span> <span class="k">import</span> <span class="n">title_case</span>
+
+
+<span class="k">def</span> <span class="nf">safe_import_module</span><span class="p">(</span><span class="n">module_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Like importlib&#39;s import_module, except it does not raise ImportError</span>
+<span class="sd">    if the requested module_name was not found</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">import_module</span><span class="p">(</span><span class="n">module_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">module_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+
+<span class="k">def</span> <span class="nf">get_members</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">predicate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Like inspect.getmembers except predicate is passed both name and object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">is_extension</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="c1"># we want *instantiated* extensions, not imported extension classes</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;init_app&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_extensions</span><span class="p">(</span><span class="n">import_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An iterable of (instance_name, extension_instance) tuples&quot;&quot;&quot;</span>
+    <span class="n">extension_modules</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">import_name</span> <span class="ow">in</span> <span class="n">import_names</span><span class="p">:</span>
+        <span class="n">module_name</span><span class="p">,</span> <span class="n">extension_name</span> <span class="o">=</span> <span class="n">import_name</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">module_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">extension_modules</span><span class="p">:</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="n">import_module</span><span class="p">(</span><span class="n">module_name</span><span class="p">)</span>
+            <span class="n">extension_modules</span><span class="p">[</span><span class="n">module_name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">is_extension</span><span class="p">))</span>
+
+        <span class="n">extension_module</span> <span class="o">=</span> <span class="n">extension_modules</span><span class="p">[</span><span class="n">module_name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">extension_name</span> <span class="ow">in</span> <span class="n">extension_module</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">extension_name</span><span class="p">,</span> <span class="n">extension_module</span><span class="p">[</span><span class="n">extension_name</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">warnings</span> <span class="k">import</span> <span class="n">warn</span>
+            <span class="n">warn</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Could not find the </span><span class="si">{extension_name}</span><span class="s1"> extension in the &#39;</span>
+                 <span class="n">f</span><span class="s1">&#39;</span><span class="si">{module_name}</span><span class="s1"> module (did you forget to instantiate it?)&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">is_blueprint</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">flask</span><span class="o">.</span><span class="n">Blueprint</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">is_click_command</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">click</span><span class="o">.</span><span class="n">Command</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">click</span><span class="o">.</span><span class="n">Group</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">is_click_group</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">click</span><span class="o">.</span><span class="n">Group</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">is_click_command_or_group</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">is_click_command</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_click_group</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_commands</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;An iterable of (command_name, command_fn) tuples&quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">backend</span> <span class="k">import</span> <span class="n">commands</span>
+    <span class="n">existing_group_commands</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">commands</span><span class="p">,</span> <span class="n">is_click_group</span><span class="p">):</span>
+        <span class="n">existing_group_commands</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">commands</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">commands</span><span class="o">.</span><span class="n">EXISTING_EXTENSION_GROUPS</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_is_click_command</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">is_click_command</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">existing_group_commands</span>
+
+    <span class="k">yield from</span> <span class="n">get_members</span><span class="p">(</span><span class="n">commands</span><span class="p">,</span> <span class="n">_is_click_command</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">is_model_admin</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">backend.admin</span> <span class="k">import</span> <span class="n">ModelAdmin</span>
+    <span class="n">_is_model_admin</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">ModelAdmin</span><span class="p">)</span>
+    <span class="n">base_classes</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ModelAdmin&#39;</span><span class="p">,)</span>
+    <span class="k">return</span> <span class="n">_is_model_admin</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">base_classes</span>
+
+
+<span class="k">def</span> <span class="nf">is_model</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+    <span class="n">is_model_class</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Model</span><span class="p">)</span>
+    <span class="n">base_classes</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Model&#39;</span><span class="p">,)</span>
+    <span class="k">return</span> <span class="n">is_model_class</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">base_classes</span>
+
+
+<span class="k">def</span> <span class="nf">is_serializer</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+    <span class="n">is_model_schema</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">ModelSchema</span><span class="p">)</span>
+    <span class="n">base_classes</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ModelSerializer&#39;</span><span class="p">,</span> <span class="s1">&#39;ModelSchema&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">is_model_schema</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">base_classes</span>
+
+
+<span class="n">sentinel</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="Bundle"><a class="viewcode-back" href="../../app.html#backend.magic.Bundle">[docs]</a><span class="k">class</span> <span class="nc">Bundle</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A helper class for auto-registering a group of commands, views, models,</span>
+<span class="sd">    serializers and admins with the app.</span>
+
+<span class="sd">    Bundles are organized just as standard Python modules. If you want to</span>
+<span class="sd">    customize any of the default names, you can do so in the constructor.</span>
+
+<span class="sd">    Each bundle&#39;s modules are auto-detected if they exist, and will be</span>
+<span class="sd">    registered if so. All are optional.</span>
+
+<span class="sd">    Simple bundle example::</span>
+
+<span class="sd">        $ tree</span>
+<span class="sd">        backend/</span>
+<span class="sd">        └── simple/</span>
+<span class="sd">            ├── __init__.py</span>
+<span class="sd">            ├── admins.py</span>
+<span class="sd">            ├── commands.py</span>
+<span class="sd">            ├── models.py</span>
+<span class="sd">            ├── serializers.py</span>
+<span class="sd">            └── views.py</span>
+
+<span class="sd">    Big bundle example::</span>
+
+<span class="sd">        $ tree</span>
+<span class="sd">        backend/</span>
+<span class="sd">        └── big/</span>
+<span class="sd">            ├── __init__.py</span>
+<span class="sd">            ├── admins</span>
+<span class="sd">            │   ├── __init__.py  # must import all ModelAdmin(s)</span>
+<span class="sd">            │   ├── one_admin.py</span>
+<span class="sd">            │   └── two_admin.py</span>
+<span class="sd">            ├── commands</span>
+<span class="sd">            │   ├── __init__.py  # must import the click group from .group and</span>
+<span class="sd">            │   │                # all commands</span>
+<span class="sd">            │   ├── group.py     # the group should have the same name as the</span>
+<span class="sd">            │   │                # bundle&#39;s folder, or to change it, pass</span>
+<span class="sd">            │   │                # the command_group_names kwarg to Bundle</span>
+<span class="sd">            │   ├── one.py</span>
+<span class="sd">            │   └── two.py</span>
+<span class="sd">            ├── models</span>
+<span class="sd">            │   ├── __init__.py  # must import all Model(s)</span>
+<span class="sd">            │   ├── one.py</span>
+<span class="sd">            │   └── two.py</span>
+<span class="sd">            ├── serializers</span>
+<span class="sd">            │   ├── __init__.py  # must import all ModelSerializer(s)</span>
+<span class="sd">            │   ├── one_serializer.py</span>
+<span class="sd">            │   └── two_serializer.py</span>
+<span class="sd">            └── views</span>
+<span class="sd">                ├── __init__.py  # must import the Blueprint(s) from .blueprint</span>
+<span class="sd">                │                # and all ModelResource(s)</span>
+<span class="sd">                ├── blueprint.py # the blueprint should have the same name as the</span>
+<span class="sd">                │                # bundle&#39;s folder, or to change it, pass the</span>
+<span class="sd">                │                # blueprint_names kwarg to Bundle</span>
+<span class="sd">                ├── one_resource.py</span>
+<span class="sd">                └── two_resource.py</span>
+
+<span class="sd">    In both cases, :file:`backend/&lt;bundle_folder_name&gt;/__init__.py` is the same::</span>
+
+<span class="sd">        $ cat backend/&lt;bundle_folder_name&gt;/__init__.py</span>
+<span class="sd">        from backend.magic import Bundle</span>
+
+<span class="sd">        bundle = Bundle(__name__)</span>
+
+<span class="sd">    Finally, the bundle modules must be registered in :file:`backend/config.py`::</span>
+
+<span class="sd">        BUNDLES = [</span>
+<span class="sd">            &#39;backend.simple&#39;,</span>
+<span class="sd">            &#39;backend.big&#39;,</span>
+<span class="sd">        ]</span>
+
+<span class="sd">    :param str module_name: Top-level module name of the bundle (dot notation)</span>
+<span class="sd">    :param str admin_category_name: Label to use for the bundle in the admin</span>
+<span class="sd">    :param str admin_icon_class: Icon class to use for the bundle in the admin</span>
+<span class="sd">    :param str admins_module_name: Folder or module name of the admins in the bundle</span>
+<span class="sd">    :param str commands_module_name: Folder or module name of the commands in the bundle</span>
+<span class="sd">    :param Iterable[str] command_group_names: List of the bundle&#39;s command group names. Defaults to [&lt;bundle_folder_name&gt;]</span>
+<span class="sd">    :param str models_module_name: Folder or module name of the models in the bundle</span>
+<span class="sd">    :param str serializers_module_name: Folder or module name of the serializers in the bundle</span>
+<span class="sd">    :param str views_module_name: Folder or module name of the views in the bundle</span>
+<span class="sd">    :param Iterable[str] blueprint_names: List of Blueprint name(s) to register. Defaults to [&lt;bundle_folder_name&gt;] (**NOTE**: names of the *instance variables*, not the Blueprints&#39; endpoint names.)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">module_name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_admin_category_name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">admin_icon_class</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_admins_module_name</span> <span class="o">=</span> <span class="s1">&#39;admins&#39;</span>
+    <span class="n">_commands_module_name</span> <span class="o">=</span> <span class="s1">&#39;commands&#39;</span>
+    <span class="n">_command_group_names</span> <span class="o">=</span> <span class="n">sentinel</span>
+    <span class="n">_models_module_name</span> <span class="o">=</span> <span class="s1">&#39;models&#39;</span>
+    <span class="n">_serializers_module_name</span> <span class="o">=</span> <span class="s1">&#39;serializers&#39;</span>
+    <span class="n">_views_module_name</span> <span class="o">=</span> <span class="s1">&#39;views&#39;</span>
+    <span class="n">_blueprint_names</span> <span class="o">=</span> <span class="n">sentinel</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module_name</span><span class="p">,</span>
+                 <span class="n">admin_category_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">admin_icon_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">admins_module_name</span><span class="o">=</span><span class="n">sentinel</span><span class="p">,</span>
+                 <span class="n">commands_module_name</span><span class="o">=</span><span class="n">sentinel</span><span class="p">,</span>
+                 <span class="n">command_group_names</span><span class="o">=</span><span class="n">sentinel</span><span class="p">,</span>
+                 <span class="n">models_module_name</span><span class="o">=</span><span class="n">sentinel</span><span class="p">,</span>
+                 <span class="n">serializers_module_name</span><span class="o">=</span><span class="n">sentinel</span><span class="p">,</span>
+                 <span class="n">views_module_name</span><span class="o">=</span><span class="n">sentinel</span><span class="p">,</span>
+                 <span class="n">blueprint_names</span><span class="o">=</span><span class="n">sentinel</span><span class="p">,</span>
+                 <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">module_name</span> <span class="o">=</span> <span class="n">module_name</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_admin_category_name</span> <span class="o">=</span> <span class="n">admin_category_name</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">admin_icon_class</span> <span class="o">=</span> <span class="n">admin_icon_class</span>
+
+        <span class="k">if</span> <span class="n">admins_module_name</span> <span class="o">!=</span> <span class="n">sentinel</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_admins_module_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_module_name</span><span class="p">(</span><span class="n">admins_module_name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">commands_module_name</span> <span class="o">!=</span> <span class="n">sentinel</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_commands_module_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_module_name</span><span class="p">(</span><span class="n">commands_module_name</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_command_group_names</span> <span class="o">=</span> <span class="n">command_group_names</span>
+
+        <span class="k">if</span> <span class="n">models_module_name</span> <span class="o">!=</span> <span class="n">sentinel</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_models_module_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_module_name</span><span class="p">(</span><span class="n">models_module_name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">serializers_module_name</span> <span class="o">!=</span> <span class="n">sentinel</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_serializers_module_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_module_name</span><span class="p">(</span><span class="n">serializers_module_name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">views_module_name</span> <span class="o">!=</span> <span class="n">sentinel</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_views_module_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize_module_name</span><span class="p">(</span><span class="n">views_module_name</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_blueprint_names</span> <span class="o">=</span> <span class="n">blueprint_names</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">module_name</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">admin_category_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_admin_category_name</span> <span class="ow">or</span> <span class="n">title_case</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">admins_module_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_full_module_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_admins_module_name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_admins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">admins_module_name</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">safe_import_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">admins_module_name</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_admins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_admins</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span>
+
+        <span class="n">admins_module</span> <span class="o">=</span> <span class="n">safe_import_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">admins_module_name</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">get_members</span><span class="p">(</span><span class="n">admins_module</span><span class="p">,</span> <span class="n">is_model_admin</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">obj</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">views_module_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_full_module_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_views_module_name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">blueprint_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blueprint_names</span> <span class="o">!=</span> <span class="n">sentinel</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blueprint_names</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_blueprints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">views_module_name</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">blueprint_names</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">safe_import_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">views_module_name</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">blueprints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_blueprints</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span>
+
+        <span class="n">module</span> <span class="o">=</span> <span class="n">safe_import_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">views_module_name</span><span class="p">)</span>
+        <span class="n">blueprints</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">is_blueprint</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blueprint_names</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">blueprints</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">commands_module_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_full_module_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_commands_module_name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">command_group_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_group_names</span> <span class="o">!=</span> <span class="n">sentinel</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_command_group_names</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_command_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands_module_name</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_group_names</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">safe_import_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commands_module_name</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">command_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_command_groups</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span>
+
+        <span class="n">module</span> <span class="o">=</span> <span class="n">safe_import_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commands_module_name</span><span class="p">)</span>
+        <span class="n">command_groups</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">is_click_group</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_group_names</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="n">command_groups</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">models_module_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_full_module_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_models_module_name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_models</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">models_module_name</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">safe_import_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">models_module_name</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">models</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_models</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span>
+
+        <span class="n">module</span> <span class="o">=</span> <span class="n">safe_import_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">models_module_name</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="n">get_members</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">is_model</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">serializers_module_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_full_module_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_serializers_module_name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_serializers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">serializers_module_name</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">safe_import_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serializers_module_name</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">serializers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_serializers</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span>
+
+        <span class="n">module</span> <span class="o">=</span> <span class="n">safe_import_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serializers_module_name</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="n">get_members</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">is_serializer</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_full_module_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module_name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">module_name</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{self.module_name}</span><span class="s1">.</span><span class="si">{module_name}</span><span class="s1">&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_normalize_module_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module_name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">module_name</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">module_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">module_name</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">is_bundle</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Bundle</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_bundles</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">backend.config</span> <span class="k">import</span> <span class="n">BUNDLES</span>
+
+    <span class="k">for</span> <span class="n">bundle_or_module_name</span> <span class="ow">in</span> <span class="n">BUNDLES</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bundle_or_module_name</span><span class="p">,</span> <span class="n">Bundle</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">bundle_or_module_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bundle_found</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="n">safe_import_module</span><span class="p">(</span><span class="n">bundle_or_module_name</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">bundle</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">is_bundle</span><span class="p">):</span>
+                <span class="n">bundle_found</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">yield</span> <span class="n">bundle</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">bundle_found</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">warnings</span> <span class="k">import</span> <span class="n">warn</span>
+                <span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Unable to find a Bundle instance for the &#39;</span>
+                     <span class="n">f</span><span class="s1">&#39;</span><span class="si">{bundle_or_module_name}</span><span class="s1"> module! &#39;</span>
+                     <span class="s1">&#39;Please create one in its __init__.py file.&#39;</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2017 Brian Cappello. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

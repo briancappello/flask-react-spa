@@ -1,0 +1,231 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../../../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../../../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>backend.api.model_serializer &#8212; Flask React SPA 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  
+  
+   
+
+  <link href="/_static/styles.css" rel="stylesheet">
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar"><a href="
+    ../../../index.html" class="text-logo">Flask React SPA</a><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <p>A <strong>production-ready</strong> boilerplate built with <strong>Python 3</strong>, <strong>Flask</strong> and <strong>ES6 React</strong>.</p>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2 class="toc"><a href="/">Table Of Contents</a></h2>
+  </div>
+  <div class="sidebar-toc">
+    
+    
+      <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">QuickStart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../app.html">App Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../db_models.html">Database Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../restful.html">RESTful APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../deployment.html">Deployment</a></li>
+</ul>
+
+    
+  </div>
+</div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../../../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Fork me on GitHub</h2>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=star&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=fork&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../../../index.html">Docs</a></li>
+              
+                <li><a href="../../index.html">Module code</a></li>
+              
+              <li>backend.api.model_serializer</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <h1>Source code for backend.api.model_serializer</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">flask_sqlalchemy.model</span> <span class="k">import</span> <span class="n">camel_to_snake_case</span>
+<span class="kn">from</span> <span class="nn">marshmallow.exceptions</span> <span class="k">import</span> <span class="n">ValidationError</span>
+
+<span class="kn">from</span> <span class="nn">backend.extensions.marshmallow</span> <span class="k">import</span> <span class="n">ma</span>
+
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="k">import</span> <span class="n">READ_ONLY_FIELDS</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">to_camel_case</span>
+
+
+<div class="viewcode-block" id="ModelSerializer"><a class="viewcode-back" href="../../../restful.html#backend.api.ModelSerializer">[docs]</a><span class="k">class</span> <span class="nc">ModelSerializer</span><span class="p">(</span><span class="n">ma</span><span class="o">.</span><span class="n">ModelSchema</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for database model serializers. This is pretty much a stock</span>
+<span class="sd">    :class:`flask_marshmallow.sqla.ModelSchema`: it will automatically create</span>
+<span class="sd">    fields from the attached database Model, the only difference being that it</span>
+<span class="sd">    will automatically dump to (and load from) the camel-cased variants of the</span>
+<span class="sd">    field names.</span>
+
+<span class="sd">    For example::</span>
+
+<span class="sd">        from backend.api import ModelSerializer</span>
+<span class="sd">        from backend.security.models import Role</span>
+
+<span class="sd">        class RoleSerializer(ModelSerializer):</span>
+<span class="sd">            class Meta:</span>
+<span class="sd">                model = Role</span>
+
+<span class="sd">    Is roughly equivalent to::</span>
+
+<span class="sd">        from marshmallow import Schema, fields</span>
+
+<span class="sd">        class RoleSerializer(Schema):</span>
+<span class="sd">            id = fields.Integer()</span>
+<span class="sd">            name = fields.String()</span>
+<span class="sd">            description = fields.String()</span>
+<span class="sd">            created_at = fields.DateTime(dump_to=&#39;createdAt&#39;,</span>
+<span class="sd">                                         load_from=&#39;createdAt&#39;)</span>
+<span class="sd">            updated_at = fields.DateTime(dump_to=&#39;updatedAt&#39;,</span>
+<span class="sd">                                         load_from=&#39;updatedAt&#39;)</span>
+
+<span class="sd">    Obviously you probably shouldn&#39;t be loading `created_at` or `updated_at`</span>
+<span class="sd">    from JSON; it&#39;s just an example to show the automatic snake-to-camelcase</span>
+<span class="sd">    field naming conversion.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">is_create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if we&#39;re creating a new object. Note that this context flag</span>
+<span class="sd">        must be set from the outside, ie when the class gets instantiated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;is_create&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">handle_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Customize the error messages for required/not-null validators with</span>
+<span class="sd">        dynamically generated field names. This is definitely a little hacky</span>
+<span class="sd">        (it mutates state, uses hardcoded strings), but unsure how better to do it</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">required_messages</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Missing data for required field.&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;Field may not be null.&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="n">error</span><span class="o">.</span><span class="n">field_names</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">msg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">messages</span><span class="p">[</span><span class="n">field_name</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">required_messages</span><span class="p">:</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="n">camel_to_snake_case</span><span class="p">(</span><span class="n">field_name</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+                    <span class="n">error</span><span class="o">.</span><span class="n">messages</span><span class="p">[</span><span class="n">field_name</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{label}</span><span class="s1"> is required.&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_update_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Overridden to automatically convert snake-cased field names to</span>
+<span class="sd">        camel-cased (when dumping) and to load camel-cased field names back</span>
+<span class="sd">        to their snake-cased counterparts</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_update_fields</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">many</span><span class="p">)</span>
+        <span class="n">new_fields</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict_class</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="s1">&#39;_&#39;</span> <span class="ow">in</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">field</span><span class="o">.</span><span class="n">dump_to</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">camel_cased_name</span> <span class="o">=</span> <span class="n">to_camel_case</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">field</span><span class="o">.</span><span class="n">dump_to</span> <span class="o">=</span> <span class="n">camel_cased_name</span>
+                <span class="n">field</span><span class="o">.</span><span class="n">load_from</span> <span class="o">=</span> <span class="n">camel_cased_name</span>
+            <span class="n">new_fields</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span>
+
+        <span class="c1"># validate id</span>
+        <span class="k">if</span> <span class="s1">&#39;id&#39;</span> <span class="ow">in</span> <span class="n">new_fields</span><span class="p">:</span>
+            <span class="n">new_fields</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">validators</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">validate_id</span><span class="p">]</span>
+
+        <span class="c1"># set read-only fields</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">READ_ONLY_FIELDS</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">new_fields</span><span class="p">:</span>
+                <span class="n">new_fields</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">dump_only</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="n">new_fields</span>
+        <span class="k">return</span> <span class="n">new_fields</span>
+
+    <span class="k">def</span> <span class="nf">validate_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_create</span><span class="p">()</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">id</span><span class="p">):</span>
+            <span class="k">return</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;ids do not match&#39;</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../../../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2017 Brian Cappello. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

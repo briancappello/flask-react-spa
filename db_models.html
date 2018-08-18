@@ -1,0 +1,453 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>Database Models &#8212; Flask React SPA 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="RESTful APIs" href="restful.html" />
+    <link rel="prev" title="App Docs" href="app.html" />
+  
+  
+   
+
+  <link href="/_static/styles.css" rel="stylesheet">
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="restful.html" title="RESTful APIs"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="app.html" title="App Docs"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar"><a href="
+    index.html" class="text-logo">Flask React SPA</a><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <p>A <strong>production-ready</strong> boilerplate built with <strong>Python 3</strong>, <strong>Flask</strong> and <strong>ES6 React</strong>.</p>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2 class="toc"><a href="/">Table Of Contents</a></h2>
+  </div>
+  <div class="sidebar-toc">
+    
+    
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">QuickStart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app.html">App Docs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Database Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basemodel">BaseModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model">Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-mixins">Model Mixins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#column">Column</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#relationships">Relationships</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#events">Events</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="restful.html">RESTful APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
+</ul>
+
+    
+  </div>
+</div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Fork me on GitHub</h2>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=star&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=fork&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="index.html">Docs</a></li>
+              
+              <li>Database Models</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <div class="section" id="database-models">
+<span id="db-models"></span><h1>Database Models<a class="headerlink" href="#database-models" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="basemodel">
+<h2>BaseModel<a class="headerlink" href="#basemodel" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="backend.database.BaseModel">
+<em class="property">class </em><code class="descclassname">backend.database.</code><code class="descname">BaseModel</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/database/base_model.html#BaseModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.BaseModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base table class. It includes convenience methods for creating,
+querying, saving, updating and deleting models.</p>
+<dl class="attribute">
+<dt id="backend.database.BaseModel.__repr_props__">
+<code class="descname">__repr_props__</code><em class="property"> = ()</em><a class="headerlink" href="#backend.database.BaseModel.__repr_props__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set to customize automatic string representation.</p>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">database</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">__repr_props__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">)</span>
+
+    <span class="n">email</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>
+
+<span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s1">&#39;foo@bar.com&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>  <span class="c1"># prints &lt;User id=1 email=&quot;foo@bar.com&quot;&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="backend.database.BaseModel.get">
+<em class="property">classmethod </em><code class="descname">get</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/database/base_model.html#BaseModel.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.BaseModel.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get one model by ID.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> – The model ID to get.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="backend.database.BaseModel.get_by">
+<em class="property">classmethod </em><code class="descname">get_by</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/database/base_model.html#BaseModel.get_by"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.BaseModel.get_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get one model by keyword arguments.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kwargs</strong> – The model attribute values to filter by.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="backend.database.BaseModel.filter_by">
+<em class="property">classmethod </em><code class="descname">filter_by</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/database/base_model.html#BaseModel.filter_by"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.BaseModel.filter_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find models by keyword arguments.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kwargs</strong> – The model attribute values to filter by.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="backend.database.BaseModel.create">
+<em class="property">classmethod </em><code class="descname">create</code><span class="sig-paren">(</span><em>commit=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/database/base_model.html#BaseModel.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.BaseModel.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new model and add it to the database session.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>commit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – Whether or not to immediately commit the DB session.</li>
+<li><strong>kwargs</strong> – The model attribute values to create the model with.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="backend.database.BaseModel.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>commit=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/database/base_model.html#BaseModel.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.BaseModel.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update fields on the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>commit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – Whether or not to immediately commit the DB session.</li>
+<li><strong>kwargs</strong> – The model attribute values to update the model with.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="backend.database.BaseModel.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>commit=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/database/base_model.html#BaseModel.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.BaseModel.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>commit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – Whether or not to immediately commit the DB session.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="backend.database.BaseModel.delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><em>commit=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/database/base_model.html#BaseModel.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.BaseModel.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>commit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – Whether or not to immediately commit the DB session.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="model">
+<h2>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="backend.database.Model">
+<em class="property">class </em><code class="descclassname">backend.database.</code><code class="descname">Model</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/database/model.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base table class that extends <a class="reference internal" href="#backend.database.BaseModel" title="backend.database.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">backend.database.BaseModel</span></code></a> and
+includes a primary key <code class="xref py py-attr docutils literal notranslate"><span class="pre">id</span></code> field along with automatically
+date-stamped <code class="xref py py-attr docutils literal notranslate"><span class="pre">created_at</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">updated_at</span></code> fields.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="model-mixins">
+<h2>Model Mixins<a class="headerlink" href="#model-mixins" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="backend.database.PrimaryKeyMixin">
+<em class="property">class </em><code class="descclassname">backend.database.</code><code class="descname">PrimaryKeyMixin</code><a class="reference internal" href="_modules/backend/database/mixins.html#PrimaryKeyMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.PrimaryKeyMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an <code class="xref py py-attr docutils literal notranslate"><span class="pre">id</span></code> primary key column to a Model</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="backend.database.TimestampMixin">
+<em class="property">class </em><code class="descclassname">backend.database.</code><code class="descname">TimestampMixin</code><a class="reference internal" href="_modules/backend/database/mixins.html#TimestampMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.TimestampMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds automatically timestamped <code class="xref py py-attr docutils literal notranslate"><span class="pre">created_at</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">updated_at</span></code>
+columns to a Model</p>
+</dd></dl>
+
+</div>
+<div class="section" id="column">
+<h2>Column<a class="headerlink" href="#column" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="backend.database.Column">
+<em class="property">class </em><code class="descclassname">backend.database.</code><code class="descname">Column</code><span class="sig-paren">(</span><em>*args</em>, <em>nullable=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/database/column.html#Column"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.Column" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overridden to make nullable False by default</p>
+</dd></dl>
+
+</div>
+<div class="section" id="relationships">
+<h2>Relationships<a class="headerlink" href="#relationships" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="backend.database.foreign_key">
+<code class="descclassname">backend.database.</code><code class="descname">foreign_key</code><span class="sig-paren">(</span><em>model_or_table_name</em>, <em>fk_col=None</em>, <em>primary_key=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/database/relationships.html#foreign_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.foreign_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper method to add a foreign key Column to a model.</p>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">category_id</span> <span class="o">=</span> <span class="n">foreign_key</span><span class="p">(</span><span class="s1">&#39;Category&#39;</span><span class="p">)</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="s1">&#39;Category&#39;</span><span class="p">,</span> <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;posts&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Is equivalent to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">category_id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;category.id&#39;</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="s1">&#39;Category&#39;</span><span class="p">,</span> <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;posts&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model_or_table_name</strong> – <p>the model or table name to link to</p>
+<p>If given a lowercase string, it’s treated as an explicit table name.</p>
+<p>If there are any uppercase characters, it’s assumed to be a model name,
+and will be converted to snake case using the same automatic conversion
+as Flask-SQLAlchemy does itself.</p>
+<p>If given an instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_sqlalchemy.Model</span></code>, use its
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">__tablename__</span></code> attribute.</p>
+</li>
+<li><strong>fk_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – column name of the primary key (defaults to “id”)</li>
+<li><strong>primary_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – Whether or not this Column is a primary key</li>
+<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – any other kwargs to pass the Column constructor</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="events">
+<h2>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="backend.database.attach_events">
+<code class="descclassname">backend.database.</code><code class="descname">attach_events</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/database/events.html#attach_events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.attach_events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class decorator for SQLAlchemy models to attach listeners on class
+methods decorated with <a class="reference internal" href="#backend.database.on" title="backend.database.on"><code class="xref py py-func docutils literal notranslate"><span class="pre">on()</span></code></a></p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@attach_events</span>
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
+
+    <span class="nd">@on</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">lowercase_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_value</span><span class="p">,</span> <span class="n">old_value</span><span class="p">,</span> <span class="n">initiating_event</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">new_value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="backend.database.on">
+<code class="descclassname">backend.database.</code><code class="descname">on</code><span class="sig-paren">(</span><em>*args</em>, <em>**listen_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/database/events.html#on"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.on" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class method decorator for SQLAlchemy models. Must be used in
+conjunction with the <a class="reference internal" href="#backend.database.attach_events" title="backend.database.attach_events"><code class="xref py py-func docutils literal notranslate"><span class="pre">attach_events()</span></code></a> class decorator</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@attach_events</span>
+<span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">uuid</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">36</span><span class="p">))</span>
+    <span class="n">post_tags</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="s1">&#39;PostTag&#39;</span><span class="p">,</span> <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;post&#39;</span><span class="p">)</span>  <span class="c1"># m2m</span>
+
+    <span class="c1"># instance event (only one positional argument, the event name)</span>
+    <span class="c1"># kwargs are passed on to the sqlalchemy.event.listen function</span>
+    <span class="nd">@on</span><span class="p">(</span><span class="s1">&#39;init&#39;</span><span class="p">,</span> <span class="n">once</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">generate_uuid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uuid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+
+    <span class="c1"># attribute event (two positional args, field name and event name)</span>
+    <span class="nd">@on</span><span class="p">(</span><span class="s1">&#39;post_tags&#39;</span><span class="p">,</span> <span class="s1">&#39;append&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">set_tag_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">post_tag</span><span class="p">,</span> <span class="n">initiating_event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">post_tag</span><span class="o">.</span><span class="n">order</span><span class="p">:</span>
+            <span class="n">post_tag</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post_tags</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="backend.database.slugify">
+<code class="descclassname">backend.database.</code><code class="descname">slugify</code><span class="sig-paren">(</span><em>field_name</em>, <em>slug_field_name=None</em>, <em>mutable=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/backend/database/events.html#slugify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#backend.database.slugify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class decorator to specify a field to slugify. Slugs are immutable by
+default unless mutable=True is passed.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@slugify</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">Post</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+    <span class="n">slug</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+
+<span class="c1"># pass a second argument to specify the slug attribute field:</span>
+<span class="nd">@slugify</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;title_slug&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">Post</span><span class="p">(</span><span class="n">Model</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+    <span class="n">title_slug</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+
+<span class="c1"># optionally set mutable to True for a slug that changes every time</span>
+<span class="c1"># the slugified field changes:</span>
+<span class="nd">@slugify</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">Post</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+    <span class="n">slug</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+  
+  <div class="footer-relations">
+    
+      <div class="pull-left">
+        <a class="btn btn-default" href="app.html" title="previous chapter">&laquo; App Docs</a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default" href="restful.html" title="next chapter">RESTful APIs &raquo;</a>
+      </div>
+    </div>
+    <div class="clearer"></div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="restful.html" title="RESTful APIs"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="app.html" title="App Docs"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2017 Brian Cappello. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

@@ -1,0 +1,494 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../../../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../../../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>backend.api.extension &#8212; Flask React SPA 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  
+  
+   
+
+  <link href="/_static/styles.css" rel="stylesheet">
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar"><a href="
+    ../../../index.html" class="text-logo">Flask React SPA</a><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <p>A <strong>production-ready</strong> boilerplate built with <strong>Python 3</strong>, <strong>Flask</strong> and <strong>ES6 React</strong>.</p>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2 class="toc"><a href="/">Table Of Contents</a></h2>
+  </div>
+  <div class="sidebar-toc">
+    
+    
+      <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">QuickStart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../app.html">App Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../db_models.html">Database Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../restful.html">RESTful APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../deployment.html">Deployment</a></li>
+</ul>
+
+    
+  </div>
+</div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../../../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Fork me on GitHub</h2>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=star&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=fork&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../../../index.html">Docs</a></li>
+              
+                <li><a href="../../index.html">Module code</a></li>
+              
+              <li>backend.api.extension</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <h1>Source code for backend.api.extension</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">enum</span>
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="k">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">current_app</span><span class="p">,</span> <span class="n">make_response</span>
+<span class="kn">from</span> <span class="nn">flask.json</span> <span class="k">import</span> <span class="n">dumps</span><span class="p">,</span> <span class="n">JSONEncoder</span> <span class="k">as</span> <span class="n">BaseJSONEncoder</span>
+<span class="kn">from</span> <span class="nn">flask.views</span> <span class="k">import</span> <span class="n">MethodViewType</span>
+<span class="kn">from</span> <span class="nn">flask_restful</span> <span class="k">import</span> <span class="n">Api</span> <span class="k">as</span> <span class="n">BaseApi</span>
+<span class="kn">from</span> <span class="nn">flask_sqlalchemy.model</span> <span class="k">import</span> <span class="n">camel_to_snake_case</span><span class="p">,</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">marshmallow</span> <span class="k">import</span> <span class="n">MarshalResult</span>
+<span class="kn">from</span> <span class="nn">werkzeug.wrappers</span> <span class="k">import</span> <span class="n">Response</span>
+
+<span class="kn">from</span> <span class="nn">backend.extensions</span> <span class="k">import</span> <span class="n">db</span>
+<span class="kn">from</span> <span class="nn">backend.utils</span> <span class="k">import</span> <span class="n">was_decorated_without_parenthesis</span>
+
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="k">import</span> <span class="n">CREATE</span><span class="p">,</span> <span class="n">DELETE</span><span class="p">,</span> <span class="n">GET</span><span class="p">,</span> <span class="n">LIST</span><span class="p">,</span> <span class="n">PATCH</span><span class="p">,</span> <span class="n">PUT</span>
+<span class="kn">from</span> <span class="nn">.model_resource</span> <span class="k">import</span> <span class="n">ModelResource</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">get_last_param_name</span>
+
+
+<span class="k">def</span> <span class="nf">_get_model_resource_args</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">bp</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">urls</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Blueprint</span><span class="p">):</span>
+        <span class="n">bp</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">urls</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="n">f</span><span class="s2">&quot;The {&#39;second&#39; if bp else &#39;first&#39;} argument to Api.model_resource&quot;</span>
+            <span class="s1">&#39; must be a database model class&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">urls</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s1">&#39;Api.model_resource requires at least one url argument.&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bp</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">urls</span>
+
+
+<div class="viewcode-block" id="Api"><a class="viewcode-back" href="../../../restful.html#backend.api.Api">[docs]</a><span class="k">class</span> <span class="nc">Api</span><span class="p">(</span><span class="n">BaseApi</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extends :class:`flask_restful.Api` to support integration with</span>
+<span class="sd">    Flask-Marshmallow serializers, along with a few other minor enhancements:</span>
+
+<span class="sd">    - can register individual view functions ala blueprints, via @api.route()</span>
+<span class="sd">    - supports using flask.jsonify() in resource methods</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">app</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="n">default_mediatype</span><span class="o">=</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+                 <span class="n">decorators</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">catch_all_404s</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">serve_challenge_on_401</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">url_part_order</span><span class="o">=</span><span class="s1">&#39;bae&#39;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">app</span><span class="p">,</span>
+                         <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span>
+                         <span class="n">default_mediatype</span><span class="o">=</span><span class="n">default_mediatype</span><span class="p">,</span>
+                         <span class="n">decorators</span><span class="o">=</span><span class="n">decorators</span><span class="p">,</span>
+                         <span class="n">catch_all_404s</span><span class="o">=</span><span class="n">catch_all_404s</span><span class="p">,</span>
+                         <span class="n">serve_challenge_on_401</span><span class="o">=</span><span class="n">serve_challenge_on_401</span><span class="p">,</span>
+                         <span class="n">url_part_order</span><span class="o">=</span><span class="n">url_part_order</span><span class="p">,</span>
+                         <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">)</span>
+        <span class="c1"># name prefix for endpoints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+        <span class="c1"># configure a customized output_json function so that we can use</span>
+        <span class="c1"># Flask&#39;s current_app.json_encoder setting</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">representations</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;application/json&#39;</span><span class="p">:</span> <span class="n">output_json</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="c1"># registry for individual view functions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_got_registered_once</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deferred_functions</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># automatic serializer handling</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deferred_serializers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serializers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serializers_many</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">_init_app</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_got_registered_once</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># register individual view functions with the app</span>
+        <span class="k">for</span> <span class="n">deferred</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">deferred_functions</span><span class="p">:</span>
+            <span class="n">deferred</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+        <span class="c1"># instantiate serializers</span>
+        <span class="k">for</span> <span class="n">serializer_class</span> <span class="ow">in</span> <span class="n">app</span><span class="o">.</span><span class="n">serializers</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">model_name</span> <span class="o">=</span> <span class="n">serializer_class</span><span class="o">.</span><span class="n">Meta</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">serializers</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">serializer_class</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">serializers_many</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">serializer_class</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># register serializer overrides</span>
+        <span class="k">for</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">serializer_class</span><span class="p">,</span> <span class="n">many</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">deferred_serializers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">many</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">serializers_many</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">serializer_class</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">serializers</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">serializer_class</span><span class="p">()</span>
+
+        <span class="c1"># attach serializers to Resource instances so that they can perform</span>
+        <span class="c1"># automatic deserialization from json requests</span>
+        <span class="k">for</span> <span class="n">resource</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">resources</span><span class="p">:</span>
+            <span class="n">model_name</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="k">if</span> <span class="n">model_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">serializers</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                    <span class="n">f</span><span class="s1">&#39;Could not find a serializer for the </span><span class="si">{model_name}</span><span class="s1"> model!&#39;</span><span class="p">)</span>
+            <span class="n">resource</span><span class="o">.</span><span class="n">serializer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serializers</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span>
+            <span class="n">resource</span><span class="o">.</span><span class="n">serializer_create</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serializers</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span><span class="p">()</span>
+            <span class="n">resource</span><span class="o">.</span><span class="n">serializer_create</span><span class="o">.</span><span class="n">context</span><span class="p">[</span><span class="s1">&#39;is_create&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_register_json_encoder</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">serializers</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">urls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Decorator to wrap a :class:`~flask_restful.Resource` class, adding</span>
+<span class="sd">        it to the api. Parameters are the same as</span>
+<span class="sd">        :meth:`~flask_restful.Api.add_resource`.</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            app = Flask(__name__)</span>
+<span class="sd">            api = Api(&#39;api&#39;, app)</span>
+
+<span class="sd">            @api.resource(&#39;/foo&#39;)</span>
+<span class="sd">            class FooResource(Resource):</span>
+<span class="sd">                def get(self):</span>
+<span class="sd">                    return &#39;Hello, World!&#39;</span>
+
+<span class="sd">        Overridden to customize the endpoint name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">urls</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">urls</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Blueprint</span><span class="p">):</span>
+            <span class="n">bp</span> <span class="o">=</span> <span class="n">urls</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">urls</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="s2">&quot;{bp.url_prefix or &#39;&#39;}</span><span class="si">{url}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+        <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+            <span class="n">endpoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_endpoint</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;endpoint&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_resource</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">urls</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">cls</span>
+        <span class="k">return</span> <span class="n">decorator</span>
+
+<div class="viewcode-block" id="Api.model_resource"><a class="viewcode-back" href="../../../restful.html#backend.api.Api.model_resource">[docs]</a>    <span class="k">def</span> <span class="nf">model_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Decorator to wrap a :class:`backend.api.ModelResource` class, adding</span>
+<span class="sd">        it to the api. There are two supported method signatures:</span>
+
+<span class="sd">        `Api.model_resource(model, *urls, **kwargs)`</span>
+
+<span class="sd">        and</span>
+
+<span class="sd">        `Api.model_resource(blueprint, model, *urls, *kwargs)`</span>
+
+<span class="sd">        Example without blueprint::</span>
+
+<span class="sd">            from backend.extensions.api import api</span>
+<span class="sd">            from models import User</span>
+
+<span class="sd">            @api.model_resource(User, &#39;/users&#39;, &#39;/users/&lt;int:id&gt;&#39;)</span>
+<span class="sd">            class UserResource(Resource):</span>
+<span class="sd">                def get(self, user):</span>
+<span class="sd">                    return user</span>
+
+<span class="sd">                def list(self, users):</span>
+<span class="sd">                    return users</span>
+
+<span class="sd">        Example with blueprint::</span>
+
+<span class="sd">            from backend.extensions.api import api</span>
+<span class="sd">            from models import User</span>
+<span class="sd">            from views import bp</span>
+
+<span class="sd">            @api.model_resource(bp, User, &#39;/users&#39;, &#39;/users/&lt;int:id&gt;&#39;)</span>
+<span class="sd">            class UserResource(Resource):</span>
+<span class="sd">                def get(self, user):</span>
+<span class="sd">                    return user</span>
+
+<span class="sd">                def list(self, users):</span>
+<span class="sd">                    return users</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bp</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">urls</span> <span class="o">=</span> <span class="n">_get_model_resource_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bp</span><span class="p">:</span>
+            <span class="n">urls</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="s2">&quot;{bp.url_prefix or &#39;&#39;}</span><span class="si">{url}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+            <span class="n">endpoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_endpoint</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;endpoint&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_resource</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">urls</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">cls</span>
+        <span class="k">return</span> <span class="n">decorator</span></div>
+
+<div class="viewcode-block" id="Api.serializer"><a class="viewcode-back" href="../../../restful.html#backend.api.Api.serializer">[docs]</a>    <span class="k">def</span> <span class="nf">serializer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Decorator to wrap a :class:`~backend.api.ModelSerializer` class,</span>
+<span class="sd">        registering the wrapped serializer as the specific one to use for the</span>
+<span class="sd">        serializer&#39;s model.</span>
+
+<span class="sd">         For example::</span>
+
+<span class="sd">            from backend.extensions.api import api</span>
+<span class="sd">            from backend.api import ModelSerializer</span>
+<span class="sd">            from models import Foo</span>
+
+<span class="sd">            @api.serializer  # @api.serializer() works too</span>
+<span class="sd">            class FooSerializer(ModelSerializer):</span>
+<span class="sd">                class Meta:</span>
+<span class="sd">                    model = Foo</span>
+
+<span class="sd">            @api.serializer(many=True)</span>
+<span class="sd">            class FooListSerializer(ModelSerializer):</span>
+<span class="sd">                class Meta:</span>
+<span class="sd">                    model = Foo</span>
+<span class="sd">         &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">serializer_class</span><span class="p">):</span>
+            <span class="n">model_name</span> <span class="o">=</span> <span class="n">serializer_class</span><span class="o">.</span><span class="n">Meta</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deferred_serializers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">model_name</span><span class="p">,</span> <span class="n">serializer_class</span><span class="p">,</span> <span class="n">many</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">serializer_class</span>
+        <span class="k">if</span> <span class="n">was_decorated_without_parenthesis</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">decorator</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">decorator</span></div>
+
+<div class="viewcode-block" id="Api.route"><a class="viewcode-back" href="../../../restful.html#backend.api.Api.route">[docs]</a>    <span class="k">def</span> <span class="nf">route</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Decorator for registering individual view functions.</span>
+
+<span class="sd">        Usage without blueprint::</span>
+
+<span class="sd">            api = Api(&#39;api&#39;, prefix=&#39;/api/v1&#39;)</span>
+
+<span class="sd">            @api.route(&#39;/foo&#39;)  # resulting url: /api/v1/foo</span>
+<span class="sd">            def get_foo():</span>
+<span class="sd">                # do stuff</span>
+
+<span class="sd">        Usage with blueprint::</span>
+
+<span class="sd">            api = Api(&#39;api&#39;, prefix=&#39;/api/v1&#39;)</span>
+<span class="sd">            team = Blueprint(&#39;team&#39;, url_prefix=&#39;/team&#39;)</span>
+
+<span class="sd">            @api.route(team, &#39;/users&#39;)  # resulting url: /api/v1/team/users</span>
+<span class="sd">            def users():</span>
+<span class="sd">                # do stuff</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bp</span><span class="p">,</span> <span class="n">url</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Blueprint</span><span class="p">):</span>
+            <span class="n">bp</span><span class="p">,</span> <span class="n">url</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{bp.url_prefix or &#39;&#39;}</span><span class="si">{url}</span><span class="s2">&quot;</span>
+
+        <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+            <span class="n">endpoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_endpoint</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;endpoint&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">fn</span>
+        <span class="k">return</span> <span class="n">decorator</span></div>
+
+    <span class="k">def</span> <span class="nf">add_url_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rule</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">rule</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;URL rule must start with a forward slash (/)&#39;</span><span class="p">)</span>
+        <span class="n">rule</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">rule</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">record</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">_app</span><span class="p">:</span> <span class="n">_app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">view_func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_got_registered_once</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">warnings</span> <span class="k">import</span> <span class="n">warn</span>
+            <span class="n">warn</span><span class="p">(</span><span class="ne">Warning</span><span class="p">(</span><span class="s1">&#39;The api was already registered once but is getting&#39;</span>
+                         <span class="s1">&#39; modified now. These changes will not show up.&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deferred_functions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">view_func</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plural</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">endpoint</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="s1">&#39;.&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">endpoint</span><span class="p">,</span> <span class="s1">&#39;Api endpoints should not contain dots&#39;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">view_func</span><span class="p">,</span> <span class="n">MethodViewType</span><span class="p">):</span>
+            <span class="n">endpoint</span> <span class="o">=</span> <span class="n">camel_to_snake_case</span><span class="p">(</span><span class="n">view_func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">view_func</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">plural</span><span class="p">:</span>
+                <span class="n">plural_model</span> <span class="o">=</span> <span class="n">camel_to_snake_case</span><span class="p">(</span><span class="n">view_func</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">__plural__</span><span class="p">)</span>
+                <span class="n">endpoint</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{plural_model}</span><span class="s1">_resource&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">endpoint</span> <span class="o">=</span> <span class="n">view_func</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{self.name}</span><span class="s1">.</span><span class="si">{endpoint}</span><span class="s1">&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_register_json_encoder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">,</span> <span class="n">serializers</span><span class="p">):</span>
+        <span class="n">BaseEncoderClass</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">json_encoder</span> <span class="ow">or</span> <span class="n">BaseJSONEncoder</span>
+
+        <span class="k">class</span> <span class="nc">JSONEncoder</span><span class="p">(</span><span class="n">BaseEncoderClass</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">name</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">Model</span><span class="p">):</span>
+                    <span class="n">model_name</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+                    <span class="k">if</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="n">serializers</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">serializers</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+                <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+
+        <span class="n">app</span><span class="o">.</span><span class="n">json_encoder</span> <span class="o">=</span> <span class="n">JSONEncoder</span>
+
+    <span class="k">def</span> <span class="nf">make_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Overridden to support returning already-formed Responses unmodified,</span>
+<span class="sd">        as well as automatic serialization of lists of sqlalchemy models</span>
+<span class="sd">        (serialization of individual models is handled by a custom JSONEncoder</span>
+<span class="sd">         class configured in the self._register_json_encoder method)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># we&#39;ve already got a response, eg, from jsonify</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Response</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Model</span><span class="p">):</span>
+            <span class="n">model_name</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="k">if</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">serializers_many</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serializers_many</span><span class="p">[</span><span class="n">model_name</span><span class="p">]</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+
+        <span class="c1"># we got the result of serializer.dump(obj)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">MarshalResult</span><span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span>
+
+        <span class="c1"># we got plain python data types that need to be serialized</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">make_response</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_register_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="o">*</span><span class="n">urls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Overridden to handle custom method names on ModelResources</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="n">ModelResource</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;methods&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_register_view</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="o">*</span><span class="n">urls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">:</span>
+            <span class="n">endpoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_endpoint</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+            <span class="n">http_methods</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">has_last_param</span> <span class="o">=</span> <span class="n">get_last_param_name</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">has_last_param</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ModelResource</span><span class="o">.</span><span class="n">has_method</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="n">GET</span><span class="p">):</span>
+                    <span class="n">http_methods</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;HEAD&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">ModelResource</span><span class="o">.</span><span class="n">has_method</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="n">DELETE</span><span class="p">):</span>
+                    <span class="n">http_methods</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;DELETE&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">ModelResource</span><span class="o">.</span><span class="n">has_method</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="n">PATCH</span><span class="p">):</span>
+                    <span class="n">http_methods</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;PATCH&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">ModelResource</span><span class="o">.</span><span class="n">has_method</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="n">PUT</span><span class="p">):</span>
+                    <span class="n">http_methods</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;PUT&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">endpoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_endpoint</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="n">plural</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">ModelResource</span><span class="o">.</span><span class="n">has_method</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="n">LIST</span><span class="p">):</span>
+                    <span class="n">http_methods</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;HEAD&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">ModelResource</span><span class="o">.</span><span class="n">has_method</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="n">CREATE</span><span class="p">):</span>
+                    <span class="n">http_methods</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">]</span>
+
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;endpoint&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">endpoint</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_register_view</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+                                   <span class="n">methods</span><span class="o">=</span><span class="n">http_methods</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">output_json</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Replaces Flask-RESTful&#39;s default output_json function, using</span>
+<span class="sd">    Flask.json&#39;s dumps method instead of the stock Python json.dumps.</span>
+
+<span class="sd">    Mainly this means we end up using the current app&#39;s configured</span>
+<span class="sd">    json_encoder class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">current_app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;RESTFUL_JSON&#39;</span><span class="p">,</span> <span class="p">{})</span>
+
+    <span class="c1"># If we&#39;re in debug mode, and the indent is not set, we set it to a</span>
+    <span class="c1"># reasonable value here.</span>
+    <span class="k">if</span> <span class="n">current_app</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;indent&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+    <span class="c1"># always end the json dumps with a new line</span>
+    <span class="c1"># see https://github.com/mitsuhiko/flask/pull/1262</span>
+    <span class="n">dumped</span> <span class="o">=</span> <span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">settings</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">make_response</span><span class="p">(</span><span class="n">dumped</span><span class="p">,</span> <span class="n">code</span><span class="p">)</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">headers</span> <span class="ow">or</span> <span class="p">{})</span>
+    <span class="k">return</span> <span class="n">response</span>
+</pre></div>
+
+          </div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../../../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2017 Brian Cappello. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

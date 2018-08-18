@@ -1,0 +1,388 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>backend.config &#8212; Flask React SPA 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  
+  
+   
+
+  <link href="/_static/styles.css" rel="stylesheet">
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar"><a href="
+    ../../index.html" class="text-logo">Flask React SPA</a><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <p>A <strong>production-ready</strong> boilerplate built with <strong>Python 3</strong>, <strong>Flask</strong> and <strong>ES6 React</strong>.</p>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2 class="toc"><a href="/">Table Of Contents</a></h2>
+  </div>
+  <div class="sidebar-toc">
+    
+    
+      <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">QuickStart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../commands.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app.html">App Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../db_models.html">Database Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../restful.html">RESTful APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment.html">Deployment</a></li>
+</ul>
+
+    
+  </div>
+</div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Fork me on GitHub</h2>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=star&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=fork&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../../index.html">Docs</a></li>
+              
+                <li><a href="../index.html">Module code</a></li>
+              
+              <li>backend.config</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <h1>Source code for backend.config</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">redis</span>
+
+<span class="kn">from</span> <span class="nn">appdirs</span> <span class="k">import</span> <span class="n">AppDirs</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">timedelta</span>
+
+<span class="kn">from</span> <span class="nn">backend.utils.date</span> <span class="k">import</span> <span class="n">utcnow</span>
+
+<span class="n">APP_NAME</span> <span class="o">=</span> <span class="s1">&#39;flask-react-spa&#39;</span>
+<span class="n">app_dirs</span> <span class="o">=</span> <span class="n">AppDirs</span><span class="p">(</span><span class="n">APP_NAME</span><span class="p">)</span>
+<span class="n">APP_CACHE_FOLDER</span> <span class="o">=</span> <span class="n">app_dirs</span><span class="o">.</span><span class="n">user_cache_dir</span>
+<span class="n">APP_DATA_FOLDER</span> <span class="o">=</span> <span class="n">app_dirs</span><span class="o">.</span><span class="n">user_data_dir</span>
+
+<span class="n">PROJECT_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">))</span>
+<span class="n">TEMPLATE_FOLDER</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_ROOT</span><span class="p">,</span> <span class="s1">&#39;backend&#39;</span><span class="p">,</span> <span class="s1">&#39;templates&#39;</span><span class="p">)</span>
+<span class="n">STATIC_FOLDER</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_STATIC_FOLDER&#39;</span><span class="p">,</span>
+                               <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_ROOT</span><span class="p">,</span> <span class="s1">&#39;static&#39;</span><span class="p">))</span>
+<span class="n">STATIC_URL_PATH</span> <span class="o">=</span> <span class="s1">&#39;/static&#39;</span>  <span class="c1"># serve asset files in static/ at /static/</span>
+
+<span class="c1"># blog articles configuration</span>
+<span class="n">ARTICLES_FOLDER</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_ROOT</span><span class="p">,</span> <span class="s1">&#39;articles&#39;</span><span class="p">)</span>
+<span class="n">ARTICLE_PREVIEW_LENGTH</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="n">FRONTMATTER_LIST_DELIMETER</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span>
+<span class="n">MARKDOWN_EXTENSIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;extra&#39;</span><span class="p">]</span>
+<span class="n">DEFAULT_ARTICLE_AUTHOR_EMAIL</span> <span class="o">=</span> <span class="s1">&#39;a@a.com&#39;</span>
+<span class="n">SERIES_FILENAME</span> <span class="o">=</span> <span class="s1">&#39;series.md&#39;</span>
+<span class="n">ARTICLE_FILENAME</span> <span class="o">=</span> <span class="s1">&#39;article.md&#39;</span>
+<span class="n">ARTICLE_STYLESHEET_FILENAME</span> <span class="o">=</span> <span class="s1">&#39;styles.css&#39;</span>
+
+<span class="c1"># list of bundle modules to register with the app, in dot notation</span>
+<span class="n">BUNDLES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;backend.admin&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;backend.blog&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;backend.security&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;backend.site&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="c1"># ordered list of extensions to register before the bundles</span>
+<span class="c1"># syntax is import.name.in.dot.module.notation:extension_instance_name</span>
+<span class="n">EXTENSIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;backend.extensions:session&#39;</span><span class="p">,</span>               <span class="c1"># should be first</span>
+    <span class="s1">&#39;backend.extensions:csrf&#39;</span><span class="p">,</span>                  <span class="c1"># should be second</span>
+    <span class="s1">&#39;backend.extensions:db&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;backend.extensions:alembic&#39;</span><span class="p">,</span>               <span class="c1"># must come after db</span>
+    <span class="s1">&#39;backend.extensions.celery:celery&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;backend.extensions.mail:mail&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;backend.extensions.marshmallow:ma&#39;</span><span class="p">,</span>        <span class="c1"># must come after db</span>
+    <span class="s1">&#39;backend.extensions.security:security&#39;</span><span class="p">,</span>     <span class="c1"># must come after celery and mail</span>
+<span class="p">]</span>
+
+<span class="c1"># list of extensions to register after the bundles</span>
+<span class="c1"># syntax is import.name.in.dot.module.notation:extension_instance_name</span>
+<span class="n">DEFERRED_EXTENSIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;backend.extensions.api:api&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;backend.extensions.admin:admin&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="c1"># Declare role inheritances</span>
+<span class="c1"># Keys here correspond to roles a user explicitly has (as set in the database).</span>
+<span class="c1"># Values should be a list of &quot;inherited&quot; roles. There is also a special flag,</span>
+<span class="c1"># __CRUD__, which expands into the standard CREATE, VIEW, EDIT and DELETE roles.</span>
+<span class="c1"># Role inheritances are loaded recursively, so, for example given the following:</span>
+<span class="c1"># ROLE_HIERARCHY = {</span>
+<span class="c1">#     &#39;ROLE_ADMIN&#39;: [&#39;ROLE_USER&#39;],</span>
+<span class="c1">#     &#39;ROLE_USER&#39;: [&#39;ROLE_POST&#39;],</span>
+<span class="c1">#     &#39;ROLE_POST&#39;: [&#39;__CRUD__&#39;],</span>
+<span class="c1">#     &#39;ROLE_GUEST&#39;: [&#39;ROLE_POST_VIEW&#39;]</span>
+<span class="c1"># }</span>
+<span class="c1"># Then ROLE_ADMIN users will also get ROLE_USER, ROLE_POST, ROLE_POST_CREATE,</span>
+<span class="c1"># ROLE_POST_VIEW, ROLE_POST_EDIT, and ROLE_POST_DELETE roles.</span>
+<span class="c1"># Likewise, ROLE_USER users will inherit the ROLE_POST, ROLE_POST_CREATE,</span>
+<span class="c1"># ROLE_POST_VIEW, ROLE_POST_EDIT, and ROLE_POST_DELETE roles.</span>
+<span class="c1"># However, ROLE_GUEST users will only inherit the ROLE_POST_VIEW role. (note</span>
+<span class="c1"># that if you want unauthenticated users to have the ROLE_GUEST role, you&#39;ll</span>
+<span class="c1"># need to implement and register a custom AnonymousUser class)</span>
+<span class="n">ROLE_HIERARCHY</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;ROLE_ADMIN&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ROLE_USER&#39;</span><span class="p">],</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">get_boolean_env</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">default</span><span class="p">):</span>
+    <span class="n">default</span> <span class="o">=</span> <span class="s1">&#39;true&#39;</span> <span class="k">if</span> <span class="n">default</span> <span class="k">else</span> <span class="s1">&#39;false&#39;</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="BaseConfig"><a class="viewcode-back" href="../../app.html#backend.config.BaseConfig">[docs]</a><span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># flask                                                                  #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="n">get_boolean_env</span><span class="p">(</span><span class="s1">&#39;FLASK_DEBUG&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_SECRET_KEY&#39;</span><span class="p">,</span> <span class="s1">&#39;not-secret-key&#39;</span><span class="p">)</span>  <span class="c1"># FIXME</span>
+    <span class="n">STRICT_SLASHES</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">BUNDLES</span> <span class="o">=</span> <span class="n">BUNDLES</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># session/cookies                                                        #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">SESSION_TYPE</span> <span class="o">=</span> <span class="s1">&#39;redis&#39;</span>
+    <span class="n">SESSION_REDIS</span> <span class="o">=</span> <span class="n">redis</span><span class="o">.</span><span class="n">Redis</span><span class="p">(</span>
+        <span class="n">host</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;FLASK_REDIS_HOST&#39;</span><span class="p">,</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">),</span>
+        <span class="n">port</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;FLASK_REDIS_PORT&#39;</span><span class="p">,</span> <span class="mi">6379</span><span class="p">)),</span>
+    <span class="p">)</span>
+    <span class="n">SESSION_PROTECTION</span> <span class="o">=</span> <span class="s1">&#39;strong&#39;</span>
+    <span class="n">SESSION_COOKIE_HTTPONLY</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">SESSION_COOKIE_SECURE</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">REMEMBER_COOKIE_HTTPONLY</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># SECURITY_TOKEN_MAX_AGE is fixed from time of token generation;</span>
+    <span class="c1"># it does not update on refresh like a session timeout would. for that,</span>
+    <span class="c1"># we set (the ironically named) PERMANENT_SESSION_LIFETIME</span>
+    <span class="n">PERMANENT_SESSION_LIFETIME</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># database                                                               #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">SQLALCHEMY_TRACK_MODIFICATIONS</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">ALEMBIC</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;script_location&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_ROOT</span><span class="p">,</span> <span class="s1">&#39;migrations&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># celery                                                                 #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">CELERY_BROKER_URL</span> <span class="o">=</span> <span class="s1">&#39;redis://</span><span class="si">{host}</span><span class="s1">:</span><span class="si">{port}</span><span class="s1">/0&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">host</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;FLASK_REDIS_HOST&#39;</span><span class="p">,</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">),</span>
+        <span class="n">port</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;FLASK_REDIS_PORT&#39;</span><span class="p">,</span> <span class="mi">6379</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">CELERY_RESULT_BACKEND</span> <span class="o">=</span> <span class="n">CELERY_BROKER_URL</span>
+    <span class="n">CELERY_ACCEPT_CONTENT</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="s1">&#39;pickle&#39;</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># mail                                                                   #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">MAIL_ADMINS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;admin@example.com&#39;</span><span class="p">,)</span>  <span class="c1"># FIXME</span>
+    <span class="n">MAIL_SERVER</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_MAIL_HOST&#39;</span><span class="p">,</span> <span class="s1">&#39;localhost&#39;</span><span class="p">)</span>
+    <span class="n">MAIL_PORT</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_MAIL_PORT&#39;</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+    <span class="n">MAIL_USE_TLS</span> <span class="o">=</span> <span class="n">get_boolean_env</span><span class="p">(</span><span class="s1">&#39;FLASK_MAIL_USE_TLS&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">MAIL_USE_SSL</span> <span class="o">=</span> <span class="n">get_boolean_env</span><span class="p">(</span><span class="s1">&#39;FLASK_MAIL_USE_SSL&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">MAIL_USERNAME</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_MAIL_USERNAME&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">MAIL_PASSWORD</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_MAIL_PASSWORD&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">MAIL_DEFAULT_SENDER</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_MAIL_DEFAULT_SENDER_NAME&#39;</span><span class="p">,</span> <span class="s1">&#39;Flask React SPA&#39;</span><span class="p">),</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_MAIL_DEFAULT_SENDER_EMAIL&#39;</span><span class="p">,</span>
+                       <span class="n">f</span><span class="s2">&quot;noreply@{os.environ.get(&#39;FLASK_DOMAIN&#39;, &#39;localhost&#39;)}&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># security                                                               #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">SECURITY_DATETIME_FACTORY</span> <span class="o">=</span> <span class="n">utcnow</span>
+
+    <span class="c1"># specify which user field attributes can be used for login</span>
+    <span class="n">SECURITY_USER_IDENTITY_ATTRIBUTES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;username&#39;</span><span class="p">]</span>
+
+    <span class="c1"># NOTE: itsdangerous &quot;salts&quot; are not normal salts in the cryptographic</span>
+    <span class="c1"># sense, see https://pythonhosted.org/itsdangerous/#the-salt</span>
+    <span class="n">SECURITY_PASSWORD_SALT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_SECURITY_PASSWORD_SALT&#39;</span><span class="p">,</span>
+                                            <span class="s1">&#39;security-password-salt&#39;</span><span class="p">)</span>
+
+    <span class="c1"># disable flask-security&#39;s use of .txt templates (instead we</span>
+    <span class="c1"># generate the plain text from the html message)</span>
+    <span class="n">SECURITY_EMAIL_PLAINTEXT</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># enable forgot password functionality</span>
+    <span class="n">SECURITY_RECOVERABLE</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># enable email confirmation before allowing login</span>
+    <span class="n">SECURITY_CONFIRMABLE</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># this setting is parsed as a kwarg to timedelta, so the time unit must</span>
+    <span class="c1"># always be plural</span>
+    <span class="n">SECURITY_CONFIRM_EMAIL_WITHIN</span> <span class="o">=</span> <span class="s1">&#39;7 days&#39;</span>  <span class="c1"># default 5 days</span>
+
+    <span class="c1"># urls for the *frontend* router</span>
+    <span class="n">SECURITY_CONFIRM_ERROR_VIEW</span> <span class="o">=</span> <span class="s1">&#39;/sign-up/resend-confirmation-email&#39;</span>
+    <span class="n">SECURITY_POST_CONFIRM_VIEW</span> <span class="o">=</span> <span class="s1">&#39;/?welcome&#39;</span></div>
+
+
+<div class="viewcode-block" id="ProdConfig"><a class="viewcode-back" href="../../app.html#backend.config.ProdConfig">[docs]</a><span class="k">class</span> <span class="nc">ProdConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># flask                                                                  #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">ENV</span> <span class="o">=</span> <span class="s1">&#39;prod&#39;</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="n">get_boolean_env</span><span class="p">(</span><span class="s1">&#39;FLASK_DEBUG&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># database                                                               #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="s1">&#39;postgresql+psycopg2://</span><span class="si">{user}</span><span class="s1">:</span><span class="si">{password}</span><span class="s1">@</span><span class="si">{host}</span><span class="s1">:</span><span class="si">{port}</span><span class="s1">/</span><span class="si">{db_name}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">user</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_DATABASE_USER&#39;</span><span class="p">,</span> <span class="s1">&#39;flask_api&#39;</span><span class="p">),</span>
+        <span class="n">password</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_DATABASE_PASSWORD&#39;</span><span class="p">,</span> <span class="s1">&#39;flask_api&#39;</span><span class="p">),</span>
+        <span class="n">host</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_DATABASE_HOST&#39;</span><span class="p">,</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">),</span>
+        <span class="n">port</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_DATABASE_PORT&#39;</span><span class="p">,</span> <span class="mi">5432</span><span class="p">),</span>
+        <span class="n">db_name</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_DATABASE_NAME&#39;</span><span class="p">,</span> <span class="s1">&#39;flask_api&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># session/cookies                                                        #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">SESSION_COOKIE_DOMAIN</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_DOMAIN&#39;</span><span class="p">,</span> <span class="s1">&#39;example.com&#39;</span><span class="p">)</span>  <span class="c1"># FIXME</span>
+    <span class="n">SESSION_COOKIE_SECURE</span> <span class="o">=</span> <span class="n">get_boolean_env</span><span class="p">(</span><span class="s1">&#39;SESSION_COOKIE_SECURE&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DevConfig"><a class="viewcode-back" href="../../app.html#backend.config.DevConfig">[docs]</a><span class="k">class</span> <span class="nc">DevConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># flask                                                                  #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">ENV</span> <span class="o">=</span> <span class="s1">&#39;dev&#39;</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="n">get_boolean_env</span><span class="p">(</span><span class="s1">&#39;FLASK_DEBUG&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># EXPLAIN_TEMPLATE_LOADING = True</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># session/cookies                                                        #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">SESSION_COOKIE_SECURE</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># database                                                               #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="s1">&#39;postgresql+psycopg2://</span><span class="si">{user}</span><span class="s1">:</span><span class="si">{password}</span><span class="s1">@</span><span class="si">{host}</span><span class="s1">:</span><span class="si">{port}</span><span class="s1">/</span><span class="si">{db_name}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">user</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_DATABASE_USER&#39;</span><span class="p">,</span> <span class="s1">&#39;flask_api&#39;</span><span class="p">),</span>
+        <span class="n">password</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_DATABASE_PASSWORD&#39;</span><span class="p">,</span> <span class="s1">&#39;flask_api&#39;</span><span class="p">),</span>
+        <span class="n">host</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_DATABASE_HOST&#39;</span><span class="p">,</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">),</span>
+        <span class="n">port</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_DATABASE_PORT&#39;</span><span class="p">,</span> <span class="mi">5432</span><span class="p">),</span>
+        <span class="n">db_name</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;FLASK_DATABASE_NAME&#39;</span><span class="p">,</span> <span class="s1">&#39;flask_api&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="c1"># SQLALCHEMY_ECHO = True</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># mail                                                                   #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">MAIL_PORT</span> <span class="o">=</span> <span class="mi">1025</span>  <span class="c1"># MailHog</span>
+    <span class="n">MAIL_DEFAULT_SENDER</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Flask React SPA&#39;</span><span class="p">,</span> <span class="s1">&#39;noreply@localhost&#39;</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># security                                                               #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">SECURITY_CONFIRMABLE</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">SECURITY_CONFIRM_EMAIL_WITHIN</span> <span class="o">=</span> <span class="s1">&#39;1 minutes&#39;</span>  <span class="c1"># for testing</span></div>
+
+
+<div class="viewcode-block" id="TestConfig"><a class="viewcode-back" href="../../app.html#backend.config.TestConfig">[docs]</a><span class="k">class</span> <span class="nc">TestConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
+    <span class="n">TESTING</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="s1">&#39;sqlite://&#39;</span>  <span class="c1"># :memory:</span>
+
+    <span class="n">WTF_CSRF_ENABLED</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">SECURITY_PASSWORD_HASH_OPTIONS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">bcrypt</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;rounds&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">})</span>
+    <span class="n">SECURITY__SEND_MAIL_TASK</span> <span class="o">=</span> <span class="kc">None</span></div>
+</pre></div>
+
+          </div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2017 Brian Cappello. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

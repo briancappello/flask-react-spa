@@ -1,0 +1,570 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>Commands &#8212; Flask React SPA 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="App Docs" href="app.html" />
+    <link rel="prev" title="QuickStart" href="quickstart.html" />
+  
+  
+   
+
+  <link href="/_static/styles.css" rel="stylesheet">
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="app.html" title="App Docs"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="QuickStart"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar"><a href="
+    index.html" class="text-logo">Flask React SPA</a><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <p>A <strong>production-ready</strong> boilerplate built with <strong>Python 3</strong>, <strong>Flask</strong> and <strong>ES6 React</strong>.</p>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2 class="toc"><a href="/">Table Of Contents</a></h2>
+  </div>
+  <div class="sidebar-toc">
+    
+    
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">QuickStart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#python-manage-py-blog">python manage.py blog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-manage-py-celery">python manage.py celery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-manage-py-clean">python manage.py clean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-manage-py-db">python manage.py db</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-manage-py-lint">python manage.py lint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-manage-py-shell">python manage.py shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-manage-py-url">python manage.py url</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-manage-py-urls">python manage.py urls</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="app.html">App Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="db_models.html">Database Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restful.html">RESTful APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
+</ul>
+
+    
+  </div>
+</div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Fork me on GitHub</h2>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=star&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=fork&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="index.html">Docs</a></li>
+              
+              <li>Commands</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <div class="section" id="commands">
+<span id="id1"></span><h1>Commands<a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h1>
+<p>Run <cite>python manage.py</cite>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Usage: manage.py [OPTIONS] COMMAND [ARGS]...
+
+  A utility script for the Flask React SPA application.
+
+Options:
+  --env [dev|prod]    Whether to use DevConfig or ProdConfig (default dev)
+  --warn / --no-warn  Whether or not to warn if running in production
+  --version           Show the flask version
+  --help              Show this message and exit
+
+Commands:
+  blog    Blog bundle commands.
+  celery  Start the celery worker and/or beat.
+  clean   Recursively remove *.pyc and *.pyo files.
+  db      Perform database migrations.
+  lint    Run flake8.
+  roles   Role commands.
+  run     Runs a development server.
+  shell   Runs a shell in the app context.
+  url     Show details for a specific URL.
+  urls    List all URLs registered with the app.
+  users   User commands.
+</pre></div>
+</div>
+<div class="section" id="python-manage-py-blog">
+<h2>python manage.py blog<a class="headerlink" href="#python-manage-py-blog" title="Permalink to this headline">¶</a></h2>
+<p>Blog bundle commands.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py blog <span class="o">[</span>OPTIONS<span class="o">]</span> COMMAND <span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<div class="section" id="python-manage-py-blog-import-articles">
+<h3>import_articles<a class="headerlink" href="#python-manage-py-blog-import-articles" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py blog import_articles <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-blog-import-articles-reset">
+<code class="descname">--reset</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-blog-import-articles-reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ignore previously updated at timestamps.</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="python-manage-py-celery">
+<h2>python manage.py celery<a class="headerlink" href="#python-manage-py-celery" title="Permalink to this headline">¶</a></h2>
+<p>Start the celery worker and/or beat.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py celery <span class="o">[</span>OPTIONS<span class="o">]</span> COMMAND <span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<div class="section" id="python-manage-py-celery-beat">
+<h3>beat<a class="headerlink" href="#python-manage-py-celery-beat" title="Permalink to this headline">¶</a></h3>
+<p>Start the celery beat.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py celery beat <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="python-manage-py-celery-worker">
+<h3>worker<a class="headerlink" href="#python-manage-py-celery-worker" title="Permalink to this headline">¶</a></h3>
+<p>Start the celery worker.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py celery worker <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="python-manage-py-clean">
+<h2>python manage.py clean<a class="headerlink" href="#python-manage-py-clean" title="Permalink to this headline">¶</a></h2>
+<p>Recursively remove <a href="#id2"><span class="problematic" id="id3">*</span></a>.pyc and <a href="#id4"><span class="problematic" id="id5">*</span></a>.pyo files.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py clean <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="python-manage-py-db">
+<h2>python manage.py db<a class="headerlink" href="#python-manage-py-db" title="Permalink to this headline">¶</a></h2>
+<p>Perform database migrations.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py db <span class="o">[</span>OPTIONS<span class="o">]</span> COMMAND <span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<div class="section" id="python-manage-py-db-branches">
+<h3>branches<a class="headerlink" href="#python-manage-py-db-branches" title="Permalink to this headline">¶</a></h3>
+<p>Show branch points.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py db branches <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-branches-v">
+<code class="descname">-v</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--verbose</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-branches-v" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="python-manage-py-db-current">
+<h3>current<a class="headerlink" href="#python-manage-py-db-current" title="Permalink to this headline">¶</a></h3>
+<p>Show current revision.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py db current <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-current-v">
+<code class="descname">-v</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--verbose</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-current-v" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="python-manage-py-db-downgrade">
+<h3>downgrade<a class="headerlink" href="#python-manage-py-db-downgrade" title="Permalink to this headline">¶</a></h3>
+<p>Run downgrade migrations.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py db downgrade <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TARGET<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Arguments</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-downgrade-arg-target">
+<code class="descname">TARGET</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-downgrade-arg-target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional argument</p>
+</dd></dl>
+
+</div>
+<div class="section" id="python-manage-py-db-drop">
+<h3>drop<a class="headerlink" href="#python-manage-py-db-drop" title="Permalink to this headline">¶</a></h3>
+<p>Drop database tables.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py db drop <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-drop-drop">
+<code class="descname">--drop</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--no-drop</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-drop-drop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="python-manage-py-db-fixtures">
+<h3>fixtures<a class="headerlink" href="#python-manage-py-db-fixtures" title="Permalink to this headline">¶</a></h3>
+<p>Load database fixtures from JSON.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py db fixtures <span class="o">[</span>OPTIONS<span class="o">]</span> FILE
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-fixtures-reset">
+<code class="descname">--reset</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--no-reset</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-fixtures-reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-fixtures-arg-file">
+<code class="descname">FILE</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-fixtures-arg-file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</div>
+<div class="section" id="python-manage-py-db-heads">
+<h3>heads<a class="headerlink" href="#python-manage-py-db-heads" title="Permalink to this headline">¶</a></h3>
+<p>Show latest revisions.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py db heads <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-heads-resolve-dependencies">
+<code class="descname">--resolve-dependencies</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-heads-resolve-dependencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Treat dependencies as down revisions.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-heads-v">
+<code class="descname">-v</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--verbose</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-heads-v" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="python-manage-py-db-log">
+<h3>log<a class="headerlink" href="#python-manage-py-db-log" title="Permalink to this headline">¶</a></h3>
+<p>Show revision log.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py db log <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-log-start">
+<code class="descname">--start</code><code class="descclassname"> &lt;start&gt;</code><a class="headerlink" href="#cmdoption-python-manage-py-db-log-start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show since this revision.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-log-end">
+<code class="descname">--end</code><code class="descclassname"> &lt;end&gt;</code><a class="headerlink" href="#cmdoption-python-manage-py-db-log-end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show until this revision.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-log-v">
+<code class="descname">-v</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--verbose</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-log-v" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="python-manage-py-db-merge">
+<h3>merge<a class="headerlink" href="#python-manage-py-db-merge" title="Permalink to this headline">¶</a></h3>
+<p>Create merge revision.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py db merge <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>REVISIONS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-merge-m">
+<code class="descname">-m</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--message</code><code class="descclassname"> &lt;message&gt;</code><a class="headerlink" href="#cmdoption-python-manage-py-db-merge-m" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-merge-l">
+<code class="descname">-l</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--label</code><code class="descclassname"> &lt;label&gt;</code><a class="headerlink" href="#cmdoption-python-manage-py-db-merge-l" title="Permalink to this definition">¶</a></dt>
+<dd><p>Label(s) to apply to the revision.</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-merge-arg-revisions">
+<code class="descname">REVISIONS</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-merge-arg-revisions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</div>
+<div class="section" id="python-manage-py-db-mkdir">
+<h3>mkdir<a class="headerlink" href="#python-manage-py-db-mkdir" title="Permalink to this headline">¶</a></h3>
+<p>Make migration directory.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py db mkdir <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="python-manage-py-db-reset">
+<h3>reset<a class="headerlink" href="#python-manage-py-db-reset" title="Permalink to this headline">¶</a></h3>
+<p>Drops database tables and runs migrations.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py db reset <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-reset-reset">
+<code class="descname">--reset</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-reset-reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="python-manage-py-db-revision">
+<h3>revision<a class="headerlink" href="#python-manage-py-db-revision" title="Permalink to this headline">¶</a></h3>
+<p>Create new migration.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py db revision <span class="o">[</span>OPTIONS<span class="o">]</span> MESSAGE
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-revision-empty">
+<code class="descname">--empty</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-revision-empty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create empty script.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-revision-b">
+<code class="descname">-b</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--branch</code><code class="descclassname"> &lt;branch&gt;</code><a class="headerlink" href="#cmdoption-python-manage-py-db-revision-b" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use this independent branch name.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-revision-p">
+<code class="descname">-p</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--parent</code><code class="descclassname"> &lt;parent&gt;</code><a class="headerlink" href="#cmdoption-python-manage-py-db-revision-p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parent revision(s) of this revision.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-revision-splice">
+<code class="descname">--splice</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-revision-splice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allow non-head parent revision.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-revision-d">
+<code class="descname">-d</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--depend</code><code class="descclassname"> &lt;depend&gt;</code><a class="headerlink" href="#cmdoption-python-manage-py-db-revision-d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Revision(s) this revision depends on.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-revision-l">
+<code class="descname">-l</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--label</code><code class="descclassname"> &lt;label&gt;</code><a class="headerlink" href="#cmdoption-python-manage-py-db-revision-l" title="Permalink to this definition">¶</a></dt>
+<dd><p>Label(s) to apply to the revision.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-revision-path">
+<code class="descname">--path</code><code class="descclassname"> &lt;path&gt;</code><a class="headerlink" href="#cmdoption-python-manage-py-db-revision-path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Where to store the revision.</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-revision-arg-message">
+<code class="descname">MESSAGE</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-revision-arg-message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</div>
+<div class="section" id="python-manage-py-db-show">
+<h3>show<a class="headerlink" href="#python-manage-py-db-show" title="Permalink to this headline">¶</a></h3>
+<p>Show the given revisions.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py db show <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>REVISIONS<span class="o">]</span>...
+</pre></div>
+</div>
+<p class="rubric">Arguments</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-show-arg-revisions">
+<code class="descname">REVISIONS</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-show-arg-revisions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional argument(s)</p>
+</dd></dl>
+
+</div>
+<div class="section" id="python-manage-py-db-stamp">
+<h3>stamp<a class="headerlink" href="#python-manage-py-db-stamp" title="Permalink to this headline">¶</a></h3>
+<p>Set current revision.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py db stamp <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TARGET<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Arguments</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-stamp-arg-target">
+<code class="descname">TARGET</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-stamp-arg-target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional argument</p>
+</dd></dl>
+
+</div>
+<div class="section" id="python-manage-py-db-upgrade">
+<h3>upgrade<a class="headerlink" href="#python-manage-py-db-upgrade" title="Permalink to this headline">¶</a></h3>
+<p>Run upgrade migrations.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py db upgrade <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>TARGET<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Arguments</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-db-upgrade-arg-target">
+<code class="descname">TARGET</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-db-upgrade-arg-target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional argument</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="python-manage-py-lint">
+<h2>python manage.py lint<a class="headerlink" href="#python-manage-py-lint" title="Permalink to this headline">¶</a></h2>
+<p>Run flake8.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py lint <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-lint-f">
+<code class="descname">-f</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--fix-imports</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-lint-f" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fix imports using isort, before linting</p>
+</dd></dl>
+
+</div>
+<div class="section" id="python-manage-py-shell">
+<h2>python manage.py shell<a class="headerlink" href="#python-manage-py-shell" title="Permalink to this headline">¶</a></h2>
+<p>Runs a shell in the app context.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py shell <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="python-manage-py-url">
+<h2>python manage.py url<a class="headerlink" href="#python-manage-py-url" title="Permalink to this headline">¶</a></h2>
+<p>Show details for a specific URL.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py url <span class="o">[</span>OPTIONS<span class="o">]</span> URL
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-url-method">
+<code class="descname">--method</code><code class="descclassname"> &lt;method&gt;</code><a class="headerlink" href="#cmdoption-python-manage-py-url-method" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method for url to match (default: GET)</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-url-arg-url">
+<code class="descname">URL</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-python-manage-py-url-arg-url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</div>
+<div class="section" id="python-manage-py-urls">
+<h2>python manage.py urls<a class="headerlink" href="#python-manage-py-urls" title="Permalink to this headline">¶</a></h2>
+<p>List all URLs registered with the app.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python manage.py urls <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-python-manage-py-urls-order">
+<code class="descname">--order</code><code class="descclassname"> &lt;order&gt;</code><a class="headerlink" href="#cmdoption-python-manage-py-urls-order" title="Permalink to this definition">¶</a></dt>
+<dd><p>Property on Rule to order by (default: rule)</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+  
+  <div class="footer-relations">
+    
+      <div class="pull-left">
+        <a class="btn btn-default" href="quickstart.html" title="previous chapter">&laquo; QuickStart</a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default" href="app.html" title="next chapter">App Docs &raquo;</a>
+      </div>
+    </div>
+    <div class="clearer"></div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="app.html" title="App Docs"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="QuickStart"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2017 Brian Cappello. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

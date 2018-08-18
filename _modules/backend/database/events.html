@@ -1,0 +1,264 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../../../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../../../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../../../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>backend.database.events &#8212; Flask React SPA 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  
+  
+   
+
+  <link href="/_static/styles.css" rel="stylesheet">
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar"><a href="
+    ../../../index.html" class="text-logo">Flask React SPA</a><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <p>A <strong>production-ready</strong> boilerplate built with <strong>Python 3</strong>, <strong>Flask</strong> and <strong>ES6 React</strong>.</p>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2 class="toc"><a href="/">Table Of Contents</a></h2>
+  </div>
+  <div class="sidebar-toc">
+    
+    
+      <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">QuickStart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../app.html">App Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../db_models.html">Database Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../restful.html">RESTful APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../deployment.html">Deployment</a></li>
+</ul>
+
+    
+  </div>
+</div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../../../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Fork me on GitHub</h2>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=star&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+    <iframe src="https://ghbtns.com/github-btn.html?user=briancappello&repo=flask-react-spa&type=fork&count=false&size=large" frameborder="0" scrolling="0" width="75px" height="30px"></iframe>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../../../index.html">Docs</a></li>
+              
+                <li><a href="../../index.html">Module code</a></li>
+              
+              <li>backend.database.events</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <h1>Source code for backend.database.events</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">event</span>
+
+<span class="kn">from</span> <span class="nn">backend.utils</span> <span class="k">import</span> <span class="n">slugify</span> <span class="k">as</span> <span class="n">_slugify</span><span class="p">,</span> <span class="n">was_decorated_without_parenthesis</span>
+
+
+<span class="c1"># EVENTS DOCS</span>
+<span class="c1"># http://docs.sqlalchemy.org/en/rel_1_1/core/event.html</span>
+<span class="c1"># ORM EVENTS DOCS</span>
+<span class="c1"># http://docs.sqlalchemy.org/en/rel_1_1/orm/events.html</span>
+
+
+<span class="k">class</span> <span class="nc">_SQLAlchemyEvent</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Private helper class for the @attach_events and @on decorators&quot;&quot;&quot;</span>
+    <span class="n">ATTR</span> <span class="o">=</span> <span class="s1">&#39;_sqlalchemy_event&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">event_name</span><span class="p">,</span> <span class="n">listen_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">field_name</span> <span class="o">=</span> <span class="n">field_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">event_name</span> <span class="o">=</span> <span class="n">event_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listen_kwargs</span> <span class="o">=</span> <span class="n">listen_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
+
+
+<div class="viewcode-block" id="attach_events"><a class="viewcode-back" href="../../../db_models.html#backend.database.attach_events">[docs]</a><span class="k">def</span> <span class="nf">attach_events</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class decorator for SQLAlchemy models to attach listeners on class</span>
+<span class="sd">    methods decorated with :func:`.on`</span>
+
+<span class="sd">    Usage::</span>
+
+<span class="sd">        @attach_events</span>
+<span class="sd">        class User(Model):</span>
+<span class="sd">            email = Column(String(50))</span>
+
+<span class="sd">            @on(&#39;email&#39;, &#39;set&#39;)</span>
+<span class="sd">            def lowercase_email(self, new_value, old_value, initiating_event):</span>
+<span class="sd">                self.email = new_value.lower()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">fn</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">_SQLAlchemyEvent</span><span class="o">.</span><span class="n">ATTR</span><span class="p">):</span>
+                <span class="n">e</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">_SQLAlchemyEvent</span><span class="o">.</span><span class="n">ATTR</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">field_name</span><span class="p">:</span>
+                    <span class="n">event</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">field_name</span><span class="p">),</span> <span class="n">e</span><span class="o">.</span><span class="n">event_name</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span>
+                                 <span class="o">**</span><span class="n">e</span><span class="o">.</span><span class="n">listen_kwargs</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">event</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">event_name</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="o">**</span><span class="n">e</span><span class="o">.</span><span class="n">listen_kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span>
+    <span class="k">if</span> <span class="n">was_decorated_without_parenthesis</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">wrapper</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">wrapper</span></div>
+
+
+<div class="viewcode-block" id="on"><a class="viewcode-back" href="../../../db_models.html#backend.database.on">[docs]</a><span class="k">def</span> <span class="nf">on</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">listen_kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class method decorator for SQLAlchemy models. Must be used in</span>
+<span class="sd">    conjunction with the :func:`.attach_events` class decorator</span>
+
+<span class="sd">    Usage::</span>
+
+<span class="sd">        @attach_events</span>
+<span class="sd">        class Post(Model):</span>
+<span class="sd">            uuid = Column(String(36))</span>
+<span class="sd">            post_tags = relationship(&#39;PostTag&#39;, back_populates=&#39;post&#39;)  # m2m</span>
+
+<span class="sd">            # instance event (only one positional argument, the event name)</span>
+<span class="sd">            # kwargs are passed on to the sqlalchemy.event.listen function</span>
+<span class="sd">            @on(&#39;init&#39;, once=True)</span>
+<span class="sd">            def generate_uuid(self, args, kwargs):</span>
+<span class="sd">                self.uuid = str(uuid.uuid4())</span>
+
+<span class="sd">            # attribute event (two positional args, field name and event name)</span>
+<span class="sd">            @on(&#39;post_tags&#39;, &#39;append&#39;)</span>
+<span class="sd">            def set_tag_order(self, post_tag, initiating_event):</span>
+<span class="sd">                if not post_tag.order:</span>
+<span class="sd">                    post_tag.order = len(self.post_tags) + 1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">field_name</span><span class="p">,</span> <span class="n">event_name</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">field_name</span><span class="p">,</span> <span class="n">event_name</span> <span class="o">=</span> <span class="n">args</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;@on accepts only one or two positional arguments&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">_SQLAlchemyEvent</span><span class="o">.</span><span class="n">ATTR</span><span class="p">,</span>
+                <span class="n">_SQLAlchemyEvent</span><span class="p">(</span><span class="n">field_name</span><span class="p">,</span> <span class="n">event_name</span><span class="p">,</span> <span class="n">listen_kwargs</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">fn</span>
+    <span class="k">return</span> <span class="n">wrapper</span></div>
+
+
+<div class="viewcode-block" id="slugify"><a class="viewcode-back" href="../../../db_models.html#backend.database.slugify">[docs]</a><span class="k">def</span> <span class="nf">slugify</span><span class="p">(</span><span class="n">field_name</span><span class="p">,</span> <span class="n">slug_field_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class decorator to specify a field to slugify. Slugs are immutable by</span>
+<span class="sd">    default unless mutable=True is passed.</span>
+
+<span class="sd">    Usage::</span>
+
+<span class="sd">        @slugify(&#39;title&#39;)</span>
+<span class="sd">        def Post(Model):</span>
+<span class="sd">            title = Column(String(100))</span>
+<span class="sd">            slug = Column(String(100))</span>
+
+<span class="sd">        # pass a second argument to specify the slug attribute field:</span>
+<span class="sd">        @slugify(&#39;title&#39;, &#39;title_slug&#39;)</span>
+<span class="sd">        def Post(Model)</span>
+<span class="sd">            title = Column(String(100))</span>
+<span class="sd">            title_slug = Column(String(100))</span>
+
+<span class="sd">        # optionally set mutable to True for a slug that changes every time</span>
+<span class="sd">        # the slugified field changes:</span>
+<span class="sd">        @slugify(&#39;title&#39;, mutable=True)</span>
+<span class="sd">        def Post(Model):</span>
+<span class="sd">            title = Column(String(100))</span>
+<span class="sd">            slug = Column(String(100))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">slug_field_name</span> <span class="o">=</span> <span class="n">slug_field_name</span> <span class="ow">or</span> <span class="s1">&#39;slug&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_set_slug</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">old_value</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">existing_slug</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">slug_field_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">existing_slug</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">mutable</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">existing_slug</span> <span class="ow">or</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">old_value</span><span class="p">):</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">slug_field_name</span><span class="p">,</span> <span class="n">_slugify</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">field_name</span><span class="p">),</span> <span class="s1">&#39;set&#39;</span><span class="p">,</span>
+                     <span class="n">partial</span><span class="p">(</span><span class="n">_set_slug</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="n">mutable</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">cls</span>
+    <span class="k">return</span> <span class="n">wrapper</span></div>
+</pre></div>
+
+          </div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Flask React SPA 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../../../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2017 Brian Cappello. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

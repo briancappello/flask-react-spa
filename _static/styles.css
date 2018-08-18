@@ -1,0 +1,48 @@
+/* collapse spacing between module and class/fn names */
+.section .descclassname {
+    padding-right: 0;
+    font-weight: normal;
+}
+.section .descname {
+    padding-left: 0;
+}
+
+/* fix layout alignment at top of the page */
+#right-column {
+    padding-top: 0;
+}
+.breadcrumb {
+    margin: 0;
+}
+@media (min-width: 769px) {
+    .body {
+        margin-top: -15px;
+    }
+}
+h1 {
+    border-top: 1px solid #D8E4EF;
+}
+#mobile-toggle > a {
+    display: block;
+}
+
+/* add basic styling for citations */
+cite {
+    font-family: monospace;
+    font-size: 15px;
+    background-color: #eee;
+    padding: 4px;
+    border-radius: 2px;
+}
+
+/* table of contents customizations */
+.sidebar-block h2 a {
+    color: #222;
+}
+
+a.text-logo:active,
+a.text-logo:hover,
+a.text-logo:focus,
+a.text-logo {
+    color: white;
+}
