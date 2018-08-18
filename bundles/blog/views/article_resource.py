@@ -1,11 +1,12 @@
 from flask_unchained.bundles.api import ModelResource
 from flask_unchained import injectable
 
+from ..models import Article
 from ..services import ArticleManager
 
 
 class ArticleResource(ModelResource):
-    model = 'Article'
+    model = Article
     include_methods = ('get', 'list')
     include_decorators = ('get',)
     member_param = '<string:slug>'

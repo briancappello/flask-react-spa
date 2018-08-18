@@ -5,6 +5,8 @@ from flask_unchained.forms import fields, validators
 
 from backend.utils import utcnow
 
+from ..models import User
+
 
 password_length = validators.Length(
     8, message='Password must be at least 8 characters long.')
@@ -18,7 +20,7 @@ class BaseUserForm(ReorderableForm):
 
 
 class UserAdmin(ModelAdmin):
-    model = 'User'
+    model = User
 
     name = 'Users'
     category_name = 'Security'

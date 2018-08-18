@@ -4,12 +4,14 @@ from flask_unchained.bundles.api import ma
 from flask_unchained.bundles.security.serializers import (
     UserSerializer as BaseUserSerializer)
 
+from ..models import User
+
 NON_ALPHANUMERIC_RE = re.compile(r'[^\w]')
 
 
 class UserSerializer(BaseUserSerializer):
     class Meta:
-        model = 'User'
+        model = User
         exclude = ('confirmed_at', 'created_at', 'updated_at', 'user_roles', 'articles')
         dump_only = ('active', 'roles')
         load_only = ('password',)

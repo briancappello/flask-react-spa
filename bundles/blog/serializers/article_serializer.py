@@ -31,5 +31,5 @@ class ArticleListSerializer(ArticleSerializer):
     series = ma.Nested('ArticleSeriesSerializer', attribute='article_series')
 
     class Meta:
-        model = 'Article'
+        model = Article
         fields = ARTICLE_FIELDS

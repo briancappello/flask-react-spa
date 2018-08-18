@@ -1,8 +1,10 @@
 from flask_unchained.bundles.admin import ModelAdmin
 
+from ..models import Role
+
 
 class RoleAdmin(ModelAdmin):
-    model = 'Role'
+    model = Role
 
     name = 'Roles'
     category_name = 'Security'

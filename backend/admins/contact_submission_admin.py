@@ -1,8 +1,10 @@
 from flask_unchained.bundles.admin import ModelAdmin, macro
 
+from ..models import ContactSubmission
+
 
 class ContactSubmissionAdmin(ModelAdmin):
-    model = 'ContactSubmission'
+    model = ContactSubmission
 
     name = 'Contact Submissions'
     category_name = 'Mail'

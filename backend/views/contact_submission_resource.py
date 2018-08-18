@@ -4,9 +4,11 @@ from flask_unchained.bundles.api import ModelResource
 from flask_unchained import injectable
 from flask_unchained.bundles.mail import Mail
 
+from ..models import ContactSubmission
+
 
 class ContactSubmissionResource(ModelResource):
-    model = 'ContactSubmission'
+    model = ContactSubmission
     include_methods = ('create',)
 
     def __init__(self, mail: Mail = injectable):

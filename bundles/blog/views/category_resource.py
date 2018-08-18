@@ -1,11 +1,12 @@
 from flask_unchained.bundles.api import ModelResource
 from flask_unchained import injectable
 
+from ..models import Category
 from ..services import ArticleManager, SeriesManager
 
 
 class CategoryResource(ModelResource):
-    model = 'Category'
+    model = Category
     include_methods = ('get', 'list')
 
     def __init__(self,

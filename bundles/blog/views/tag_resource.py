@@ -1,11 +1,12 @@
 from flask_unchained.bundles.api import ModelResource
 from flask_unchained import injectable
 
+from ..models import Tag
 from ..services import ArticleManager, SeriesManager
 
 
 class TagResource(ModelResource):
-    model = 'Tag'
+    model = Tag
     include_methods = ('get', 'list')
 
     def __init__(self,
