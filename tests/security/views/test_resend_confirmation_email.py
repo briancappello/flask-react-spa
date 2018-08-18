@@ -1,7 +1,7 @@
 import pytest
 
 from flask_unchained import url_for
-from flask_security_bundle import UserManager, SecurityService
+from flask_unchained.bundles.security import UserManager, SecurityService
 
 
 @pytest.mark.usefixtures('user')

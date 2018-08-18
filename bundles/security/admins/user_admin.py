@@ -1,15 +1,13 @@
-from wtforms import fields, validators
-from wtforms.fields import html5
-
-from flask_security.forms import EqualTo, Length, unique_user_email
-
 from flask_unchained.bundles.admin import ModelAdmin, macro
 from flask_unchained.bundles.admin.forms import ReorderableForm
+from flask_unchained.bundles.security.forms import unique_user_email
+from flask_unchained.forms import fields, validators
 
 from backend.utils import utcnow
 
 
-password_length = Length(8, message='Password must be at least 8 characters long.')
+password_length = validators.Length(
+    8, message='Password must be at least 8 characters long.')
 
 
 class BaseUserForm(ReorderableForm):
@@ -44,7 +42,7 @@ class UserAdmin(ModelAdmin):
     form_columns = ('username', 'email', 'first_name', 'last_name', 'roles', 'active')
     form_excluded_columns = ('articles', 'password', 'user_roles')
 
-    form_overrides = dict(email=html5.EmailField)
+    form_overrides = dict(email=fields.EmailField)
     form_args = dict(email={'validators': [validators.DataRequired(),
                                            validators.Email()]},
                      roles={'get_label': lambda role: role.name})
@@ -52,7 +50,7 @@ class UserAdmin(ModelAdmin):
     def get_create_form(self):
         CreateForm = super().get_create_form()
 
-        CreateForm.email = html5.EmailField(
+        CreateForm.email = fields.EmailField(
             'Email',
             validators=[
                 validators.DataRequired(),
@@ -71,7 +69,7 @@ class UserAdmin(ModelAdmin):
             'Confirm Password',
             validators=[
                 validators.DataRequired(),
-                EqualTo('password', message='RETYPE_PASSWORD_MISMATCH'),
+                validators.EqualTo('password', message='RETYPE_PASSWORD_MISMATCH'),
             ],
         )
 

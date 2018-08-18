@@ -1,7 +1,7 @@
 import pytest
 
-from flask_security import current_user, AnonymousUser
-from flask_security_bundle import SecurityService, UserManager
+from flask_unchained.bundles.security import (
+    AnonymousUser, SecurityService, UserManager, current_user)
 from flask_unchained import url_for
 
 

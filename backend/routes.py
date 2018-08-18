@@ -1,6 +1,6 @@
 from flask_unchained import (
     controller, func, get, include, patch, post, prefix, put, resource, rule)
-from flask_security_bundle import SecurityController, UserResource
+from flask_unchained.bundles.security import SecurityController, UserResource
 
 from backend.views import ContactSubmissionResource
 from bundles.blog.views import (

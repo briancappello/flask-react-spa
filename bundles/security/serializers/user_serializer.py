@@ -1,7 +1,8 @@
 import re
 
 from flask_unchained.bundles.api import ma
-from flask_security_bundle.serializers import UserSerializer as BaseUserSerializer
+from flask_unchained.bundles.security.serializers import (
+    UserSerializer as BaseUserSerializer)
 
 NON_ALPHANUMERIC_RE = re.compile(r'[^\w]')
 

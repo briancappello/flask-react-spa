@@ -1,4 +1,4 @@
-from flask_security_bundle import UserManager as BaseUserManager
+from flask_unchained.bundles.security import UserManager as BaseUserManager
 
 
 class UserManager(BaseUserManager):

@@ -3,8 +3,7 @@
 # pip-compile requirements.in --output-file requirements.txt
 
 flask
-flask-security-bundle
-flask-unchained[api,admin,celery,mail,session,sqlalchemy]
+flask-unchained[api,admin,celery,mail,security,session,sqlalchemy]
 
 appdirs
 bcrypt

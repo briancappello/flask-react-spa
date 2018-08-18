@@ -1,4 +1,4 @@
-from flask_security_bundle.models import User as BaseUser
+from flask_unchained.bundles.security.models import User as BaseUser
 from flask_unchained.bundles.sqlalchemy import db
 
 
