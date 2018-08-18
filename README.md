@@ -93,7 +93,6 @@ $ cd flask-react-spa
 $ mkvirtualenv -p /path/to/python3 flask_react_spa
 $ pip install -r requirements.txt
 $ pip install -r requirements-dev.txt  # for tests and sphinx docs
-$ npm install
 
 # configure
 $ edit `backend/config.example.py` and save as `backend/config.py`
@@ -113,6 +112,7 @@ $ python manage.py db upgrade
 $ python manage.py db fixtures fixtures.json
 
 # frontend dev server:
+$ npm install
 $ npm run start
 
 # backend dev server:
