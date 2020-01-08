@@ -49,7 +49,7 @@
 
 - name: copy static files
   synchronize:
-    src: '{{ local_project_dir }}/{{ static_dir_name}}/'
+    src: '{{ local_project_dir }}/{{ static_dir_name }}/'
     dest: '{{ FLASK_STATIC_FOLDER }}'
     recursive: yes
     delete: yes
