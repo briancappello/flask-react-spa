@@ -22,7 +22,7 @@ lxml
 markdown
 marshmallow-sqlalchemy
 redis
-psycopg2
+psycopg2-binary
 python-dateutil
 python-frontmatter
 pytz
