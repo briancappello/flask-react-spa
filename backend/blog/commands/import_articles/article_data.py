@@ -102,9 +102,8 @@ class ArticleData(FileData):
             body = ''.join(map(str, body.contents))
 
         # prefix stylesheet if necessary
-        stylesheet_filepath = os.path.join(self.dir_path,
-                                           ARTICLE_STYLESHEET_FILENAME)
-        if not self.is_dir or not os.path.exists(stylesheet_filepath):
+        if not self.is_dir or not os.path.exists(
+                os.path.join(self.dir_path, ARTICLE_STYLESHEET_FILENAME)):
             return body
 
         href = self._get_static_url(ARTICLE_STYLESHEET_FILENAME)
