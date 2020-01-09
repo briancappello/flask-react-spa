@@ -2,6 +2,8 @@
 #
 # pip-compile requirements-dev.in --output-file requirements-dev.txt
 
+pip-tools
+
 # docs
 guzzle-sphinx-theme
 livereload

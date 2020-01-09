@@ -14,15 +14,15 @@ with open(os.path.join(ROOT_DIR, 'README.md'), encoding='utf-8') as f:
 
 
 def is_pkg(line):
-    return line and not line.startswith(('--', 'git', '#'))
+    return line and not line.startswith(('-r', '--', 'git', '#'))
 
 
 def read_requirements(filename):
     with open(os.path.join(ROOT_DIR, filename), encoding='utf-8') as f:
-        return [line for line in f.read().splitlines() if is_pkg(line)]
+        return [line.split('#')[0].strip()
+                for line in f.read().splitlines()
+                if is_pkg(line)]
 
-install_requires = read_requirements('requirements.txt')
-dev_requires = read_requirements('requirements-dev.txt')
 
 setup(
     name='flask_react_spa',
@@ -41,8 +41,8 @@ setup(
         'Programming Language :: Python :: 3.6',
     ],
     packages=find_packages(exclude=['ansible', 'tests']),
-    install_requires=install_requires,
-    extras_require={'test': dev_requires, 'docs': dev_requires},
+    install_requires=read_requirements('requirements.txt'),
+    extras_require={'dev': read_requirements('requirements-dev.txt')},
     include_package_data=True,
     zip_safe=False,
     entry_points='''

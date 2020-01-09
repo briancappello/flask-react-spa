@@ -1,17 +1,29 @@
 ---
-sudo: false
+dist: bionic
+
+env:
+  global:
+    - CI=True
+    - TRAVIS=True
+
 language: python
 python:
   - 3.6
+  - 3.7
+  - 3.8
+
+services:
+  - postgresql
+  - redis-server
+
 install:
   - cp backend/config.example.py backend/config.py
   - pip install tox-travis
-  - pip install -r requirements.txt
-  - pip install -r requirements-dev.txt  # required for building the docs
+  - pip install -r requirements-dev.txt
+
 script:
   - tox
   - travis-sphinx build --nowarn --source=docs
-services:
-  - redis-server
+
 after_success:
   - travis-sphinx deploy
