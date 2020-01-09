@@ -20,11 +20,14 @@ jinja2
 jinja2-time
 lxml
 markdown
+marshmallow<3.0  # this code base has not been upgraded to 3.x
 marshmallow-sqlalchemy
 redis
-psycopg2
+passlib<2.0  # because flask-security (as of Jan 2020)
+psycopg2-binary
 python-dateutil
 python-frontmatter
 pytz
+sqlalchemy<1.3  # because flask-admin (as of Jan 2020)
 tzlocal
 uwsgi
