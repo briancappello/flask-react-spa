@@ -21,8 +21,8 @@
 {%     set value = override %}
 {%   elif sshd[key] is defined %}
 {%     set value = sshd[key] %}
-{%   elif sshd_defaults[key] is defined and sshd_skip_defaults != true %}
-{%     set value = sshd_defaults[key] %}
+{%   elif __sshd_defaults[key] is defined and sshd_skip_defaults != true %}
+{%     set value = __sshd_defaults[key] %}
 {%   endif %}
 {{ render_option(key,value) -}}
 {% endmacro %}

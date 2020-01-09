@@ -1,0 +1,17 @@
+[Unit]
+Description=OpenBSD Secure Shell server
+
+[Service]
+ExecStartPre={{ sshd_binary }} -t
+ExecStart={{ sshd_binary }} -D -f {{ sshd_config_file }}
+ExecReload={{ sshd_binary }} -t
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartPreventExitStatus=255
+Type=notify
+RuntimeDirectory={{ sshd_binary | basename }}
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target

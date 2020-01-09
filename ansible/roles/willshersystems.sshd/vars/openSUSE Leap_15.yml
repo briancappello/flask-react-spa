@@ -1,23 +1,14 @@
 ---
-__sshd_config_mode: '0644'
 __sshd_packages:
   - openssh
-  - openssh-server
-__sshd_sftp_server: /usr/libexec/openssh/sftp-server
+__sshd_sftp_server: /usr/lib/ssh/sftp-server
 __sshd_defaults:
-  SyslogFacility: AUTHPRIV
-  PermitRootLogin: forced-commands-only
   AuthorizedKeysFile: .ssh/authorized_keys
-  PasswordAuthentication: no
-  ChallengeResponseAuthentication: no
   UsePAM: yes
   X11Forwarding: yes
-  PrintLastLog: yes
-  UsePrivilegeSeparation: sandbox
   AcceptEnv:
     - LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
     - LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
-    - LC_IDENTIFICATION LC_ALL LANGUAGE
-    - XMODIFIERS
+    - LC_IDENTIFICATION LC_ALL
   Subsystem: "sftp {{ sshd_sftp_server }}"
 __sshd_os_supported: yes

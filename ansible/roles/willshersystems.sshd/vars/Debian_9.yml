@@ -13,18 +13,13 @@ __sshd_defaults:
     - /etc/ssh/ssh_host_ecdsa_key
     - /etc/ssh/ssh_host_ed25519_key
   UsePrivilegeSeparation: yes
-  KeyRegenerationInterval: 3600
-  ServerKeyBits: 1024
   SyslogFacility: AUTH
   LogLevel: INFO
   LoginGraceTime: 120
-  PermitRootLogin: prohibit-password
+  PermitRootLogin: without-password
   StrictModes: yes
-  RSAAuthentication: yes
   PubkeyAuthentication: yes
-  AuthorizedKeysFile: "%h/.ssh/authorized_keys"
   IgnoreRhosts: yes
-  RhostsRSAAuthentication: no
   HostbasedAuthentication: no
   PermitEmptyPasswords: no
   ChallengeResponseAuthentication: no
@@ -36,5 +31,4 @@ __sshd_defaults:
   AcceptEnv: LANG LC_*
   Subsystem: "sftp {{ sshd_sftp_server }}"
   UsePAM: yes
-  UseDNS: no
 __sshd_os_supported: yes
