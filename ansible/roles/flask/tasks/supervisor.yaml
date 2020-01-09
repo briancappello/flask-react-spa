@@ -50,7 +50,7 @@
   register: reload_systemd_daemon
 
 - name: reload systemd daemon
-  when: reload_systemd_daemon | changed
+  when: reload_systemd_daemon is changed
   command: systemctl daemon-reload
 
 - name: start and enable supervisor

@@ -7,8 +7,7 @@
             mode=0755
             backup=yes
 
-- when: redhat_family
-  include: selinux_nginx_socket_write.yaml
+- include: selinux_nginx_socket_write.yaml
 
 - name: create uwsgi log folder
   file: path={{ application_log_dir }}

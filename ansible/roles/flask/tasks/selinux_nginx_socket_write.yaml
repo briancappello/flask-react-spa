@@ -13,7 +13,7 @@
   register: nginx_te
 
 - name: build and install policy
-  when: nginx_te | changed
+  when: nginx_te is changed
   command: '{{ item }}'
   args:
     chdir: /var/lib/selinux

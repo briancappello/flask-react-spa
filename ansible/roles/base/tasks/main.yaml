@@ -1,6 +1,6 @@
 ---
 - name: install redhat-family-specific packages
-  when: redhat_family and redhat_family_deps is defined
+  when: redhat_family_deps is defined
   package: name={{ item }} state=present
   with_items: '{{ redhat_family_deps }}'
 
@@ -9,8 +9,7 @@
   package: name={{ item }} state=present
   with_items: '{{ distro_deps }}'
 
-- name: update packages (yum)
-  when: yum
+- name: update packages
   yum: name='*' state=latest
 
 - name: install common packages
@@ -41,8 +40,7 @@
   register: unlabeled_root
   changed_when: false
   failed_when: false
-  when: redhat_family
 
 - name: run restorecon /
   command: "restorecon /"
-  when: redhat_family and unlabeled_root.stdout != ""
+  when: unlabeled_root.stdout != ""
