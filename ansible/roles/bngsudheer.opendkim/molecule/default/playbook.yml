@@ -1,0 +1,22 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    opendkim_use_centos_base: false
+    centos_base_enable_epel: true
+    centos_base_install_selinux_packages: true
+    centos_base_basic_packages: true
+    centos_base_security_packages: true
+    dkim_admin_email: admin@example.com
+    dkim_selector: default
+    dkim_domains:
+      - example.com
+      - example.org
+  pre_tasks:
+    - name: Set variable value use_centos_base
+      set_fact:
+        opendkim_use_centos_base: "{{ lookup('env', 'OPENDKIM_USE_CENTOS_BASE') }}"
+  roles:
+    - role: bngsudheer.centos_base
+      when: opendkim_use_centos_base
+    - role: ansible-role-dkim

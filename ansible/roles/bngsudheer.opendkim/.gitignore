@@ -1,0 +1,8 @@
+*.retry
+*.pyc
+
+tests/test.sh
+
+molecule/**/.molecule/
+molecule/**/pytestdebug.log
+__pycache__/
