@@ -1,0 +1,6 @@
+---
+- name: Install Opendkim packages
+  yum:
+    name:
+      - opendkim
+      - openssl

@@ -1,0 +1,5 @@
+---
+
+- include_tasks: variables.yml
+
+- include_tasks: install.yml

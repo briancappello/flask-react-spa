@@ -1,10 +1,10 @@
 ---
-sshd_service: ssh
-sshd_packages:
+__sshd_service: ssh
+__sshd_packages:
   - openssh-server
   - openssh-sftp-server
-sshd_config_mode: "0644"
-sshd_defaults:
+__sshd_config_mode: "0644"
+__sshd_defaults:
   Port: 22
   Protocol: 2
   HostKey:
@@ -35,4 +35,4 @@ sshd_defaults:
   AcceptEnv: LANG LC_*
   Subsystem: "sftp {{ sshd_sftp_server }}"
   UsePAM: yes
-sshd_os_supported: yes
+__sshd_os_supported: yes

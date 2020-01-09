@@ -1,0 +1,23 @@
+---
+sudo: required
+language: python
+services:
+  - docker
+matrix:
+  include:
+    - env: OPENDKIM_USE_CENTOS_BASE=true OPENDKIM_MOLECULE_DISTRO=centos:7 OPENDKIM_MOLECULE_COMMAND=/usr/sbin/init
+    - env: OPENDKIM_USE_CENTOS_BASE=false OPENDKIM_MOLECULE_DISTRO='solita/ubuntu-systemd:18.04' OPENDKIM_MOLECULE_COMMAND='/sbin/init'
+install:
+  # - pip install molecule #workaround for Molecule/Ansible 2.8 issue
+  - pip install docker
+  - pip install molecule==2.19 ansible==2.7.11
+
+branches:
+  only:
+    - master
+
+script:
+  - molecule test
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

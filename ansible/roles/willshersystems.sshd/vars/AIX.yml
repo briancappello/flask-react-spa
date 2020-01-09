@@ -1,0 +1,12 @@
+---
+__sshd_config_mode: '0644'
+__sshd_packages: [ ] # sshd is not installed by yum / AIX toolbox for Linux.  You'll need to manually install them using AIX Web Download Packs.
+__sshd_sftp_server: /usr/sbin/sftp-server
+__sshd_config_group: system
+__sshd_defaults:
+  Subsystem: "sftp {{ sshd_sftp_server }}"
+__sshd_os_supported: yes
+
+sshd_install_service: no
+sshd_manage_service: no
+sshd_allow_reload: yes

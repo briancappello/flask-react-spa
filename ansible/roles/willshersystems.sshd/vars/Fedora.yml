@@ -1,9 +1,9 @@
 ---
-sshd_packages:
+__sshd_packages:
   - openssh
   - openssh-server
-sshd_sftp_server: /usr/libexec/openssh/sftp-server
-sshd_defaults:
+__sshd_sftp_server: /usr/libexec/openssh/sftp-server
+__sshd_defaults:
   HostKey:
     - /etc/ssh/ssh_host_rsa_key
     - /etc/ssh/ssh_host_ecdsa_key
@@ -16,11 +16,10 @@ sshd_defaults:
   GSSAPICleanupCredentials: no
   UsePAM: yes
   X11Forwarding: yes
-  UsePrivilegeSeparation: sandbox
   AcceptEnv:
     - LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
     - LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
     - LC_IDENTIFICATION LC_ALL LANGUAGE
     - XMODIFIERS
   Subsystem: "sftp {{ sshd_sftp_server }}"
-sshd_os_supported: yes
+__sshd_os_supported: yes

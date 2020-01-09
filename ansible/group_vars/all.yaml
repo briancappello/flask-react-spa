@@ -62,30 +62,9 @@ nginx_error_log_file: '{{ nginx_log_dir }}/{{ project_name }}_error.log'
 # NOTE: these are all set on a per-host basis, and are dependent upon gather_facts
 # *********************************************************************************
 
-# ==============
-# OS string vars
-# ==============
-
 os: "{{ ansible_distribution | lower }}"
 os_version: "{{ ansible_distribution_version }}"
 os_family: "{{ ansible_os_family | lower }}_family"
 
-# ===============
-# OS boolean vars
-# ===============
-
-# package managers
-apt: ansible_pkg_mgr == 'apt'
-dnf: ansible_pkg_mgr == 'dnf'
-yum: ansible_pkg_mgr == 'yum'
-
-# specific distros
-centos: os == 'centos'
-rhel: os == 'redhat'
-debian: os == 'debian'
-fedora: os == 'fedora'
-ubuntu: os == 'ubuntu'
-
-# distro families
-debian_family: os_family == 'debian_family'
-redhat_family: os_family == 'redhat_family'
+is_centos: os == 'centos'
+is_rhel: os == 'redhat'

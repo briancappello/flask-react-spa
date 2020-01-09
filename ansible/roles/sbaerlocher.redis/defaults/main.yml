@@ -1,5 +1,6 @@
 ---
 # defaults file for sbaerlocher.redis
+
 redis_port: 6379
 redis_bind_interface: 127.0.0.1
 redis_unixsocket: ''

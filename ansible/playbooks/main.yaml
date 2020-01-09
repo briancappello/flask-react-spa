@@ -91,10 +91,8 @@
   become: yes
   roles:
     - role: iptables
-    - when: redhat_family
-      role: geerlingguy.repo-epel
-    - when: redhat_family
-      role: repo-ius
+    - role: geerlingguy.repo-epel
+    - role: repo-ius
     - role: base
     - role: ANXS.postgresql
       vars:

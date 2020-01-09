@@ -1,6 +1,5 @@
 ---
 - name: ensure firewalld is stopped and disabled
-  when: redhat_family
   service: name=firewalld state=stopped enabled=False
   register: result
   failed_when: "(result.msg is defined and 'Could not find the requested service' not in result.msg) or result.state != 'stopped'"

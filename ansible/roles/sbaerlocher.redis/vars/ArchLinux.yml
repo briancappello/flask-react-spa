@@ -1,4 +1,6 @@
 ---
+# vars file for sbaerlocher.redis
+
 redis_package: redis
-redis_daemon: redis
+redis_service: redis
 redis_conf_path: /etc/redis.conf

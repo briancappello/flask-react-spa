@@ -12,13 +12,13 @@ $ ip addr show virbr0 | grep inet
 
 This value can also be found in `virt-manager` under `Edit > Connection Details > Virtual Networks (tab)`.
 
-Then, to build a new CentOS 7.4 image with a hostname of `centos74` and a static IP of `192.168.XXX.YYY`:
+Then, to build a new CentOS 7.7 image with a hostname of `centos77` and a static IP of `192.168.XXX.YYY`:
 
 ```bash
-$ ./build-centos74.sh centos74 192.168.XXX.YYY
+$ ./build-centos.sh centos77 192.168.XXX.YYY
 
 # to "install" and run it (first run only):
-$ sudo ./run-centos.sh centos74
+$ sudo ./run-centos.sh centos77
 
 # to access it (give it 30 seconds or so to finish booting up):
 $ ssh root@192.168.XXX.YYY
@@ -31,5 +31,5 @@ Finally, since the ansible playbooks require a domain name, one should add the I
 
 ```
 # ...
-192.168.XXX.YYY centos74.io
+192.168.XXX.YYY centos77.io
 ```

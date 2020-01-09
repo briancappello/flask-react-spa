@@ -7,15 +7,14 @@ galaxy_info:
   platforms:
     - name: EL
       versions:
-        - 6
-        - 7
+        - all
     - name: Ubuntu
       versions:
-        - trusty
+        - all
     - name: Archlinux
       versions:
-      - all
+        - all
   categories:
-    - database:nosql 
+    - database:nosql
 
 dependencies: []

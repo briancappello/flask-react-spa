@@ -21,8 +21,8 @@
 {%     set value = override %}
 {%   elif sshd[key] is defined %}
 {%     set value = sshd[key] %}
-{%   elif sshd_defaults[key] is defined and sshd_skip_defaults != true %}
-{%     set value = sshd_defaults[key] %}
+{%   elif __sshd_defaults[key] is defined and sshd_skip_defaults != true %}
+{%     set value = __sshd_defaults[key] %}
 {%   endif %}
 {{ render_option(key,value) -}}
 {% endmacro %}
@@ -33,36 +33,54 @@
 {%   if match_list is iterable %}
 {%     for match in match_list %}
 Match {{ match["Condition"] }}
+{{       render_option("AcceptEnv",match["AcceptEnv"],true) -}}
 {{       render_option("AllowAgentForwarding",match["AllowAgentForwarding"],true) -}}
 {{       render_option("AllowGroups",match["AllowGroups"],true) -}}
+{{       render_option("AllowStreamLocalForwarding",match["AllowStreamLocalForwarding"],true) -}}
 {{       render_option("AllowTcpForwarding",match["AllowTcpForwarding"],true) -}}
 {{       render_option("AllowUsers",match["AllowUsers"],true) -}}
 {{       render_option("AuthenticationMethods",match["AuthenticationMethods"],true) -}}
 {{       render_option("AuthorizedKeysCommand",match["AuthorizedKeysCommand"],true) -}}
 {{       render_option("AuthorizedKeysCommandUser",match["AuthorizedKeysCommandUser"],true) -}}
 {{       render_option("AuthorizedKeysFile",match["AuthorizedKeysFile"],true) -}}
+{{       render_option("AuthorizedPrincipalsCommand",match["AuthorizedPrincipalsCommand"],true) -}}
+{{       render_option("AuthorizedPrincipalsCommandUser",match["AuthorizedPrincipalsCommandUser"],true) -}}
 {{       render_option("AuthorizedPrincipalsFile",match["AuthorizedPrincipalsFile"],true) -}}
 {{       render_option("Banner",match["Banner"],true) -}}
 {{       render_option("ChrootDirectory",match["ChrootDirectory"],true) -}}
+{{       render_option("ClientAliveCountMax",match["ClientAliveCountMax"],true) -}}
+{{       render_option("ClientAliveInterval",match["ClientAliveInterval"],true) -}}
 {{       render_option("DenyGroups",match["DenyGroups"],true) -}}
 {{       render_option("DenyUsers",match["DenyUsers"],true) -}}
 {{       render_option("ForceCommand",match["ForceCommand"],true) -}}
 {{       render_option("GatewayPorts",match["GatewayPorts"],true) -}}
 {{       render_option("GSSAPIAuthentication",match["GSSAPIAuthentication"],true) -}}
+{{       render_option("HostbasedAcceptedKeyTypes",match["HostbasedAcceptedKeyTypes"],true) -}}
 {{       render_option("HostbasedAuthentication",match["HostbasedAuthentication"],true) -}}
 {{       render_option("HostbasedUsesNameFromPacketOnly",match["HostbasedUsesNameFromPacketOnly"],true) -}}
+{{       render_option("IPQoS",match["IPQoS"],true) -}}
 {{       render_option("KbdInteractiveAuthentication",match["KbdInteractiveAuthentication"],true) -}}
 {{       render_option("KerberosAuthentication",match["KerberosAuthentication"],true) -}}
+{{       render_option("LogLevel",match["LogLevel"],true) -}}
 {{       render_option("MaxAuthTries",match["MaxAuthTries"],true) -}}
 {{       render_option("MaxSessions",match["MaxSessions"],true) -}}
 {{       render_option("PasswordAuthentication",match["PasswordAuthentication"],true) -}}
 {{       render_option("PermitEmptyPasswords",match["PermitEmptyPasswords"],true) -}}
 {{       render_option("PermitOpen",match["PermitOpen"],true) -}}
 {{       render_option("PermitRootLogin",match["PermitRootLogin"],true) -}}
+{{       render_option("PermitTTY",match["PermitTTY"],true) -}}
 {{       render_option("PermitTunnel",match["PermitTunnel"],true) -}}
+{{       render_option("PermitUserRC",match["PermitUserRC"],true) -}}
+{{       render_option("PubkeyAcceptedKeyTypes",match["PubkeyAcceptedKeyTypes"],true) -}}
 {{       render_option("PubkeyAuthentication",match["PubkeyAuthentication"],true) -}}
+{{       render_option("RDomain",match["RDomain"],true) -}}
+{{       render_option("RekeyLimit",match["RekeyLimit"],true) -}}
+{{       render_option("RevokedKeys",match["RevokedKeys"],true) -}}
 {{       render_option("RhostsRSAAuthentication",match["RhostsRSAAuthentication"],true) -}}
 {{       render_option("RSAAuthentication",match["RSAAuthentication"],true) -}}
+{{       render_option("StreamLocalBindMask",match["StreamLocalBindMask"],true) -}}
+{{       render_option("StreamLocalBindUnlink",match["StreamLocalBindUnlink"],true) -}}
+{{       render_option("TrustedUserCAKeys",match["TrustedUserCAKeys"],true) -}}
 {{       render_option("X11DisplayOffset",match["X11DisplayOffset"],true) -}}
 {{       render_option("X11Forwarding",match["X11Forwarding"],true) -}}
 {{       render_option("X11UseLocalHost",match["X11UseLocalHost"],true) -}}
@@ -77,12 +95,15 @@ Match {{ match["Condition"] }}
 {{ body_option("AcceptEnv",sshd_AcceptEnv) -}}
 {{ body_option("AllowAgentForwarding",sshd_AllowAgentForwarding) -}}
 {{ body_option("AllowGroups",sshd_AllowGroups) -}}
+{{ body_option("AllowStreamLocalForwarding",sshd_AllowStreamLocalForwarding) -}}
 {{ body_option("AllowTcpForwarding",sshd_AllowTcpForwarding) -}}
 {{ body_option("AllowUsers",sshd_AllowUsers) -}}
 {{ body_option("AuthenticationMethods",sshd_AuthenticationMethods) -}}
 {{ body_option("AuthorizedKeysCommand",sshd_AuthorizedKeysCommand) -}}
 {{ body_option("AuthorizedKeysCommandUser",sshd_AuthorizedKeysCommandUser) -}}
 {{ body_option("AuthorizedKeysFile",sshd_AuthorizedKeysFile) -}}
+{{ body_option("AuthorizedPrincipalsCommand",sshd_AuthorizedPrincipalsCommand) -}}
+{{ body_option("AuthorizedPrincipalsCommandUser",sshd_AuthorizedPrincipalsCommandUser) -}}
 {{ body_option("AuthorizedPrincipalsFile",sshd_AuthorizedPrincipalsFile) -}}
 {{ body_option("Banner",sshd_Banner) -}}
 {{ body_option("ChallengeResponseAuthentication",sshd_ChallengeResponseAuthentication) -}}
@@ -94,17 +115,22 @@ Match {{ match["Condition"] }}
 {{ body_option("DebianBanner",sshd_DebianBanner) -}}
 {{ body_option("DenyGroups",sshd_DenyGroups) -}}
 {{ body_option("DenyUsers",sshd_DenyUsers) -}}
+{{ body_option("DisableForwarding",sshd_DisableForwarding) -}}
+{{ body_option("ExposeAuthInfo",sshd_ExposeAuthInfo) -}}
+{{ body_option("FingerprintHash",sshd_FingerprintHash) -}}
 {{ body_option("ForceCommand",sshd_ForceCommand) -}}
+{{ body_option("GatewayPorts",sshd_GatewayPorts) -}}
 {{ body_option("GSSAPIAuthentication",sshd_GSSAPIAuthentication) -}}
 {{ body_option("GSSAPICleanupCredentials",sshd_GSSAPICleanupCredentials) -}}
 {{ body_option("GSSAPIKeyExchange",sshd_GSSAPIKeyExchange) -}}
 {{ body_option("GSSAPIStoreCredentialsOnRekey",sshd_GSSAPIStoreCredentialsOnRekey) -}}
 {{ body_option("GSSAPIStrictAcceptorCheck",sshd_GSSAPIStrictAcceptorCheck) -}}
-{{ body_option("GatewayPorts",sshd_GatewayPorts) -}}
 {{ body_option("HPNBufferSize",sshd_HPNBufferSize) -}}
 {{ body_option("HPNDisabled",sshd_HPNDisabled) -}}
 {{ body_option("HostCertificate",sshd_HostCertificate) -}}
 {{ body_option("HostKeyAgent",sshd_HostKeyAgent) -}}
+{{ body_option("HostKeyAlgorithms",sshd_HostKeyAlgorithms) -}}
+{{ body_option("HostbasedAcceptedKeyTypes",sshd_HostbasedAcceptedKeyTypes) -}}
 {{ body_option("HostbasedAuthentication",sshd_HostbasedAuthentication) -}}
 {{ body_option("HostbasedUsesNameFromPacketOnly",sshd_HostbasedUsesNameFromPacketOnly) -}}
 {{ body_option("IPQoS",sshd_IPQoS) -}}
@@ -131,15 +157,20 @@ Match {{ match["Condition"] }}
 {{ body_option("PermitTTY",sshd_PermitTTY) -}}
 {{ body_option("PermitTunnel",sshd_PermitTunnel) -}}
 {{ body_option("PermitUserEnvironment",sshd_PermitUserEnvironment) -}}
+{{ body_option("PermitUserRC",sshd_PermitUserRC) -}}
 {{ body_option("PidFile",sshd_PidFile) -}}
 {{ body_option("PrintLastLog",sshd_PrintLastLog) -}}
 {{ body_option("PrintMotd",sshd_PrintMotd) -}}
+{{ body_option("PubkeyAcceptedKeyTypes",sshd_PubkeyAcceptedKeyTypes) -}}
 {{ body_option("PubkeyAuthentication",sshd_PubkeyAuthentication) -}}
 {{ body_option("RSAAuthentication",sshd_RSAAuthentication) -}}
 {{ body_option("RekeyLimit",sshd_RekeyLimit) -}}
 {{ body_option("RevokedKeys",sshd_RevokedKeys) -}}
+{{ body_option("RDomain",sshd_RDomain) -}}
 {{ body_option("RhostsRSAAuthentication",sshd_RhostsRSAAuthentication) -}}
 {{ body_option("ServerKeyBits",sshd_ServerKeyBits) -}}
+{{ body_option("StreamLocalBindMask",sshd_StreamLocalBindMask) -}}
+{{ body_option("StreamLocalBindUnlink",sshd_StreamLocalBindUnlink) -}}
 {{ body_option("StrictModes",sshd_StrictModes) -}}
 {{ body_option("Subsystem",sshd_Subsystem) -}}
 {{ body_option("SyslogFacility",sshd_SyslogFacility) -}}

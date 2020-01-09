@@ -1,0 +1,13 @@
+---
+# There is no package manager in CoreOS
+__sshd_packages: []
+__sshd_service: sshd
+__sshd_sftp_server: internal-sftp
+__sshd_defaults:
+  Subsystem: "sftp {{ sshd_sftp_server }}"
+  ClientAliveInterval: 180
+  UseDNS: no
+  UsePAM: yes
+  PrintLastLog: no
+  PrintMotd: no
+__sshd_os_supported: yes

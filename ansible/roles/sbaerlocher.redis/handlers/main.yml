@@ -2,10 +2,16 @@
 # handlers file for sbaerlocher.redis
 
 - name: restart redis
-  service: name={{ redis_daemon }} state=restarted
+  service:
+    name: "{{ redis_service }}"
+    state: restarted
 
 - name: started redis
-  service: name={{ redis_daemon }} state=started
+  service:
+    name: "{{ redis_service }}"
+    state: started
 
 - name: enabled redis
-  service: name={{ redis_daemon }} enabled=yes
+  service:
+    name: "{{ redis_service }}"
+    enabled: true

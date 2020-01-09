@@ -1,10 +1,10 @@
 ---
-sshd_config_mode: '0644'
-sshd_packages:
+__sshd_config_mode: '0644'
+__sshd_packages:
   - openssh
   - openssh-server
-sshd_sftp_server: /usr/libexec/openssh/sftp-server
-sshd:
+__sshd_sftp_server: /usr/libexec/openssh/sftp-server
+__sshd_defaults:
   SyslogFacility: AUTHPRIV
   PermitRootLogin: forced-commands-only
   AuthorizedKeysFile: .ssh/authorized_keys
@@ -20,4 +20,4 @@ sshd:
     - LC_IDENTIFICATION LC_ALL LANGUAGE
     - XMODIFIERS
   Subsystem: "sftp {{ sshd_sftp_server }}"
-sshd_os_supported: yes
+__sshd_os_supported: yes

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ./build-centos74.sh vm_name static_ip_address
+# ./build-centos.sh vm_name static_ip_address
 
 vm_name="$1"
 vm_image="$vm_name.img"
@@ -14,7 +14,7 @@ cp $first_boot_orig $first_boot
 sed -i "s/STATIC_IP/$static_ip/" $first_boot
 sed -i "s/GATEWAY_IP/$gateway_ip/" $first_boot
 
-virt-builder centos-7.4 \
+virt-builder centos-7.7 \
 	--output "$vm_image" \
 	--hostname "$vm_name" \
 	--ssh-inject root \
