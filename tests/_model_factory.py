@@ -120,11 +120,11 @@ class ModelFactory:
             self.env = Environment(loader=PackageLoader('tests',
                                                         'model_fixtures'))
             faker = Faker()
-            faker.seed(1234)
+            faker.seed_instance(1234)
             self.env.globals['faker'] = faker
 
         template = self.env.get_template(filename)
-        fixture_data = yaml.load(template.render())
+        fixture_data = yaml.load(template.render(), Loader=yaml.FullLoader)
 
         class_name = filename[:filename.rfind('.')]
         for identifier_id, data in fixture_data.items():

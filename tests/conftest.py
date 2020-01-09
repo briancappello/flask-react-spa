@@ -153,7 +153,7 @@ def admin(model_factory):
 
 @pytest.fixture(autouse=True)
 def models(request, model_factory):
-    mark = request.keywords.get('models')
+    mark = request.node.get_closest_marker('models')
     if mark:
         return model_factory.get_models(mark.args or mark.kwargs)
 

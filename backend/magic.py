@@ -257,7 +257,7 @@ class Bundle(object):
     @property
     def model_admins(self):
         if not self.has_admins:
-            raise StopIteration
+            return ()
 
         admins_module = safe_import_module(self.admins_module_name)
         for name, obj in get_members(admins_module, is_model_admin):
@@ -282,7 +282,7 @@ class Bundle(object):
     @property
     def blueprints(self):
         if not self.has_blueprints:
-            raise StopIteration
+            return ()
 
         module = safe_import_module(self.views_module_name)
         blueprints = dict(inspect.getmembers(module, is_blueprint))
@@ -308,7 +308,7 @@ class Bundle(object):
     @property
     def command_groups(self):
         if not self.has_command_groups:
-            raise StopIteration
+            return ()
 
         module = safe_import_module(self.commands_module_name)
         command_groups = dict(inspect.getmembers(module, is_click_group))
@@ -328,7 +328,7 @@ class Bundle(object):
     @property
     def models(self):
         if not self.has_models:
-            raise StopIteration
+            return ()
 
         module = safe_import_module(self.models_module_name)
         yield from get_members(module, is_model)
@@ -346,7 +346,7 @@ class Bundle(object):
     @property
     def serializers(self):
         if not self.has_serializers:
-            raise StopIteration
+            return ()
 
         module = safe_import_module(self.serializers_module_name)
         yield from get_members(module, is_serializer)
