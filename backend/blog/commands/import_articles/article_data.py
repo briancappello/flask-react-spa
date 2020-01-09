@@ -88,7 +88,7 @@ class ArticleData(FileData):
     @functools.lru_cache()
     def html(self):
         html = markdown.markdown(self.markdown,
-                                 MARKDOWN_EXTENSIONS,
+                                 extensions=MARKDOWN_EXTENSIONS,
                                  output_format='html5')
 
         # fix image links

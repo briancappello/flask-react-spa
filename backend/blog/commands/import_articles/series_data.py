@@ -36,7 +36,7 @@ class SeriesData(FileData):
     @property
     def summary(self):
         html = markdown.markdown(self.markdown,
-                                 MARKDOWN_EXTENSIONS,
+                                 extensions=MARKDOWN_EXTENSIONS,
                                  output_format='html5')
 
         # strip html and body tags

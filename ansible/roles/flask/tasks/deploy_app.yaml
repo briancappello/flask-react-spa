@@ -111,14 +111,14 @@
 
 - name: import articles [dev]
   when: import_articles is defined and import_articles and app_env == 'dev'
-  command: "{{ venv_exec }} {{ python3 }} manage.py --env=prod --no-warn blog import_articles --reset"
+  command: "{{ venv_exec }} {{ python3 }} manage.py --env=prod --no-warn blog import-articles --reset"
   args:
     chdir: '{{ project_dir }}'
   tags: flask.import_articles
 
 - name: import articles [prod]
   when: import_articles is defined and import_articles and app_env == 'prod'
-  command: "{{ venv_exec }} {{ python3 }} manage.py --env=prod --no-warn blog import_articles"
+  command: "{{ venv_exec }} {{ python3 }} manage.py --env=prod --no-warn blog import-articles"
   args:
     chdir: '{{ project_dir }}'
   tags: flask.import_articles
