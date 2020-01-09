@@ -1,9 +1,9 @@
 ---
-sshd_packages:
+__sshd_packages:
   - openssh
   - openssh-server
-sshd_sftp_server: /usr/libexec/openssh/sftp-server
-sshd_defaults:
+__sshd_sftp_server: /usr/libexec/openssh/sftp-server
+__sshd_defaults:
   Protocol: 2
   SyslogFacility: AUTHPRIV
   PasswordAuthentication: yes
@@ -18,4 +18,4 @@ sshd_defaults:
     - XMODIFIERS
   X11Forwarding: yes
   Subsystem: "sftp {{ sshd_sftp_server }}"
-sshd_os_supported: yes
+__sshd_os_supported: yes

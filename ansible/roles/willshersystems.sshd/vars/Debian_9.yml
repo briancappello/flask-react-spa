@@ -1,0 +1,34 @@
+---
+__sshd_service: ssh
+__sshd_packages:
+  - openssh-server
+  - openssh-sftp-server
+__sshd_config_mode: "0644"
+__sshd_defaults:
+  Port: 22
+  Protocol: 2
+  HostKey:
+    - /etc/ssh/ssh_host_rsa_key
+    - /etc/ssh/ssh_host_dsa_key
+    - /etc/ssh/ssh_host_ecdsa_key
+    - /etc/ssh/ssh_host_ed25519_key
+  UsePrivilegeSeparation: yes
+  SyslogFacility: AUTH
+  LogLevel: INFO
+  LoginGraceTime: 120
+  PermitRootLogin: without-password
+  StrictModes: yes
+  PubkeyAuthentication: yes
+  IgnoreRhosts: yes
+  HostbasedAuthentication: no
+  PermitEmptyPasswords: no
+  ChallengeResponseAuthentication: no
+  X11Forwarding: yes
+  X11DisplayOffset: 10
+  PrintMotd: no
+  PrintLastLog: yes
+  TCPKeepAlive: yes
+  AcceptEnv: LANG LC_*
+  Subsystem: "sftp {{ sshd_sftp_server }}"
+  UsePAM: yes
+__sshd_os_supported: yes

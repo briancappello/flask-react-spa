@@ -1,0 +1,59 @@
+---
+
+- name: Set OS dependent variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    ansible_distribution_lts_offset: >-
+      {{
+        ansible_distribution_major_version|int % 2
+        if ansible_distribution == "Ubuntu"
+        else 0
+      }}
+    ansible_distribution_lts_version: '{{
+      ansible_distribution_major_version|int -
+      ansible_distribution_lts_offset|int }}'
+    params:
+      files:
+        - "{{ ansible_distribution }}_{{ ansible_distribution_lts_version }}.yml"
+        - "{{ ansible_distribution }}.yml"
+        - "{{ ansible_os_family }}_{{ ansible_distribution_major_version }}.yml"
+        - "{{ ansible_os_family }}.yml"
+        - default.yml
+      paths:
+        - '{{ role_path }}/vars'
+        - '{{ playbook_dir }}/vars'
+
+- name: Override OS defaults
+  block:
+    - name: Define sshd_packages
+      set_fact:
+        sshd_packages: "{{ __sshd_packages }}"
+      when: sshd_packages is not defined
+    - name: Define sshd_config_owner
+      set_fact:
+        sshd_config_owner: "{{ __sshd_config_owner }}"
+      when: sshd_config_owner is not defined
+    - name: Define sshd_config_group
+      set_fact:
+        sshd_config_group: "{{ __sshd_config_group }}"
+      when: sshd_config_group is not defined
+    - name: Define sshd_config_mode
+      set_fact:
+        sshd_config_mode: "{{ __sshd_config_mode }}"
+      when: sshd_config_mode is not defined
+    - name: Define sshd_config_file
+      set_fact:
+        sshd_config_file: "{{ __sshd_config_file }}"
+      when: sshd_config_file is not defined
+    - name: Define sshd_binary
+      set_fact:
+        sshd_binary: "{{ __sshd_binary }}"
+      when: sshd_binary is not defined
+    - name: Define sshd_service
+      set_fact:
+        sshd_service: "{{ __sshd_service }}"
+      when: sshd_service is not defined
+    - name: Define sshd_sftp_server
+      set_fact:
+        sshd_sftp_server: "{{ __sshd_sftp_server }}"
+      when: sshd_sftp_server is not defined

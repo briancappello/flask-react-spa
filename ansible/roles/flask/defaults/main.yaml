@@ -1,9 +1,12 @@
 ---
 dependencies:
   - '@Development Tools'
-  - python36u
-  - python36u-devel
-  - python36u-pip
+  - python-setuptools
+  - python36
+  - python36-devel
+  - python36-pip
+  - python36-setuptools
+  - python36-virtualenv
   - git
   - libffi-devel
   - openssl-devel

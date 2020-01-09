@@ -1,2 +1,66 @@
 ---
-- include: opendkim.yml
+- name: Setup for Ubuntu
+  include_tasks: "setup_ubuntu.yml"
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Setup for CentOS
+  include_tasks: "setup_el.yml"
+  when: ansible_distribution == 'CentOS'
+
+- name: Opendkim directory
+  file:
+    path: /etc/opendkim
+    state: directory
+
+- name: Opendkim keys directory
+  file:
+    path: /etc/opendkim/keys
+    state: directory
+
+- name: Opendkim TrustedHosts configuration
+  copy:
+    src: TrustedHosts
+    dest: /etc/opendkim/TrustedHosts
+  notify:
+    - restart opendkim
+
+- name: Opendkim configuration
+  template:
+    src: opendkim.conf.j2
+    dest: /etc/opendkim.conf
+  notify:
+    - restart opendkim
+
+- name: Opendkim KeyTable configuration
+  template:
+    src: KeyTable.j2
+    dest: /etc/opendkim/KeyTable
+  notify:
+    - restart opendkim
+
+- name: Opendkim SigningTable configuration
+  template:
+    src: SigningTable.j2
+    dest: /etc/opendkim/SigningTable
+  notify:
+    - restart opendkim
+
+- name: Generate signing key
+  command: "{{ opendkim_opendkim_genkey_path }} -s {{ dkim_selector }} -d {{ dkim_domains[0] }} -D /etc/opendkim/keys"
+  args:
+    creates: "/etc/opendkim/keys/{{ dkim_selector }}.private"
+    warn: false
+  notify:
+    - restart opendkim
+
+- name: Opendkim signing key file ownership
+  file:
+    path: "/etc/opendkim/keys/{{ dkim_selector }}.private"
+    owner: opendkim
+    group: opendkim
+
+- name: Start and enable Opendkim
+  systemd:
+    name: opendkim
+    state: started
+    enabled: true

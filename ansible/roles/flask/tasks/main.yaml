@@ -10,15 +10,6 @@
   package: name={{ item }} state=present
   with_items: '{{ dependencies }}'
 
-- name: update pip and setuptools
-  pip:
-    name: '{{ item }}'
-    state: latest
-    executable: '{{ pip3 }}'
-  with_items:
-    - pip
-    - setuptools
-
 - include: install_virtualenv.yaml
 
 - include: deploy_app.yaml

@@ -7,15 +7,23 @@
     - "vars/{{ ansible_distribution }}.yml"
     - "vars/{{ ansible_os_family }}.yml"
     - "vars/defaults.yml"
+  tags:
+    - configuration
+    - packages
 
 - name: install the latest version of redis
-  package: name={{ redis_package }} state=latest
+  package:
+    name: "{{ redis_package }}"
+  tags:
+    - packages
 
 - name: redis configure
   template:
     src: redis.conf.j2
     dest: "{{ redis_conf_path }}"
     mode: 0644
-  notify: 
+  notify:
     - restart redis
     - enabled redis
+  tags:
+    - configuration

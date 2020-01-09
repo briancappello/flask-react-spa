@@ -15,15 +15,21 @@ install:
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 
 script:
-  # Check the roles syntax
-  - "ansible-playbook -i tests/inventory tests/test.yml --syntax-check"
+  # Check the ansible version.
+  - >
+    ansible --version
+    | grep -q '^ansible 2'
+    && (echo 'Ansible 2.0+ test: pass' && exit 0)
+    || (echo 'Ansible 2.0+ test: fail' && exit 1)
+  # Check the roles syntax.
+  - "ANSIBLE_FORCE_COLOR=1 ansible-playbook -i tests/inventory tests/test.yml --syntax-check"
 
   # Run the role
-  - "ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo"
+  - "ANSIBLE_FORCE_COLOR=1 ansible-playbook -i tests/inventory tests/test.yml --connection=local --become -v"
 
   # Run the role/playbook again, checking to make sure it's idempotent.
   - >
-    ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo
-    | grep -q 'changed=0.*failed=0'
+    ansible-playbook -i tests/inventory tests/test.yml --connection=local --become | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
+

@@ -1,6 +1,6 @@
 ---
 - name: create virtualenv for supervisor
-  command: virtualenv -p /usr/bin/python {{ supervisor_virtualenv_dir }}
+  command: virtualenv-3.6 -p /usr/bin/python {{ supervisor_virtualenv_dir }}
            creates={{ supervisor_virtualenv_dir }}/bin/activate
 
 - name: install supervisor
@@ -50,7 +50,7 @@
   register: reload_systemd_daemon
 
 - name: reload systemd daemon
-  when: reload_systemd_daemon | changed
+  when: reload_systemd_daemon is changed
   command: systemctl daemon-reload
 
 - name: start and enable supervisor

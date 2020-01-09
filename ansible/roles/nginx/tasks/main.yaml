@@ -16,7 +16,6 @@
       -A OUTPUT -p tcp -m multiport --sports 80,443 -m state --state ESTABLISHED -j ACCEPT
 
 - name: set SELinux policy for webservers
-  when: redhat_family
   seboolean:
     name: httpd_can_network_connect
     state: yes

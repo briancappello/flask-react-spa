@@ -17,7 +17,7 @@
   register: celery_worker_conf
 
 - name: start and enable celery worker
-  when: celery_worker_conf | changed
+  when: celery_worker_conf is changed
   supervisorctl: name=celery_worker state=restarted supervisorctl_path={{ supervisorctl }}
 
 - name: create celery beat startup script
@@ -38,5 +38,5 @@
   register: celery_beat_conf
 
 - name: start and enable celery beat
-  when: celery_beat_conf | changed
+  when: celery_beat_conf is changed
   supervisorctl: name=celery_beat state=restarted supervisorctl_path={{ supervisorctl }}

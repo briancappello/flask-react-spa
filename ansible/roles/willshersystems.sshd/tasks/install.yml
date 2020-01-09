@@ -1,0 +1,63 @@
+---
+
+- name: OS is supported
+  assert:
+    that: __sshd_os_supported|bool
+
+- name: Install ssh packages
+  package:
+    name: "{{ sshd_packages }}"
+    state: present
+
+- name: Configuration
+  template:
+    src: sshd_config.j2
+    dest: "{{ sshd_config_file }}"
+    owner: "{{ sshd_config_owner }}"
+    group: "{{ sshd_config_group }}"
+    mode: "{{ sshd_config_mode }}"
+    validate: "{{ sshd_binary }} -t -f %s"
+    backup: "{{ sshd_backup }}"
+  notify: reload_sshd
+
+- name: Install systemd service files
+  block:
+    - name: Install service unit file
+      template:
+        src: "{{ sshd_service_template_service }}"
+        dest: "/etc/systemd/system/{{ sshd_service }}.service"
+      notify: reload_sshd
+    - name: Install instanced service unit file
+      template:
+        src: "{{ sshd_service_template_at_service }}"
+        dest: "/etc/systemd/system/{{ sshd_service }}@.service"
+      notify: reload_sshd
+    - name: Install socket unit file
+      template:
+        src: "{{ sshd_service_template_socket }}"
+        dest: "/etc/systemd/system/{{ sshd_service }}.socket"
+      notify: reload_sshd
+  when: sshd_install_service|bool
+
+- name: Service enabled and running
+  service:
+    name: "{{ sshd_service }}"
+    enabled: true
+    state: started
+  when:
+    - sshd_manage_service|bool
+    - ansible_virtualization_type|default(None) != 'docker'
+    - ansible_connection != 'chroot'
+
+# Due to ansible bug 21026, cannot use service module on RHEL 7
+- name: Enable service in chroot
+  command: systemctl enable {{ sshd_service }}  # noqa 303
+  when:
+    - ansible_connection == 'chroot'
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_major_version|int >= 7
+
+- name: Register that this role has run
+  set_fact:
+    sshd_has_run: true
+  when: sshd_has_run is not defined

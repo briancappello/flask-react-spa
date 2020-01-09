@@ -1,0 +1,12 @@
+---
+- name: Install Opendkim packages
+  apt:
+    name:
+      - opendkim
+      - openssl
+      - opendkim-tools
+    update_cache: true
+
+- name: Set opendkim-genkey path
+  set_fact:
+    opendkim_opendkim_genkey_path: /usr/bin/opendkim-genkey

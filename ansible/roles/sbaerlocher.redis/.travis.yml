@@ -2,39 +2,47 @@
 language: python
 python: "2.7"
 
-before_install:
-  - sudo apt-get update -qq
+# Use the new container infrastructure
+sudo: false
 
-  # Remove pre-existing Redis installation.
-  - sudo apt-get remove -y --purge redis-server
-  - sudo rm -rf /etc/redis
+# Install ansible
+addons:
+  apt:
+    packages:
+      - python-pip
 
 install:
-  # Install Ansible.
+  # Install ansible
   - pip install ansible
 
-  # Add ansible.cfg to pick up roles path.
-  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+  # Install ansible-lint
+  - pip install ansible-lint
+
+  # Install yamllint
+  - pip install yamllint
+
+  # Install tests rules
+  - git submodule add https://github.com/arillso/tests tests
+
+before_script:
+  # Check ansible version
+  - ansible --version
+
+  # Check ansible-lint version
+  - ansible-lint --version
+
+  # Check ansible-lint version
+  - yamllint --version
 
 script:
-  # Check the role/playbook's syntax.
-  - "ansible-playbook -i tests/inventory tests/playbook.yml --syntax-check"
+  # Ansible Lint check
+  - ansible-lint -R -r tests/ansible-lint/ .
 
-  # Run the role/playbook with ansible-playbook.
-  - "ansible-playbook -i tests/inventory tests/playbook.yml --connection=local --sudo"
+  # YAML Lint check
+  - yamllint -c tests/yaml-lint/yamllint.yml .
 
-  # Run the role/playbook again, checking to make sure it's idempotent.
-  - >
-    ansible-playbook -i tests/inventory tests/playbook.yml --connection=local --sudo
-    | grep -q 'changed=0.*failed=0'
-    && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
-
-  # Make sure Redis is running, and can be stopped and started cleanly.
-  - sudo service redis-server status
-  - sudo service redis-server stop
-  - sudo service redis-server start
-
-after_failure:
-  - sudo cat /var/log/redis/redis-server.log
-  - sudo cat /etc/redis/redis.conf
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
+  email:
+    on_success: never
+    on_failure: always

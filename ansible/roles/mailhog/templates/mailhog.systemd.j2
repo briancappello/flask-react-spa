@@ -14,7 +14,7 @@ ExecStartPre=/usr/bin/install -d \
   -m 0755 \
   {{ mailhog_log_file | dirname }}
 ExecStart=/bin/sh -c \
-  '{{ mailhog_install_prefix }}/mailhog{% for key, value in mailhog_options.iteritems() %} -{{ key }} {{ value }}{% endfor %} >> {{ mailhog_log_file }} 2>&1'
+  '{{ mailhog_install_prefix }}/mailhog{% for key, value in mailhog_options.items() %} -{{ key }} {{ value }}{% endfor %} >> {{ mailhog_log_file }} 2>&1'
 
 PIDFile={{ mailhog_pid_file }}
 Restart=always

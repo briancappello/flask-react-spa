@@ -1,0 +1,14 @@
+---
+__sshd_packages:
+  - openssh
+__sshd_sftp_server: /usr/lib/ssh/sftp-server
+__sshd_defaults:
+  AuthorizedKeysFile: .ssh/authorized_keys
+  UsePAM: yes
+  X11Forwarding: yes
+  AcceptEnv:
+    - LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+    - LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+    - LC_IDENTIFICATION LC_ALL
+  Subsystem: "sftp {{ sshd_sftp_server }}"
+__sshd_os_supported: yes
