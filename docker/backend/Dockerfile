@@ -9,10 +9,9 @@ RUN apk add --no-cache linux-headers make gcc musl-dev libxml2-dev libxslt-dev l
 
 WORKDIR /flask/src
 
+COPY ./requirements.txt requirements.txt
 COPY ./requirements-dev.txt requirements-dev.txt
 RUN pip install --no-cache-dir -r requirements-dev.txt
-
-COPY ./requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 USER flask
