@@ -2,6 +2,8 @@ FROM python:alpine3.6
 
 ENV PYTHONUNBUFFERED 1
 
+RUN pip install --upgrade pip
+
 RUN apk add --no-cache shadow
 RUN useradd --user-group --create-home --home-dir /flask --shell /bin/false flask
 
